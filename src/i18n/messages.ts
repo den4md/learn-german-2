@@ -14,7 +14,7 @@ export type Messages = Record<MessageKey, string>
 export const messages: Record<InterfaceLanguage, Messages> = {
   en: englishMessages,
   de: {
-    languageLabel: 'Sprache der Benutzeroberflache',
+    languageLabel: 'Sprache der Benutzeroberfläche',
     loading: 'Lerndaten werden geladen...',
     title: 'Deutsch lernen',
     welcome: 'Dein Bereich zum Vokabellernen ist bereit.',
