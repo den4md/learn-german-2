@@ -85,7 +85,7 @@ The automatic one-day protection for a missed daily streak goal. It is always av
 _Avoid_: manual pause, earned pause
 
 **Progression view**:
-The default main view. It provides expandable lists of recent sessions, Learning vocabulary items, and Known vocabulary items, and makes the daily streak visible.
+The default main view. It makes the daily streak visible and provides expandable lists of recent sessions, Learning vocabulary items, and Known vocabulary items. Each list starts with five rows and expands in place. A recent-session row shows its date and time, session type, status, completed-entry count, and correct and incorrect self-assessment counts. A vocabulary-item row shows its German headword, first Russian translation, CEFR level, word type, Learning score, card shows, and correct and incorrect self-assessment counts.
 _Avoid_: dashboard, analytics
 
 **Daily streak**:
