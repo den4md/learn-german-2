@@ -16,7 +16,11 @@ The app will not require an app account or backend. When local and cloud copies 
 
 ## Current status
 
-The project is at its foundation stage. The first planning session established the vocabulary-learning model and the local-first sync approach. Application code has not started yet.
+The project has a React, TypeScript, Vite, and Tailwind bootstrap. It stores a minimal Data document in IndexedDB and lets the visitor choose an English, German, or Russian interface language. Vocabulary import, learning sessions, and Google Drive sync are not implemented yet.
+
+## Local development
+
+Install dependencies with `pnpm install`, start the app with `pnpm dev`, and create a production build with `pnpm build`.
 
 ## Project decisions
 
