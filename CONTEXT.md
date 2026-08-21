@@ -48,6 +48,10 @@ _Avoid_: personal copy, temporary edit
 A visitor-owned marker on a vocabulary item. It does not affect the item's word state, Learning score, or learning statistics. The visitor may toggle it and use it in filters and item ordering.
 _Avoid_: rating, priority
 
+**Favourite-status filter**:
+The session setting that selects all vocabulary items, favourites only, or non-favourites only.
+_Avoid_: favourite ordering
+
 **Vocabulary item**:
 One German word or expression in a vocabulary set, shown to the visitor as a flashcard. It has grammatical and translation data appropriate to its word type.
 _Avoid_: card, question
@@ -93,8 +97,16 @@ A session that presents Known vocabulary items for continued recall.
 _Avoid_: review mode
 
 **Session settings**:
-The visitor's choices for one session: its CEFR-level and vocabulary-source-type filters, item order, item limit, card side shown first, and selected German-side header fields for nouns and verbs.
+The visitor's choices for one session: its CEFR-level, vocabulary-source-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
 _Avoid_: global preferences, session type
+
+**Ordering source**:
+One criterion that orders session entries, selected from CEFR level, vocabulary source type, vocabulary item, and Favourite status. The visitor sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported default vocabulary-set order unless another ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, vocabulary source type with no sorting, and vocabulary item ascending.
+_Avoid_: sort preset, priority
+
+**Unlimited session**:
+A session with no fixed item limit. It admits each matching vocabulary item one at a time and ends only when the visitor ends it manually.
+_Avoid_: all-at-once session
 
 **German card side**:
 The flashcard side that shows the German headword. It always shows the CEFR level and vocabulary source type, and can show selected grammatical characteristics.
