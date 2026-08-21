@@ -1,6 +1,6 @@
 # Learn German
 
-This context describes a public, installable browser-based language-learning app. A visitor can use it locally or optionally keep their learning data synchronized through their own Google Drive.
+This context describes a public browser-based language-learning app. A visitor can use it locally or optionally keep their learning data synchronized through their own Google Drive.
 
 ## Language
 
