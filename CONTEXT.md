@@ -36,6 +36,10 @@ _Avoid_: sync merge, reconciliation
 The curated set of German vocabulary items shipped with the app.
 _Avoid_: hard-coded words, master list
 
+**Vocabulary item ID**:
+The project-owned stable identifier assigned to a vocabulary item when the private working input is converted into the default vocabulary set. It remains unchanged in later default-vocabulary-set releases.
+_Avoid_: source ID, MongoDB ID
+
 **Personal vocabulary set**:
 The vocabulary set presented to the visitor after applying their personal vocabulary overrides to the default vocabulary set.
 _Avoid_: copied default list, separate word database
@@ -56,8 +60,8 @@ _Avoid_: favourite ordering
 One German word or expression in a vocabulary set, shown to the visitor as a flashcard. It has grammatical and translation data appropriate to its word type.
 _Avoid_: card, question
 
-**Vocabulary source type**:
-The data classification of a vocabulary item: noun, adjective, or verb. It follows the imported vocabulary source and is not a general linguistic classification.
+**Word type**:
+The data classification of a vocabulary item: noun, adjective, or verb. It is a data classification, not a general linguistic classification.
 _Avoid_: grammar category
 
 **Word state**:
@@ -117,11 +121,11 @@ A session that presents Known vocabulary items for continued recall.
 _Avoid_: review mode
 
 **Session settings**:
-The visitor's choices for one session: its CEFR-level, vocabulary-source-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
+The visitor's choices for one session: its CEFR-level, word-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
 _Avoid_: global preferences, session type
 
 **Ordering source**:
-One criterion that orders session entries, selected from CEFR level, vocabulary source type, vocabulary item, and Favourite status. The visitor sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported default vocabulary-set order unless another ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, vocabulary source type with no sorting, and vocabulary item ascending.
+One criterion that orders session entries, selected from CEFR level, word type, vocabulary item, and Favourite status. The visitor sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported default vocabulary-set order unless another ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, word type with no sorting, and vocabulary item ascending.
 _Avoid_: sort preset, priority
 
 **Unlimited session**:
@@ -129,11 +133,11 @@ A session with no fixed item limit. It admits each matching vocabulary item one 
 _Avoid_: all-at-once session
 
 **German card side**:
-The flashcard side that shows the German headword. It always shows the CEFR level and vocabulary source type, and can show selected grammatical characteristics.
+The flashcard side that shows the German headword. It always shows the CEFR level and word type, and can show selected grammatical characteristics.
 _Avoid_: front side, question side
 
 **Russian card side**:
-The flashcard side that shows Russian translations. It always shows the CEFR level and vocabulary source type, presents the first three available translations as its header, and shows any remaining translations below.
+The flashcard side that shows Russian translations. It always shows the CEFR level and word type, presents the first three available translations as its header, and shows any remaining translations below.
 _Avoid_: back side, answer side
 
 **Interface language**:
