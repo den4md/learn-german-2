@@ -80,9 +80,29 @@ _Avoid_: suggestion, optional promotion
 The automatic one-day protection for a missed daily streak goal. It is always available, protects one missed UTC date, and never protects two consecutive missed UTC dates.
 _Avoid_: manual pause, earned pause
 
+**Progression view**:
+The default main view. It provides expandable lists of recent sessions, Learning vocabulary items, and Known vocabulary items, and makes the daily streak visible.
+_Avoid_: dashboard, analytics
+
+**Daily streak**:
+The visitor's consecutive streak days. A UTC date meets the V1 streak goal after five distinct correct session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the visitor, may configure a different goal in a later version.
+_Avoid_: login streak, activity streak
+
+**Streak popup**:
+The view opened by selecting the daily streak. It shows the previous seven UTC dates, including valid streak days, pause-protected missed days, non-streak days, and dates where the streak broke.
+_Avoid_: streak history page
+
 **Session entry**:
 One vocabulary item in a session's fixed item list. It records whether the visitor has shown the other card side and its resulting word state. An entry completes after the other side is shown and a self-assessment assigns its resulting state.
 _Avoid_: card progress, question state
+
+**Session**:
+One visitor-created fixed list of session entries. It has a start timestamp, a last-action timestamp, and an end timestamp when it completes or the visitor ends it. It remains in session history after ending.
+_Avoid_: run, attempt
+
+**Active session**:
+A session without an end timestamp. The app has at most one. It resumes with its fixed entry list and current position; starting another session requires the visitor to end it.
+_Avoid_: paused session
 
 **Knowledge-check session**:
 A session that presents New vocabulary items so the visitor can classify them.
