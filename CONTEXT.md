@@ -44,6 +44,10 @@ _Avoid_: copied default list, separate word database
 One visitor-owned addition or field change relative to the default vocabulary set. Overrides are sparse: unchanged default vocabulary items are not copied into learning data. Excluded is used instead of removing a default vocabulary item.
 _Avoid_: personal copy, temporary edit
 
+**Favourite status**:
+A visitor-owned marker on a vocabulary item. It does not affect the item's word state, Learning score, or learning statistics. The visitor may toggle it and use it in filters and item ordering.
+_Avoid_: rating, priority
+
 **Vocabulary item**:
 One German word or expression in a vocabulary set, shown to the visitor as a flashcard. It has grammatical and translation data appropriate to its word type.
 _Avoid_: card, question
@@ -57,20 +61,24 @@ The visitor's current relationship to a vocabulary item. New is the default stat
 _Avoid_: initial learning state, first answer
 
 **Self-assessment**:
-The visitor's own judgement after revealing a flashcard. In a Knowledge-check session, the visitor may say that they know the item, recognise it but want to learn it, do not know it, or exclude it. In Learning and Repetition sessions, they assess recall as correct or incorrect and may change the word state.
+The visitor's own judgement after revealing a vocabulary item's other card side. In a Knowledge-check session, the visitor may say that they know the item, recognise it but want to learn it, do not know it, or exclude it. In Learning and Repetition sessions, they assess recall as correct or incorrect. A manual word-state change is also a completed self-assessment, but does not record a correct or incorrect assessment.
 _Avoid_: automatic answer check, grade
 
 **Learning score**:
-The current count of consecutive correct recall judgements for a Learning item. Choosing "I recognise it, but want to learn it" in a Knowledge-check session starts or increases the score. Moving an item manually from Known to Learning preserves its score.
+The current count of consecutive correct recall judgements for a Learning item. Choosing "I recognise it, but want to learn it" in a Knowledge-check session starts or increases the score. A manual move to Learning or Known preserves the score, a move to New resets it to zero, and excluding an item preserves it.
 _Avoid_: total correct answers, mastery percentage
 
-**Automatic state recommendation**:
-The app's suggested state change based on a self-assessment. A Learning score of ten recommends Known, but does not prevent the visitor from choosing a different state.
-_Avoid_: mandatory promotion
+**Automatic state transition**:
+The app's automatic state change based on a self-assessment. A Learning score of ten moves the item from Learning to Known. In a Repetition session, an incorrect self-assessment moves the item to Learning and resets its Learning score to zero. The visitor may change a word's state manually at any time.
+_Avoid_: suggestion, optional promotion
 
 **Streak pause**:
 The automatic one-day protection for a missed daily streak goal. It is always available, protects one missed UTC date, and never protects two consecutive missed UTC dates.
 _Avoid_: manual pause, earned pause
+
+**Session entry**:
+One vocabulary item in a session's fixed item list. It records whether the visitor has shown the other card side and its resulting word state. An entry completes after the other side is shown and a self-assessment assigns its resulting state.
+_Avoid_: card progress, question state
 
 **Knowledge-check session**:
 A session that presents New vocabulary items so the visitor can classify them.
@@ -101,5 +109,5 @@ The language used for the app's buttons, labels, and settings. The app supports 
 _Avoid_: translation language, vocabulary language
 
 **Learning statistics**:
-The recorded number of card shows, correct assessments, and incorrect assessments for a vocabulary item.
+The recorded number of card shows, correct assessments, and incorrect assessments for a vocabulary item. A session counts an item show only the first time it opens the item's card; revisiting it does not add another show. Replacing a completed entry's result replaces its earlier assessment statistic.
 _Avoid_: score, mastery percentage
