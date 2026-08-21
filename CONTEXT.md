@@ -65,7 +65,7 @@ The data classification of a vocabulary item: noun, adjective, or verb. It is a 
 _Avoid_: grammar category
 
 **Word state**:
-The visitor's current relationship to a vocabulary item. New is the default state for unseen items. Learning items appear in Learning sessions. Known items appear in Repetition sessions. Excluded items appear in no session. The visitor may change a word's state during a session. Excluding an item is the way to remove it from all sessions.
+The visitor's current relationship to a vocabulary item. New is the default state for unseen items. Every Learning item that matches a new Learning session's session settings is eligible for that session, and every matching Known item is eligible for a new Repetition session. Excluded items appear in no session. The visitor may change a word's state during a session. Excluding an item is the way to remove it from all sessions.
 _Avoid_: initial learning state, first answer
 
 **Self-assessment**:
