@@ -1,3 +1,4 @@
+import { normalizeDataDocument } from '../domain/data-document'
 import type { DataDocument } from '../domain/data-document'
 import type { DataDocumentStore } from './data-document-store'
 
@@ -14,7 +15,10 @@ export class IndexedDbDataDocumentStore implements DataDocumentStore {
       const transaction = database.transaction(dataDocumentStoreName, 'readonly')
       const request = transaction.objectStore(dataDocumentStoreName).get(dataDocumentKey)
 
-      request.addEventListener('success', () => resolve(request.result as DataDocument | undefined))
+      request.addEventListener('success', () => {
+        const dataDocument = request.result as DataDocument | undefined
+        resolve(dataDocument === undefined ? undefined : normalizeDataDocument(dataDocument))
+      })
       request.addEventListener('error', () => reject(request.error))
     })
   }
@@ -24,7 +28,7 @@ export class IndexedDbDataDocumentStore implements DataDocumentStore {
 
     return new Promise((resolve, reject) => {
       const transaction = database.transaction(dataDocumentStoreName, 'readwrite')
-      transaction.objectStore(dataDocumentStoreName).put(dataDocument, dataDocumentKey)
+      transaction.objectStore(dataDocumentStoreName).put(normalizeDataDocument(dataDocument), dataDocumentKey)
 
       transaction.addEventListener('complete', () => resolve())
       transaction.addEventListener('error', () => reject(transaction.error))

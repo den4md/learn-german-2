@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { documentId } from '../domain/identifiers'
 import { createEmptyDataDocument } from '../domain/data-document'
+import { LearningData } from '../domain/learning-data'
 import type { InterfaceLanguage } from '../domain/preferences'
 import { InterfaceLanguageProvider, useInterfaceLanguage } from '../i18n/interface-language-context'
 import { IndexedDbDataDocumentStore } from '../storage/indexed-db-data-document-store'
@@ -14,6 +15,7 @@ export function App() {
   )
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
+  const learningData = LearningData.fromData(dataDocument.learningData)
 
   useEffect(() => {
     let isMounted = true
@@ -46,16 +48,13 @@ export function App() {
   }, [dataDocumentStore, initialDataDocument])
 
   const setInterfaceLanguage = (interfaceLanguage: InterfaceLanguage) => {
+    const nextLearningData = learningData.withPreferences(
+      learningData.preferences.withInterfaceLanguage(interfaceLanguage),
+    )
     const nextDataDocument = {
       ...dataDocument,
       updatedAt: new Date().toISOString(),
-      learningData: {
-        ...dataDocument.learningData,
-        preferences: {
-          ...dataDocument.learningData.preferences,
-          interfaceLanguage,
-        },
-      },
+      learningData: nextLearningData.toData(),
     }
 
     setDataDocument(nextDataDocument)
@@ -66,7 +65,7 @@ export function App() {
 
   return (
     <InterfaceLanguageProvider
-      interfaceLanguage={dataDocument.learningData.preferences.interfaceLanguage}
+      interfaceLanguage={learningData.preferences.interfaceLanguage}
       setInterfaceLanguage={setInterfaceLanguage}
     >
       {isLoaded ? <ProgressionView /> : <LoadingView />}
