@@ -1,4 +1,6 @@
 import type { VocabularyItemId } from './identifiers'
+import type { SelfAssessment, SessionType } from './session'
+import { isRecallSelfAssessment } from './session'
 
 export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1'
 export type WordType = 'noun' | 'adjective' | 'verb'
@@ -150,6 +152,58 @@ export class VocabularyLearningRecord {
     return new VocabularyLearningRecord({ ...this.data, isFavourite })
   }
 
+  withWordState(wordState: WordState): VocabularyLearningRecord {
+    return new VocabularyLearningRecord({
+      ...this.data,
+      wordState,
+      learningScore: wordState === 'new' ? 0 : this.data.learningScore,
+    })
+  }
+
+  withSessionEntryShown(): VocabularyLearningRecord {
+    return new VocabularyLearningRecord({
+      ...this.data,
+      learningStatistics: {
+        ...this.data.learningStatistics,
+        cardShows: this.data.learningStatistics.cardShows + 1,
+      },
+    })
+  }
+
+  withSessionSelfAssessment(
+    sessionType: SessionType,
+    selfAssessment: SelfAssessment,
+    replacedSelfAssessment?: SelfAssessment,
+  ): VocabularyLearningRecord {
+    let learningStatistics = { ...this.data.learningStatistics }
+
+    if (isRecallSelfAssessment(replacedSelfAssessment ?? 'new')) {
+      if (replacedSelfAssessment === 'correct') {
+        learningStatistics.correctAssessments -= 1
+      } else {
+        learningStatistics.incorrectAssessments -= 1
+      }
+    }
+
+    if (isRecallSelfAssessment(selfAssessment)) {
+      if (selfAssessment === 'correct') {
+        learningStatistics.correctAssessments += 1
+      } else {
+        learningStatistics.incorrectAssessments += 1
+      }
+    }
+
+    if (replacedSelfAssessment !== undefined) {
+      return new VocabularyLearningRecord({ ...this.data, learningStatistics })
+    }
+
+    return new VocabularyLearningRecord({
+      ...this.data,
+      ...applyAutomaticStateTransition(this.data, sessionType, selfAssessment),
+      learningStatistics,
+    })
+  }
+
   toData(): VocabularyLearningRecordData {
     return copyVocabularyLearningRecordData(this.data)
   }
@@ -250,6 +304,38 @@ export class ResolvedVocabularyItem {
 
 export function createEmptyLearningStatistics(): LearningStatisticsData {
   return { cardShows: 0, correctAssessments: 0, incorrectAssessments: 0 }
+}
+
+function applyAutomaticStateTransition(
+  data: VocabularyLearningRecordData,
+  sessionType: SessionType,
+  selfAssessment: SelfAssessment,
+): Pick<VocabularyLearningRecordData, 'wordState' | 'learningScore'> {
+  if (sessionType === 'knowledge-check') {
+    if (selfAssessment === 'learning') {
+      return { wordState: 'learning', learningScore: data.learningScore + 1 }
+    }
+    if (selfAssessment === 'known') {
+      return { wordState: 'known', learningScore: data.learningScore }
+    }
+    if (selfAssessment === 'excluded') {
+      return { wordState: 'excluded', learningScore: data.learningScore }
+    }
+    return { wordState: 'new', learningScore: 0 }
+  }
+
+  if (selfAssessment === 'correct') {
+    const learningScore = sessionType === 'learning' ? data.learningScore + 1 : data.learningScore
+    return {
+      wordState: learningScore >= 10 ? 'known' : data.wordState,
+      learningScore,
+    }
+  }
+
+  return {
+    wordState: 'learning',
+    learningScore: 0,
+  }
 }
 
 export function getWordType(vocabularyItem: VocabularyItemData): WordType {
