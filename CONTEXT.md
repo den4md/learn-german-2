@@ -47,7 +47,7 @@ The curated set of German vocabulary items shipped with the app.
 _Avoid_: hard-coded words, master list
 
 **Vocabulary item ID**:
-The stable identifier assigned by the app to a Vocabulary item. A Default vocabulary item keeps its ID in later Default-vocabulary-set releases; a User-added vocabulary item keeps its ID through local and cloud copying.
+The stable integer identifier assigned by the app to a Vocabulary item. A Default vocabulary item has a positive ID that it keeps in later Default-vocabulary-set releases. A User-added vocabulary item has a negative ID and keeps it through local and cloud copying.
 _Avoid_: source ID, MongoDB ID
 
 **Vocabulary learning record**:
@@ -65,6 +65,18 @@ _Avoid_: favourite ordering
 **Vocabulary item**:
 One German word or expression in a vocabulary set. It contains grammatical and translation data appropriate to its Word type, but no user's learning state or progress.
 _Avoid_: card, question
+
+**CEFR level**:
+The Common European Framework of Reference language-proficiency level assigned to a Vocabulary item. The current Default vocabulary set represents A1, A2, B1, B2, and C1.
+_Avoid_: difficulty score
+
+**German text**:
+The German headword and the Word-type-specific grammatical forms or attributes that describe a Vocabulary item. A Vocabulary learning record may completely replace it for that user.
+_Avoid_: word spelling
+
+**Russian translations**:
+The ordered Russian translations of a Vocabulary item. A Vocabulary learning record may completely replace them for that user.
+_Avoid_: translation language
 
 **User-added vocabulary item**:
 A Vocabulary item created by the user and stored in Learning data because it has no matching item in the Default vocabulary set. It receives a stable Vocabulary item ID.
