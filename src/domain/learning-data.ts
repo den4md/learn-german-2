@@ -1,5 +1,7 @@
 import { Preferences } from './preferences'
 import type { PreferencesData } from './preferences'
+import { DailyStreakHistory, toUtcDate } from './learning-progress'
+import type { DailyStreakHistoryData } from './learning-progress'
 import { Session } from './session'
 import type { SelfAssessment, SessionData } from './session'
 import { VocabularyItem, VocabularyLearningRecord } from './vocabulary'
@@ -12,6 +14,7 @@ export interface LearningDataData {
   vocabularyLearningRecords: VocabularyLearningRecordData[]
   activeSession?: SessionData
   sessions: SessionData[]
+  dailyStreakHistory: DailyStreakHistoryData
 }
 
 export class LearningData {
@@ -27,6 +30,7 @@ export class LearningData {
       userAddedVocabularyItems: [],
       vocabularyLearningRecords: [],
       sessions: [],
+      dailyStreakHistory: DailyStreakHistory.createEmpty().toData(),
     })
   }
 
@@ -42,6 +46,9 @@ export class LearningData {
       ),
       activeSession: data.activeSession === undefined ? undefined : Session.fromData(data.activeSession).toData(),
       sessions: (data.sessions ?? []).map((session) => Session.fromData(session).toData()),
+      dailyStreakHistory: DailyStreakHistory.fromData(
+        data.dailyStreakHistory ?? DailyStreakHistory.createEmpty().toData(),
+      ).toData(),
     })
   }
 
@@ -67,6 +74,14 @@ export class LearningData {
 
   get sessions(): Session[] {
     return this.data.sessions.map(Session.fromData)
+  }
+
+  get dailyStreakHistory(): DailyStreakHistory {
+    return DailyStreakHistory.fromData(this.data.dailyStreakHistory)
+  }
+
+  get dailyStreakLength(): number {
+    return this.dailyStreakHistory.currentLength
   }
 
   withUserAddedVocabularyItem(vocabularyItem: VocabularyItem): LearningData {
@@ -122,21 +137,20 @@ export class LearningData {
       entry.selfAssessment,
     )
 
-    if (!nextActiveSession.isComplete) {
-      return new LearningData({
+    const learningData = !nextActiveSession.isComplete
+      ? new LearningData({
         ...this.data,
         activeSession: nextActiveSession.toData(),
         vocabularyLearningRecords: records,
       })
-    }
+      : new LearningData({
+        ...this.data,
+        activeSession: undefined,
+        sessions: [...this.data.sessions, nextActiveSession.end(assessedAt).toData()],
+        vocabularyLearningRecords: records,
+      })
 
-    const completedSession = nextActiveSession.end(assessedAt)
-    return new LearningData({
-      ...this.data,
-      activeSession: undefined,
-      sessions: [...this.data.sessions, completedSession.toData()],
-      vocabularyLearningRecords: records,
-    })
+    return learningData.updateDailyStreak(assessedAt)
   }
 
   endActiveSession(endedAt: string): LearningData {
@@ -155,6 +169,17 @@ export class LearningData {
     )
   }
 
+  updateDailyStreak(currentTimestamp: string): LearningData {
+    let dailyStreakHistory = this.dailyStreakHistory.withAutomaticStreakPauses(currentTimestamp)
+    const currentUtcDate = toUtcDate(currentTimestamp)
+
+    if (this.countCorrectSessionEntryAssessments(currentUtcDate) >= 5) {
+      dailyStreakHistory = dailyStreakHistory.withValidDate(currentUtcDate)
+    }
+
+    return new LearningData({ ...this.data, dailyStreakHistory: dailyStreakHistory.toData() })
+  }
+
   toData(): LearningDataData {
     return {
       ...this.data,
@@ -168,6 +193,7 @@ export class LearningData {
       activeSession:
         this.data.activeSession === undefined ? undefined : Session.fromData(this.data.activeSession).toData(),
       sessions: this.data.sessions.map((session) => Session.fromData(session).toData()),
+      dailyStreakHistory: DailyStreakHistory.fromData(this.data.dailyStreakHistory).toData(),
     }
   }
 
@@ -215,6 +241,20 @@ export class LearningData {
       ),
       vocabularyLearningRecord.toData(),
     ]
+  }
+
+  private countCorrectSessionEntryAssessments(utcDate: string): number {
+    const sessions = [
+      ...this.data.sessions.map(Session.fromData),
+      ...(this.data.activeSession === undefined ? [] : [Session.fromData(this.data.activeSession)]),
+    ]
+
+    return sessions.flatMap((session) => session.entries).filter(
+      (entry) =>
+        entry.selfAssessment === 'correct' &&
+        entry.selfAssessedAt !== undefined &&
+        toUtcDate(entry.selfAssessedAt) === utcDate,
+    ).length
   }
 }
 

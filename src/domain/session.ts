@@ -37,6 +37,7 @@ export interface SessionEntryData {
   vocabularyItemId: VocabularyItemId
   shownAt?: string
   selfAssessment?: SelfAssessment
+  selfAssessedAt?: string
 }
 
 export interface SessionData {
@@ -105,6 +106,10 @@ export class SessionEntry {
     return this.data.selfAssessment
   }
 
+  get selfAssessedAt(): string | undefined {
+    return this.data.selfAssessedAt
+  }
+
   withShownAt(shownAt: string): SessionEntry {
     if (this.data.shownAt !== undefined) {
       return this
@@ -112,8 +117,8 @@ export class SessionEntry {
     return new SessionEntry({ ...this.data, shownAt })
   }
 
-  withSelfAssessment(selfAssessment: SelfAssessment): SessionEntry {
-    return new SessionEntry({ ...this.data, selfAssessment })
+  withSelfAssessment(selfAssessment: SelfAssessment, selfAssessedAt: string): SessionEntry {
+    return new SessionEntry({ ...this.data, selfAssessment, selfAssessedAt })
   }
 
   toData(): SessionEntryData {
@@ -191,7 +196,7 @@ export class Session {
     const entry = this.entryAt(index)
     assertSelfAssessmentMatchesSessionType(this.data.type, selfAssessment)
     const entries = this.data.entries.map((candidate, entryIndex) =>
-      entryIndex === index ? entry.withSelfAssessment(selfAssessment).toData() : candidate,
+      entryIndex === index ? entry.withSelfAssessment(selfAssessment, assessedAt).toData() : candidate,
     )
     const nextEntryIndex = entries.findIndex((candidate) => candidate.selfAssessment === undefined)
 
