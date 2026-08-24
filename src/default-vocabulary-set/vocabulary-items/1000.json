@@ -1,0 +1,8834 @@
+[
+  {
+    "id": 1,
+    "positive": "acht",
+    "level": "A1",
+    "translations": [
+      "восемь"
+    ]
+  },
+  {
+    "id": 2,
+    "positive": "achthundert",
+    "level": "A1",
+    "translations": [
+      "восемьсот"
+    ]
+  },
+  {
+    "id": 3,
+    "positive": "achttausend",
+    "level": "A1",
+    "translations": [
+      "восемь тысяч"
+    ]
+  },
+  {
+    "id": 4,
+    "positive": "achtzehn",
+    "level": "A1",
+    "translations": [
+      "восемнадцать"
+    ]
+  },
+  {
+    "id": 5,
+    "positive": "achtzig",
+    "level": "A1",
+    "translations": [
+      "восемьдесят"
+    ]
+  },
+  {
+    "id": 6,
+    "positive": "allein",
+    "level": "A1",
+    "translations": [
+      "один",
+      "только"
+    ]
+  },
+  {
+    "id": 7,
+    "positive": "alt",
+    "level": "A1",
+    "translations": [
+      "старый",
+      "возрастной",
+      "древний"
+    ]
+  },
+  {
+    "id": 8,
+    "positive": "anstrengend",
+    "level": "A1",
+    "translations": [
+      "утомительный"
+    ]
+  },
+  {
+    "id": 9,
+    "positive": "arabisch",
+    "level": "A1",
+    "translations": [
+      "арабский"
+    ]
+  },
+  {
+    "id": 10,
+    "positive": "arbeitslos",
+    "level": "A1",
+    "translations": [
+      "безработный"
+    ]
+  },
+  {
+    "id": 11,
+    "positive": "asiatisch",
+    "level": "A1",
+    "translations": [
+      "азиатский"
+    ]
+  },
+  {
+    "id": 12,
+    "positive": "attraktiv",
+    "level": "A1",
+    "translations": [
+      "привлекательный"
+    ]
+  },
+  {
+    "id": 13,
+    "positive": "ausgezeichnet",
+    "level": "A1",
+    "translations": [
+      "отличный",
+      "прекрасный"
+    ]
+  },
+  {
+    "id": 14,
+    "positive": "ausländisch",
+    "level": "A1",
+    "translations": [
+      "иностранный"
+    ]
+  },
+  {
+    "id": 15,
+    "positive": "automatisch",
+    "level": "A1",
+    "translations": [
+      "автоматический",
+      "машинальный"
+    ]
+  },
+  {
+    "id": 16,
+    "positive": "ähnlich",
+    "level": "A1",
+    "translations": [
+      "похожий",
+      "подобный",
+      "схожий"
+    ]
+  },
+  {
+    "id": 17,
+    "positive": "bar",
+    "level": "A1",
+    "translations": [
+      "обнаженный",
+      "чистый"
+    ]
+  },
+  {
+    "id": 18,
+    "positive": "bekannt",
+    "level": "A1",
+    "translations": [
+      "знакомый",
+      "известный",
+      "знаменитый",
+      "популярный"
+    ]
+  },
+  {
+    "id": 19,
+    "positive": "beliebt",
+    "level": "A1",
+    "translations": [
+      "популярный"
+    ]
+  },
+  {
+    "id": 20,
+    "positive": "bequem",
+    "level": "A1",
+    "translations": [
+      "комфортный",
+      "удобный",
+      "инертный",
+      "ленивый",
+      "удобно"
+    ]
+  },
+  {
+    "id": 21,
+    "positive": "beruflich",
+    "level": "A1",
+    "translations": [
+      "служебный"
+    ]
+  },
+  {
+    "id": 22,
+    "positive": "besondere",
+    "level": "A1",
+    "translations": [
+      "особенный"
+    ]
+  },
+  {
+    "id": 23,
+    "positive": "bestimmt",
+    "level": "A1",
+    "translations": [
+      "определённый",
+      "решительный",
+      "окончательный"
+    ]
+  },
+  {
+    "id": 24,
+    "positive": "betont",
+    "level": "A1",
+    "translations": [
+      "акцентированный"
+    ]
+  },
+  {
+    "id": 25,
+    "positive": "billig",
+    "level": "A1",
+    "translations": [
+      "дешёвый"
+    ]
+  },
+  {
+    "id": 26,
+    "positive": "bitter",
+    "level": "A1",
+    "translations": [
+      "горький"
+    ]
+  },
+  {
+    "id": 27,
+    "positive": "blau",
+    "level": "A1",
+    "translations": [
+      "синий",
+      "бухой"
+    ]
+  },
+  {
+    "id": 28,
+    "positive": "blöd",
+    "level": "A1",
+    "translations": [
+      "тупой",
+      "глупый",
+      "безмозглый",
+      "дебильный",
+      "ебанутый",
+      "ёбнутый"
+    ]
+  },
+  {
+    "id": 29,
+    "positive": "bloß",
+    "level": "A1",
+    "translations": [
+      "голый",
+      "единственный",
+      "один",
+      "только"
+    ]
+  },
+  {
+    "id": 30,
+    "positive": "böse",
+    "level": "A1",
+    "translations": [
+      "злой",
+      "плохой",
+      "недобрый",
+      "сердитый"
+    ]
+  },
+  {
+    "id": 31,
+    "positive": "braun",
+    "level": "A1",
+    "translations": [
+      "коричневый",
+      "смуглый"
+    ]
+  },
+  {
+    "id": 32,
+    "positive": "breit",
+    "level": "A1",
+    "translations": [
+      "широкий"
+    ]
+  },
+  {
+    "id": 33,
+    "positive": "bulgarisch",
+    "level": "A1",
+    "translations": [
+      "болгарский"
+    ]
+  },
+  {
+    "id": 34,
+    "positive": "bunt",
+    "level": "A1",
+    "translations": [
+      "яркий",
+      "красочный",
+      "разноцветный",
+      "пёстрый"
+    ]
+  },
+  {
+    "id": 35,
+    "positive": "chinesisch",
+    "level": "A1",
+    "translations": [
+      "китайский"
+    ]
+  },
+  {
+    "id": 36,
+    "positive": "cool",
+    "level": "A1",
+    "translations": [
+      "крутой"
+    ]
+  },
+  {
+    "id": 37,
+    "positive": "deutsch",
+    "level": "A1",
+    "translations": [
+      "немецкий",
+      "германский"
+    ]
+  },
+  {
+    "id": 38,
+    "positive": "direkt",
+    "level": "A1",
+    "translations": [
+      "непосредственный",
+      "прямой"
+    ]
+  },
+  {
+    "id": 39,
+    "positive": "doof",
+    "level": "A1",
+    "translations": [
+      "глупый"
+    ]
+  },
+  {
+    "id": 40,
+    "positive": "drei",
+    "level": "A1",
+    "translations": [
+      "три"
+    ]
+  },
+  {
+    "id": 41,
+    "positive": "dreihundert",
+    "level": "A1",
+    "translations": [
+      "триста"
+    ]
+  },
+  {
+    "id": 42,
+    "positive": "dreißig",
+    "level": "A1",
+    "translations": [
+      "тридцать"
+    ]
+  },
+  {
+    "id": 43,
+    "positive": "dreitausend",
+    "level": "A1",
+    "translations": [
+      "три тысячи"
+    ]
+  },
+  {
+    "id": 44,
+    "positive": "dreizehn",
+    "level": "A1",
+    "translations": [
+      "тринадцать"
+    ]
+  },
+  {
+    "id": 45,
+    "positive": "dritte",
+    "level": "A1",
+    "translations": [
+      "третий"
+    ]
+  },
+  {
+    "id": 46,
+    "positive": "dumm",
+    "level": "A1",
+    "translations": [
+      "глупый",
+      "тупой",
+      "дурацкий",
+      "дурной",
+      "недалёкий"
+    ]
+  },
+  {
+    "id": 47,
+    "positive": "dunkel",
+    "level": "A1",
+    "translations": [
+      "мрачный",
+      "тёмный",
+      "неясный",
+      "подозрительный",
+      "сумрачный",
+      "глухой",
+      "смутный",
+      "сомнительный"
+    ]
+  },
+  {
+    "id": 48,
+    "positive": "dunkelbraun",
+    "level": "A1",
+    "translations": [
+      "тёмно-коричневый"
+    ]
+  },
+  {
+    "id": 49,
+    "positive": "echt",
+    "level": "A1",
+    "translations": [
+      "настоящий",
+      "подлинный"
+    ]
+  },
+  {
+    "id": 50,
+    "positive": "ehrlich",
+    "level": "A1",
+    "translations": [
+      "честный"
+    ]
+  },
+  {
+    "id": 51,
+    "positive": "eigen",
+    "level": "A1",
+    "translations": [
+      "особенный",
+      "собственный",
+      "своеобразный"
+    ]
+  },
+  {
+    "id": 52,
+    "positive": "eigentlich",
+    "level": "A1",
+    "translations": [
+      "настоящий"
+    ]
+  },
+  {
+    "id": 53,
+    "positive": "eilig",
+    "level": "A1",
+    "translations": [
+      "торопливый"
+    ]
+  },
+  {
+    "id": 54,
+    "positive": "einfach",
+    "level": "A1",
+    "translations": [
+      "простой",
+      "незамысловатый",
+      "несложный"
+    ]
+  },
+  {
+    "id": 55,
+    "positive": "einhundert",
+    "level": "A1",
+    "translations": [
+      "сто"
+    ]
+  },
+  {
+    "id": 56,
+    "positive": "eins",
+    "level": "A1",
+    "translations": [
+      "один",
+      "одна",
+      "одно"
+    ]
+  },
+  {
+    "id": 57,
+    "positive": "eintausend",
+    "level": "A1",
+    "translations": [
+      "тысяча"
+    ]
+  },
+  {
+    "id": 58,
+    "positive": "einverstanden",
+    "level": "A1",
+    "translations": [
+      "согласный"
+    ]
+  },
+  {
+    "id": 59,
+    "positive": "elegant",
+    "level": "A1",
+    "translations": [
+      "элегантный",
+      "изящный"
+    ]
+  },
+  {
+    "id": 60,
+    "positive": "elf",
+    "level": "A1",
+    "translations": [
+      "одиннадцать"
+    ]
+  },
+  {
+    "id": 61,
+    "positive": "endlich",
+    "level": "A1",
+    "translations": [
+      "ограниченный"
+    ]
+  },
+  {
+    "id": 62,
+    "positive": "erste",
+    "level": "A1",
+    "translations": [
+      "первый"
+    ]
+  },
+  {
+    "id": 63,
+    "positive": "europäisch",
+    "level": "A1",
+    "translations": [
+      "европейский"
+    ]
+  },
+  {
+    "id": 64,
+    "positive": "extern",
+    "level": "A1",
+    "translations": [
+      "внешний"
+    ]
+  },
+  {
+    "id": 65,
+    "positive": "falsch",
+    "level": "A1",
+    "translations": [
+      "ложный",
+      "неправильный",
+      "лживый",
+      "неверный",
+      "обманчивый",
+      "поддельный"
+    ]
+  },
+  {
+    "id": 66,
+    "positive": "fertig",
+    "level": "A1",
+    "translations": [
+      "готовый",
+      "в конец уставший",
+      "вымотанный",
+      "готов",
+      "завершенный",
+      "законченный",
+      "приготовленный",
+      "умелый"
+    ]
+  },
+  {
+    "id": 67,
+    "positive": "finnisch",
+    "level": "A1",
+    "translations": [
+      "финский"
+    ]
+  },
+  {
+    "id": 68,
+    "positive": "fleißig",
+    "level": "A1",
+    "translations": [
+      "старательный",
+      "прилежный"
+    ]
+  },
+  {
+    "id": 69,
+    "positive": "formell",
+    "level": "A1",
+    "translations": [
+      "формальный"
+    ]
+  },
+  {
+    "id": 70,
+    "positive": "französisch",
+    "level": "A1",
+    "translations": [
+      "французский"
+    ]
+  },
+  {
+    "id": 71,
+    "positive": "frei",
+    "level": "A1",
+    "translations": [
+      "свободный",
+      "бесплатный",
+      "открытый",
+      "вакантный",
+      "незанятый"
+    ]
+  },
+  {
+    "id": 72,
+    "positive": "fremd",
+    "level": "A1",
+    "translations": [
+      "чужой",
+      "незнакомый",
+      "иностранный",
+      "заграничный",
+      "иноземный",
+      "неизвестный",
+      "чужеземный"
+    ]
+  },
+  {
+    "id": 73,
+    "positive": "freundlich",
+    "level": "A1",
+    "translations": [
+      "дружелюбный",
+      "дружеский",
+      "приветливый",
+      "располагающий",
+      "хороший"
+    ]
+  },
+  {
+    "id": 74,
+    "positive": "frisch",
+    "level": "A1",
+    "translations": [
+      "свежий",
+      "прохладный"
+    ]
+  },
+  {
+    "id": 75,
+    "positive": "froh",
+    "level": "A1",
+    "translations": [
+      "рад"
+    ]
+  },
+  {
+    "id": 76,
+    "positive": "früh",
+    "level": "A1",
+    "translations": [
+      "ранний"
+    ]
+  },
+  {
+    "id": 77,
+    "positive": "fünf",
+    "level": "A1",
+    "translations": [
+      "пять"
+    ]
+  },
+  {
+    "id": 78,
+    "positive": "fünfhundert",
+    "level": "A1",
+    "translations": [
+      "пятьсот"
+    ]
+  },
+  {
+    "id": 79,
+    "positive": "fünftausend",
+    "level": "A1",
+    "translations": [
+      "пять тысяч"
+    ]
+  },
+  {
+    "id": 80,
+    "positive": "fünfzehn",
+    "level": "A1",
+    "translations": [
+      "пятнадцать"
+    ]
+  },
+  {
+    "id": 81,
+    "positive": "fünfzig",
+    "level": "A1",
+    "translations": [
+      "пятьдесят"
+    ]
+  },
+  {
+    "id": 82,
+    "positive": "ganz",
+    "level": "A1",
+    "translations": [
+      "целый",
+      "весь"
+    ]
+  },
+  {
+    "id": 83,
+    "positive": "gar",
+    "level": "A1",
+    "translations": [
+      "готовый"
+    ]
+  },
+  {
+    "id": 84,
+    "positive": "gegenseitig",
+    "level": "A1",
+    "translations": [
+      "взаимный"
+    ]
+  },
+  {
+    "id": 85,
+    "positive": "gelb",
+    "level": "A1",
+    "translations": [
+      "жёлтый"
+    ]
+  },
+  {
+    "id": 86,
+    "positive": "gelegen",
+    "level": "A1",
+    "translations": [
+      "удобный",
+      "подходящий",
+      "расположенный"
+    ]
+  },
+  {
+    "id": 87,
+    "positive": "gemein",
+    "level": "A1",
+    "translations": [
+      "подлый",
+      "низкий",
+      "вульгарный",
+      "общий",
+      "простой"
+    ]
+  },
+  {
+    "id": 88,
+    "positive": "gemütlich",
+    "level": "A1",
+    "translations": [
+      "уютный"
+    ]
+  },
+  {
+    "id": 89,
+    "positive": "genau",
+    "level": "A1",
+    "translations": [
+      "аккуратный",
+      "точный",
+      "точно"
+    ]
+  },
+  {
+    "id": 90,
+    "positive": "gerade",
+    "level": "A1",
+    "translations": [
+      "прямой",
+      "откровенный",
+      "ровный",
+      "чётный"
+    ]
+  },
+  {
+    "id": 91,
+    "positive": "gesund",
+    "level": "A1",
+    "translations": [
+      "здоровый",
+      "полезный"
+    ]
+  },
+  {
+    "id": 92,
+    "positive": "gleich",
+    "level": "A1",
+    "translations": [
+      "равный",
+      "одинаковый"
+    ]
+  },
+  {
+    "id": 93,
+    "positive": "glücklich",
+    "level": "A1",
+    "translations": [
+      "счастливый",
+      "удачливый"
+    ]
+  },
+  {
+    "id": 94,
+    "positive": "grau",
+    "level": "A1",
+    "translations": [
+      "серый"
+    ]
+  },
+  {
+    "id": 95,
+    "positive": "griechisch",
+    "level": "A1",
+    "translations": [
+      "греческий"
+    ]
+  },
+  {
+    "id": 96,
+    "positive": "groß",
+    "level": "A1",
+    "translations": [
+      "большой",
+      "великий",
+      "взрослый"
+    ]
+  },
+  {
+    "id": 97,
+    "positive": "grün",
+    "level": "A1",
+    "translations": [
+      "зеленый",
+      "зелёный",
+      "живой",
+      "молодой",
+      "неопытный",
+      "сырой"
+    ]
+  },
+  {
+    "id": 98,
+    "positive": "gültig",
+    "level": "A1",
+    "translations": [
+      "действительно"
+    ]
+  },
+  {
+    "id": 99,
+    "positive": "günstig",
+    "level": "A1",
+    "translations": [
+      "выгодный",
+      "благоприятный",
+      "дёшево",
+      "недорого"
+    ]
+  },
+  {
+    "id": 100,
+    "positive": "gut",
+    "level": "A1",
+    "translations": [
+      "хороший",
+      "хорошо"
+    ]
+  },
+  {
+    "id": 101,
+    "positive": "hässlich",
+    "level": "A1",
+    "translations": [
+      "безобразный",
+      "ужасный"
+    ]
+  },
+  {
+    "id": 102,
+    "positive": "halb",
+    "level": "A1",
+    "translations": [
+      "наполовину",
+      "пол-",
+      "половина",
+      "полу-"
+    ]
+  },
+  {
+    "id": 103,
+    "positive": "hart",
+    "level": "A1",
+    "translations": [
+      "жестокий",
+      "твёрдый",
+      "трудный",
+      "тяжёлый",
+      "чёрствый"
+    ]
+  },
+  {
+    "id": 104,
+    "positive": "heiß",
+    "level": "A1",
+    "translations": [
+      "горячий",
+      "возбуждённый",
+      "жгучий",
+      "накалённый"
+    ]
+  },
+  {
+    "id": 105,
+    "positive": "hell",
+    "level": "A1",
+    "translations": [
+      "светлый",
+      "яркий",
+      "умный"
+    ]
+  },
+  {
+    "id": 106,
+    "positive": "hellbraun",
+    "level": "A1",
+    "translations": [
+      "светло-коричневый"
+    ]
+  },
+  {
+    "id": 107,
+    "positive": "herzlich",
+    "level": "A1",
+    "translations": [
+      "сердечный",
+      "весьма"
+    ]
+  },
+  {
+    "id": 108,
+    "positive": "hoch",
+    "level": "A1",
+    "translations": [
+      "высокий",
+      "большой",
+      "высоко",
+      "знатный",
+      "сложный",
+      "в степени"
+    ]
+  },
+  {
+    "id": 109,
+    "positive": "holländisch",
+    "level": "A1",
+    "translations": [
+      "голландский"
+    ]
+  },
+  {
+    "id": 110,
+    "positive": "hübsch",
+    "level": "A1",
+    "translations": [
+      "красивый",
+      "симпатичный",
+      "милый"
+    ]
+  },
+  {
+    "id": 111,
+    "positive": "hundert",
+    "level": "A1",
+    "translations": [
+      "сто"
+    ]
+  },
+  {
+    "id": 112,
+    "positive": "hunderteins",
+    "level": "A1",
+    "translations": [
+      "сто один"
+    ]
+  },
+  {
+    "id": 113,
+    "positive": "hunderttausend",
+    "level": "A1",
+    "translations": [
+      "сто тысяч"
+    ]
+  },
+  {
+    "id": 114,
+    "positive": "hungrig",
+    "level": "A1",
+    "translations": [
+      "голодный",
+      "голодная",
+      "голодное"
+    ]
+  },
+  {
+    "id": 115,
+    "positive": "ideal",
+    "level": "A1",
+    "translations": [
+      "идеальный"
+    ]
+  },
+  {
+    "id": 116,
+    "positive": "individuell",
+    "level": "A1",
+    "translations": [
+      "индивидуальный"
+    ]
+  },
+  {
+    "id": 117,
+    "positive": "inoffiziell",
+    "level": "A1",
+    "translations": [
+      "неофициальный"
+    ]
+  },
+  {
+    "id": 118,
+    "positive": "interessant",
+    "level": "A1",
+    "translations": [
+      "интересный",
+      "занимательный"
+    ]
+  },
+  {
+    "id": 119,
+    "positive": "intern",
+    "level": "A1",
+    "translations": [
+      "внутренний"
+    ]
+  },
+  {
+    "id": 120,
+    "positive": "international",
+    "level": "A1",
+    "translations": [
+      "международный",
+      "интернациональный"
+    ]
+  },
+  {
+    "id": 121,
+    "positive": "italienisch",
+    "level": "A1",
+    "translations": [
+      "итальянский"
+    ]
+  },
+  {
+    "id": 122,
+    "positive": "jährlich",
+    "level": "A1",
+    "translations": [
+      "ежегодно"
+    ]
+  },
+  {
+    "id": 123,
+    "positive": "japanisch",
+    "level": "A1",
+    "translations": [
+      "японский"
+    ]
+  },
+  {
+    "id": 124,
+    "positive": "jung",
+    "level": "A1",
+    "translations": [
+      "молодой",
+      "развивающийся",
+      "ранний"
+    ]
+  },
+  {
+    "id": 125,
+    "positive": "kalt",
+    "level": "A1",
+    "translations": [
+      "холодный",
+      "безразличный"
+    ]
+  },
+  {
+    "id": 126,
+    "positive": "kaputt",
+    "level": "A1",
+    "translations": [
+      "разбитый",
+      "сломанный",
+      "дефектный",
+      "обанкротившийся",
+      "сломан",
+      "усталый"
+    ]
+  },
+  {
+    "id": 127,
+    "positive": "kinderlieb",
+    "level": "A1",
+    "translations": [
+      "доброжелательный",
+      "заботливый"
+    ]
+  },
+  {
+    "id": 128,
+    "positive": "klar",
+    "level": "A1",
+    "translations": [
+      "ясный",
+      "понятный"
+    ]
+  },
+  {
+    "id": 129,
+    "positive": "klasse",
+    "level": "A1",
+    "translations": [
+      "классный",
+      "отличный"
+    ]
+  },
+  {
+    "id": 130,
+    "positive": "klassisch",
+    "level": "A1",
+    "translations": [
+      "классический"
+    ]
+  },
+  {
+    "id": 131,
+    "positive": "klein",
+    "level": "A1",
+    "translations": [
+      "маленький"
+    ]
+  },
+  {
+    "id": 132,
+    "positive": "komisch",
+    "level": "A1",
+    "translations": [
+      "смешной",
+      "забавный",
+      "комичный",
+      "странный",
+      "удивительный"
+    ]
+  },
+  {
+    "id": 133,
+    "positive": "kommunikativ",
+    "level": "A1",
+    "translations": [
+      "коммуникативный",
+      "разговорчивый"
+    ]
+  },
+  {
+    "id": 134,
+    "positive": "korrekt",
+    "level": "A1",
+    "translations": [
+      "правильный",
+      "корректный",
+      "верный"
+    ]
+  },
+  {
+    "id": 135,
+    "positive": "kostenlos",
+    "level": "A1",
+    "translations": [
+      "бесплатный",
+      "даром"
+    ]
+  },
+  {
+    "id": 136,
+    "positive": "krank",
+    "level": "A1",
+    "translations": [
+      "больной",
+      "нездоровый",
+      "ранен"
+    ]
+  },
+  {
+    "id": 137,
+    "positive": "kreativ",
+    "level": "A1",
+    "translations": [
+      "креативный",
+      "творческий"
+    ]
+  },
+  {
+    "id": 138,
+    "positive": "kulturell",
+    "level": "A1",
+    "translations": [
+      "культурный"
+    ]
+  },
+  {
+    "id": 139,
+    "positive": "kurz",
+    "level": "A1",
+    "translations": [
+      "короткий",
+      "краткий"
+    ]
+  },
+  {
+    "id": 140,
+    "positive": "lang",
+    "level": "A1",
+    "translations": [
+      "долгий",
+      "длинный"
+    ]
+  },
+  {
+    "id": 141,
+    "positive": "langsam",
+    "level": "A1",
+    "translations": [
+      "медленный",
+      "затяжный",
+      "нерасторопный"
+    ]
+  },
+  {
+    "id": 142,
+    "positive": "langweilig",
+    "level": "A1",
+    "translations": [
+      "скучный"
+    ]
+  },
+  {
+    "id": 143,
+    "positive": "laut",
+    "level": "A1",
+    "translations": [
+      "громкий",
+      "шумный"
+    ]
+  },
+  {
+    "id": 144,
+    "positive": "lebendig",
+    "level": "A1",
+    "translations": [
+      "живой"
+    ]
+  },
+  {
+    "id": 145,
+    "positive": "lecker",
+    "level": "A1",
+    "translations": [
+      "вкусный"
+    ]
+  },
+  {
+    "id": 146,
+    "positive": "ledig",
+    "level": "A1",
+    "translations": [
+      "неженатый",
+      "незамужняя",
+      "холостой"
+    ]
+  },
+  {
+    "id": 147,
+    "positive": "leer",
+    "level": "A1",
+    "translations": [
+      "пустой",
+      "безлюдный"
+    ]
+  },
+  {
+    "id": 148,
+    "positive": "leicht",
+    "level": "A1",
+    "translations": [
+      "легко",
+      "лёгкий"
+    ]
+  },
+  {
+    "id": 149,
+    "positive": "leise",
+    "level": "A1",
+    "translations": [
+      "тихий",
+      "слабый",
+      "неслышный"
+    ]
+  },
+  {
+    "id": 150,
+    "positive": "lieb",
+    "level": "A1",
+    "translations": [
+      "милый",
+      "дорогой",
+      "родной"
+    ]
+  },
+  {
+    "id": 151,
+    "positive": "liebevoll",
+    "level": "A1",
+    "translations": [
+      "любящий",
+      "нежный",
+      "заботливый"
+    ]
+  },
+  {
+    "id": 152,
+    "positive": "lila",
+    "level": "A1",
+    "translations": [
+      "лиловый"
+    ]
+  },
+  {
+    "id": 153,
+    "positive": "los",
+    "level": "A1",
+    "translations": [
+      "освобожденный",
+      "происходить",
+      "свободен",
+      "случатся"
+    ]
+  },
+  {
+    "id": 154,
+    "positive": "lustig",
+    "level": "A1",
+    "translations": [
+      "весёлый",
+      "смешной"
+    ]
+  },
+  {
+    "id": 155,
+    "positive": "männlich",
+    "level": "A1",
+    "translations": [
+      "мужской",
+      "мужественный"
+    ]
+  },
+  {
+    "id": 156,
+    "positive": "maximal",
+    "level": "A1",
+    "translations": [
+      "максимальный",
+      "наибольший"
+    ]
+  },
+  {
+    "id": 157,
+    "positive": "mobil",
+    "level": "A1",
+    "translations": [
+      "мобильный",
+      "подвижный"
+    ]
+  },
+  {
+    "id": 158,
+    "positive": "modisch",
+    "level": "A1",
+    "translations": [
+      "модный",
+      "современный"
+    ]
+  },
+  {
+    "id": 159,
+    "positive": "möglich",
+    "level": "A1",
+    "translations": [
+      "возможный"
+    ]
+  },
+  {
+    "id": 160,
+    "positive": "monatlich",
+    "level": "A1",
+    "translations": [
+      "месячно"
+    ]
+  },
+  {
+    "id": 161,
+    "positive": "müde",
+    "level": "A1",
+    "translations": [
+      "усталый",
+      "уставший",
+      "утомлённый",
+      "сонный"
+    ]
+  },
+  {
+    "id": 162,
+    "positive": "nass",
+    "level": "A1",
+    "translations": [
+      "мокрый"
+    ]
+  },
+  {
+    "id": 163,
+    "positive": "natürlich",
+    "level": "A1",
+    "translations": [
+      "естественный",
+      "натуральный",
+      "природный",
+      "простой"
+    ]
+  },
+  {
+    "id": 164,
+    "positive": "negativ",
+    "level": "A1",
+    "translations": [
+      "негативный",
+      "отрицательный"
+    ]
+  },
+  {
+    "id": 165,
+    "positive": "nervös",
+    "level": "A1",
+    "translations": [
+      "нервный"
+    ]
+  },
+  {
+    "id": 166,
+    "positive": "nett",
+    "level": "A1",
+    "translations": [
+      "мило",
+      "приятно",
+      "славно"
+    ]
+  },
+  {
+    "id": 167,
+    "positive": "neu",
+    "level": "A1",
+    "translations": [
+      "новый"
+    ]
+  },
+  {
+    "id": 168,
+    "positive": "neun",
+    "level": "A1",
+    "translations": [
+      "девять"
+    ]
+  },
+  {
+    "id": 169,
+    "positive": "neunhundert",
+    "level": "A1",
+    "translations": [
+      "девятьсот"
+    ]
+  },
+  {
+    "id": 170,
+    "positive": "neuntausend",
+    "level": "A1",
+    "translations": [
+      "девять тысяч"
+    ]
+  },
+  {
+    "id": 171,
+    "positive": "neunzehn",
+    "level": "A1",
+    "translations": [
+      "девятнадцать"
+    ]
+  },
+  {
+    "id": 172,
+    "positive": "neunzig",
+    "level": "A1",
+    "translations": [
+      "девяносто"
+    ]
+  },
+  {
+    "id": 173,
+    "positive": "norddeutsch",
+    "level": "A1",
+    "translations": [
+      "северногерманский"
+    ]
+  },
+  {
+    "id": 174,
+    "positive": "normal",
+    "level": "A1",
+    "translations": [
+      "нормальный"
+    ]
+  },
+  {
+    "id": 175,
+    "positive": "null",
+    "level": "A1",
+    "translations": [
+      "ноль",
+      "нулевое значение",
+      "нуль"
+    ]
+  },
+  {
+    "id": 176,
+    "positive": "offen",
+    "level": "A1",
+    "translations": [
+      "открытый",
+      "публичный"
+    ]
+  },
+  {
+    "id": 177,
+    "positive": "offiziell",
+    "level": "A1",
+    "translations": [
+      "официальный"
+    ]
+  },
+  {
+    "id": 178,
+    "positive": "okay",
+    "level": "A1",
+    "translations": [
+      "нормально"
+    ]
+  },
+  {
+    "id": 179,
+    "positive": "orange",
+    "level": "A1",
+    "translations": [
+      "оранжевый",
+      "оранжева",
+      "оранжевая",
+      "оранжево",
+      "оранжевое"
+    ]
+  },
+  {
+    "id": 180,
+    "positive": "pauschal",
+    "level": "A1",
+    "translations": [
+      "все вместе",
+      "единый",
+      "общий"
+    ]
+  },
+  {
+    "id": 181,
+    "positive": "persönlich",
+    "level": "A1",
+    "translations": [
+      "личный",
+      "персональный"
+    ]
+  },
+  {
+    "id": 182,
+    "positive": "polnisch",
+    "level": "A1",
+    "translations": [
+      "польский"
+    ]
+  },
+  {
+    "id": 183,
+    "positive": "populär",
+    "level": "A1",
+    "translations": [
+      "понятный",
+      "популярный"
+    ]
+  },
+  {
+    "id": 184,
+    "positive": "portugiesisch",
+    "level": "A1",
+    "translations": [
+      "португальский"
+    ]
+  },
+  {
+    "id": 185,
+    "positive": "positiv",
+    "level": "A1",
+    "translations": [
+      "положительный",
+      "позитивный"
+    ]
+  },
+  {
+    "id": 186,
+    "positive": "praktisch",
+    "level": "A1",
+    "translations": [
+      "практично",
+      "практичный"
+    ]
+  },
+  {
+    "id": 187,
+    "positive": "prima",
+    "level": "A1",
+    "translations": [
+      "отличный",
+      "первоклассный"
+    ]
+  },
+  {
+    "id": 188,
+    "positive": "professionell",
+    "level": "A1",
+    "translations": [
+      "профессиональный"
+    ]
+  },
+  {
+    "id": 189,
+    "positive": "pünktlich",
+    "level": "A1",
+    "translations": [
+      "пунктуальный",
+      "точный",
+      "вовремя"
+    ]
+  },
+  {
+    "id": 190,
+    "positive": "rätoromanisch",
+    "level": "A1",
+    "translations": [
+      "ретороманский"
+    ]
+  },
+  {
+    "id": 191,
+    "positive": "real",
+    "level": "A1",
+    "translations": [
+      "реальный",
+      "действительный"
+    ]
+  },
+  {
+    "id": 192,
+    "positive": "regelmäßig",
+    "level": "A1",
+    "translations": [
+      "регулярный",
+      "по правилам"
+    ]
+  },
+  {
+    "id": 193,
+    "positive": "richtig",
+    "level": "A1",
+    "translations": [
+      "правильный",
+      "верный",
+      "подходящий"
+    ]
+  },
+  {
+    "id": 194,
+    "positive": "romantisch",
+    "level": "A1",
+    "translations": [
+      "романтичный",
+      "роантический"
+    ]
+  },
+  {
+    "id": 195,
+    "positive": "rot",
+    "level": "A1",
+    "translations": [
+      "красный",
+      "краснокожий",
+      "рыжий"
+    ]
+  },
+  {
+    "id": 196,
+    "positive": "ruhig",
+    "level": "A1",
+    "translations": [
+      "спокойный",
+      "тихий"
+    ]
+  },
+  {
+    "id": 197,
+    "positive": "rund",
+    "level": "A1",
+    "translations": [
+      "круглый",
+      "округлый",
+      "полный",
+      "безошибочный",
+      "бесперебойный",
+      "кругом",
+      "сферический"
+    ]
+  },
+  {
+    "id": 198,
+    "positive": "russisch",
+    "level": "A1",
+    "translations": [
+      "российский",
+      "русский"
+    ]
+  },
+  {
+    "id": 199,
+    "positive": "satt",
+    "level": "A1",
+    "translations": [
+      "сытый",
+      "довольный",
+      "достаточный",
+      "насыщенный",
+      "надоевший"
+    ]
+  },
+  {
+    "id": 200,
+    "positive": "sauber",
+    "level": "A1",
+    "translations": [
+      "чистый",
+      "аккуратный"
+    ]
+  },
+  {
+    "id": 201,
+    "positive": "sauer",
+    "level": "A1",
+    "translations": [
+      "испорченный",
+      "плохой",
+      "злой",
+      "кислый"
+    ]
+  },
+  {
+    "id": 202,
+    "positive": "schade",
+    "level": "A1",
+    "translations": [
+      "жалко",
+      "жаль"
+    ]
+  },
+  {
+    "id": 203,
+    "positive": "schlecht",
+    "level": "A1",
+    "translations": [
+      "плохой",
+      "неприемлемый",
+      "аморальный",
+      "больной",
+      "дурной",
+      "испорченный",
+      "нехороший",
+      "слабый"
+    ]
+  },
+  {
+    "id": 204,
+    "positive": "schmutzig",
+    "level": "A1",
+    "translations": [
+      "грязный",
+      "чумазый"
+    ]
+  },
+  {
+    "id": 205,
+    "positive": "schnell",
+    "level": "A1",
+    "translations": [
+      "быстрый",
+      "скорый",
+      "быстро"
+    ]
+  },
+  {
+    "id": 206,
+    "positive": "schön",
+    "level": "A1",
+    "translations": [
+      "красивый",
+      "приятный"
+    ]
+  },
+  {
+    "id": 207,
+    "positive": "schwarz",
+    "level": "A1",
+    "translations": [
+      "черный",
+      "чёрный"
+    ]
+  },
+  {
+    "id": 208,
+    "positive": "schwedisch",
+    "level": "A1",
+    "translations": [
+      "шведский"
+    ]
+  },
+  {
+    "id": 209,
+    "positive": "schwer",
+    "level": "A1",
+    "translations": [
+      "сложный",
+      "трудный",
+      "тяжелый"
+    ]
+  },
+  {
+    "id": 210,
+    "positive": "sechs",
+    "level": "A1",
+    "translations": [
+      "шесть"
+    ]
+  },
+  {
+    "id": 211,
+    "positive": "sechshundert",
+    "level": "A1",
+    "translations": [
+      "шестьсот"
+    ]
+  },
+  {
+    "id": 212,
+    "positive": "sechstausend",
+    "level": "A1",
+    "translations": [
+      "шесть тысяч"
+    ]
+  },
+  {
+    "id": 213,
+    "positive": "sechzehn",
+    "level": "A1",
+    "translations": [
+      "шестнадцать"
+    ]
+  },
+  {
+    "id": 214,
+    "positive": "sechzig",
+    "level": "A1",
+    "translations": [
+      "шестьдесят"
+    ]
+  },
+  {
+    "id": 215,
+    "positive": "selbstständig",
+    "level": "A1",
+    "translations": [
+      "самостоятельный",
+      "независимый"
+    ]
+  },
+  {
+    "id": 216,
+    "positive": "sieben",
+    "level": "A1",
+    "translations": [
+      "семь"
+    ]
+  },
+  {
+    "id": 217,
+    "positive": "siebenhundert",
+    "level": "A1",
+    "translations": [
+      "семьсот"
+    ]
+  },
+  {
+    "id": 218,
+    "positive": "siebentausend",
+    "level": "A1",
+    "translations": [
+      "семь тысяч"
+    ]
+  },
+  {
+    "id": 219,
+    "positive": "siebzehn",
+    "level": "A1",
+    "translations": [
+      "семнадцать"
+    ]
+  },
+  {
+    "id": 220,
+    "positive": "siebzig",
+    "level": "A1",
+    "translations": [
+      "семьдесят"
+    ]
+  },
+  {
+    "id": 221,
+    "positive": "sozial",
+    "level": "A1",
+    "translations": [
+      "социальный"
+    ]
+  },
+  {
+    "id": 222,
+    "positive": "spät",
+    "level": "A1",
+    "translations": [
+      "поздний",
+      "поздно"
+    ]
+  },
+  {
+    "id": 223,
+    "positive": "spanisch",
+    "level": "A1",
+    "translations": [
+      "испанский",
+      "испанский язык"
+    ]
+  },
+  {
+    "id": 224,
+    "positive": "spitze",
+    "level": "A1",
+    "translations": [
+      "отличный",
+      "первоклассный",
+      "превосходный"
+    ]
+  },
+  {
+    "id": 225,
+    "positive": "sportlich",
+    "level": "A1",
+    "translations": [
+      "спортивный",
+      "атлетичный"
+    ]
+  },
+  {
+    "id": 226,
+    "positive": "stark",
+    "level": "A1",
+    "translations": [
+      "сильный",
+      "мощный"
+    ]
+  },
+  {
+    "id": 227,
+    "positive": "still",
+    "level": "A1",
+    "translations": [
+      "тихий",
+      "спокойный",
+      "неподвижный",
+      "тайный"
+    ]
+  },
+  {
+    "id": 228,
+    "positive": "streng",
+    "level": "A1",
+    "translations": [
+      "жесткий",
+      "строгий",
+      "суровый"
+    ]
+  },
+  {
+    "id": 229,
+    "positive": "stressig",
+    "level": "A1",
+    "translations": [
+      "напряженный",
+      "стрессовый"
+    ]
+  },
+  {
+    "id": 230,
+    "positive": "süß",
+    "level": "A1",
+    "translations": [
+      "сладкий",
+      "милый"
+    ]
+  },
+  {
+    "id": 231,
+    "positive": "super",
+    "level": "A1",
+    "translations": [
+      "супер",
+      "суперский"
+    ]
+  },
+  {
+    "id": 232,
+    "positive": "täglich",
+    "level": "A1",
+    "translations": [
+      "ежедневный"
+    ]
+  },
+  {
+    "id": 233,
+    "positive": "tatsächlich",
+    "level": "A1",
+    "translations": [
+      "действительно",
+      "на самом деле"
+    ]
+  },
+  {
+    "id": 234,
+    "positive": "tausend",
+    "level": "A1",
+    "translations": [
+      "тысяча"
+    ]
+  },
+  {
+    "id": 235,
+    "positive": "telefonisch",
+    "level": "A1",
+    "translations": [
+      "телефонный"
+    ]
+  },
+  {
+    "id": 236,
+    "positive": "teuer",
+    "level": "A1",
+    "translations": [
+      "дорогой",
+      "ценный"
+    ]
+  },
+  {
+    "id": 237,
+    "positive": "toll",
+    "level": "A1",
+    "translations": [
+      "безумный",
+      "бешеный",
+      "классный",
+      "прекрасный",
+      "сумасшедший"
+    ]
+  },
+  {
+    "id": 238,
+    "positive": "top",
+    "level": "A1",
+    "translations": [
+      "выдающийся",
+      "отличный",
+      "первоклассный"
+    ]
+  },
+  {
+    "id": 239,
+    "positive": "topaktuell",
+    "level": "A1",
+    "translations": [
+      "высокоактуальный",
+      "современный"
+    ]
+  },
+  {
+    "id": 240,
+    "positive": "tot",
+    "level": "A1",
+    "translations": [
+      "мёртвый",
+      "умерший"
+    ]
+  },
+  {
+    "id": 241,
+    "positive": "total",
+    "level": "A1",
+    "translations": [
+      "совершенно",
+      "тотальный"
+    ]
+  },
+  {
+    "id": 242,
+    "positive": "traurig",
+    "level": "A1",
+    "translations": [
+      "грустный",
+      "несчастный"
+    ]
+  },
+  {
+    "id": 243,
+    "positive": "trennbar",
+    "level": "A1",
+    "translations": [
+      "разделимый",
+      "разделяемый"
+    ]
+  },
+  {
+    "id": 244,
+    "positive": "türkisch",
+    "level": "A1",
+    "translations": [
+      "турецкий",
+      "турецкий язык"
+    ]
+  },
+  {
+    "id": 245,
+    "positive": "typisch",
+    "level": "A1",
+    "translations": [
+      "типичный",
+      "характерный"
+    ]
+  },
+  {
+    "id": 246,
+    "positive": "unentschieden",
+    "level": "A1",
+    "translations": [
+      "в подвешенном состоянии",
+      "ничья",
+      "равный"
+    ]
+  },
+  {
+    "id": 247,
+    "positive": "ungarisch",
+    "level": "A1",
+    "translations": [
+      "венгерский"
+    ]
+  },
+  {
+    "id": 248,
+    "positive": "ungefähr",
+    "level": "A1",
+    "translations": [
+      "примерно"
+    ]
+  },
+  {
+    "id": 249,
+    "positive": "ungesund",
+    "level": "A1",
+    "translations": [
+      "вредный",
+      "нездоровый"
+    ]
+  },
+  {
+    "id": 250,
+    "positive": "unglaublich",
+    "level": "A1",
+    "translations": [
+      "невероятный"
+    ]
+  },
+  {
+    "id": 251,
+    "positive": "unromantisch",
+    "level": "A1",
+    "translations": [
+      "неромантичный"
+    ]
+  },
+  {
+    "id": 252,
+    "positive": "über",
+    "level": "A1",
+    "translations": [
+      "впечатляющий",
+      "выдающийся"
+    ]
+  },
+  {
+    "id": 253,
+    "positive": "verboten",
+    "level": "A1",
+    "translations": [
+      "запрещённый"
+    ]
+  },
+  {
+    "id": 254,
+    "positive": "verrückt",
+    "level": "A1",
+    "translations": [
+      "сумасшедший",
+      "безумный",
+      "передвинутый",
+      "помешанный",
+      "эксцентричный"
+    ]
+  },
+  {
+    "id": 255,
+    "positive": "verschieden",
+    "level": "A1",
+    "translations": [
+      "различный",
+      "разный",
+      "другой",
+      "многие"
+    ]
+  },
+  {
+    "id": 256,
+    "positive": "viel",
+    "level": "A1",
+    "translations": [
+      "много",
+      "часто",
+      "гораздо"
+    ]
+  },
+  {
+    "id": 257,
+    "positive": "vier",
+    "level": "A1",
+    "translations": [
+      "четыре"
+    ]
+  },
+  {
+    "id": 258,
+    "positive": "vierhundert",
+    "level": "A1",
+    "translations": [
+      "четыреста"
+    ]
+  },
+  {
+    "id": 259,
+    "positive": "viertausend",
+    "level": "A1",
+    "translations": [
+      "четыре тысячи"
+    ]
+  },
+  {
+    "id": 260,
+    "positive": "vierzehn",
+    "level": "A1",
+    "translations": [
+      "четырнадцать"
+    ]
+  },
+  {
+    "id": 261,
+    "positive": "vierzig",
+    "level": "A1",
+    "translations": [
+      "сорок"
+    ]
+  },
+  {
+    "id": 262,
+    "positive": "voll",
+    "level": "A1",
+    "translations": [
+      "полный",
+      "насыщенный",
+      "пьяный",
+      "бухой",
+      "полный чего-либо"
+    ]
+  },
+  {
+    "id": 263,
+    "positive": "wahnsinnig",
+    "level": "A1",
+    "translations": [
+      "безумный",
+      "сумасшедший"
+    ]
+  },
+  {
+    "id": 264,
+    "positive": "wahr",
+    "level": "A1",
+    "translations": [
+      "истинный",
+      "верный"
+    ]
+  },
+  {
+    "id": 265,
+    "positive": "wahrscheinlich",
+    "level": "A1",
+    "translations": [
+      "вероятный",
+      "правдоподобный"
+    ]
+  },
+  {
+    "id": 266,
+    "positive": "warm",
+    "level": "A1",
+    "translations": [
+      "теплый",
+      "тёплый"
+    ]
+  },
+  {
+    "id": 267,
+    "positive": "weiblich",
+    "level": "A1",
+    "translations": [
+      "женский"
+    ]
+  },
+  {
+    "id": 268,
+    "positive": "weich",
+    "level": "A1",
+    "translations": [
+      "мягкий"
+    ]
+  },
+  {
+    "id": 269,
+    "positive": "weiß",
+    "level": "A1",
+    "translations": [
+      "белый",
+      "бледный"
+    ]
+  },
+  {
+    "id": 270,
+    "positive": "weit",
+    "level": "A1",
+    "translations": [
+      "широкий",
+      "обширный",
+      "далёкий",
+      "обширний"
+    ]
+  },
+  {
+    "id": 271,
+    "positive": "wenig",
+    "level": "A1",
+    "translations": [
+      "мало",
+      "немного"
+    ]
+  },
+  {
+    "id": 272,
+    "positive": "wichtig",
+    "level": "A1",
+    "translations": [
+      "важный"
+    ]
+  },
+  {
+    "id": 273,
+    "positive": "willkommen",
+    "level": "A1",
+    "translations": [
+      "желанный"
+    ]
+  },
+  {
+    "id": 274,
+    "positive": "windig",
+    "level": "A1",
+    "translations": [
+      "ветреный"
+    ]
+  },
+  {
+    "id": 275,
+    "positive": "wirklich",
+    "level": "A1",
+    "translations": [
+      "действительный",
+      "реальный",
+      "настоящий"
+    ]
+  },
+  {
+    "id": 276,
+    "positive": "wunderbar",
+    "level": "A1",
+    "translations": [
+      "чудесный",
+      "замечательный",
+      "удивительный"
+    ]
+  },
+  {
+    "id": 277,
+    "positive": "zehn",
+    "level": "A1",
+    "translations": [
+      "десять"
+    ]
+  },
+  {
+    "id": 278,
+    "positive": "zehntausend",
+    "level": "A1",
+    "translations": [
+      "десять тысяч"
+    ]
+  },
+  {
+    "id": 279,
+    "positive": "zentral",
+    "level": "A1",
+    "translations": [
+      "центральный",
+      "центрально"
+    ]
+  },
+  {
+    "id": 280,
+    "positive": "zufrieden",
+    "level": "A1",
+    "translations": [
+      "довольный",
+      "удовлетворённый"
+    ]
+  },
+  {
+    "id": 281,
+    "positive": "zuverlässig",
+    "level": "A1",
+    "translations": [
+      "надежный"
+    ]
+  },
+  {
+    "id": 282,
+    "positive": "zwanzig",
+    "level": "A1",
+    "translations": [
+      "двадцать"
+    ]
+  },
+  {
+    "id": 283,
+    "positive": "zwei",
+    "level": "A1",
+    "translations": [
+      "два",
+      "двухлетний"
+    ]
+  },
+  {
+    "id": 284,
+    "positive": "zweihundert",
+    "level": "A1",
+    "translations": [
+      "двести"
+    ]
+  },
+  {
+    "id": 285,
+    "positive": "zweitausend",
+    "level": "A1",
+    "translations": [
+      "две тысячи"
+    ]
+  },
+  {
+    "id": 286,
+    "positive": "zweite",
+    "level": "A1",
+    "translations": [
+      "второй"
+    ]
+  },
+  {
+    "id": 287,
+    "positive": "zwölf",
+    "level": "A1",
+    "translations": [
+      "двенадцать"
+    ]
+  },
+  {
+    "id": 288,
+    "positive": "abstrakt",
+    "level": "A2",
+    "translations": [
+      "абстрактный"
+    ]
+  },
+  {
+    "id": 289,
+    "positive": "abwechslungsreich",
+    "level": "A2",
+    "translations": [
+      "разнообразный"
+    ]
+  },
+  {
+    "id": 290,
+    "positive": "achte",
+    "level": "A2",
+    "translations": [
+      "восьмой"
+    ]
+  },
+  {
+    "id": 291,
+    "positive": "achtel",
+    "level": "A2",
+    "translations": [
+      "восьмая часть"
+    ]
+  },
+  {
+    "id": 292,
+    "positive": "achtfach",
+    "level": "A2",
+    "translations": [
+      "восемьразный",
+      "восемьfold",
+      "восемькратный"
+    ]
+  },
+  {
+    "id": 293,
+    "positive": "achthundertste",
+    "level": "A2",
+    "translations": [
+      "восьмисотый"
+    ]
+  },
+  {
+    "id": 294,
+    "positive": "achtmalig",
+    "level": "A2",
+    "translations": [
+      "восемь раз"
+    ]
+  },
+  {
+    "id": 295,
+    "positive": "achttausendste",
+    "level": "A2",
+    "translations": [
+      "восьмитысячный"
+    ]
+  },
+  {
+    "id": 296,
+    "positive": "achtzehnte",
+    "level": "A2",
+    "translations": [
+      "восемнадцатый"
+    ]
+  },
+  {
+    "id": 297,
+    "positive": "achtzigste",
+    "level": "A2",
+    "translations": [
+      "восмидесятый"
+    ]
+  },
+  {
+    "id": 298,
+    "positive": "afrikanisch",
+    "level": "A2",
+    "translations": [
+      "африканский"
+    ]
+  },
+  {
+    "id": 299,
+    "positive": "akkurat",
+    "level": "A2",
+    "translations": [
+      "аккуратный",
+      "точный"
+    ]
+  },
+  {
+    "id": 300,
+    "positive": "aktiv",
+    "level": "A2",
+    "translations": [
+      "активный",
+      "энергичный"
+    ]
+  },
+  {
+    "id": 301,
+    "positive": "aktuell",
+    "level": "A2",
+    "translations": [
+      "актуальный",
+      "современный",
+      "свежий",
+      "сейчас"
+    ]
+  },
+  {
+    "id": 302,
+    "positive": "allgemein",
+    "level": "A2",
+    "translations": [
+      "общий",
+      "всеобъемлющий",
+      "универсальный"
+    ]
+  },
+  {
+    "id": 303,
+    "positive": "altmodisch",
+    "level": "A2",
+    "translations": [
+      "старомодный"
+    ]
+  },
+  {
+    "id": 304,
+    "positive": "antik",
+    "level": "A2",
+    "translations": [
+      "античный",
+      "древний"
+    ]
+  },
+  {
+    "id": 305,
+    "positive": "arm",
+    "level": "A2",
+    "translations": [
+      "бедный",
+      "нищий"
+    ]
+  },
+  {
+    "id": 306,
+    "positive": "ängstlich",
+    "level": "A2",
+    "translations": [
+      "боязливый",
+      "испуганный",
+      "тревожный"
+    ]
+  },
+  {
+    "id": 307,
+    "positive": "ärgerlich",
+    "level": "A2",
+    "translations": [
+      "досадный",
+      "раздражающий"
+    ]
+  },
+  {
+    "id": 308,
+    "positive": "barock",
+    "level": "A2",
+    "translations": [
+      "барокко",
+      "барочный"
+    ]
+  },
+  {
+    "id": 309,
+    "positive": "bayrisch",
+    "level": "A2",
+    "translations": [
+      "баварский"
+    ]
+  },
+  {
+    "id": 310,
+    "positive": "befreundet",
+    "level": "A2",
+    "translations": [
+      "дружеский"
+    ]
+  },
+  {
+    "id": 311,
+    "positive": "begeistert",
+    "level": "A2",
+    "translations": [
+      "вдохновленный",
+      "восторженный"
+    ]
+  },
+  {
+    "id": 312,
+    "positive": "berühmt",
+    "level": "A2",
+    "translations": [
+      "знаменитый",
+      "известный"
+    ]
+  },
+  {
+    "id": 313,
+    "positive": "besorgt",
+    "level": "A2",
+    "translations": [
+      "озабоченный",
+      "обеспокоенный"
+    ]
+  },
+  {
+    "id": 314,
+    "positive": "betrunken",
+    "level": "A2",
+    "translations": [
+      "пьяный"
+    ]
+  },
+  {
+    "id": 315,
+    "positive": "blind",
+    "level": "A2",
+    "translations": [
+      "слепой",
+      "бессодержательный",
+      "бессознательный",
+      "матовый",
+      "незрячий",
+      "некритичный",
+      "непрозрачный",
+      "пустой"
+    ]
+  },
+  {
+    "id": 316,
+    "positive": "blond",
+    "level": "A2",
+    "translations": [
+      "белокурый",
+      "светловолосый",
+      "светлый"
+    ]
+  },
+  {
+    "id": 317,
+    "positive": "deutlich",
+    "level": "A2",
+    "translations": [
+      "значительно",
+      "отчетливо",
+      "четкий",
+      "явный",
+      "ясный"
+    ]
+  },
+  {
+    "id": 318,
+    "positive": "deutschsprachig",
+    "level": "A2",
+    "translations": [
+      "немецкоязычный"
+    ]
+  },
+  {
+    "id": 319,
+    "positive": "dick",
+    "level": "A2",
+    "translations": [
+      "толстый",
+      "густой",
+      "опухший",
+      "закадычный"
+    ]
+  },
+  {
+    "id": 320,
+    "positive": "doppelt",
+    "level": "A2",
+    "translations": [
+      "двойной",
+      "удвоенный"
+    ]
+  },
+  {
+    "id": 321,
+    "positive": "dreifach",
+    "level": "A2",
+    "translations": [
+      "тройной",
+      "троекратный"
+    ]
+  },
+  {
+    "id": 322,
+    "positive": "dreihundertste",
+    "level": "A2",
+    "translations": [
+      "трёхсотый"
+    ]
+  },
+  {
+    "id": 323,
+    "positive": "dreimalig",
+    "level": "A2",
+    "translations": [
+      "трижды"
+    ]
+  },
+  {
+    "id": 324,
+    "positive": "dreißigste",
+    "level": "A2",
+    "translations": [
+      "тридцатый"
+    ]
+  },
+  {
+    "id": 325,
+    "positive": "dreitausendste",
+    "level": "A2",
+    "translations": [
+      "трехтысячный",
+      "трёхтысячный"
+    ]
+  },
+  {
+    "id": 326,
+    "positive": "dreizehnte",
+    "level": "A2",
+    "translations": [
+      "тринадцатый"
+    ]
+  },
+  {
+    "id": 327,
+    "positive": "dringend",
+    "level": "A2",
+    "translations": [
+      "неотложный",
+      "срочный"
+    ]
+  },
+  {
+    "id": 328,
+    "positive": "drittel",
+    "level": "A2",
+    "translations": [
+      "треть"
+    ]
+  },
+  {
+    "id": 329,
+    "positive": "dünn",
+    "level": "A2",
+    "translations": [
+      "тонкий",
+      "жидкий",
+      "худой",
+      "скудный",
+      "слабый"
+    ]
+  },
+  {
+    "id": 330,
+    "positive": "durchschnittlich",
+    "level": "A2",
+    "translations": [
+      "обычный",
+      "средний",
+      "заурядный"
+    ]
+  },
+  {
+    "id": 331,
+    "positive": "durchsichtig",
+    "level": "A2",
+    "translations": [
+      "прозрачный",
+      "гласный"
+    ]
+  },
+  {
+    "id": 332,
+    "positive": "effektiv",
+    "level": "A2",
+    "translations": [
+      "эффективный"
+    ]
+  },
+  {
+    "id": 333,
+    "positive": "egal",
+    "level": "A2",
+    "translations": [
+      "безразличный",
+      "всё равно",
+      "одинаковый",
+      "равный"
+    ]
+  },
+  {
+    "id": 334,
+    "positive": "egoistisch",
+    "level": "A2",
+    "translations": [
+      "эгоистичный"
+    ]
+  },
+  {
+    "id": 335,
+    "positive": "einmalig",
+    "level": "A2",
+    "translations": [
+      "единственный",
+      "необыкновенный",
+      "однократный",
+      "превосходный"
+    ]
+  },
+  {
+    "id": 336,
+    "positive": "einsam",
+    "level": "A2",
+    "translations": [
+      "одинокий",
+      "пустынный"
+    ]
+  },
+  {
+    "id": 337,
+    "positive": "einzig",
+    "level": "A2",
+    "translations": [
+      "единственный",
+      "только"
+    ]
+  },
+  {
+    "id": 338,
+    "positive": "elektrisch",
+    "level": "A2",
+    "translations": [
+      "электрический"
+    ]
+  },
+  {
+    "id": 339,
+    "positive": "elektronisch",
+    "level": "A2",
+    "translations": [
+      "электронный"
+    ]
+  },
+  {
+    "id": 340,
+    "positive": "elfmalig",
+    "level": "A2",
+    "translations": [
+      "одиннадцатикратный"
+    ]
+  },
+  {
+    "id": 341,
+    "positive": "elfte",
+    "level": "A2",
+    "translations": [
+      "одиннадцатый"
+    ]
+  },
+  {
+    "id": 342,
+    "positive": "elftel",
+    "level": "A2",
+    "translations": [
+      "одиннадцатая часть",
+      "одиннадцатая"
+    ]
+  },
+  {
+    "id": 343,
+    "positive": "emotional",
+    "level": "A2",
+    "translations": [
+      "эмоциональный"
+    ]
+  },
+  {
+    "id": 344,
+    "positive": "empfehlenswert",
+    "level": "A2",
+    "translations": [
+      "рекомендуемый"
+    ]
+  },
+  {
+    "id": 345,
+    "positive": "eng",
+    "level": "A2",
+    "translations": [
+      "тесный",
+      "узкий"
+    ]
+  },
+  {
+    "id": 346,
+    "positive": "entfernt",
+    "level": "A2",
+    "translations": [
+      "дальний",
+      "отдаленный",
+      "удаленный"
+    ]
+  },
+  {
+    "id": 347,
+    "positive": "erfahren",
+    "level": "A2",
+    "translations": [
+      "опытный",
+      "сведущий"
+    ]
+  },
+  {
+    "id": 348,
+    "positive": "erfolgreich",
+    "level": "A2",
+    "translations": [
+      "успешный",
+      "удачный"
+    ]
+  },
+  {
+    "id": 349,
+    "positive": "erreichbar",
+    "level": "A2",
+    "translations": [
+      "достижимый"
+    ]
+  },
+  {
+    "id": 350,
+    "positive": "erwachsen",
+    "level": "A2",
+    "translations": [
+      "взрослый"
+    ]
+  },
+  {
+    "id": 351,
+    "positive": "ewig",
+    "level": "A2",
+    "translations": [
+      "всегда"
+    ]
+  },
+  {
+    "id": 352,
+    "positive": "exakt",
+    "level": "A2",
+    "translations": [
+      "точный",
+      "прецизионный",
+      "экспактный"
+    ]
+  },
+  {
+    "id": 353,
+    "positive": "extra",
+    "level": "A2",
+    "translations": [
+      "высокие требования",
+      "особенный"
+    ]
+  },
+  {
+    "id": 354,
+    "positive": "fair",
+    "level": "A2",
+    "translations": [
+      "справедливый",
+      "честный"
+    ]
+  },
+  {
+    "id": 355,
+    "positive": "familienfreundlich",
+    "level": "A2",
+    "translations": [
+      "дружественный к семьям",
+      "семейный"
+    ]
+  },
+  {
+    "id": 356,
+    "positive": "fantastisch",
+    "level": "A2",
+    "translations": [
+      "фантастический",
+      "замечательный"
+    ]
+  },
+  {
+    "id": 357,
+    "positive": "faul",
+    "level": "A2",
+    "translations": [
+      "ленивый",
+      "подозрительный",
+      "сомнительный",
+      "тухлый"
+    ]
+  },
+  {
+    "id": 358,
+    "positive": "fern",
+    "level": "A2",
+    "translations": [
+      "далёкий",
+      "дальний"
+    ]
+  },
+  {
+    "id": 359,
+    "positive": "fest",
+    "level": "A2",
+    "translations": [
+      "плотный",
+      "постоянный",
+      "прочный",
+      "непоколебимый",
+      "твёрдый"
+    ]
+  },
+  {
+    "id": 360,
+    "positive": "fett",
+    "level": "A2",
+    "translations": [
+      "жирный",
+      "толстый",
+      "клёвый",
+      "крутой",
+      "тучный"
+    ]
+  },
+  {
+    "id": 361,
+    "positive": "fit",
+    "level": "A2",
+    "translations": [
+      "подготовленный",
+      "быть в форме",
+      "в хорошей форме"
+    ]
+  },
+  {
+    "id": 362,
+    "positive": "fix",
+    "level": "A2",
+    "translations": [
+      "ловко",
+      "неизменный"
+    ]
+  },
+  {
+    "id": 363,
+    "positive": "flexibel",
+    "level": "A2",
+    "translations": [
+      "гибкий"
+    ]
+  },
+  {
+    "id": 364,
+    "positive": "fließend",
+    "level": "A2",
+    "translations": [
+      "бесперебойный",
+      "плавный"
+    ]
+  },
+  {
+    "id": 365,
+    "positive": "freiberuflich",
+    "level": "A2",
+    "translations": [
+      "независимый",
+      "фрилансер"
+    ]
+  },
+  {
+    "id": 366,
+    "positive": "freiwillig",
+    "level": "A2",
+    "translations": [
+      "добровольный",
+      "добровольно"
+    ]
+  },
+  {
+    "id": 367,
+    "positive": "fröhlich",
+    "level": "A2",
+    "translations": [
+      "радостный",
+      "весёлый",
+      "жизнерадостный"
+    ]
+  },
+  {
+    "id": 368,
+    "positive": "fünffach",
+    "level": "A2",
+    "translations": [
+      "пятикратный"
+    ]
+  },
+  {
+    "id": 369,
+    "positive": "fünfhundertste",
+    "level": "A2",
+    "translations": [
+      "пятисотый"
+    ]
+  },
+  {
+    "id": 370,
+    "positive": "fünfmalig",
+    "level": "A2",
+    "translations": [
+      "пятикратный"
+    ]
+  },
+  {
+    "id": 371,
+    "positive": "fünftausendste",
+    "level": "A2",
+    "translations": [
+      "пятитысячный"
+    ]
+  },
+  {
+    "id": 372,
+    "positive": "fünfte",
+    "level": "A2",
+    "translations": [
+      "пятый"
+    ]
+  },
+  {
+    "id": 373,
+    "positive": "fünftel",
+    "level": "A2",
+    "translations": [
+      "одна пятая"
+    ]
+  },
+  {
+    "id": 374,
+    "positive": "fünfzehnte",
+    "level": "A2",
+    "translations": [
+      "пятнадцатый"
+    ]
+  },
+  {
+    "id": 375,
+    "positive": "fünfzigste",
+    "level": "A2",
+    "translations": [
+      "пятидесятый"
+    ]
+  },
+  {
+    "id": 376,
+    "positive": "furchtbar",
+    "level": "A2",
+    "translations": [
+      "страшный",
+      "ужасный"
+    ]
+  },
+  {
+    "id": 377,
+    "positive": "gefährlich",
+    "level": "A2",
+    "translations": [
+      "опасный"
+    ]
+  },
+  {
+    "id": 378,
+    "positive": "gehörlos",
+    "level": "A2",
+    "translations": [
+      "глухой",
+      "неслышащий"
+    ]
+  },
+  {
+    "id": 379,
+    "positive": "gemeinsam",
+    "level": "A2",
+    "translations": [
+      "общий",
+      "совместный",
+      "вместе",
+      "сообща"
+    ]
+  },
+  {
+    "id": 380,
+    "positive": "generell",
+    "level": "A2",
+    "translations": [
+      "общий",
+      "в целом",
+      "обычно"
+    ]
+  },
+  {
+    "id": 381,
+    "positive": "genial",
+    "level": "A2",
+    "translations": [
+      "гениальный"
+    ]
+  },
+  {
+    "id": 382,
+    "positive": "geografisch",
+    "level": "A2",
+    "translations": [
+      "географически"
+    ]
+  },
+  {
+    "id": 383,
+    "positive": "gerecht",
+    "level": "A2",
+    "translations": [
+      "справедливый"
+    ]
+  },
+  {
+    "id": 384,
+    "positive": "gespannt",
+    "level": "A2",
+    "translations": [
+      "напряженный"
+    ]
+  },
+  {
+    "id": 385,
+    "positive": "gierig",
+    "level": "A2",
+    "translations": [
+      "алчный",
+      "жадный"
+    ]
+  },
+  {
+    "id": 386,
+    "positive": "gleichzeitig",
+    "level": "A2",
+    "translations": [
+      "одновременно"
+    ]
+  },
+  {
+    "id": 387,
+    "positive": "griffbereit",
+    "level": "A2",
+    "translations": [
+      "под рукой"
+    ]
+  },
+  {
+    "id": 388,
+    "positive": "großartig",
+    "level": "A2",
+    "translations": [
+      "замечательный",
+      "великолепный"
+    ]
+  },
+  {
+    "id": 389,
+    "positive": "häufig",
+    "level": "A2",
+    "translations": [
+      "частый",
+      "часто"
+    ]
+  },
+  {
+    "id": 390,
+    "positive": "halbe",
+    "level": "A2",
+    "translations": [
+      "половина"
+    ]
+  },
+  {
+    "id": 391,
+    "positive": "hauptsächlich",
+    "level": "A2",
+    "translations": [
+      "главный",
+      "основной"
+    ]
+  },
+  {
+    "id": 392,
+    "positive": "hektisch",
+    "level": "A2",
+    "translations": [
+      "суетливый",
+      "торопливый"
+    ]
+  },
+  {
+    "id": 393,
+    "positive": "hellblau",
+    "level": "A2",
+    "translations": [
+      "светло-голубой"
+    ]
+  },
+  {
+    "id": 394,
+    "positive": "herrlich",
+    "level": "A2",
+    "translations": [
+      "прекрасный",
+      "великолепный"
+    ]
+  },
+  {
+    "id": 395,
+    "positive": "historisch",
+    "level": "A2",
+    "translations": [
+      "исторический"
+    ]
+  },
+  {
+    "id": 396,
+    "positive": "höflich",
+    "level": "A2",
+    "translations": [
+      "вежливый",
+      "учтивый"
+    ]
+  },
+  {
+    "id": 397,
+    "positive": "hundertfach",
+    "level": "A2",
+    "translations": [
+      "стократный"
+    ]
+  },
+  {
+    "id": 398,
+    "positive": "hundertste",
+    "level": "A2",
+    "translations": [
+      "сотый"
+    ]
+  },
+  {
+    "id": 399,
+    "positive": "hundertstel",
+    "level": "A2",
+    "translations": [
+      "одна сотая"
+    ]
+  },
+  {
+    "id": 400,
+    "positive": "hunderttausendste",
+    "level": "A2",
+    "translations": [
+      "стотысячный"
+    ]
+  },
+  {
+    "id": 401,
+    "positive": "intelligent",
+    "level": "A2",
+    "translations": [
+      "интеллектуальный",
+      "умный"
+    ]
+  },
+  {
+    "id": 402,
+    "positive": "intensiv",
+    "level": "A2",
+    "translations": [
+      "интенсивный"
+    ]
+  },
+  {
+    "id": 403,
+    "positive": "jeweilig",
+    "level": "A2",
+    "translations": [
+      "соответствующий"
+    ]
+  },
+  {
+    "id": 404,
+    "positive": "klug",
+    "level": "A2",
+    "translations": [
+      "разумный",
+      "умный"
+    ]
+  },
+  {
+    "id": 405,
+    "positive": "knapp",
+    "level": "A2",
+    "translations": [
+      "короткий"
+    ]
+  },
+  {
+    "id": 406,
+    "positive": "komplett",
+    "level": "A2",
+    "translations": [
+      "полный",
+      "комплектный"
+    ]
+  },
+  {
+    "id": 407,
+    "positive": "kompliziert",
+    "level": "A2",
+    "translations": [
+      "запутанный",
+      "сложный",
+      "трудный"
+    ]
+  },
+  {
+    "id": 408,
+    "positive": "konsequent",
+    "level": "A2",
+    "translations": [
+      "последовательный"
+    ]
+  },
+  {
+    "id": 409,
+    "positive": "krass",
+    "level": "A2",
+    "translations": [
+      "крутой",
+      "офигенный"
+    ]
+  },
+  {
+    "id": 410,
+    "positive": "kritisch",
+    "level": "A2",
+    "translations": [
+      "критический"
+    ]
+  },
+  {
+    "id": 411,
+    "positive": "kühl",
+    "level": "A2",
+    "translations": [
+      "холодный",
+      "прохладный",
+      "сдержанный",
+      "замкнутый"
+    ]
+  },
+  {
+    "id": 412,
+    "positive": "lebenslang",
+    "level": "A2",
+    "translations": [
+      "пожизненный"
+    ]
+  },
+  {
+    "id": 413,
+    "positive": "live",
+    "level": "A2",
+    "translations": [
+      "прямой"
+    ]
+  },
+  {
+    "id": 414,
+    "positive": "locker",
+    "level": "A2",
+    "translations": [
+      "свободный",
+      "легкий",
+      "непринужденный"
+    ]
+  },
+  {
+    "id": 415,
+    "positive": "logisch",
+    "level": "A2",
+    "translations": [
+      "логичный",
+      "логический"
+    ]
+  },
+  {
+    "id": 416,
+    "positive": "luxemburgisch",
+    "level": "A2",
+    "translations": [
+      "люксембургский"
+    ]
+  },
+  {
+    "id": 417,
+    "positive": "meistverkauft",
+    "level": "A2",
+    "translations": [
+      "самый продаваемый"
+    ]
+  },
+  {
+    "id": 418,
+    "positive": "melancholisch",
+    "level": "A2",
+    "translations": [
+      "меланхоличный"
+    ]
+  },
+  {
+    "id": 419,
+    "positive": "modern",
+    "level": "A2",
+    "translations": [
+      "современный",
+      "модный"
+    ]
+  },
+  {
+    "id": 420,
+    "positive": "monoton",
+    "level": "A2",
+    "translations": [
+      "монотонный",
+      "однообразный"
+    ]
+  },
+  {
+    "id": 421,
+    "positive": "mündlich",
+    "level": "A2",
+    "translations": [
+      "устный"
+    ]
+  },
+  {
+    "id": 422,
+    "positive": "nämlich",
+    "level": "A2",
+    "translations": [
+      "такой же",
+      "тот же"
+    ]
+  },
+  {
+    "id": 423,
+    "positive": "nah",
+    "level": "A2",
+    "translations": [
+      "близкий"
+    ]
+  },
+  {
+    "id": 424,
+    "positive": "neblig",
+    "level": "A2",
+    "translations": [
+      "туманный"
+    ]
+  },
+  {
+    "id": 425,
+    "positive": "nervig",
+    "level": "A2",
+    "translations": [
+      "неприятный"
+    ]
+  },
+  {
+    "id": 426,
+    "positive": "neugierig",
+    "level": "A2",
+    "translations": [
+      "любопытный"
+    ]
+  },
+  {
+    "id": 427,
+    "positive": "neunfach",
+    "level": "A2",
+    "translations": [
+      "девятикратный"
+    ]
+  },
+  {
+    "id": 428,
+    "positive": "neunhundertste",
+    "level": "A2",
+    "translations": [
+      "девятисотый"
+    ]
+  },
+  {
+    "id": 429,
+    "positive": "neunmalig",
+    "level": "A2",
+    "translations": [
+      "девять раз"
+    ]
+  },
+  {
+    "id": 430,
+    "positive": "neuntausendste",
+    "level": "A2",
+    "translations": [
+      "девятитысячный"
+    ]
+  },
+  {
+    "id": 431,
+    "positive": "neunte",
+    "level": "A2",
+    "translations": [
+      "девятый"
+    ]
+  },
+  {
+    "id": 432,
+    "positive": "neuntel",
+    "level": "A2",
+    "translations": [
+      "девятый",
+      "девятая"
+    ]
+  },
+  {
+    "id": 433,
+    "positive": "neunzehnte",
+    "level": "A2",
+    "translations": [
+      "девятнадцатый"
+    ]
+  },
+  {
+    "id": 434,
+    "positive": "neunzigste",
+    "level": "A2",
+    "translations": [
+      "девяностый"
+    ]
+  },
+  {
+    "id": 435,
+    "positive": "neutral",
+    "level": "A2",
+    "translations": [
+      "нейтральный"
+    ]
+  },
+  {
+    "id": 436,
+    "positive": "notwendig",
+    "level": "A2",
+    "translations": [
+      "необходимый"
+    ]
+  },
+  {
+    "id": 437,
+    "positive": "optimistisch",
+    "level": "A2",
+    "translations": [
+      "оптимистический"
+    ]
+  },
+  {
+    "id": 438,
+    "positive": "ordentlich",
+    "level": "A2",
+    "translations": [
+      "аккуратный",
+      "порядочный",
+      "упорядоченный"
+    ]
+  },
+  {
+    "id": 439,
+    "positive": "originell",
+    "level": "A2",
+    "translations": [
+      "оригинальный",
+      "исходный",
+      "необычный",
+      "новый",
+      "особенный",
+      "остроумный",
+      "умный"
+    ]
+  },
+  {
+    "id": 440,
+    "positive": "öffentlich",
+    "level": "A2",
+    "translations": [
+      "общественный",
+      "публичный"
+    ]
+  },
+  {
+    "id": 441,
+    "positive": "österreichisch",
+    "level": "A2",
+    "translations": [
+      "австрийский"
+    ]
+  },
+  {
+    "id": 442,
+    "positive": "paar",
+    "level": "A2",
+    "translations": [
+      "парный",
+      "чётный"
+    ]
+  },
+  {
+    "id": 443,
+    "positive": "peinlich",
+    "level": "A2",
+    "translations": [
+      "неприятный",
+      "педантичный"
+    ]
+  },
+  {
+    "id": 444,
+    "positive": "perfekt",
+    "level": "A2",
+    "translations": [
+      "совершенный",
+      "законченный",
+      "превосходный"
+    ]
+  },
+  {
+    "id": 445,
+    "positive": "pessimistisch",
+    "level": "A2",
+    "translations": [
+      "пессимистический"
+    ]
+  },
+  {
+    "id": 446,
+    "positive": "pflegeleicht",
+    "level": "A2",
+    "translations": [
+      "легкий в уходе",
+      "непривередливый"
+    ]
+  },
+  {
+    "id": 447,
+    "positive": "plötzlich",
+    "level": "A2",
+    "translations": [
+      "внезапно",
+      "внезапный",
+      "неожиданный"
+    ]
+  },
+  {
+    "id": 448,
+    "positive": "poetisch",
+    "level": "A2",
+    "translations": [
+      "поэтический",
+      "поэтичный"
+    ]
+  },
+  {
+    "id": 449,
+    "positive": "preiswert",
+    "level": "A2",
+    "translations": [
+      "недорогой"
+    ]
+  },
+  {
+    "id": 450,
+    "positive": "rasch",
+    "level": "A2",
+    "translations": [
+      "быстрый",
+      "скорый"
+    ]
+  },
+  {
+    "id": 451,
+    "positive": "realistisch",
+    "level": "A2",
+    "translations": [
+      "реалистичный",
+      "реалистический"
+    ]
+  },
+  {
+    "id": 452,
+    "positive": "rechtzeitig",
+    "level": "A2",
+    "translations": [
+      "своевременный"
+    ]
+  },
+  {
+    "id": 453,
+    "positive": "reich",
+    "level": "A2",
+    "translations": [
+      "богатый"
+    ]
+  },
+  {
+    "id": 454,
+    "positive": "rein",
+    "level": "A2",
+    "translations": [
+      "чистый"
+    ]
+  },
+  {
+    "id": 455,
+    "positive": "riesig",
+    "level": "A2",
+    "translations": [
+      "огромный",
+      "гигантский"
+    ]
+  },
+  {
+    "id": 456,
+    "positive": "rockig",
+    "level": "A2",
+    "translations": [
+      "рок",
+      "роковой"
+    ]
+  },
+  {
+    "id": 457,
+    "positive": "rosa",
+    "level": "A2",
+    "translations": [
+      "розовый",
+      "гомосексуальный"
+    ]
+  },
+  {
+    "id": 458,
+    "positive": "sächsisch",
+    "level": "A2",
+    "translations": [
+      "саксонский"
+    ]
+  },
+  {
+    "id": 459,
+    "positive": "salzig",
+    "level": "A2",
+    "translations": [
+      "солёный"
+    ]
+  },
+  {
+    "id": 460,
+    "positive": "schädlich",
+    "level": "A2",
+    "translations": [
+      "вредный"
+    ]
+  },
+  {
+    "id": 461,
+    "positive": "scharf",
+    "level": "A2",
+    "translations": [
+      "острый",
+      "резкий",
+      "в боевой готовности",
+      "в боевом состоянии"
+    ]
+  },
+  {
+    "id": 462,
+    "positive": "scheußlich",
+    "level": "A2",
+    "translations": [
+      "отвратительный",
+      "ужасный"
+    ]
+  },
+  {
+    "id": 463,
+    "positive": "schlimm",
+    "level": "A2",
+    "translations": [
+      "плохой",
+      "больной",
+      "серьёзный"
+    ]
+  },
+  {
+    "id": 464,
+    "positive": "schrecklich",
+    "level": "A2",
+    "translations": [
+      "ужасный"
+    ]
+  },
+  {
+    "id": 465,
+    "positive": "schriftlich",
+    "level": "A2",
+    "translations": [
+      "письменный"
+    ]
+  },
+  {
+    "id": 466,
+    "positive": "schüchtern",
+    "level": "A2",
+    "translations": [
+      "застенчивый",
+      "нерешительный",
+      "робкий",
+      "стеснительный"
+    ]
+  },
+  {
+    "id": 467,
+    "positive": "schwach",
+    "level": "A2",
+    "translations": [
+      "слабый"
+    ]
+  },
+  {
+    "id": 468,
+    "positive": "schwanger",
+    "level": "A2",
+    "translations": [
+      "беременная"
+    ]
+  },
+  {
+    "id": 469,
+    "positive": "schweizerisch",
+    "level": "A2",
+    "translations": [
+      "швейцарский"
+    ]
+  },
+  {
+    "id": 470,
+    "positive": "schwierig",
+    "level": "A2",
+    "translations": [
+      "сложный",
+      "трудно"
+    ]
+  },
+  {
+    "id": 471,
+    "positive": "sechsfach",
+    "level": "A2",
+    "translations": [
+      "шестикратный"
+    ]
+  },
+  {
+    "id": 472,
+    "positive": "sechshundertste",
+    "level": "A2",
+    "translations": [
+      "шестьсотый"
+    ]
+  },
+  {
+    "id": 473,
+    "positive": "sechsmalig",
+    "level": "A2",
+    "translations": [
+      "шестикратный",
+      "шестиразовый"
+    ]
+  },
+  {
+    "id": 474,
+    "positive": "sechstausendste",
+    "level": "A2",
+    "translations": [
+      "шеститысячный"
+    ]
+  },
+  {
+    "id": 475,
+    "positive": "sechste",
+    "level": "A2",
+    "translations": [
+      "шестой"
+    ]
+  },
+  {
+    "id": 476,
+    "positive": "sechstel",
+    "level": "A2",
+    "translations": [
+      "шестая часть"
+    ]
+  },
+  {
+    "id": 477,
+    "positive": "sechzehnte",
+    "level": "A2",
+    "translations": [
+      "шестнадцатый"
+    ]
+  },
+  {
+    "id": 478,
+    "positive": "sechzigste",
+    "level": "A2",
+    "translations": [
+      "шестидесятый"
+    ]
+  },
+  {
+    "id": 479,
+    "positive": "sehbehindert",
+    "level": "A2",
+    "translations": [
+      "слабовидящий"
+    ]
+  },
+  {
+    "id": 480,
+    "positive": "selten",
+    "level": "A2",
+    "translations": [
+      "редкий",
+      "редко"
+    ]
+  },
+  {
+    "id": 481,
+    "positive": "sensibel",
+    "level": "A2",
+    "translations": [
+      "чувствительный"
+    ]
+  },
+  {
+    "id": 482,
+    "positive": "sicher",
+    "level": "A2",
+    "translations": [
+      "безопасный",
+      "точно",
+      "самоуверенный",
+      "уверенный"
+    ]
+  },
+  {
+    "id": 483,
+    "positive": "siebenfach",
+    "level": "A2",
+    "translations": [
+      "семикратный"
+    ]
+  },
+  {
+    "id": 484,
+    "positive": "siebenhundertste",
+    "level": "A2",
+    "translations": [
+      "семисотый"
+    ]
+  },
+  {
+    "id": 485,
+    "positive": "siebenmalig",
+    "level": "A2",
+    "translations": [
+      "семикратный"
+    ]
+  },
+  {
+    "id": 486,
+    "positive": "siebentausendste",
+    "level": "A2",
+    "translations": [
+      "семитысячный"
+    ]
+  },
+  {
+    "id": 487,
+    "positive": "siebente",
+    "level": "A2",
+    "translations": [
+      "седьмой"
+    ]
+  },
+  {
+    "id": 488,
+    "positive": "siebte",
+    "level": "A2",
+    "translations": [
+      "седьмой"
+    ]
+  },
+  {
+    "id": 489,
+    "positive": "siebtel",
+    "level": "A2",
+    "translations": [
+      "седьмой",
+      "седьмая"
+    ]
+  },
+  {
+    "id": 490,
+    "positive": "siebzehnte",
+    "level": "A2",
+    "translations": [
+      "семнадцатый"
+    ]
+  },
+  {
+    "id": 491,
+    "positive": "siebzigste",
+    "level": "A2",
+    "translations": [
+      "семидесятый"
+    ]
+  },
+  {
+    "id": 492,
+    "positive": "sinnvoll",
+    "level": "A2",
+    "translations": [
+      "осмысленный",
+      "смышлёный",
+      "умный"
+    ]
+  },
+  {
+    "id": 493,
+    "positive": "skeptisch",
+    "level": "A2",
+    "translations": [
+      "скептичный"
+    ]
+  },
+  {
+    "id": 494,
+    "positive": "sogenannt",
+    "level": "A2",
+    "translations": [
+      "так называемый"
+    ]
+  },
+  {
+    "id": 495,
+    "positive": "sonnig",
+    "level": "A2",
+    "translations": [
+      "солнечный"
+    ]
+  },
+  {
+    "id": 496,
+    "positive": "spannend",
+    "level": "A2",
+    "translations": [
+      "увлекательный",
+      "захватывающий"
+    ]
+  },
+  {
+    "id": 497,
+    "positive": "stabil",
+    "level": "A2",
+    "translations": [
+      "стабильный"
+    ]
+  },
+  {
+    "id": 498,
+    "positive": "ständig",
+    "level": "A2",
+    "translations": [
+      "постоянный"
+    ]
+  },
+  {
+    "id": 499,
+    "positive": "starr",
+    "level": "A2",
+    "translations": [
+      "неподвижный",
+      "неизменный"
+    ]
+  },
+  {
+    "id": 500,
+    "positive": "stressfrei",
+    "level": "A2",
+    "translations": [
+      "без стресса"
+    ]
+  },
+  {
+    "id": 501,
+    "positive": "sympathisch",
+    "level": "A2",
+    "translations": [
+      "приятный",
+      "симпатичный"
+    ]
+  },
+  {
+    "id": 502,
+    "positive": "tausendfach",
+    "level": "A2",
+    "translations": [
+      "многократный"
+    ]
+  },
+  {
+    "id": 503,
+    "positive": "tausendste",
+    "level": "A2",
+    "translations": [
+      "тысячный"
+    ]
+  },
+  {
+    "id": 504,
+    "positive": "tausendstel",
+    "level": "A2",
+    "translations": [
+      "одна тысячная"
+    ]
+  },
+  {
+    "id": 505,
+    "positive": "technisch",
+    "level": "A2",
+    "translations": [
+      "технический"
+    ]
+  },
+  {
+    "id": 506,
+    "positive": "tief",
+    "level": "A2",
+    "translations": [
+      "глубокий",
+      "низкий",
+      "тёмный"
+    ]
+  },
+  {
+    "id": 507,
+    "positive": "traditionell",
+    "level": "A2",
+    "translations": [
+      "традиционный"
+    ]
+  },
+  {
+    "id": 508,
+    "positive": "treu",
+    "level": "A2",
+    "translations": [
+      "верный",
+      "преданный"
+    ]
+  },
+  {
+    "id": 509,
+    "positive": "trocken",
+    "level": "A2",
+    "translations": [
+      "сухой"
+    ]
+  },
+  {
+    "id": 510,
+    "positive": "unangenehm",
+    "level": "A2",
+    "translations": [
+      "неприятный"
+    ]
+  },
+  {
+    "id": 511,
+    "positive": "unbedingt",
+    "level": "A2",
+    "translations": [
+      "абсолютный",
+      "безусловный"
+    ]
+  },
+  {
+    "id": 512,
+    "positive": "uncool",
+    "level": "A2",
+    "translations": [
+      "некрутой",
+      "неподходящий",
+      "неприемлемый"
+    ]
+  },
+  {
+    "id": 513,
+    "positive": "unerträglich",
+    "level": "A2",
+    "translations": [
+      "невыносимый"
+    ]
+  },
+  {
+    "id": 514,
+    "positive": "unfreundlich",
+    "level": "A2",
+    "translations": [
+      "враждебный",
+      "не дружелюбный",
+      "недружелюбный"
+    ]
+  },
+  {
+    "id": 515,
+    "positive": "ungeduldig",
+    "level": "A2",
+    "translations": [
+      "нетерпеливый"
+    ]
+  },
+  {
+    "id": 516,
+    "positive": "unglücklich",
+    "level": "A2",
+    "translations": [
+      "несчастный"
+    ]
+  },
+  {
+    "id": 517,
+    "positive": "unheimlich",
+    "level": "A2",
+    "translations": [
+      "жуткий"
+    ]
+  },
+  {
+    "id": 518,
+    "positive": "unhöflich",
+    "level": "A2",
+    "translations": [
+      "невежливый"
+    ]
+  },
+  {
+    "id": 519,
+    "positive": "uninteressant",
+    "level": "A2",
+    "translations": [
+      "безынтересный",
+      "незанимательный"
+    ]
+  },
+  {
+    "id": 520,
+    "positive": "unmodern",
+    "level": "A2",
+    "translations": [
+      "неактуальный",
+      "устаревший"
+    ]
+  },
+  {
+    "id": 521,
+    "positive": "unmöglich",
+    "level": "A2",
+    "translations": [
+      "невозможный",
+      "невыносимый",
+      "невероятный",
+      "невыполнимый",
+      "нестерпимый"
+    ]
+  },
+  {
+    "id": 522,
+    "positive": "unnatürlich",
+    "level": "A2",
+    "translations": [
+      "неестественный"
+    ]
+  },
+  {
+    "id": 523,
+    "positive": "unpraktisch",
+    "level": "A2",
+    "translations": [
+      "непрактичный",
+      "неудобный"
+    ]
+  },
+  {
+    "id": 524,
+    "positive": "unruhig",
+    "level": "A2",
+    "translations": [
+      "беспокойный",
+      "неспокойный"
+    ]
+  },
+  {
+    "id": 525,
+    "positive": "unsicher",
+    "level": "A2",
+    "translations": [
+      "неуверенный"
+    ]
+  },
+  {
+    "id": 526,
+    "positive": "unterschiedlich",
+    "level": "A2",
+    "translations": [
+      "различный",
+      "разный",
+      "другой",
+      "иной"
+    ]
+  },
+  {
+    "id": 527,
+    "positive": "untrennbar",
+    "level": "A2",
+    "translations": [
+      "неразрывный"
+    ]
+  },
+  {
+    "id": 528,
+    "positive": "untypisch",
+    "level": "A2",
+    "translations": [
+      "нетипичный"
+    ]
+  },
+  {
+    "id": 529,
+    "positive": "unzufrieden",
+    "level": "A2",
+    "translations": [
+      "недовольный"
+    ]
+  },
+  {
+    "id": 530,
+    "positive": "vierfach",
+    "level": "A2",
+    "translations": [
+      "четырехкратный"
+    ]
+  },
+  {
+    "id": 531,
+    "positive": "vierhundertste",
+    "level": "A2",
+    "translations": [
+      "четырехсотый",
+      "четыреста"
+    ]
+  },
+  {
+    "id": 532,
+    "positive": "viermalig",
+    "level": "A2",
+    "translations": [
+      "четыре раза"
+    ]
+  },
+  {
+    "id": 533,
+    "positive": "viertausendste",
+    "level": "A2",
+    "translations": [
+      "четырехтысячный"
+    ]
+  },
+  {
+    "id": 534,
+    "positive": "vierte",
+    "level": "A2",
+    "translations": [
+      "четвёртый"
+    ]
+  },
+  {
+    "id": 535,
+    "positive": "viertel",
+    "level": "A2",
+    "translations": [
+      "четверть"
+    ]
+  },
+  {
+    "id": 536,
+    "positive": "vierzehnte",
+    "level": "A2",
+    "translations": [
+      "четырнадцатый"
+    ]
+  },
+  {
+    "id": 537,
+    "positive": "vierzigste",
+    "level": "A2",
+    "translations": [
+      "сороковой"
+    ]
+  },
+  {
+    "id": 538,
+    "positive": "völlig",
+    "level": "A2",
+    "translations": [
+      "абсолютно",
+      "вполне",
+      "полност",
+      "полный",
+      "совершенно"
+    ]
+  },
+  {
+    "id": 539,
+    "positive": "vorsichtig",
+    "level": "A2",
+    "translations": [
+      "благоразумный",
+      "осторожно"
+    ]
+  },
+  {
+    "id": 540,
+    "positive": "wach",
+    "level": "A2",
+    "translations": [
+      "бодрый",
+      "бодрствующий"
+    ]
+  },
+  {
+    "id": 541,
+    "positive": "wasserdicht",
+    "level": "A2",
+    "translations": [
+      "водонепроницаемый"
+    ]
+  },
+  {
+    "id": 542,
+    "positive": "weitere",
+    "level": "A2",
+    "translations": [
+      "дополнительная",
+      "дополнительный"
+    ]
+  },
+  {
+    "id": 543,
+    "positive": "weltweit",
+    "level": "A2",
+    "translations": [
+      "всемирный"
+    ]
+  },
+  {
+    "id": 544,
+    "positive": "wild",
+    "level": "A2",
+    "translations": [
+      "дикий",
+      "бешеный",
+      "бушующий"
+    ]
+  },
+  {
+    "id": 545,
+    "positive": "witzig",
+    "level": "A2",
+    "translations": [
+      "забавный",
+      "смешной",
+      "остроумный"
+    ]
+  },
+  {
+    "id": 546,
+    "positive": "wütend",
+    "level": "A2",
+    "translations": [
+      "свирепый",
+      "яростный"
+    ]
+  },
+  {
+    "id": 547,
+    "positive": "wunderschön",
+    "level": "A2",
+    "translations": [
+      "прекрасный"
+    ]
+  },
+  {
+    "id": 548,
+    "positive": "zahlreich",
+    "level": "A2",
+    "translations": [
+      "многочисленный"
+    ]
+  },
+  {
+    "id": 549,
+    "positive": "zehnfach",
+    "level": "A2",
+    "translations": [
+      "десятикратный"
+    ]
+  },
+  {
+    "id": 550,
+    "positive": "zehnmalig",
+    "level": "A2",
+    "translations": [
+      "десятикратный"
+    ]
+  },
+  {
+    "id": 551,
+    "positive": "zehntausendste",
+    "level": "A2",
+    "translations": [
+      "десятитысячный"
+    ]
+  },
+  {
+    "id": 552,
+    "positive": "zehnte",
+    "level": "A2",
+    "translations": [
+      "десятый"
+    ]
+  },
+  {
+    "id": 553,
+    "positive": "zehntel",
+    "level": "A2",
+    "translations": [
+      "одна десятая"
+    ]
+  },
+  {
+    "id": 554,
+    "positive": "ziemlich",
+    "level": "A2",
+    "translations": [
+      "довольно"
+    ]
+  },
+  {
+    "id": 555,
+    "positive": "zufällig",
+    "level": "A2",
+    "translations": [
+      "случайный"
+    ]
+  },
+  {
+    "id": 556,
+    "positive": "zwanzigste",
+    "level": "A2",
+    "translations": [
+      "двадцатый"
+    ]
+  },
+  {
+    "id": 557,
+    "positive": "zweifach",
+    "level": "A2",
+    "translations": [
+      "двукратный",
+      "двойной"
+    ]
+  },
+  {
+    "id": 558,
+    "positive": "zweihundertste",
+    "level": "A2",
+    "translations": [
+      "двухсотый"
+    ]
+  },
+  {
+    "id": 559,
+    "positive": "zweimalig",
+    "level": "A2",
+    "translations": [
+      "дважды",
+      "двукратный"
+    ]
+  },
+  {
+    "id": 560,
+    "positive": "zweitausendste",
+    "level": "A2",
+    "translations": [
+      "двухтысячный"
+    ]
+  },
+  {
+    "id": 561,
+    "positive": "zwölfmalig",
+    "level": "A2",
+    "translations": [
+      "двенадцатикратный"
+    ]
+  },
+  {
+    "id": 562,
+    "positive": "zwölfte",
+    "level": "A2",
+    "translations": [
+      "двенадцатый"
+    ]
+  },
+  {
+    "id": 563,
+    "positive": "zwölftel",
+    "level": "A2",
+    "translations": [
+      "двенадцатая часть",
+      "двенадцатая"
+    ]
+  },
+  {
+    "id": 564,
+    "positive": "abgeschlossen",
+    "level": "B1",
+    "translations": [
+      "законченный",
+      "изолированный"
+    ]
+  },
+  {
+    "id": 565,
+    "positive": "abhängig",
+    "level": "B1",
+    "translations": [
+      "зависимый"
+    ]
+  },
+  {
+    "id": 566,
+    "positive": "absolut",
+    "level": "B1",
+    "translations": [
+      "абсолютный"
+    ]
+  },
+  {
+    "id": 567,
+    "positive": "alleinerziehend",
+    "level": "B1",
+    "translations": [
+      "одиноко воспитывающий",
+      "одиночка"
+    ]
+  },
+  {
+    "id": 568,
+    "positive": "alltäglich",
+    "level": "B1",
+    "translations": [
+      "повседневный"
+    ]
+  },
+  {
+    "id": 569,
+    "positive": "amerikanisch",
+    "level": "B1",
+    "translations": [
+      "американский"
+    ]
+  },
+  {
+    "id": 570,
+    "positive": "angenehm",
+    "level": "B1",
+    "translations": [
+      "приятный",
+      "приятно"
+    ]
+  },
+  {
+    "id": 571,
+    "positive": "anwesend",
+    "level": "B1",
+    "translations": [
+      "присутствующий"
+    ]
+  },
+  {
+    "id": 572,
+    "positive": "auffällig",
+    "level": "B1",
+    "translations": [
+      "выделяющийся",
+      "необычный"
+    ]
+  },
+  {
+    "id": 573,
+    "positive": "aufmerksam",
+    "level": "B1",
+    "translations": [
+      "внимательный"
+    ]
+  },
+  {
+    "id": 574,
+    "positive": "ausnahmslos",
+    "level": "B1",
+    "translations": [
+      "без исключений"
+    ]
+  },
+  {
+    "id": 575,
+    "positive": "aussagekräftig",
+    "level": "B1",
+    "translations": [
+      "выразительный",
+      "информативный"
+    ]
+  },
+  {
+    "id": 576,
+    "positive": "ausschließlich",
+    "level": "B1",
+    "translations": [
+      "исключительный"
+    ]
+  },
+  {
+    "id": 577,
+    "positive": "außergewöhnlich",
+    "level": "B1",
+    "translations": [
+      "необычный",
+      "особенный"
+    ]
+  },
+  {
+    "id": 578,
+    "positive": "autoritär",
+    "level": "B1",
+    "translations": [
+      "авторитарный"
+    ]
+  },
+  {
+    "id": 579,
+    "positive": "ätzend",
+    "level": "B1",
+    "translations": [
+      "едкий",
+      "разъедающий"
+    ]
+  },
+  {
+    "id": 580,
+    "positive": "äußerlich",
+    "level": "B1",
+    "translations": [
+      "внешний",
+      "наружный",
+      "поверхностный"
+    ]
+  },
+  {
+    "id": 581,
+    "positive": "baldig",
+    "level": "B1",
+    "translations": [
+      "скоро"
+    ]
+  },
+  {
+    "id": 582,
+    "positive": "banal",
+    "level": "B1",
+    "translations": [
+      "банальный"
+    ]
+  },
+  {
+    "id": 583,
+    "positive": "bedürftig",
+    "level": "B1",
+    "translations": [
+      "нуждающийся"
+    ]
+  },
+  {
+    "id": 584,
+    "positive": "befriedigend",
+    "level": "B1",
+    "translations": [
+      "удовлетворительный"
+    ]
+  },
+  {
+    "id": 585,
+    "positive": "begrenzt",
+    "level": "B1",
+    "translations": [
+      "ограниченный"
+    ]
+  },
+  {
+    "id": 586,
+    "positive": "behindert",
+    "level": "B1",
+    "translations": [
+      "больной"
+    ]
+  },
+  {
+    "id": 587,
+    "positive": "berechtigt",
+    "level": "B1",
+    "translations": [
+      "обоснованный",
+      "уполномоченный"
+    ]
+  },
+  {
+    "id": 588,
+    "positive": "bereit",
+    "level": "B1",
+    "translations": [
+      "готовый"
+    ]
+  },
+  {
+    "id": 589,
+    "positive": "berufstätig",
+    "level": "B1",
+    "translations": [
+      "работающий"
+    ]
+  },
+  {
+    "id": 590,
+    "positive": "beunruhigend",
+    "level": "B1",
+    "translations": [
+      "беспокойный",
+      "тревожный"
+    ]
+  },
+  {
+    "id": 591,
+    "positive": "biologisch",
+    "level": "B1",
+    "translations": [
+      "биологический"
+    ]
+  },
+  {
+    "id": 592,
+    "positive": "blass",
+    "level": "B1",
+    "translations": [
+      "бледный"
+    ]
+  },
+  {
+    "id": 593,
+    "positive": "bleich",
+    "level": "B1",
+    "translations": [
+      "бледный"
+    ]
+  },
+  {
+    "id": 594,
+    "positive": "blutig",
+    "level": "B1",
+    "translations": [
+      "кровавый",
+      "кровопролитный"
+    ]
+  },
+  {
+    "id": 595,
+    "positive": "bundesweit",
+    "level": "B1",
+    "translations": [
+      "федеральный"
+    ]
+  },
+  {
+    "id": 596,
+    "positive": "damalig",
+    "level": "B1",
+    "translations": [
+      "прошедший",
+      "тогдашний"
+    ]
+  },
+  {
+    "id": 597,
+    "positive": "dankbar",
+    "level": "B1",
+    "translations": [
+      "благодарный"
+    ]
+  },
+  {
+    "id": 598,
+    "positive": "dauerhaft",
+    "level": "B1",
+    "translations": [
+      "долговечный",
+      "постоянный"
+    ]
+  },
+  {
+    "id": 599,
+    "positive": "dauernd",
+    "level": "B1",
+    "translations": [
+      "постоянный",
+      "непрерывный"
+    ]
+  },
+  {
+    "id": 600,
+    "positive": "demokratisch",
+    "level": "B1",
+    "translations": [
+      "демократический",
+      "демократичный"
+    ]
+  },
+  {
+    "id": 601,
+    "positive": "diätisch",
+    "level": "B1",
+    "translations": [
+      "диетический"
+    ]
+  },
+  {
+    "id": 602,
+    "positive": "dicht",
+    "level": "B1",
+    "translations": [
+      "плотный",
+      "густой"
+    ]
+  },
+  {
+    "id": 603,
+    "positive": "digital",
+    "level": "B1",
+    "translations": [
+      "цифровой",
+      "цифровое"
+    ]
+  },
+  {
+    "id": 604,
+    "positive": "diplomatisch",
+    "level": "B1",
+    "translations": [
+      "дипломатический",
+      "дипломатичный"
+    ]
+  },
+  {
+    "id": 605,
+    "positive": "dunkelhaarig",
+    "level": "B1",
+    "translations": [
+      "темноволосый"
+    ]
+  },
+  {
+    "id": 606,
+    "positive": "dutzend",
+    "level": "B1",
+    "translations": [
+      "дюжина"
+    ]
+  },
+  {
+    "id": 607,
+    "positive": "eben",
+    "level": "B1",
+    "translations": [
+      "гладкий",
+      "ровный",
+      "плоский",
+      "равный"
+    ]
+  },
+  {
+    "id": 608,
+    "positive": "effizient",
+    "level": "B1",
+    "translations": [
+      "эффективный"
+    ]
+  },
+  {
+    "id": 609,
+    "positive": "ehemalig",
+    "level": "B1",
+    "translations": [
+      "бывший",
+      "прежний"
+    ]
+  },
+  {
+    "id": 610,
+    "positive": "ehrenamtlich",
+    "level": "B1",
+    "translations": [
+      "добровольный",
+      "волонтерский"
+    ]
+  },
+  {
+    "id": 611,
+    "positive": "eifersüchtig",
+    "level": "B1",
+    "translations": [
+      "ревнивый"
+    ]
+  },
+  {
+    "id": 612,
+    "positive": "eindeutig",
+    "level": "B1",
+    "translations": [
+      "ясный"
+    ]
+  },
+  {
+    "id": 613,
+    "positive": "einheitlich",
+    "level": "B1",
+    "translations": [
+      "единый"
+    ]
+  },
+  {
+    "id": 614,
+    "positive": "einzeln",
+    "level": "B1",
+    "translations": [
+      "отдельный",
+      "индивидуальный"
+    ]
+  },
+  {
+    "id": 615,
+    "positive": "einzigartig",
+    "level": "B1",
+    "translations": [
+      "единственный",
+      "неповторимый",
+      "уникальный"
+    ]
+  },
+  {
+    "id": 616,
+    "positive": "eisern",
+    "level": "B1",
+    "translations": [
+      "железный"
+    ]
+  },
+  {
+    "id": 617,
+    "positive": "eklig",
+    "level": "B1",
+    "translations": [
+      "отвратительный"
+    ]
+  },
+  {
+    "id": 618,
+    "positive": "endgültig",
+    "level": "B1",
+    "translations": [
+      "окончательный"
+    ]
+  },
+  {
+    "id": 619,
+    "positive": "endlos",
+    "level": "B1",
+    "translations": [
+      "бесконечный",
+      "непрерывный"
+    ]
+  },
+  {
+    "id": 620,
+    "positive": "entzwei",
+    "level": "B1",
+    "translations": [
+      "поломанный",
+      "раскрошившийся"
+    ]
+  },
+  {
+    "id": 621,
+    "positive": "erforderlich",
+    "level": "B1",
+    "translations": [
+      "необходимый"
+    ]
+  },
+  {
+    "id": 622,
+    "positive": "erholsam",
+    "level": "B1",
+    "translations": [
+      "восстанавливающий",
+      "релаксирующий"
+    ]
+  },
+  {
+    "id": 623,
+    "positive": "ernst",
+    "level": "B1",
+    "translations": [
+      "серьезный"
+    ]
+  },
+  {
+    "id": 624,
+    "positive": "ernsthaft",
+    "level": "B1",
+    "translations": [
+      "серьёзный",
+      "всерьёз"
+    ]
+  },
+  {
+    "id": 625,
+    "positive": "eventuell",
+    "level": "B1",
+    "translations": [
+      "вероятно",
+      "возможный"
+    ]
+  },
+  {
+    "id": 626,
+    "positive": "exotisch",
+    "level": "B1",
+    "translations": [
+      "экзотический",
+      "экзотичный"
+    ]
+  },
+  {
+    "id": 627,
+    "positive": "extrem",
+    "level": "B1",
+    "translations": [
+      "экстремальный",
+      "крайний",
+      "чрезмерный"
+    ]
+  },
+  {
+    "id": 628,
+    "positive": "fällig",
+    "level": "B1",
+    "translations": [
+      "срок",
+      "должный",
+      "необходимый",
+      "предназначенный для борьбы или уничтожения"
+    ]
+  },
+  {
+    "id": 629,
+    "positive": "fantasievoll",
+    "level": "B1",
+    "translations": [
+      "креативный",
+      "фантазийный"
+    ]
+  },
+  {
+    "id": 630,
+    "positive": "farbig",
+    "level": "B1",
+    "translations": [
+      "цветной",
+      "яркий",
+      "образный"
+    ]
+  },
+  {
+    "id": 631,
+    "positive": "feierlich",
+    "level": "B1",
+    "translations": [
+      "праздничный",
+      "торжественный"
+    ]
+  },
+  {
+    "id": 632,
+    "positive": "fettig",
+    "level": "B1",
+    "translations": [
+      "жирный"
+    ]
+  },
+  {
+    "id": 633,
+    "positive": "feucht",
+    "level": "B1",
+    "translations": [
+      "влажный"
+    ]
+  },
+  {
+    "id": 634,
+    "positive": "finanziell",
+    "level": "B1",
+    "translations": [
+      "финансовый",
+      "денежный"
+    ]
+  },
+  {
+    "id": 635,
+    "positive": "finster",
+    "level": "B1",
+    "translations": [
+      "мрачный",
+      "темный",
+      "отсталый",
+      "угрюмый"
+    ]
+  },
+  {
+    "id": 636,
+    "positive": "flach",
+    "level": "B1",
+    "translations": [
+      "плоский",
+      "неглубокий"
+    ]
+  },
+  {
+    "id": 637,
+    "positive": "flüssig",
+    "level": "B1",
+    "translations": [
+      "жидкий",
+      "текучий"
+    ]
+  },
+  {
+    "id": 638,
+    "positive": "fortschrittlich",
+    "level": "B1",
+    "translations": [
+      "современный"
+    ]
+  },
+  {
+    "id": 639,
+    "positive": "frech",
+    "level": "B1",
+    "translations": [
+      "дерзкий",
+      "наглый",
+      "нахальный"
+    ]
+  },
+  {
+    "id": 640,
+    "positive": "fruchtbar",
+    "level": "B1",
+    "translations": [
+      "плодовитый"
+    ]
+  },
+  {
+    "id": 641,
+    "positive": "geduldig",
+    "level": "B1",
+    "translations": [
+      "терпеливый"
+    ]
+  },
+  {
+    "id": 642,
+    "positive": "geeignet",
+    "level": "B1",
+    "translations": [
+      "подходящий",
+      "пригодный"
+    ]
+  },
+  {
+    "id": 643,
+    "positive": "geheim",
+    "level": "B1",
+    "translations": [
+      "секретный",
+      "тайный"
+    ]
+  },
+  {
+    "id": 644,
+    "positive": "geil",
+    "level": "B1",
+    "translations": [
+      "крутой",
+      "сексуальный",
+      "буйный",
+      "заебательский",
+      "зашибательский",
+      "офигенный",
+      "охрененный",
+      "охуенный",
+      "плодородный",
+      "страстный"
+    ]
+  },
+  {
+    "id": 645,
+    "positive": "gell",
+    "level": "B1",
+    "translations": [
+      "пронзительный"
+    ]
+  },
+  {
+    "id": 646,
+    "positive": "geometrisch",
+    "level": "B1",
+    "translations": [
+      "геометрический"
+    ]
+  },
+  {
+    "id": 647,
+    "positive": "gepflegt",
+    "level": "B1",
+    "translations": [
+      "ухоженный"
+    ]
+  },
+  {
+    "id": 648,
+    "positive": "geregelt",
+    "level": "B1",
+    "translations": [
+      "упорядоченный"
+    ]
+  },
+  {
+    "id": 649,
+    "positive": "gering",
+    "level": "B1",
+    "translations": [
+      "незначительный",
+      "малый",
+      "небольшой",
+      "низкий"
+    ]
+  },
+  {
+    "id": 650,
+    "positive": "gesamt",
+    "level": "B1",
+    "translations": [
+      "весь"
+    ]
+  },
+  {
+    "id": 651,
+    "positive": "geschmacklos",
+    "level": "B1",
+    "translations": [
+      "безвкусный"
+    ]
+  },
+  {
+    "id": 652,
+    "positive": "gewöhnlich",
+    "level": "B1",
+    "translations": [
+      "обычный",
+      "обыкновенный",
+      "нормальный"
+    ]
+  },
+  {
+    "id": 653,
+    "positive": "gewohnt",
+    "level": "B1",
+    "translations": [
+      "привычный"
+    ]
+  },
+  {
+    "id": 654,
+    "positive": "giftig",
+    "level": "B1",
+    "translations": [
+      "ядовитый",
+      "отравленный"
+    ]
+  },
+  {
+    "id": 655,
+    "positive": "glatt",
+    "level": "B1",
+    "translations": [
+      "гладкий",
+      "ровно"
+    ]
+  },
+  {
+    "id": 656,
+    "positive": "gleichberechtigt",
+    "level": "B1",
+    "translations": [
+      "равноправный"
+    ]
+  },
+  {
+    "id": 657,
+    "positive": "gleichbleibend",
+    "level": "B1",
+    "translations": [
+      "неизменный",
+      "постоянный"
+    ]
+  },
+  {
+    "id": 658,
+    "positive": "global",
+    "level": "B1",
+    "translations": [
+      "глобальный",
+      "всеобъемлющий",
+      "мировой"
+    ]
+  },
+  {
+    "id": 659,
+    "positive": "grafisch",
+    "level": "B1",
+    "translations": [
+      "графический"
+    ]
+  },
+  {
+    "id": 660,
+    "positive": "grandios",
+    "level": "B1",
+    "translations": [
+      "грандиозный"
+    ]
+  },
+  {
+    "id": 661,
+    "positive": "großzügig",
+    "level": "B1",
+    "translations": [
+      "щедрый",
+      "великодушный"
+    ]
+  },
+  {
+    "id": 662,
+    "positive": "gründlich",
+    "level": "B1",
+    "translations": [
+      "основательный",
+      "тщательный",
+      "глубокий"
+    ]
+  },
+  {
+    "id": 663,
+    "positive": "haltbar",
+    "level": "B1",
+    "translations": [
+      "долговечный",
+      "прочный"
+    ]
+  },
+  {
+    "id": 664,
+    "positive": "heimlich",
+    "level": "B1",
+    "translations": [
+      "тайный",
+      "секретный",
+      "скрытный"
+    ]
+  },
+  {
+    "id": 665,
+    "positive": "hervorragend",
+    "level": "B1",
+    "translations": [
+      "выдающийся",
+      "замечательный"
+    ]
+  },
+  {
+    "id": 666,
+    "positive": "heutig",
+    "level": "B1",
+    "translations": [
+      "нынешний",
+      "сегодняшний",
+      "современный",
+      "теперешний"
+    ]
+  },
+  {
+    "id": 667,
+    "positive": "humorvoll",
+    "level": "B1",
+    "translations": [
+      "юмористический",
+      "с юмором",
+      "смешной"
+    ]
+  },
+  {
+    "id": 668,
+    "positive": "illegal",
+    "level": "B1",
+    "translations": [
+      "незаконный"
+    ]
+  },
+  {
+    "id": 669,
+    "positive": "inbegriffen",
+    "level": "B1",
+    "translations": [
+      "включая",
+      "включительно"
+    ]
+  },
+  {
+    "id": 670,
+    "positive": "indianisch",
+    "level": "B1",
+    "translations": [
+      "индейский"
+    ]
+  },
+  {
+    "id": 671,
+    "positive": "inhaltlich",
+    "level": "B1",
+    "translations": [
+      "по содержанию",
+      "содержательный"
+    ]
+  },
+  {
+    "id": 672,
+    "positive": "innig",
+    "level": "B1",
+    "translations": [
+      "глубокий",
+      "интимный"
+    ]
+  },
+  {
+    "id": 673,
+    "positive": "interkulturell",
+    "level": "B1",
+    "translations": [
+      "интеркультурно"
+    ]
+  },
+  {
+    "id": 674,
+    "positive": "jetzig",
+    "level": "B1",
+    "translations": [
+      "текущий",
+      "нынешний",
+      "теперешний"
+    ]
+  },
+  {
+    "id": 675,
+    "positive": "katholisch",
+    "level": "B1",
+    "translations": [
+      "католический"
+    ]
+  },
+  {
+    "id": 676,
+    "positive": "körperlich",
+    "level": "B1",
+    "translations": [
+      "телесный",
+      "физический",
+      "вещественный",
+      "материальный"
+    ]
+  },
+  {
+    "id": 677,
+    "positive": "komfortabel",
+    "level": "B1",
+    "translations": [
+      "комфортный",
+      "удобный"
+    ]
+  },
+  {
+    "id": 678,
+    "positive": "kommerziell",
+    "level": "B1",
+    "translations": [
+      "коммерческий"
+    ]
+  },
+  {
+    "id": 679,
+    "positive": "kompetent",
+    "level": "B1",
+    "translations": [
+      "компетентный"
+    ]
+  },
+  {
+    "id": 680,
+    "positive": "konservativ",
+    "level": "B1",
+    "translations": [
+      "консервативный"
+    ]
+  },
+  {
+    "id": 681,
+    "positive": "konstant",
+    "level": "B1",
+    "translations": [
+      "постоянный"
+    ]
+  },
+  {
+    "id": 682,
+    "positive": "konzentriert",
+    "level": "B1",
+    "translations": [
+      "сосредоточенный"
+    ]
+  },
+  {
+    "id": 683,
+    "positive": "kostbar",
+    "level": "B1",
+    "translations": [
+      "драгоценный"
+    ]
+  },
+  {
+    "id": 684,
+    "positive": "kräftig",
+    "level": "B1",
+    "translations": [
+      "сильный",
+      "ядрёный"
+    ]
+  },
+  {
+    "id": 685,
+    "positive": "kraftlos",
+    "level": "B1",
+    "translations": [
+      "бессильный"
+    ]
+  },
+  {
+    "id": 686,
+    "positive": "künstlerisch",
+    "level": "B1",
+    "translations": [
+      "художественный"
+    ]
+  },
+  {
+    "id": 687,
+    "positive": "künstlich",
+    "level": "B1",
+    "translations": [
+      "искусственный",
+      "неестественный"
+    ]
+  },
+  {
+    "id": 688,
+    "positive": "kulinarisch",
+    "level": "B1",
+    "translations": [
+      "кулинарный"
+    ]
+  },
+  {
+    "id": 689,
+    "positive": "kurzfristig",
+    "level": "B1",
+    "translations": [
+      "краткосрочный"
+    ]
+  },
+  {
+    "id": 690,
+    "positive": "längerfristig",
+    "level": "B1",
+    "translations": [
+      "долгосрочный"
+    ]
+  },
+  {
+    "id": 691,
+    "positive": "lauwarm",
+    "level": "B1",
+    "translations": [
+      "чуть тёплый"
+    ]
+  },
+  {
+    "id": 692,
+    "positive": "lebenswert",
+    "level": "B1",
+    "translations": [
+      "достойный жизни",
+      "жизнеспособный"
+    ]
+  },
+  {
+    "id": 693,
+    "positive": "legal",
+    "level": "B1",
+    "translations": [
+      "легальный"
+    ]
+  },
+  {
+    "id": 694,
+    "positive": "mager",
+    "level": "B1",
+    "translations": [
+      "тощий",
+      "худой",
+      "постный"
+    ]
+  },
+  {
+    "id": 695,
+    "positive": "melodisch",
+    "level": "B1",
+    "translations": [
+      "мелодичный"
+    ]
+  },
+  {
+    "id": 696,
+    "positive": "menschlich",
+    "level": "B1",
+    "translations": [
+      "гуманный",
+      "человеческий",
+      "человечный"
+    ]
+  },
+  {
+    "id": 697,
+    "positive": "mental",
+    "level": "B1",
+    "translations": [
+      "умственный",
+      "ментальный"
+    ]
+  },
+  {
+    "id": 698,
+    "positive": "merkwürdig",
+    "level": "B1",
+    "translations": [
+      "странный",
+      "удивительный"
+    ]
+  },
+  {
+    "id": 699,
+    "positive": "mittelalterlich",
+    "level": "B1",
+    "translations": [
+      "средневековый"
+    ]
+  },
+  {
+    "id": 700,
+    "positive": "momentan",
+    "level": "B1",
+    "translations": [
+      "в данный момент",
+      "сейчас"
+    ]
+  },
+  {
+    "id": 701,
+    "positive": "motiviert",
+    "level": "B1",
+    "translations": [
+      "мотивированный"
+    ]
+  },
+  {
+    "id": 702,
+    "positive": "musikalisch",
+    "level": "B1",
+    "translations": [
+      "музыкальный"
+    ]
+  },
+  {
+    "id": 703,
+    "positive": "mutig",
+    "level": "B1",
+    "translations": [
+      "мужественный",
+      "отважный",
+      "смелый"
+    ]
+  },
+  {
+    "id": 704,
+    "positive": "nächtlich",
+    "level": "B1",
+    "translations": [
+      "ночной"
+    ]
+  },
+  {
+    "id": 705,
+    "positive": "national",
+    "level": "B1",
+    "translations": [
+      "национальный"
+    ]
+  },
+  {
+    "id": 706,
+    "positive": "neidisch",
+    "level": "B1",
+    "translations": [
+      "завистливый"
+    ]
+  },
+  {
+    "id": 707,
+    "positive": "neidlos",
+    "level": "B1",
+    "translations": [
+      "без зависти"
+    ]
+  },
+  {
+    "id": 708,
+    "positive": "niedrig",
+    "level": "B1",
+    "translations": [
+      "низкий",
+      "низменный"
+    ]
+  },
+  {
+    "id": 709,
+    "positive": "nördlich",
+    "level": "B1",
+    "translations": [
+      "северный"
+    ]
+  },
+  {
+    "id": 710,
+    "positive": "nötig",
+    "level": "B1",
+    "translations": [
+      "необходимый",
+      "нужный"
+    ]
+  },
+  {
+    "id": 711,
+    "positive": "offenbar",
+    "level": "B1",
+    "translations": [
+      "очевидный",
+      "явный"
+    ]
+  },
+  {
+    "id": 712,
+    "positive": "olympisch",
+    "level": "B1",
+    "translations": [
+      "олимпийский"
+    ]
+  },
+  {
+    "id": 713,
+    "positive": "original",
+    "level": "B1",
+    "translations": [
+      "оригинальный",
+      "первоначальный"
+    ]
+  },
+  {
+    "id": 714,
+    "positive": "ökologisch",
+    "level": "B1",
+    "translations": [
+      "экологический"
+    ]
+  },
+  {
+    "id": 715,
+    "positive": "östlich",
+    "level": "B1",
+    "translations": [
+      "восточный"
+    ]
+  },
+  {
+    "id": 716,
+    "positive": "pantomimisch",
+    "level": "B1",
+    "translations": [
+      "пantomимический"
+    ]
+  },
+  {
+    "id": 717,
+    "positive": "parallel",
+    "level": "B1",
+    "translations": [
+      "параллельный",
+      "параллель"
+    ]
+  },
+  {
+    "id": 718,
+    "positive": "passiv",
+    "level": "B1",
+    "translations": [
+      "пассивный"
+    ]
+  },
+  {
+    "id": 719,
+    "positive": "pfiffig",
+    "level": "B1",
+    "translations": [
+      "умный",
+      "хитрый"
+    ]
+  },
+  {
+    "id": 720,
+    "positive": "politisch",
+    "level": "B1",
+    "translations": [
+      "политический"
+    ]
+  },
+  {
+    "id": 721,
+    "positive": "prinzipiell",
+    "level": "B1",
+    "translations": [
+      "принципиальный"
+    ]
+  },
+  {
+    "id": 722,
+    "positive": "problematisch",
+    "level": "B1",
+    "translations": [
+      "проблематичный"
+    ]
+  },
+  {
+    "id": 723,
+    "positive": "pur",
+    "level": "B1",
+    "translations": [
+      "чистый"
+    ]
+  },
+  {
+    "id": 724,
+    "positive": "qualitativ",
+    "level": "B1",
+    "translations": [
+      "качественный"
+    ]
+  },
+  {
+    "id": 725,
+    "positive": "quer",
+    "level": "B1",
+    "translations": [
+      "диагональный",
+      "косой"
+    ]
+  },
+  {
+    "id": 726,
+    "positive": "rasend",
+    "level": "B1",
+    "translations": [
+      "неистовый",
+      "бешеный",
+      "яростный"
+    ]
+  },
+  {
+    "id": 727,
+    "positive": "recht",
+    "level": "B1",
+    "translations": [
+      "правильный"
+    ]
+  },
+  {
+    "id": 728,
+    "positive": "rechtlich",
+    "level": "B1",
+    "translations": [
+      "правовой",
+      "юридический",
+      "честный"
+    ]
+  },
+  {
+    "id": 729,
+    "positive": "regional",
+    "level": "B1",
+    "translations": [
+      "региональный"
+    ]
+  },
+  {
+    "id": 730,
+    "positive": "regnerisch",
+    "level": "B1",
+    "translations": [
+      "дождливый"
+    ]
+  },
+  {
+    "id": 731,
+    "positive": "reif",
+    "level": "B1",
+    "translations": [
+      "зрелый",
+      "готовый",
+      "спелый"
+    ]
+  },
+  {
+    "id": 732,
+    "positive": "reiselustig",
+    "level": "B1",
+    "translations": [
+      "любящий путешествовать",
+      "путешественник"
+    ]
+  },
+  {
+    "id": 733,
+    "positive": "relativ",
+    "level": "B1",
+    "translations": [
+      "относительный",
+      "относительно",
+      "сравнительно"
+    ]
+  },
+  {
+    "id": 734,
+    "positive": "relevant",
+    "level": "B1",
+    "translations": [
+      "значимый",
+      "существенный"
+    ]
+  },
+  {
+    "id": 735,
+    "positive": "roh",
+    "level": "B1",
+    "translations": [
+      "сырой",
+      "необработанный"
+    ]
+  },
+  {
+    "id": 736,
+    "positive": "scheinbar",
+    "level": "B1",
+    "translations": [
+      "очевидный",
+      "кажущийся"
+    ]
+  },
+  {
+    "id": 737,
+    "positive": "schick",
+    "level": "B1",
+    "translations": [
+      "элегантный"
+    ]
+  },
+  {
+    "id": 738,
+    "positive": "schief",
+    "level": "B1",
+    "translations": [
+      "кривой",
+      "косой"
+    ]
+  },
+  {
+    "id": 739,
+    "positive": "schlank",
+    "level": "B1",
+    "translations": [
+      "стройный",
+      "тонкий"
+    ]
+  },
+  {
+    "id": 740,
+    "positive": "schlau",
+    "level": "B1",
+    "translations": [
+      "умный",
+      "хитрый",
+      "толковый"
+    ]
+  },
+  {
+    "id": 741,
+    "positive": "schmal",
+    "level": "B1",
+    "translations": [
+      "узкий",
+      "бедный",
+      "скудный"
+    ]
+  },
+  {
+    "id": 742,
+    "positive": "schräg",
+    "level": "B1",
+    "translations": [
+      "наклонный",
+      "коса",
+      "косая",
+      "косо",
+      "косое",
+      "наискосок",
+      "наклонна",
+      "наклонная",
+      "наклонно",
+      "наклонное"
+    ]
+  },
+  {
+    "id": 743,
+    "positive": "schuldig",
+    "level": "B1",
+    "translations": [
+      "виновный",
+      "обязанный"
+    ]
+  },
+  {
+    "id": 744,
+    "positive": "schulfrei",
+    "level": "B1",
+    "translations": [
+      "бешкольный (выходной)"
+    ]
+  },
+  {
+    "id": 745,
+    "positive": "schwindlig",
+    "level": "B1",
+    "translations": [
+      "помутнение"
+    ]
+  },
+  {
+    "id": 746,
+    "positive": "schwül",
+    "level": "B1",
+    "translations": [
+      "душный"
+    ]
+  },
+  {
+    "id": 747,
+    "positive": "selbstgemacht",
+    "level": "B1",
+    "translations": [
+      "домашний",
+      "самодельный"
+    ]
+  },
+  {
+    "id": 748,
+    "positive": "selbstverständlich",
+    "level": "B1",
+    "translations": [
+      "очевидный",
+      "само собой разумеющийся"
+    ]
+  },
+  {
+    "id": 749,
+    "positive": "seltsam",
+    "level": "B1",
+    "translations": [
+      "необычный",
+      "странный"
+    ]
+  },
+  {
+    "id": 750,
+    "positive": "senkrecht",
+    "level": "B1",
+    "translations": [
+      "вертикальный",
+      "перпендикулярный",
+      "прямой"
+    ]
+  },
+  {
+    "id": 751,
+    "positive": "seriös",
+    "level": "B1",
+    "translations": [
+      "серьезный",
+      "надежный",
+      "солидный"
+    ]
+  },
+  {
+    "id": 752,
+    "positive": "sichtbar",
+    "level": "B1",
+    "translations": [
+      "видимый"
+    ]
+  },
+  {
+    "id": 753,
+    "positive": "simpel",
+    "level": "B1",
+    "translations": [
+      "простой",
+      "незамысловатый",
+      "очевидный"
+    ]
+  },
+  {
+    "id": 754,
+    "positive": "smart",
+    "level": "B1",
+    "translations": [
+      "умный",
+      "хитрый",
+      "элегантный"
+    ]
+  },
+  {
+    "id": 755,
+    "positive": "sonstig",
+    "level": "B1",
+    "translations": [
+      "другой"
+    ]
+  },
+  {
+    "id": 756,
+    "positive": "sparsam",
+    "level": "B1",
+    "translations": [
+      "экономно"
+    ]
+  },
+  {
+    "id": 757,
+    "positive": "speziell",
+    "level": "B1",
+    "translations": [
+      "особенный"
+    ]
+  },
+  {
+    "id": 758,
+    "positive": "spitz",
+    "level": "B1",
+    "translations": [
+      "острый",
+      "заостренный",
+      "остро",
+      "язвительный"
+    ]
+  },
+  {
+    "id": 759,
+    "positive": "spontan",
+    "level": "B1",
+    "translations": [
+      "спонтанный"
+    ]
+  },
+  {
+    "id": 760,
+    "positive": "sprachlos",
+    "level": "B1",
+    "translations": [
+      "безмолвный"
+    ]
+  },
+  {
+    "id": 761,
+    "positive": "staatlich",
+    "level": "B1",
+    "translations": [
+      "государственный"
+    ]
+  },
+  {
+    "id": 762,
+    "positive": "städtisch",
+    "level": "B1",
+    "translations": [
+      "городской"
+    ]
+  },
+  {
+    "id": 763,
+    "positive": "statistisch",
+    "level": "B1",
+    "translations": [
+      "статистический"
+    ]
+  },
+  {
+    "id": 764,
+    "positive": "steil",
+    "level": "B1",
+    "translations": [
+      "крутой",
+      "дальний"
+    ]
+  },
+  {
+    "id": 765,
+    "positive": "stinksauer",
+    "level": "B1",
+    "translations": [
+      "в бешенстве",
+      "в ярости"
+    ]
+  },
+  {
+    "id": 766,
+    "positive": "stolz",
+    "level": "B1",
+    "translations": [
+      "гордый",
+      "высокомерный"
+    ]
+  },
+  {
+    "id": 767,
+    "positive": "strafbar",
+    "level": "B1",
+    "translations": [
+      "наказуемый"
+    ]
+  },
+  {
+    "id": 768,
+    "positive": "strategisch",
+    "level": "B1",
+    "translations": [
+      "стратегический"
+    ]
+  },
+  {
+    "id": 769,
+    "positive": "stündlich",
+    "level": "B1",
+    "translations": [
+      "ежечасно"
+    ]
+  },
+  {
+    "id": 770,
+    "positive": "stürmisch",
+    "level": "B1",
+    "translations": [
+      "бурный"
+    ]
+  },
+  {
+    "id": 771,
+    "positive": "stumm",
+    "level": "B1",
+    "translations": [
+      "немой",
+      "молчаливый"
+    ]
+  },
+  {
+    "id": 772,
+    "positive": "stundenlang",
+    "level": "B1",
+    "translations": [
+      "несколько часов"
+    ]
+  },
+  {
+    "id": 773,
+    "positive": "süchtig",
+    "level": "B1",
+    "translations": [
+      "зависимый"
+    ]
+  },
+  {
+    "id": 774,
+    "positive": "südlich",
+    "level": "B1",
+    "translations": [
+      "южный"
+    ]
+  },
+  {
+    "id": 775,
+    "positive": "superschnell",
+    "level": "B1",
+    "translations": [
+      "очень быстрый",
+      "супербыстрый"
+    ]
+  },
+  {
+    "id": 776,
+    "positive": "symbolisch",
+    "level": "B1",
+    "translations": [
+      "символический"
+    ]
+  },
+  {
+    "id": 777,
+    "positive": "tätig",
+    "level": "B1",
+    "translations": [
+      "активный",
+      "деятельный",
+      "работающий",
+      "занятый"
+    ]
+  },
+  {
+    "id": 778,
+    "positive": "tagelang",
+    "level": "B1",
+    "translations": [
+      "долгий",
+      "многодневный"
+    ]
+  },
+  {
+    "id": 779,
+    "positive": "taub",
+    "level": "B1",
+    "translations": [
+      "глухой",
+      "пустой",
+      "онемевший",
+      "бесчувственный",
+      "оглохший",
+      "оглушённый",
+      "тупой"
+    ]
+  },
+  {
+    "id": 780,
+    "positive": "thematisch",
+    "level": "B1",
+    "translations": [
+      "тематический",
+      "тематически"
+    ]
+  },
+  {
+    "id": 781,
+    "positive": "theoretisch",
+    "level": "B1",
+    "translations": [
+      "теоретический"
+    ]
+  },
+  {
+    "id": 782,
+    "positive": "tierisch",
+    "level": "B1",
+    "translations": [
+      "животный",
+      "звериный"
+    ]
+  },
+  {
+    "id": 783,
+    "positive": "tierlieb",
+    "level": "B1",
+    "translations": [
+      "любящий животных"
+    ]
+  },
+  {
+    "id": 784,
+    "positive": "tödlich",
+    "level": "B1",
+    "translations": [
+      "смертельный"
+    ]
+  },
+  {
+    "id": 785,
+    "positive": "tolerant",
+    "level": "B1",
+    "translations": [
+      "толерантный"
+    ]
+  },
+  {
+    "id": 786,
+    "positive": "touristisch",
+    "level": "B1",
+    "translations": [
+      "туристический"
+    ]
+  },
+  {
+    "id": 787,
+    "positive": "tragisch",
+    "level": "B1",
+    "translations": [
+      "трагический"
+    ]
+  },
+  {
+    "id": 788,
+    "positive": "traumhaft",
+    "level": "B1",
+    "translations": [
+      "восхитительный",
+      "сказочный"
+    ]
+  },
+  {
+    "id": 789,
+    "positive": "umgehend",
+    "level": "B1",
+    "translations": [
+      "немедленный"
+    ]
+  },
+  {
+    "id": 790,
+    "positive": "umgekehrt",
+    "level": "B1",
+    "translations": [
+      "обратный"
+    ]
+  },
+  {
+    "id": 791,
+    "positive": "umweltfreundlich",
+    "level": "B1",
+    "translations": [
+      "экологически чистый"
+    ]
+  },
+  {
+    "id": 792,
+    "positive": "unabhängig",
+    "level": "B1",
+    "translations": [
+      "независимый"
+    ]
+  },
+  {
+    "id": 793,
+    "positive": "unbekannt",
+    "level": "B1",
+    "translations": [
+      "неизвестный"
+    ]
+  },
+  {
+    "id": 794,
+    "positive": "unbequem",
+    "level": "B1",
+    "translations": [
+      "неудобный"
+    ]
+  },
+  {
+    "id": 795,
+    "positive": "undeutlich",
+    "level": "B1",
+    "translations": [
+      "нечеткий",
+      "неясный"
+    ]
+  },
+  {
+    "id": 796,
+    "positive": "undiplomatisch",
+    "level": "B1",
+    "translations": [
+      "бестактный",
+      "недипломатичный"
+    ]
+  },
+  {
+    "id": 797,
+    "positive": "unehrlich",
+    "level": "B1",
+    "translations": [
+      "нечестный"
+    ]
+  },
+  {
+    "id": 798,
+    "positive": "unfair",
+    "level": "B1",
+    "translations": [
+      "несправедливый"
+    ]
+  },
+  {
+    "id": 799,
+    "positive": "ungewöhnlich",
+    "level": "B1",
+    "translations": [
+      "необычный"
+    ]
+  },
+  {
+    "id": 800,
+    "positive": "unregelmäßig",
+    "level": "B1",
+    "translations": [
+      "нерегулярный",
+      "неправильный"
+    ]
+  },
+  {
+    "id": 801,
+    "positive": "unschlagbar",
+    "level": "B1",
+    "translations": [
+      "непобедимый",
+      "несокрушимый"
+    ]
+  },
+  {
+    "id": 802,
+    "positive": "unsichtbar",
+    "level": "B1",
+    "translations": [
+      "невидимый"
+    ]
+  },
+  {
+    "id": 803,
+    "positive": "untreu",
+    "level": "B1",
+    "translations": [
+      "неверный"
+    ]
+  },
+  {
+    "id": 804,
+    "positive": "unzuverlässig",
+    "level": "B1",
+    "translations": [
+      "недостоверный",
+      "ненадежный"
+    ]
+  },
+  {
+    "id": 805,
+    "positive": "übel",
+    "level": "B1",
+    "translations": [
+      "плохой",
+      "неприятный",
+      "аморальный",
+      "больной",
+      "гнилой",
+      "испорченный",
+      "нездоровый",
+      "нерадостный",
+      "порочный"
+    ]
+  },
+  {
+    "id": 806,
+    "positive": "übermäßig",
+    "level": "B1",
+    "translations": [
+      "чрезмерный",
+      "избыточный"
+    ]
+  },
+  {
+    "id": 807,
+    "positive": "überzeugt",
+    "level": "B1",
+    "translations": [
+      "убеждённый"
+    ]
+  },
+  {
+    "id": 808,
+    "positive": "üblich",
+    "level": "B1",
+    "translations": [
+      "обычно",
+      "обычный"
+    ]
+  },
+  {
+    "id": 809,
+    "positive": "übrig",
+    "level": "B1",
+    "translations": [
+      "оставшийся"
+    ]
+  },
+  {
+    "id": 810,
+    "positive": "vegetarisch",
+    "level": "B1",
+    "translations": [
+      "вегетарианский"
+    ]
+  },
+  {
+    "id": 811,
+    "positive": "verantwortlich",
+    "level": "B1",
+    "translations": [
+      "ответственный"
+    ]
+  },
+  {
+    "id": 812,
+    "positive": "verbissen",
+    "level": "B1",
+    "translations": [
+      "неумолимый",
+      "упорный"
+    ]
+  },
+  {
+    "id": 813,
+    "positive": "verdächtig",
+    "level": "B1",
+    "translations": [
+      "подозрительный"
+    ]
+  },
+  {
+    "id": 814,
+    "positive": "verdammt",
+    "level": "B1",
+    "translations": [
+      "проклятый",
+      "дьявольский",
+      "обречённый",
+      "очень"
+    ]
+  },
+  {
+    "id": 815,
+    "positive": "vergeblich",
+    "level": "B1",
+    "translations": [
+      "бесполезный",
+      "напрасный"
+    ]
+  },
+  {
+    "id": 816,
+    "positive": "vergleichbar",
+    "level": "B1",
+    "translations": [
+      "сравнимый",
+      "аналогичный",
+      "сопоставимый",
+      "сходный"
+    ]
+  },
+  {
+    "id": 817,
+    "positive": "verlegen",
+    "level": "B1",
+    "translations": [
+      "застенчивый",
+      "стыдливый"
+    ]
+  },
+  {
+    "id": 818,
+    "positive": "vermutlich",
+    "level": "B1",
+    "translations": [
+      "вероятно",
+      "предполагаемый"
+    ]
+  },
+  {
+    "id": 819,
+    "positive": "vernünftig",
+    "level": "B1",
+    "translations": [
+      "разумный",
+      "здравомыслящий",
+      "нормальный",
+      "понятный",
+      "последовательный",
+      "приличный",
+      "рассудительный",
+      "стоящий"
+    ]
+  },
+  {
+    "id": 820,
+    "positive": "verständlich",
+    "level": "B1",
+    "translations": [
+      "понятный",
+      "ясный"
+    ]
+  },
+  {
+    "id": 821,
+    "positive": "verständnisvoll",
+    "level": "B1",
+    "translations": [
+      "понимающий"
+    ]
+  },
+  {
+    "id": 822,
+    "positive": "verstaubt",
+    "level": "B1",
+    "translations": [
+      "запылённый",
+      "неактуальный",
+      "старомодный",
+      "устаревший"
+    ]
+  },
+  {
+    "id": 823,
+    "positive": "verwandt",
+    "level": "B1",
+    "translations": [
+      "родственный",
+      "родственник"
+    ]
+  },
+  {
+    "id": 824,
+    "positive": "verwitwet",
+    "level": "B1",
+    "translations": [
+      "вдова",
+      "вдовец"
+    ]
+  },
+  {
+    "id": 825,
+    "positive": "verzweifelt",
+    "level": "B1",
+    "translations": [
+      "безнадежный",
+      "отчаянный"
+    ]
+  },
+  {
+    "id": 826,
+    "positive": "voraussichtlich",
+    "level": "B1",
+    "translations": [
+      "вероятно",
+      "предположительно"
+    ]
+  },
+  {
+    "id": 827,
+    "positive": "vordere",
+    "level": "B1",
+    "translations": [
+      "передний"
+    ]
+  },
+  {
+    "id": 828,
+    "positive": "vorhanden",
+    "level": "B1",
+    "translations": [
+      "наличный"
+    ]
+  },
+  {
+    "id": 829,
+    "positive": "vorläufig",
+    "level": "B1",
+    "translations": [
+      "предварительный"
+    ]
+  },
+  {
+    "id": 830,
+    "positive": "waagerecht",
+    "level": "B1",
+    "translations": [
+      "горизонтальный"
+    ]
+  },
+  {
+    "id": 831,
+    "positive": "wasserfest",
+    "level": "B1",
+    "translations": [
+      "водостойкий"
+    ]
+  },
+  {
+    "id": 832,
+    "positive": "weise",
+    "level": "B1",
+    "translations": [
+      "мудрый",
+      "разумный"
+    ]
+  },
+  {
+    "id": 833,
+    "positive": "wert",
+    "level": "B1",
+    "translations": [
+      "достойный",
+      "ценный"
+    ]
+  },
+  {
+    "id": 834,
+    "positive": "wertvoll",
+    "level": "B1",
+    "translations": [
+      "ценный",
+      "полезный"
+    ]
+  },
+  {
+    "id": 835,
+    "positive": "westlich",
+    "level": "B1",
+    "translations": [
+      "западный"
+    ]
+  },
+  {
+    "id": 836,
+    "positive": "wildfremd",
+    "level": "B1",
+    "translations": [
+      "совершенно незнакомый"
+    ]
+  },
+  {
+    "id": 837,
+    "positive": "wirtschaftlich",
+    "level": "B1",
+    "translations": [
+      "экономический"
+    ]
+  },
+  {
+    "id": 838,
+    "positive": "wöchentlich",
+    "level": "B1",
+    "translations": [
+      "еженедельный"
+    ]
+  },
+  {
+    "id": 839,
+    "positive": "wörtlich",
+    "level": "B1",
+    "translations": [
+      "буквальный"
+    ]
+  },
+  {
+    "id": 840,
+    "positive": "wolkig",
+    "level": "B1",
+    "translations": [
+      "облачный"
+    ]
+  },
+  {
+    "id": 841,
+    "positive": "würzig",
+    "level": "B1",
+    "translations": [
+      "ароматный",
+      "пряный"
+    ]
+  },
+  {
+    "id": 842,
+    "positive": "zornig",
+    "level": "B1",
+    "translations": [
+      "гневный",
+      "сердитый"
+    ]
+  },
+  {
+    "id": 843,
+    "positive": "zukünftig",
+    "level": "B1",
+    "translations": [
+      "будущий",
+      "в будущем",
+      "впредь",
+      "на будущее время"
+    ]
+  },
+  {
+    "id": 844,
+    "positive": "zusätzlich",
+    "level": "B1",
+    "translations": [
+      "дополнительный"
+    ]
+  },
+  {
+    "id": 845,
+    "positive": "zuständig",
+    "level": "B1",
+    "translations": [
+      "ответственный"
+    ]
+  },
+  {
+    "id": 846,
+    "positive": "abenteuerlich",
+    "level": "B2",
+    "translations": [
+      "приключенческий",
+      "авантюрный"
+    ]
+  },
+  {
+    "id": 847,
+    "positive": "aggressiv",
+    "level": "B2",
+    "translations": [
+      "агрессивный"
+    ]
+  },
+  {
+    "id": 848,
+    "positive": "akustisch",
+    "level": "B2",
+    "translations": [
+      "акустический",
+      "звуковой",
+      "слуховой"
+    ]
+  },
+  {
+    "id": 849,
+    "positive": "akut",
+    "level": "B2",
+    "translations": [
+      "острый",
+      "срочный"
+    ]
+  },
+  {
+    "id": 850,
+    "positive": "akzeptabel",
+    "level": "B2",
+    "translations": [
+      "приемлемый"
+    ]
+  },
+  {
+    "id": 851,
+    "positive": "alkoholfrei",
+    "level": "B2",
+    "translations": [
+      "безалкогольный"
+    ]
+  },
+  {
+    "id": 852,
+    "positive": "altruistisch",
+    "level": "B2",
+    "translations": [
+      "альтруистический"
+    ]
+  },
+  {
+    "id": 853,
+    "positive": "amtlich",
+    "level": "B2",
+    "translations": [
+      "государственный",
+      "официальный"
+    ]
+  },
+  {
+    "id": 854,
+    "positive": "analytisch",
+    "level": "B2",
+    "translations": [
+      "аналитический"
+    ]
+  },
+  {
+    "id": 855,
+    "positive": "anderthalb",
+    "level": "B2",
+    "translations": [
+      "полтора"
+    ]
+  },
+  {
+    "id": 856,
+    "positive": "anerkannt",
+    "level": "B2",
+    "translations": [
+      "уважаемый"
+    ]
+  },
+  {
+    "id": 857,
+    "positive": "anfällig",
+    "level": "B2",
+    "translations": [
+      "восприимчивый",
+      "подверженный"
+    ]
+  },
+  {
+    "id": 858,
+    "positive": "angeboren",
+    "level": "B2",
+    "translations": [
+      "врожденный"
+    ]
+  },
+  {
+    "id": 859,
+    "positive": "angehend",
+    "level": "B2",
+    "translations": [
+      "начинающий",
+      "первоначальный"
+    ]
+  },
+  {
+    "id": 860,
+    "positive": "angemessen",
+    "level": "B2",
+    "translations": [
+      "подходящий",
+      "соответствующий"
+    ]
+  },
+  {
+    "id": 861,
+    "positive": "angesehen",
+    "level": "B2",
+    "translations": [
+      "уважаемый",
+      "респектабельный"
+    ]
+  },
+  {
+    "id": 862,
+    "positive": "angriffslustig",
+    "level": "B2",
+    "translations": [
+      "нападающий",
+      "агрессивный"
+    ]
+  },
+  {
+    "id": 863,
+    "positive": "anonym",
+    "level": "B2",
+    "translations": [
+      "анонимный"
+    ]
+  },
+  {
+    "id": 864,
+    "positive": "anormal",
+    "level": "B2",
+    "translations": [
+      "анормальный"
+    ]
+  },
+  {
+    "id": 865,
+    "positive": "ätherisch",
+    "level": "B2",
+    "translations": [
+      "эфирный",
+      "воздушный"
+    ]
+  },
+  {
+    "id": 866,
+    "positive": "anschaulich",
+    "level": "B2",
+    "translations": [
+      "наглядный"
+    ]
+  },
+  {
+    "id": 867,
+    "positive": "anspruchsvoll",
+    "level": "B2",
+    "translations": [
+      "требовательный"
+    ]
+  },
+  {
+    "id": 868,
+    "positive": "antriebslos",
+    "level": "B2",
+    "translations": [
+      "бездействующий",
+      "безмотивационный",
+      "инертный",
+      "пассивный"
+    ]
+  },
+  {
+    "id": 869,
+    "positive": "anziehend",
+    "level": "B2",
+    "translations": [
+      "привлекательный",
+      "симпатичный"
+    ]
+  },
+  {
+    "id": 870,
+    "positive": "arbeitsfrei",
+    "level": "B2",
+    "translations": [
+      "безработный",
+      "не работающий",
+      "свободный от работы"
+    ]
+  },
+  {
+    "id": 871,
+    "positive": "arg",
+    "level": "B2",
+    "translations": [
+      "жестокий",
+      "злой",
+      "плохой",
+      "сильный"
+    ]
+  },
+  {
+    "id": 872,
+    "positive": "aromatisch",
+    "level": "B2",
+    "translations": [
+      "ароматический",
+      "ароматный"
+    ]
+  },
+  {
+    "id": 873,
+    "positive": "atemberaubend",
+    "level": "B2",
+    "translations": [
+      "захватывающий",
+      "потрясающий"
+    ]
+  },
+  {
+    "id": 874,
+    "positive": "atypisch",
+    "level": "B2",
+    "translations": [
+      "атипичный"
+    ]
+  },
+  {
+    "id": 875,
+    "positive": "aufsehenerregend",
+    "level": "B2",
+    "translations": [
+      "внимание привлекающий",
+      "захватывающий"
+    ]
+  },
+  {
+    "id": 876,
+    "positive": "ausdauernd",
+    "level": "B2",
+    "translations": [
+      "выносливый"
+    ]
+  },
+  {
+    "id": 877,
+    "positive": "ausdrücklich",
+    "level": "B2",
+    "translations": [
+      "определённый",
+      "ясный"
+    ]
+  },
+  {
+    "id": 878,
+    "positive": "ausgeschlafen",
+    "level": "B2",
+    "translations": [
+      "бодрый",
+      "отдохнувший"
+    ]
+  },
+  {
+    "id": 879,
+    "positive": "ausgeschlossen",
+    "level": "B2",
+    "translations": [
+      "исключённый",
+      "невозможный"
+    ]
+  },
+  {
+    "id": 880,
+    "positive": "ausgesprochen",
+    "level": "B2",
+    "translations": [
+      "выраженный"
+    ]
+  },
+  {
+    "id": 881,
+    "positive": "ausgewogen",
+    "level": "B2",
+    "translations": [
+      "уравновешенный"
+    ]
+  },
+  {
+    "id": 882,
+    "positive": "außerordentlich",
+    "level": "B2",
+    "translations": [
+      "исключительный"
+    ]
+  },
+  {
+    "id": 883,
+    "positive": "aussichtslos",
+    "level": "B2",
+    "translations": [
+      "безнадежный"
+    ]
+  },
+  {
+    "id": 884,
+    "positive": "autark",
+    "level": "B2",
+    "translations": [
+      "самодостаточный"
+    ]
+  },
+  {
+    "id": 885,
+    "positive": "autogen",
+    "level": "B2",
+    "translations": [
+      "автогенный"
+    ]
+  },
+  {
+    "id": 886,
+    "positive": "äußere",
+    "level": "B2",
+    "translations": [
+      "внешний",
+      "наружный"
+    ]
+  },
+  {
+    "id": 887,
+    "positive": "ballaststoffreich",
+    "level": "B2",
+    "translations": [
+      "богат клетчаткой"
+    ]
+  },
+  {
+    "id": 888,
+    "positive": "bankrott",
+    "level": "B2",
+    "translations": [
+      "банкрот"
+    ]
+  },
+  {
+    "id": 889,
+    "positive": "barfuß",
+    "level": "B2",
+    "translations": [
+      "босиком",
+      "босы"
+    ]
+  },
+  {
+    "id": 890,
+    "positive": "bedenkenlos",
+    "level": "B2",
+    "translations": [
+      "беспечный",
+      "беззаботный",
+      "безрассудный"
+    ]
+  },
+  {
+    "id": 891,
+    "positive": "bedeutend",
+    "level": "B2",
+    "translations": [
+      "значительно"
+    ]
+  },
+  {
+    "id": 892,
+    "positive": "bedrohlich",
+    "level": "B2",
+    "translations": [
+      "опасный",
+      "угрожающий"
+    ]
+  },
+  {
+    "id": 893,
+    "positive": "beharrlich",
+    "level": "B2",
+    "translations": [
+      "настойчивый",
+      "упорный"
+    ]
+  },
+  {
+    "id": 894,
+    "positive": "beherrschbar",
+    "level": "B2",
+    "translations": [
+      "контролируемый",
+      "управляемый"
+    ]
+  },
+  {
+    "id": 895,
+    "positive": "bekömmlich",
+    "level": "B2",
+    "translations": [
+      "полезный"
+    ]
+  },
+  {
+    "id": 896,
+    "positive": "belanglos",
+    "level": "B2",
+    "translations": [
+      "неважный",
+      "иррелевантный",
+      "не имеющий значения",
+      "незначительный",
+      "несущественный"
+    ]
+  },
+  {
+    "id": 897,
+    "positive": "belastbar",
+    "level": "B2",
+    "translations": [
+      "устойчивый"
+    ]
+  },
+  {
+    "id": 898,
+    "positive": "bemerkenswert",
+    "level": "B2",
+    "translations": [
+      "замечательный",
+      "достойный внимания"
+    ]
+  },
+  {
+    "id": 899,
+    "positive": "benachbart",
+    "level": "B2",
+    "translations": [
+      "соседний"
+    ]
+  },
+  {
+    "id": 900,
+    "positive": "benommen",
+    "level": "B2",
+    "translations": [
+      "оглушенный"
+    ]
+  },
+  {
+    "id": 901,
+    "positive": "beschwingt",
+    "level": "B2",
+    "translations": [
+      "вдохновленный",
+      "жизнерадостный"
+    ]
+  },
+  {
+    "id": 902,
+    "positive": "beständig",
+    "level": "B2",
+    "translations": [
+      "постоянный"
+    ]
+  },
+  {
+    "id": 903,
+    "positive": "bestmöglich",
+    "level": "B2",
+    "translations": [
+      "максимально хороший",
+      "наилучший"
+    ]
+  },
+  {
+    "id": 904,
+    "positive": "betroffen",
+    "level": "B2",
+    "translations": [
+      "затронутый"
+    ]
+  },
+  {
+    "id": 905,
+    "positive": "beweglich",
+    "level": "B2",
+    "translations": [
+      "подвижный",
+      "гибкий",
+      "мобильный"
+    ]
+  },
+  {
+    "id": 906,
+    "positive": "bewusst",
+    "level": "B2",
+    "translations": [
+      "осознанный"
+    ]
+  },
+  {
+    "id": 907,
+    "positive": "bilingual",
+    "level": "B2",
+    "translations": [
+      "двуязычный"
+    ]
+  },
+  {
+    "id": 908,
+    "positive": "bisherig",
+    "level": "B2",
+    "translations": [
+      "доселе"
+    ]
+  },
+  {
+    "id": 909,
+    "positive": "bittersüß",
+    "level": "B2",
+    "translations": [
+      "горько-сладкий"
+    ]
+  },
+  {
+    "id": 910,
+    "positive": "bizarr",
+    "level": "B2",
+    "translations": [
+      "причудливый"
+    ]
+  },
+  {
+    "id": 911,
+    "positive": "brandneu",
+    "level": "B2",
+    "translations": [
+      "совершенно новый"
+    ]
+  },
+  {
+    "id": 912,
+    "positive": "bürgerlich",
+    "level": "B2",
+    "translations": [
+      "гражданский",
+      "обывательский"
+    ]
+  },
+  {
+    "id": 913,
+    "positive": "bundesdeutsch",
+    "level": "B2",
+    "translations": [
+      "германский",
+      "федеральный"
+    ]
+  },
+  {
+    "id": 914,
+    "positive": "charakteristisch",
+    "level": "B2",
+    "translations": [
+      "типичный",
+      "характерный"
+    ]
+  },
+  {
+    "id": 915,
+    "positive": "chronisch",
+    "level": "B2",
+    "translations": [
+      "хронический",
+      "длительный"
+    ]
+  },
+  {
+    "id": 916,
+    "positive": "clever",
+    "level": "B2",
+    "translations": [
+      "умный",
+      "ловкий"
+    ]
+  },
+  {
+    "id": 917,
+    "positive": "definitiv",
+    "level": "B2",
+    "translations": [
+      "окончательный"
+    ]
+  },
+  {
+    "id": 918,
+    "positive": "denkfaul",
+    "level": "B2",
+    "translations": [
+      "ленивый",
+      "умственно ленивый"
+    ]
+  },
+  {
+    "id": 919,
+    "positive": "depressiv",
+    "level": "B2",
+    "translations": [
+      "депрессивный"
+    ]
+  },
+  {
+    "id": 920,
+    "positive": "desinteressiert",
+    "level": "B2",
+    "translations": [
+      "безразличный",
+      "равнодушный"
+    ]
+  },
+  {
+    "id": 921,
+    "positive": "destruktiv",
+    "level": "B2",
+    "translations": [
+      "разрушительный"
+    ]
+  },
+  {
+    "id": 922,
+    "positive": "dezent",
+    "level": "B2",
+    "translations": [
+      "сдержанный"
+    ]
+  },
+  {
+    "id": 923,
+    "positive": "dichterisch",
+    "level": "B2",
+    "translations": [
+      "поэтический"
+    ]
+  },
+  {
+    "id": 924,
+    "positive": "dickköpfig",
+    "level": "B2",
+    "translations": [
+      "недоступный",
+      "упрямый"
+    ]
+  },
+  {
+    "id": 925,
+    "positive": "diskret",
+    "level": "B2",
+    "translations": [
+      "дискретный",
+      "конфиденциальный"
+    ]
+  },
+  {
+    "id": 926,
+    "positive": "distanziert",
+    "level": "B2",
+    "translations": [
+      "недоступный",
+      "сдержанный"
+    ]
+  },
+  {
+    "id": 927,
+    "positive": "dramatisch",
+    "level": "B2",
+    "translations": [
+      "драматический"
+    ]
+  },
+  {
+    "id": 928,
+    "positive": "dreckig",
+    "level": "B2",
+    "translations": [
+      "грязный",
+      "подлый",
+      "испачканный",
+      "низкий"
+    ]
+  },
+  {
+    "id": 929,
+    "positive": "durchführbar",
+    "level": "B2",
+    "translations": [
+      "выполнимый"
+    ]
+  },
+  {
+    "id": 930,
+    "positive": "dynamisch",
+    "level": "B2",
+    "translations": [
+      "динамический"
+    ]
+  },
+  {
+    "id": 931,
+    "positive": "eckig",
+    "level": "B2",
+    "translations": [
+      "угловатый"
+    ]
+  },
+  {
+    "id": 932,
+    "positive": "eigenartig",
+    "level": "B2",
+    "translations": [
+      "необычный",
+      "странный"
+    ]
+  },
+  {
+    "id": 933,
+    "positive": "eigensinnig",
+    "level": "B2",
+    "translations": [
+      "упрямый"
+    ]
+  },
+  {
+    "id": 934,
+    "positive": "eigenständig",
+    "level": "B2",
+    "translations": [
+      "независимый",
+      "самостоятельный"
+    ]
+  },
+  {
+    "id": 935,
+    "positive": "eigenverantwortlich",
+    "level": "B2",
+    "translations": [
+      "независимый",
+      "самостоятельный"
+    ]
+  },
+  {
+    "id": 936,
+    "positive": "einfallslos",
+    "level": "B2",
+    "translations": [
+      "безидейный",
+      "недоуменный"
+    ]
+  },
+  {
+    "id": 937,
+    "positive": "eingehend",
+    "level": "B2",
+    "translations": [
+      "тщательный"
+    ]
+  },
+  {
+    "id": 938,
+    "positive": "einig",
+    "level": "B2",
+    "translations": [
+      "согласный",
+      "единодушный",
+      "сплочённый"
+    ]
+  },
+  {
+    "id": 939,
+    "positive": "einseitig",
+    "level": "B2",
+    "translations": [
+      "односторонний",
+      "однобокий"
+    ]
+  },
+  {
+    "id": 940,
+    "positive": "einsichtig",
+    "level": "B2",
+    "translations": [
+      "восприимчивый",
+      "логичный",
+      "понимающий",
+      "понятный"
+    ]
+  },
+  {
+    "id": 941,
+    "positive": "einsilbig",
+    "level": "B2",
+    "translations": [
+      "молчаливый",
+      "немой",
+      "односоставный"
+    ]
+  },
+  {
+    "id": 942,
+    "positive": "einsprachig",
+    "level": "B2",
+    "translations": [
+      "одноязычный"
+    ]
+  },
+  {
+    "id": 943,
+    "positive": "eintönig",
+    "level": "B2",
+    "translations": [
+      "монотонный",
+      "однообразный"
+    ]
+  },
+  {
+    "id": 944,
+    "positive": "einwandfrei",
+    "level": "B2",
+    "translations": [
+      "безукоризненный",
+      "безупречный",
+      "совершенный"
+    ]
+  },
+  {
+    "id": 945,
+    "positive": "eitel",
+    "level": "B2",
+    "translations": [
+      "тщеславный",
+      "самовлюблённый",
+      "чистый",
+      "безнадеждный",
+      "напрасный",
+      "настоящий"
+    ]
+  },
+  {
+    "id": 946,
+    "positive": "empathisch",
+    "level": "B2",
+    "translations": [
+      "сочувствующий",
+      "эмпатичный"
+    ]
+  },
+  {
+    "id": 947,
+    "positive": "empfindlich",
+    "level": "B2",
+    "translations": [
+      "чувствительный",
+      "восприимчивый",
+      "обидчивый",
+      "ощутимый",
+      "внушительный",
+      "ранимый"
+    ]
+  },
+  {
+    "id": 948,
+    "positive": "energiesparend",
+    "level": "B2",
+    "translations": [
+      "энергосберегающий"
+    ]
+  },
+  {
+    "id": 949,
+    "positive": "engstirnig",
+    "level": "B2",
+    "translations": [
+      "узколобый"
+    ]
+  },
+  {
+    "id": 950,
+    "positive": "enorm",
+    "level": "B2",
+    "translations": [
+      "огромный",
+      "невероятно"
+    ]
+  },
+  {
+    "id": 951,
+    "positive": "entgegenkommend",
+    "level": "B2",
+    "translations": [
+      "встречный",
+      "предупредительный"
+    ]
+  },
+  {
+    "id": 952,
+    "positive": "entkräftet",
+    "level": "B2",
+    "translations": [
+      "истощённый",
+      "обессиленный"
+    ]
+  },
+  {
+    "id": 953,
+    "positive": "entscheidend",
+    "level": "B2",
+    "translations": [
+      "решающий",
+      "важный"
+    ]
+  },
+  {
+    "id": 954,
+    "positive": "entsprechend",
+    "level": "B2",
+    "translations": [
+      "подходящий",
+      "соответствующий"
+    ]
+  },
+  {
+    "id": 955,
+    "positive": "erdbebensicher",
+    "level": "B2",
+    "translations": [
+      "землетрясениеустойчивый"
+    ]
+  },
+  {
+    "id": 956,
+    "positive": "erfindungsreich",
+    "level": "B2",
+    "translations": [
+      "изобретательный",
+      "находчивый"
+    ]
+  },
+  {
+    "id": 957,
+    "positive": "erfolglos",
+    "level": "B2",
+    "translations": [
+      "безуспешный"
+    ]
+  },
+  {
+    "id": 958,
+    "positive": "erheblich",
+    "level": "B2",
+    "translations": [
+      "важный",
+      "значительный",
+      "существенный"
+    ]
+  },
+  {
+    "id": 959,
+    "positive": "erkennbar",
+    "level": "B2",
+    "translations": [
+      "очевидный",
+      "явный"
+    ]
+  },
+  {
+    "id": 960,
+    "positive": "erlesen",
+    "level": "B2",
+    "translations": [
+      "изысканный"
+    ]
+  },
+  {
+    "id": 961,
+    "positive": "erneut",
+    "level": "B2",
+    "translations": [
+      "повторный"
+    ]
+  },
+  {
+    "id": 962,
+    "positive": "erstaunlich",
+    "level": "B2",
+    "translations": [
+      "поразительный",
+      "впечатляющий",
+      "удивительный"
+    ]
+  },
+  {
+    "id": 963,
+    "positive": "erstrebenswert",
+    "level": "B2",
+    "translations": [
+      "достойный",
+      "желанный"
+    ]
+  },
+  {
+    "id": 964,
+    "positive": "erträglich",
+    "level": "B2",
+    "translations": [
+      "терпимо"
+    ]
+  },
+  {
+    "id": 965,
+    "positive": "erwerbslos",
+    "level": "B2",
+    "translations": [
+      "безработный"
+    ]
+  },
+  {
+    "id": 966,
+    "positive": "erwerbstätig",
+    "level": "B2",
+    "translations": [
+      "работающий",
+      "трудоспособный"
+    ]
+  },
+  {
+    "id": 967,
+    "positive": "exklusiv",
+    "level": "B2",
+    "translations": [
+      "эксклюзивный"
+    ]
+  },
+  {
+    "id": 968,
+    "positive": "exponentiell",
+    "level": "B2",
+    "translations": [
+      "экспоненциальный"
+    ]
+  },
+  {
+    "id": 969,
+    "positive": "expressionistisch",
+    "level": "B2",
+    "translations": [
+      "экспрессионистский"
+    ]
+  },
+  {
+    "id": 970,
+    "positive": "extrovertiert",
+    "level": "B2",
+    "translations": [
+      "экстравертированный"
+    ]
+  },
+  {
+    "id": 971,
+    "positive": "fachlich",
+    "level": "B2",
+    "translations": [
+      "профессиональный"
+    ]
+  },
+  {
+    "id": 972,
+    "positive": "fantasielos",
+    "level": "B2",
+    "translations": [
+      "без фантазии"
+    ]
+  },
+  {
+    "id": 973,
+    "positive": "farbenfroh",
+    "level": "B2",
+    "translations": [
+      "яркий"
+    ]
+  },
+  {
+    "id": 974,
+    "positive": "fehlerlos",
+    "level": "B2",
+    "translations": [
+      "безошибочный"
+    ]
+  },
+  {
+    "id": 975,
+    "positive": "fein",
+    "level": "B2",
+    "translations": [
+      "тонкий",
+      "нежный",
+      "отличный",
+      "точный",
+      "хороший",
+      "чувствительный"
+    ]
+  },
+  {
+    "id": 976,
+    "positive": "feindlich",
+    "level": "B2",
+    "translations": [
+      "вражеский",
+      "неприятельский"
+    ]
+  },
+  {
+    "id": 977,
+    "positive": "fiebersenkend",
+    "level": "B2",
+    "translations": [
+      "жаропонижающий"
+    ]
+  },
+  {
+    "id": 978,
+    "positive": "fiktiv",
+    "level": "B2",
+    "translations": [
+      "фиктивно"
+    ]
+  },
+  {
+    "id": 979,
+    "positive": "final",
+    "level": "B2",
+    "translations": [
+      "финальный"
+    ]
+  },
+  {
+    "id": 980,
+    "positive": "flauschig",
+    "level": "B2",
+    "translations": [
+      "мягкий"
+    ]
+  },
+  {
+    "id": 981,
+    "positive": "flegelhaft",
+    "level": "B2",
+    "translations": [
+      "грубый"
+    ]
+  },
+  {
+    "id": 982,
+    "positive": "flott",
+    "level": "B2",
+    "translations": [
+      "быстрый",
+      "модный"
+    ]
+  },
+  {
+    "id": 983,
+    "positive": "förmlich",
+    "level": "B2",
+    "translations": [
+      "формальный",
+      "официальный"
+    ]
+  },
+  {
+    "id": 984,
+    "positive": "fraglich",
+    "level": "B2",
+    "translations": [
+      "сомнительный"
+    ]
+  },
+  {
+    "id": 985,
+    "positive": "freundschaftlich",
+    "level": "B2",
+    "translations": [
+      "дружеский"
+    ]
+  },
+  {
+    "id": 986,
+    "positive": "friedlich",
+    "level": "B2",
+    "translations": [
+      "мирный",
+      "спокойный"
+    ]
+  },
+  {
+    "id": 987,
+    "positive": "fristlos",
+    "level": "B2",
+    "translations": [
+      "без уведомления"
+    ]
+  },
+  {
+    "id": 988,
+    "positive": "fuchsteufelswild",
+    "level": "B2",
+    "translations": [
+      "в бешенстве",
+      "в ярости"
+    ]
+  },
+  {
+    "id": 989,
+    "positive": "füllig",
+    "level": "B2",
+    "translations": [
+      "полный"
+    ]
+  },
+  {
+    "id": 990,
+    "positive": "fürchterlich",
+    "level": "B2",
+    "translations": [
+      "страшный",
+      "ужасный"
+    ]
+  },
+  {
+    "id": 991,
+    "positive": "fürsorglich",
+    "level": "B2",
+    "translations": [
+      "заботливый"
+    ]
+  },
+  {
+    "id": 992,
+    "positive": "gängig",
+    "level": "B2",
+    "translations": [
+      "доступный",
+      "обычный",
+      "пригодный",
+      "принятый",
+      "распространённый",
+      "ходовой"
+    ]
+  },
+  {
+    "id": 993,
+    "positive": "ganzheitlich",
+    "level": "B2",
+    "translations": [
+      "целостный"
+    ]
+  },
+  {
+    "id": 994,
+    "positive": "gebildet",
+    "level": "B2",
+    "translations": [
+      "образованный"
+    ]
+  },
+  {
+    "id": 995,
+    "positive": "gebürtig",
+    "level": "B2",
+    "translations": [
+      "коренной",
+      "уроженец",
+      "уроженка"
+    ]
+  },
+  {
+    "id": 996,
+    "positive": "gefiedert",
+    "level": "B2",
+    "translations": [
+      "перистый"
+    ]
+  },
+  {
+    "id": 997,
+    "positive": "gegenständlich",
+    "level": "B2",
+    "translations": [
+      "конкретный",
+      "предметный"
+    ]
+  },
+  {
+    "id": 998,
+    "positive": "geisteswissenschaftlich",
+    "level": "B2",
+    "translations": [
+      "гуманитарный"
+    ]
+  },
+  {
+    "id": 999,
+    "positive": "geistig",
+    "level": "B2",
+    "translations": [
+      "умственный",
+      "интеллектуальный",
+      "духовный"
+    ]
+  },
+  {
+    "id": 1000,
+    "positive": "gelegentlich",
+    "level": "B2",
+    "translations": [
+      "иногда",
+      "по случаю"
+    ]
+  }
+]

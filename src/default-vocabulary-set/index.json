@@ -1,0 +1,202 @@
+{
+  "ranges": [
+    {
+      "wordType": "adjective",
+      "level": "A1",
+      "firstVocabularyItemId": 1,
+      "lastVocabularyItemId": 287
+    },
+    {
+      "wordType": "adjective",
+      "level": "A2",
+      "firstVocabularyItemId": 288,
+      "lastVocabularyItemId": 563
+    },
+    {
+      "wordType": "adjective",
+      "level": "B1",
+      "firstVocabularyItemId": 564,
+      "lastVocabularyItemId": 845
+    },
+    {
+      "wordType": "adjective",
+      "level": "B2",
+      "firstVocabularyItemId": 846,
+      "lastVocabularyItemId": 1386
+    },
+    {
+      "wordType": "adjective",
+      "level": "C1",
+      "firstVocabularyItemId": 1387,
+      "lastVocabularyItemId": 2086
+    },
+    {
+      "wordType": "noun",
+      "level": "A1",
+      "firstVocabularyItemId": 2087,
+      "lastVocabularyItemId": 3270
+    },
+    {
+      "wordType": "noun",
+      "level": "A2",
+      "firstVocabularyItemId": 3271,
+      "lastVocabularyItemId": 4144
+    },
+    {
+      "wordType": "noun",
+      "level": "B1",
+      "firstVocabularyItemId": 4145,
+      "lastVocabularyItemId": 5389
+    },
+    {
+      "wordType": "noun",
+      "level": "B2",
+      "firstVocabularyItemId": 5390,
+      "lastVocabularyItemId": 6933
+    },
+    {
+      "wordType": "noun",
+      "level": "A1",
+      "firstVocabularyItemId": 6934,
+      "lastVocabularyItemId": 6954
+    },
+    {
+      "wordType": "noun",
+      "level": "A2",
+      "firstVocabularyItemId": 6955,
+      "lastVocabularyItemId": 6973
+    },
+    {
+      "wordType": "noun",
+      "level": "B1",
+      "firstVocabularyItemId": 6974,
+      "lastVocabularyItemId": 7001
+    },
+    {
+      "wordType": "noun",
+      "level": "B2",
+      "firstVocabularyItemId": 7002,
+      "lastVocabularyItemId": 7046
+    },
+    {
+      "wordType": "noun",
+      "level": "C1",
+      "firstVocabularyItemId": 7047,
+      "lastVocabularyItemId": 9020
+    },
+    {
+      "wordType": "verb",
+      "level": "A1",
+      "firstVocabularyItemId": 9021,
+      "lastVocabularyItemId": 9355
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 9356,
+      "lastVocabularyItemId": 9674
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 9675,
+      "lastVocabularyItemId": 10125
+    },
+    {
+      "wordType": "verb",
+      "level": "B2",
+      "firstVocabularyItemId": 10126,
+      "lastVocabularyItemId": 10692
+    },
+    {
+      "wordType": "verb",
+      "level": "C1",
+      "firstVocabularyItemId": 10693,
+      "lastVocabularyItemId": 11343
+    },
+    {
+      "wordType": "verb",
+      "level": "B2",
+      "firstVocabularyItemId": 11344,
+      "lastVocabularyItemId": 11344
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 11345,
+      "lastVocabularyItemId": 11345
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 11346,
+      "lastVocabularyItemId": 11346
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 11347,
+      "lastVocabularyItemId": 11347
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 11348,
+      "lastVocabularyItemId": 11348
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 11349,
+      "lastVocabularyItemId": 11349
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 11350,
+      "lastVocabularyItemId": 11350
+    },
+    {
+      "wordType": "verb",
+      "level": "B2",
+      "firstVocabularyItemId": 11351,
+      "lastVocabularyItemId": 11351
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 11352,
+      "lastVocabularyItemId": 11353
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 11354,
+      "lastVocabularyItemId": 11354
+    },
+    {
+      "wordType": "verb",
+      "level": "A1",
+      "firstVocabularyItemId": 11355,
+      "lastVocabularyItemId": 11355
+    },
+    {
+      "wordType": "verb",
+      "level": "A2",
+      "firstVocabularyItemId": 11356,
+      "lastVocabularyItemId": 11358
+    },
+    {
+      "wordType": "verb",
+      "level": "A1",
+      "firstVocabularyItemId": 11359,
+      "lastVocabularyItemId": 11362
+    },
+    {
+      "wordType": "verb",
+      "level": "B1",
+      "firstVocabularyItemId": 11363,
+      "lastVocabularyItemId": 11363
+    }
+  ]
+}

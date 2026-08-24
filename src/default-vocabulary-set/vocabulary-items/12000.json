@@ -1,0 +1,6450 @@
+[
+  {
+    "id": 11001,
+    "infinitive": "hinzukommen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "kommt hinzu",
+    "preterite": "kam hinzu",
+    "perfect": "ist hinzugekommen",
+    "translations": [
+      "присоединяться",
+      "добавляться",
+      "присоединиться",
+      "добавиться",
+      "прибавить",
+      "прибавлять"
+    ]
+  },
+  {
+    "id": 11002,
+    "infinitive": "hochschauen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schaut hoch",
+    "preterite": "schaute hoch",
+    "perfect": "hat hochgeschaut",
+    "translations": [
+      "смотреть вверх"
+    ]
+  },
+  {
+    "id": 11003,
+    "infinitive": "hocken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "hockt",
+    "preterite": "hockte",
+    "perfect": "hat gehockt",
+    "translations": [
+      "приседать на корточки",
+      "присесть на корточки",
+      "сидеть на корточках"
+    ]
+  },
+  {
+    "id": 11004,
+    "infinitive": "höhnen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "höhnt",
+    "preterite": "höhnte",
+    "perfect": "hat gehöhnt",
+    "translations": [
+      "насмехаться",
+      "издеваться"
+    ]
+  },
+  {
+    "id": 11005,
+    "infinitive": "honorieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "honoriert",
+    "preterite": "honorierte",
+    "perfect": "hat honoriert",
+    "translations": [
+      "вознаграждать",
+      "оплачивать",
+      "вознаградить",
+      "заплатить гонорар",
+      "оказать почести",
+      "оказывать почести",
+      "оплатить",
+      "оценить по достоинству",
+      "платить гонорар",
+      "уплатить гонорар",
+      "уплачивать гонорар"
+    ]
+  },
+  {
+    "id": 11006,
+    "infinitive": "humpeln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "humpelt",
+    "preterite": "humpelte",
+    "perfect": "ist gehumpelt",
+    "translations": [
+      "ковылять",
+      "прихрамывать"
+    ]
+  },
+  {
+    "id": 11007,
+    "infinitive": "individualisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "individualisiert",
+    "preterite": "individualisierte",
+    "perfect": "hat individualisiert",
+    "translations": [
+      "индивидуализировать"
+    ]
+  },
+  {
+    "id": 11008,
+    "infinitive": "industrialisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "industrialisiert",
+    "preterite": "industrialisierte",
+    "perfect": "hat industrialisiert",
+    "translations": [
+      "индустриализировать"
+    ]
+  },
+  {
+    "id": 11009,
+    "infinitive": "inhaftieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "inhaftiert",
+    "preterite": "inhaftierte",
+    "perfect": "hat inhaftiert",
+    "translations": [
+      "арестовать",
+      "заключить под стражу",
+      "арестовывать",
+      "брать под арест",
+      "брать под стражу",
+      "взять под арест",
+      "взять под стражу",
+      "заключать под стражу",
+      "лишать свободы",
+      "лишить свободы",
+      "подвергать аресту",
+      "подвергнуть аресту"
+    ]
+  },
+  {
+    "id": 11010,
+    "infinitive": "inspirieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "inspiriert",
+    "preterite": "inspirierte",
+    "perfect": "hat inspiriert",
+    "translations": [
+      "вдохновлять",
+      "вдохновить"
+    ]
+  },
+  {
+    "id": 11011,
+    "infinitive": "inspizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "inspiziert",
+    "preterite": "inspizierte",
+    "perfect": "hat inspiziert",
+    "translations": [
+      "инспектировать",
+      "осматривать",
+      "проверять",
+      "осмотреть",
+      "проверить",
+      "провести смотр",
+      "проводить смотр"
+    ]
+  },
+  {
+    "id": 11012,
+    "infinitive": "instruieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "instruiert",
+    "preterite": "instruierte",
+    "perfect": "hat instruiert",
+    "translations": [
+      "инструктировать",
+      "проинструктировать",
+      "ставить"
+    ]
+  },
+  {
+    "id": 11013,
+    "infinitive": "instrumentalisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "instrumentalisiert",
+    "preterite": "instrumentalisierte",
+    "perfect": "hat instrumentalisiert",
+    "translations": [
+      "злоупотреблять",
+      "использовать"
+    ]
+  },
+  {
+    "id": 11014,
+    "infinitive": "internieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "interniert",
+    "preterite": "internierte",
+    "perfect": "hat interniert",
+    "translations": [
+      "интернировать"
+    ]
+  },
+  {
+    "id": 11015,
+    "infinitive": "involvieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "involviert",
+    "preterite": "involvierte",
+    "perfect": "hat involviert",
+    "translations": [
+      "включать",
+      "включать в себя",
+      "включить в себя",
+      "задействовать",
+      "заключать в себе",
+      "заключить в себе",
+      "замешивать",
+      "содержать в себе"
+    ]
+  },
+  {
+    "id": 11016,
+    "infinitive": "ironisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "ironisiert",
+    "preterite": "ironisierte",
+    "perfect": "hat ironisiert",
+    "translations": [
+      "иронизировать"
+    ]
+  },
+  {
+    "id": 11017,
+    "infinitive": "irreführen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "führt irre",
+    "preterite": "führte irre",
+    "perfect": "hat irregeführt",
+    "translations": [
+      "ввести в заблуждение",
+      "вводить",
+      "вводить в заблуждение",
+      "сбивать",
+      "дезориентировать",
+      "запутать",
+      "запутывать",
+      "путать",
+      "сбить с толку"
+    ]
+  },
+  {
+    "id": 11018,
+    "infinitive": "jagen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "jagt",
+    "preterite": "jagte",
+    "perfect": "hat gejagt",
+    "translations": [
+      "охотиться",
+      "преследовать",
+      "гнать",
+      "гнаться",
+      "искать",
+      "мчать",
+      "мчаться",
+      "нести",
+      "нестись",
+      "погнаться",
+      "понестись"
+    ]
+  },
+  {
+    "id": 11019,
+    "infinitive": "jammern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "jammert",
+    "preterite": "jammerte",
+    "perfect": "hat gejammert",
+    "translations": [
+      "жаловаться",
+      "вопить",
+      "вапить",
+      "громко плакать",
+      "ныть",
+      "причитать",
+      "скулить",
+      "убиваться",
+      "убиться"
+    ]
+  },
+  {
+    "id": 11020,
+    "infinitive": "kichern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kichert",
+    "preterite": "kicherte",
+    "perfect": "hat gekichert",
+    "translations": [
+      "хихикать",
+      "хихикнуть"
+    ]
+  },
+  {
+    "id": 11021,
+    "infinitive": "kitzeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kitzelt",
+    "preterite": "kitzelte",
+    "perfect": "hat gekitzelt",
+    "translations": [
+      "щекотать",
+      "пощекотать"
+    ]
+  },
+  {
+    "id": 11022,
+    "infinitive": "klappern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "klappert",
+    "preterite": "klapperte",
+    "perfect": "hat geklappert",
+    "translations": [
+      "греметь",
+      "стучать",
+      "громыхать",
+      "громыхнуть",
+      "дребезжать",
+      "задребезжать",
+      "клацать",
+      "клацнуть",
+      "постучать",
+      "цокать",
+      "цокнуть",
+      "шумно двигаться",
+      "шумно двинуться",
+      "щёлкать",
+      "щёлкнуть"
+    ]
+  },
+  {
+    "id": 11023,
+    "infinitive": "knabbern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "knabbert",
+    "preterite": "knabberte",
+    "perfect": "hat geknabbert",
+    "translations": [
+      "грызть",
+      "обгладывать",
+      "обглодать",
+      "обгрызать",
+      "обгрызть",
+      "погрызть"
+    ]
+  },
+  {
+    "id": 11024,
+    "infinitive": "knacken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "knackt",
+    "preterite": "knackte",
+    "perfect": "hat geknackt",
+    "translations": [
+      "взламывать",
+      "взломать",
+      "трещать",
+      "хрустеть",
+      "хрустнуть",
+      "щёлкать",
+      "грызть",
+      "колоть",
+      "надламывать",
+      "надломить",
+      "открывать",
+      "открыть",
+      "погрызть",
+      "разгрызать",
+      "разгрызть",
+      "решать",
+      "скрипеть",
+      "скрипнуть",
+      "треснуть",
+      "хряснуть"
+    ]
+  },
+  {
+    "id": 11025,
+    "infinitive": "kneifen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "kneift",
+    "preterite": "kniff (kniffe)",
+    "perfect": "hat gekniffen",
+    "translations": [
+      "щипать",
+      "отступать",
+      "сжимать",
+      "ущипнуть",
+      "врезаться",
+      "жать",
+      "сощурить",
+      "увиливать",
+      "щипнуть",
+      "щурить"
+    ]
+  },
+  {
+    "id": 11026,
+    "infinitive": "knien",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kniet",
+    "preterite": "kniete",
+    "perfect": "hat gekniet",
+    "translations": [
+      "становиться",
+      "стать на колени",
+      "стоять на коленях"
+    ]
+  },
+  {
+    "id": 11027,
+    "infinitive": "knoten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "knotet",
+    "preterite": "knotete",
+    "perfect": "hat geknotet",
+    "translations": [
+      "завязывать",
+      "завязать узлом",
+      "завязывать узлом",
+      "связать",
+      "связывать"
+    ]
+  },
+  {
+    "id": 11028,
+    "infinitive": "kodifizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kodifiziert",
+    "preterite": "kodifizierte",
+    "perfect": "hat kodifiziert",
+    "translations": [
+      "кодифицировать"
+    ]
+  },
+  {
+    "id": 11029,
+    "infinitive": "kompensieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kompensiert",
+    "preterite": "kompensierte",
+    "perfect": "hat kompensiert",
+    "translations": [
+      "компенсировать",
+      "возмещать",
+      "корректировать",
+      "скорректировать"
+    ]
+  },
+  {
+    "id": 11030,
+    "infinitive": "konstruieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "konstruiert",
+    "preterite": "konstruierte",
+    "perfect": "hat konstruiert",
+    "translations": [
+      "конструировать",
+      "построить",
+      "строить"
+    ]
+  },
+  {
+    "id": 11031,
+    "infinitive": "kontern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kontert",
+    "preterite": "konterte",
+    "perfect": "hat gekontert",
+    "translations": [
+      "контратаковать",
+      "парировать",
+      "законтрить"
+    ]
+  },
+  {
+    "id": 11032,
+    "infinitive": "koppeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "koppelt",
+    "preterite": "koppelte",
+    "perfect": "hat gekoppelt",
+    "translations": [
+      "связывать",
+      "произвести стыковку",
+      "производить",
+      "производить стыковку",
+      "стреножить",
+      "треножить"
+    ]
+  },
+  {
+    "id": 11033,
+    "infinitive": "korrelieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "korreliert",
+    "preterite": "korrelierte",
+    "perfect": "hat korreliert",
+    "translations": [
+      "коррелировать",
+      "соотнести",
+      "соотносить",
+      "сопоставить",
+      "сопоставлять"
+    ]
+  },
+  {
+    "id": 11034,
+    "infinitive": "kostümieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kostümiert",
+    "preterite": "kostümierte",
+    "perfect": "hat kostümiert",
+    "translations": [
+      "костюмировать",
+      "переодеваться",
+      "наряжать",
+      "наряжаться",
+      "переодевать",
+      "переодеться"
+    ]
+  },
+  {
+    "id": 11035,
+    "infinitive": "kränken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kränkt",
+    "preterite": "kränkte",
+    "perfect": "hat gekränkt",
+    "translations": [
+      "обижать",
+      "ранить",
+      "обидеть",
+      "оскорблять",
+      "задевать",
+      "задеть",
+      "оскорбить",
+      "поранить",
+      "разобидеть",
+      "разобижать",
+      "уязвить",
+      "уязвлять"
+    ]
+  },
+  {
+    "id": 11036,
+    "infinitive": "kribbeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kribbelt",
+    "preterite": "kribbelte",
+    "perfect": "hat gekribbelt",
+    "translations": [
+      "зудеть",
+      "кишеть",
+      "копошиться",
+      "чесаться"
+    ]
+  },
+  {
+    "id": 11037,
+    "infinitive": "kritzeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kritzelt",
+    "preterite": "kritzelte",
+    "perfect": "hat gekritzelt",
+    "translations": [
+      "царапать",
+      "набрасывать",
+      "накорябывать",
+      "писать",
+      "писать неразборчиво"
+    ]
+  },
+  {
+    "id": 11038,
+    "infinitive": "krönen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "krönt",
+    "preterite": "krönte",
+    "perfect": "hat gekrönt",
+    "translations": [
+      "короновать",
+      "венчать",
+      "увенчать",
+      "завершать",
+      "завершаться",
+      "завершить",
+      "завершиться"
+    ]
+  },
+  {
+    "id": 11039,
+    "infinitive": "kultivieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kultiviert",
+    "preterite": "kultivierte",
+    "perfect": "hat kultiviert",
+    "translations": [
+      "культивировать"
+    ]
+  },
+  {
+    "id": 11040,
+    "infinitive": "lauten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "lautet",
+    "preterite": "lautete",
+    "perfect": "hat gelautet",
+    "translations": [
+      "звучать",
+      "гласить",
+      "назваться",
+      "прозвучать"
+    ]
+  },
+  {
+    "id": 11041,
+    "infinitive": "loslösen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "löst los",
+    "preterite": "löste los",
+    "perfect": "hat losgelöst",
+    "translations": [
+      "отделять",
+      "оторваться",
+      "отставать",
+      "отстать",
+      "отвязать",
+      "отвязывать",
+      "отделить",
+      "отделиться",
+      "отделяться",
+      "отдирать",
+      "отклеивать",
+      "отклеиваться",
+      "отклеить",
+      "отклеиться",
+      "отлепиться",
+      "отлепляться",
+      "отодрать",
+      "оторвать",
+      "отрывать",
+      "отрываться"
+    ]
+  },
+  {
+    "id": 11042,
+    "infinitive": "loswerden",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "wird los",
+    "preterite": "wurde los",
+    "perfect": "ist losgeworden",
+    "translations": [
+      "избавиться",
+      "избавляться",
+      "освободиться",
+      "освобождаться"
+    ]
+  },
+  {
+    "id": 11043,
+    "infinitive": "mäkeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mäkelt",
+    "preterite": "mäkelte",
+    "perfect": "hat gemäkelt",
+    "translations": [
+      "придираться",
+      "привередничать",
+      "придраться"
+    ]
+  },
+  {
+    "id": 11044,
+    "infinitive": "mailen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mailt",
+    "preterite": "mailte",
+    "perfect": "hat gemailt",
+    "translations": [
+      "писать по почте"
+    ]
+  },
+  {
+    "id": 11045,
+    "infinitive": "managen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "managt",
+    "preterite": "managte",
+    "perfect": "hat gemanagt",
+    "translations": [
+      "управлять",
+      "руководить",
+      "распорядиться",
+      "распоряжаться",
+      "справляться",
+      "устраивать",
+      "устроить"
+    ]
+  },
+  {
+    "id": 11046,
+    "infinitive": "mangeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mangelt",
+    "preterite": "mangelte",
+    "perfect": "hat gemangelt",
+    "translations": [
+      "недоставать",
+      "не хватать",
+      "катать бельё",
+      "не хватить",
+      "недостать"
+    ]
+  },
+  {
+    "id": 11047,
+    "infinitive": "manifestieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "manifestiert",
+    "preterite": "manifestierte",
+    "perfect": "hat manifestiert",
+    "translations": [
+      "выражать",
+      "манифестировать",
+      "демонстрировать",
+      "заявление под присягой",
+      "открываться",
+      "проявлять",
+      "проявляться"
+    ]
+  },
+  {
+    "id": 11048,
+    "infinitive": "massieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "massiert",
+    "preterite": "massierte",
+    "perfect": "hat massiert",
+    "translations": [
+      "массировать",
+      "делать массаж",
+      "помассировать",
+      "растереть",
+      "растирать",
+      "сделать массаж"
+    ]
+  },
+  {
+    "id": 11049,
+    "infinitive": "mimen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mimt",
+    "preterite": "mimte",
+    "perfect": "hat gemimt",
+    "translations": [
+      "разыгрывать"
+    ]
+  },
+  {
+    "id": 11050,
+    "infinitive": "mindern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mindert",
+    "preterite": "minderte",
+    "perfect": "hat gemindert",
+    "translations": [
+      "снижать",
+      "уменьшать",
+      "уменьшить",
+      "ослабить",
+      "ослаблять",
+      "смягчать",
+      "смягчить",
+      "снизить",
+      "сократить",
+      "сокращать",
+      "убавить",
+      "убавлять",
+      "умалять",
+      "уменьшаться",
+      "уменьшиться",
+      "умерить",
+      "умерять"
+    ]
+  },
+  {
+    "id": 11051,
+    "infinitive": "missdeuten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "missdeutet",
+    "preterite": "missdeutete",
+    "perfect": "hat missdeutet",
+    "translations": [
+      "ложно истолковать",
+      "ложно истолковывать",
+      "превратно истолковать",
+      "превратно истолковывать",
+      "превратно толковать"
+    ]
+  },
+  {
+    "id": 11052,
+    "infinitive": "missfallen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "missfällt",
+    "preterite": "missfiel (missfiele)",
+    "perfect": "hat missfallen",
+    "translations": [
+      "не нравиться",
+      "быть неприятным",
+      "не нравится"
+    ]
+  },
+  {
+    "id": 11053,
+    "infinitive": "missglücken",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "missglückt",
+    "preterite": "missglückte",
+    "perfect": "ist missglückt",
+    "translations": [
+      "не везëт",
+      "не удаваться",
+      "не удаться",
+      "сорваться",
+      "срываться"
+    ]
+  },
+  {
+    "id": 11054,
+    "infinitive": "missgönnen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "missgönnt",
+    "preterite": "missgönnte",
+    "perfect": "hat missgönnt",
+    "translations": [
+      "завидовать",
+      "позавидовать"
+    ]
+  },
+  {
+    "id": 11055,
+    "infinitive": "misslingen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "misslingt",
+    "preterite": "misslang (misslänge)",
+    "perfect": "ist misslungen",
+    "translations": [
+      "не удаваться",
+      "не удаться",
+      "обламываться",
+      "терпеть неудачу",
+      "удаваться"
+    ]
+  },
+  {
+    "id": 11056,
+    "infinitive": "mitdenken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "denkt mit",
+    "preterite": "dachte mit (dächte mit)",
+    "perfect": "hat mitgedacht",
+    "translations": [
+      "действовать обдуманно"
+    ]
+  },
+  {
+    "id": 11057,
+    "infinitive": "mitessen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "isst mit",
+    "preterite": "aß mit (äße mit)",
+    "perfect": "hat mitgegessen",
+    "translations": [
+      "поесть вместе"
+    ]
+  },
+  {
+    "id": 11058,
+    "infinitive": "mitfühlen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "fühlt mit",
+    "preterite": "fühlte mit",
+    "perfect": "hat mitgefühlt",
+    "translations": [
+      "сочувствовать",
+      "сопереживать",
+      "посочувствовать",
+      "сострадать"
+    ]
+  },
+  {
+    "id": 11059,
+    "infinitive": "mitgestalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "gestaltet mit",
+    "preterite": "gestaltete mit",
+    "perfect": "hat mitgestaltet",
+    "translations": [
+      "совместно оформлять"
+    ]
+  },
+  {
+    "id": 11060,
+    "infinitive": "mithalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hält mit",
+    "preterite": "hielt mit (hielte mit)",
+    "perfect": "hat mitgehalten",
+    "translations": [
+      "выдержать",
+      "выдерживать",
+      "держаться вместе",
+      "не отставать",
+      "не отстать",
+      "не уступать",
+      "не уступить",
+      "составить конкуренцию",
+      "составлять конкуренцию"
+    ]
+  },
+  {
+    "id": 11061,
+    "infinitive": "mitwirken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wirkt mit",
+    "preterite": "wirkte mit",
+    "perfect": "hat mitgewirkt",
+    "translations": [
+      "участвовать",
+      "играть",
+      "помогать",
+      "принимать",
+      "принимать участие",
+      "принять участие"
+    ]
+  },
+  {
+    "id": 11062,
+    "infinitive": "modellieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "modelliert",
+    "preterite": "modellierte",
+    "perfect": "hat modelliert",
+    "translations": [
+      "моделировать",
+      "создавать модель",
+      "вылепить",
+      "лепить",
+      "смоделировать",
+      "создать модель"
+    ]
+  },
+  {
+    "id": 11063,
+    "infinitive": "modifizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "modifiziert",
+    "preterite": "modifizierte",
+    "perfect": "hat modifiziert",
+    "translations": [
+      "модифицировать",
+      "видоизменить",
+      "видоизменять"
+    ]
+  },
+  {
+    "id": 11064,
+    "infinitive": "morden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "mordet",
+    "preterite": "mordete",
+    "perfect": "hat gemordet",
+    "translations": [
+      "совершать убийство",
+      "совершить убийство",
+      "убивать",
+      "убить"
+    ]
+  },
+  {
+    "id": 11065,
+    "infinitive": "nachbilden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "bildet nach",
+    "preterite": "bildete nach",
+    "perfect": "hat nachgebildet",
+    "translations": [
+      "воссоздавать",
+      "воспроизвести",
+      "воспроизводить",
+      "моделировать",
+      "смоделировать",
+      "сэмулировать",
+      "эмулировать"
+    ]
+  },
+  {
+    "id": 11066,
+    "infinitive": "nachkochen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kocht nach",
+    "preterite": "kochte nach",
+    "perfect": "hat nachgekocht",
+    "translations": [
+      "повторить рецепт"
+    ]
+  },
+  {
+    "id": 11067,
+    "infinitive": "nachkommen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "kommt nach",
+    "preterite": "kam nach",
+    "perfect": "ist nachgekommen",
+    "translations": [
+      "выполнять",
+      "догонять",
+      "прийти позднее",
+      "выполнить",
+      "догнать",
+      "исполнить",
+      "последовать",
+      "поспевать",
+      "поспеть",
+      "приходить",
+      "приходить позднее",
+      "следовать",
+      "успевать"
+    ]
+  },
+  {
+    "id": 11068,
+    "infinitive": "nachlassen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "lässt nach",
+    "preterite": "ließ nach (ließe nach)",
+    "perfect": "hat nachgelassen",
+    "translations": [
+      "ослабевать",
+      "уменьшаться",
+      "ослабеть",
+      "ослабить",
+      "ослаблять",
+      "предоставлять скидку",
+      "сбавить цену",
+      "сбавлять цену",
+      "слабеть",
+      "спадать",
+      "спасть",
+      "стихать",
+      "стихнуть",
+      "укладываться",
+      "уменьшиться",
+      "утихать",
+      "утихнуть",
+      "ухудшаться",
+      "ухудшиться"
+    ]
+  },
+  {
+    "id": 11069,
+    "infinitive": "nachstehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "steht nach",
+    "preterite": "stand nach (stünde/stände nach)",
+    "perfect": "hat nachgestanden",
+    "translations": [
+      "уступать",
+      "уступить"
+    ]
+  },
+  {
+    "id": 11070,
+    "infinitive": "nachtrauern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "trauert nach",
+    "preterite": "trauerte nach",
+    "perfect": "hat nachgetrauert",
+    "translations": [
+      "грустить",
+      "погрустить"
+    ]
+  },
+  {
+    "id": 11071,
+    "infinitive": "nachvollziehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "vollzieht nach",
+    "preterite": "vollzog nach (vollzöge nach)",
+    "perfect": "hat nachvollzogen",
+    "translations": [
+      "понимать",
+      "воспроизвести",
+      "воспроизводить",
+      "осмыслить",
+      "повторить",
+      "повторять",
+      "понять",
+      "постигать",
+      "представить себе",
+      "представлять себе",
+      "принимать",
+      "принять",
+      "согласиться",
+      "соглашаться"
+    ]
+  },
+  {
+    "id": 11072,
+    "infinitive": "näherkommen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "kommt näher",
+    "preterite": "kam näher",
+    "perfect": "ist nähergekommen",
+    "translations": [
+      "сближаться",
+      "сблизиться"
+    ]
+  },
+  {
+    "id": 11073,
+    "infinitive": "navigieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "navigiert",
+    "preterite": "navigierte",
+    "perfect": "hat navigiert",
+    "translations": [
+      "вести корабль",
+      "вести самолёт",
+      "повести корабль",
+      "повести самолёт"
+    ]
+  },
+  {
+    "id": 11074,
+    "infinitive": "offenstehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "steht offen",
+    "preterite": "stand offen (stünde/stände offen)",
+    "perfect": "hat offengestanden",
+    "translations": [
+      "быть доступным",
+      "быть открытым"
+    ]
+  },
+  {
+    "id": 11075,
+    "infinitive": "outen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "outet",
+    "preterite": "outete",
+    "perfect": "hat geoutet",
+    "translations": [
+      "признаваться",
+      "признаться",
+      "публично объявить",
+      "публично объявлять"
+    ]
+  },
+  {
+    "id": 11076,
+    "infinitive": "patentieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "patentiert",
+    "preterite": "patentierte",
+    "perfect": "hat patentiert",
+    "translations": [
+      "патентовать"
+    ]
+  },
+  {
+    "id": 11077,
+    "infinitive": "perforieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "perforiert",
+    "preterite": "perforierte",
+    "perfect": "hat perforiert",
+    "translations": [
+      "прободать",
+      "прокомпостировать"
+    ]
+  },
+  {
+    "id": 11078,
+    "infinitive": "pflücken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "pflückt",
+    "preterite": "pflückte",
+    "perfect": "hat gepflückt",
+    "translations": [
+      "собирать",
+      "собрать",
+      "сорвать",
+      "срывать",
+      "cрывать",
+      "набрать",
+      "рвать"
+    ]
+  },
+  {
+    "id": 11079,
+    "infinitive": "plädieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "plädiert",
+    "preterite": "plädierte",
+    "perfect": "hat plädiert",
+    "translations": [
+      "выступать за",
+      "отстаивать",
+      "высказаться",
+      "высказываться",
+      "выступать",
+      "выступить за",
+      "отстоять",
+      "произнести речь",
+      "произносить речь"
+    ]
+  },
+  {
+    "id": 11080,
+    "infinitive": "plagiieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "plagiiert",
+    "preterite": "plagiierte",
+    "perfect": "hat plagiiert",
+    "translations": [
+      "совершать плагиат"
+    ]
+  },
+  {
+    "id": 11081,
+    "infinitive": "platzen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "platzt",
+    "preterite": "platzte",
+    "perfect": "ist geplatzt",
+    "translations": [
+      "лопнуть",
+      "лопаться",
+      "потрескаться",
+      "разорваться",
+      "трескаться",
+      "треснуть",
+      "трещать"
+    ]
+  },
+  {
+    "id": 11082,
+    "infinitive": "plumpsen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "plumpst",
+    "preterite": "plumpste",
+    "perfect": "hat geplumpst",
+    "translations": [
+      "плюхаться",
+      "плюхнуться",
+      "бултыхнуться",
+      "шлёпаться",
+      "шлёпнуться"
+    ]
+  },
+  {
+    "id": 11083,
+    "infinitive": "positionieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "positioniert",
+    "preterite": "positionierte",
+    "perfect": "hat positioniert",
+    "translations": [
+      "позиционировать",
+      "располагать",
+      "разместить",
+      "размещать",
+      "расположить"
+    ]
+  },
+  {
+    "id": 11084,
+    "infinitive": "postulieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "postuliert",
+    "preterite": "postulierte",
+    "perfect": "hat postuliert",
+    "translations": [
+      "постулировать",
+      "признать за необходимое"
+    ]
+  },
+  {
+    "id": 11085,
+    "infinitive": "praktizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "praktiziert",
+    "preterite": "praktizierte",
+    "perfect": "hat praktiziert",
+    "translations": [
+      "практиковать",
+      "применить",
+      "применять"
+    ]
+  },
+  {
+    "id": 11086,
+    "infinitive": "predigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "predigt",
+    "preterite": "predigte",
+    "perfect": "hat gepredigt",
+    "translations": [
+      "проповедовать",
+      "внушать",
+      "внушить",
+      "прочитать проповедь",
+      "прочитывать проповедь",
+      "читать",
+      "читать проповедь"
+    ]
+  },
+  {
+    "id": 11087,
+    "infinitive": "prellen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "prellt",
+    "preterite": "prellte",
+    "perfect": "hat geprellt",
+    "translations": [
+      "обмануть",
+      "обсчитать",
+      "ушибить",
+      "наскакивать",
+      "наскочить",
+      "обманывать",
+      "обсчитывать",
+      "сильно удариться",
+      "сильно ударяться",
+      "ушибать",
+      "ушибаться",
+      "ушибиться"
+    ]
+  },
+  {
+    "id": 11088,
+    "infinitive": "prognostizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "prognostiziert",
+    "preterite": "prognostizierte",
+    "perfect": "hat prognostiziert",
+    "translations": [
+      "прогнозировать"
+    ]
+  },
+  {
+    "id": 11089,
+    "infinitive": "programmieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "programmiert",
+    "preterite": "programmierte",
+    "perfect": "hat programmiert",
+    "translations": [
+      "программировать",
+      "запрограммировать"
+    ]
+  },
+  {
+    "id": 11090,
+    "infinitive": "promoten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "promotet",
+    "preterite": "promotete",
+    "perfect": "hat promotet",
+    "translations": [
+      "рекламировать"
+    ]
+  },
+  {
+    "id": 11091,
+    "infinitive": "pürieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "püriert",
+    "preterite": "pürierte",
+    "perfect": "hat püriert",
+    "translations": [
+      "делать пюре",
+      "пюрировать",
+      "сделать пюре"
+    ]
+  },
+  {
+    "id": 11092,
+    "infinitive": "pusten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "pustet",
+    "preterite": "pustete",
+    "perfect": "hat gepustet",
+    "translations": [
+      "дуть",
+      "дунуть",
+      "пыхтеть",
+      "тяжело дышать"
+    ]
+  },
+  {
+    "id": 11093,
+    "infinitive": "quasseln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "quasselt",
+    "preterite": "quasselte",
+    "perfect": "hat gequasselt",
+    "translations": [
+      "болтать"
+    ]
+  },
+  {
+    "id": 11094,
+    "infinitive": "rätseln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rätselt",
+    "preterite": "rätselte",
+    "perfect": "hat gerätselt",
+    "translations": [
+      "гадать",
+      "разгадывать"
+    ]
+  },
+  {
+    "id": 11095,
+    "infinitive": "rauschen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rauscht",
+    "preterite": "rauschte",
+    "perfect": "hat gerauscht",
+    "translations": [
+      "шуметь",
+      "журчать",
+      "шелестеть",
+      "шуршать"
+    ]
+  },
+  {
+    "id": 11096,
+    "infinitive": "rechtfertigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rechtfertigt",
+    "preterite": "rechtfertigte",
+    "perfect": "hat gerechtfertigt",
+    "translations": [
+      "оправдывать",
+      "оправдать",
+      "оправдываться",
+      "оправдаться",
+      "оправдаться перед"
+    ]
+  },
+  {
+    "id": 11097,
+    "infinitive": "redigieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "redigiert",
+    "preterite": "redigierte",
+    "perfect": "hat redigiert",
+    "translations": [
+      "редактировать",
+      "отредактировать"
+    ]
+  },
+  {
+    "id": 11098,
+    "infinitive": "reflektieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "reflektiert",
+    "preterite": "reflektierte",
+    "perfect": "hat reflektiert",
+    "translations": [
+      "размышлять",
+      "отражать",
+      "отражаться",
+      "отразить",
+      "отразиться",
+      "отсвечивать",
+      "претендовать",
+      "рассчитывать",
+      "рефлектировать"
+    ]
+  },
+  {
+    "id": 11099,
+    "infinitive": "reihen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "reiht",
+    "preterite": "reihte",
+    "perfect": "hat gereiht",
+    "translations": [
+      "ставить в ряд",
+      "нанизать",
+      "нанизывать",
+      "поставить в ряд",
+      "примкнуть",
+      "примыкать"
+    ]
+  },
+  {
+    "id": 11100,
+    "infinitive": "reinziehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "zieht rein",
+    "preterite": "zog rein (zöge rein)",
+    "perfect": "hat reingezogen",
+    "translations": [
+      "впутать",
+      "впутаться",
+      "втащить",
+      "втянуть",
+      "втянуться",
+      "послушать",
+      "посмотреть",
+      "съесть"
+    ]
+  },
+  {
+    "id": 11101,
+    "infinitive": "reizen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "reizt",
+    "preterite": "reizte",
+    "perfect": "hat gereizt",
+    "translations": [
+      "раздражать",
+      "возбуждать",
+      "вызывать",
+      "привлекать",
+      "возбудить",
+      "вызвать",
+      "дразнить",
+      "побуждать",
+      "подразнить",
+      "прельстить",
+      "прельщать",
+      "привлечь",
+      "раздражить",
+      "раздразнивать",
+      "раздразнить",
+      "саднить"
+    ]
+  },
+  {
+    "id": 11102,
+    "infinitive": "reklamieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "reklamiert",
+    "preterite": "reklamierte",
+    "perfect": "hat reklamiert",
+    "translations": [
+      "заявлять рекламацию",
+      "заявить претензию",
+      "заявить рекламацию",
+      "заявлять претензию",
+      "предъявлять претензию"
+    ]
+  },
+  {
+    "id": 11103,
+    "infinitive": "rekonstruieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rekonstruiert",
+    "preterite": "rekonstruierte",
+    "perfect": "hat rekonstruiert",
+    "translations": [
+      "реконструировать",
+      "воссоздавать",
+      "восстанавливать",
+      "перестраивать"
+    ]
+  },
+  {
+    "id": 11104,
+    "infinitive": "relativieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "relativiert",
+    "preterite": "relativierte",
+    "perfect": "hat relativiert",
+    "translations": [
+      "соотнести",
+      "соотносить"
+    ]
+  },
+  {
+    "id": 11105,
+    "infinitive": "rentieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rentiert",
+    "preterite": "rentierte",
+    "perfect": "hat rentiert",
+    "translations": [
+      "окупаться",
+      "окупиться"
+    ]
+  },
+  {
+    "id": 11106,
+    "infinitive": "resignieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "resigniert",
+    "preterite": "resignierte",
+    "perfect": "hat resigniert",
+    "translations": [
+      "смириться",
+      "смиряться",
+      "осознать своё бессилие",
+      "отрекаться",
+      "отречься",
+      "покориться судьбе",
+      "покоряться судьбе",
+      "сдаваться",
+      "сдаться"
+    ]
+  },
+  {
+    "id": 11107,
+    "infinitive": "retuschieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "retuschiert",
+    "preterite": "retuschierte",
+    "perfect": "hat retuschiert",
+    "translations": [
+      "ретушировать"
+    ]
+  },
+  {
+    "id": 11108,
+    "infinitive": "revidieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "revidiert",
+    "preterite": "revidierte",
+    "perfect": "hat revidiert",
+    "translations": [
+      "пересматривать",
+      "исправлять",
+      "проверять",
+      "исправить",
+      "контролировать",
+      "обжаловать",
+      "пересмотреть",
+      "проверить",
+      "проконтролировать",
+      "ревизовать"
+    ]
+  },
+  {
+    "id": 11109,
+    "infinitive": "rocken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rockt",
+    "preterite": "rockte",
+    "perfect": "hat gerockt",
+    "translations": [
+      "играть рок-музыку"
+    ]
+  },
+  {
+    "id": 11110,
+    "infinitive": "röcheln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "röchelt",
+    "preterite": "röchelte",
+    "perfect": "hat geröchelt",
+    "translations": [
+      "хрипеть"
+    ]
+  },
+  {
+    "id": 11111,
+    "infinitive": "rümpfen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rümpft",
+    "preterite": "rümpfte",
+    "perfect": "hat gerümpft",
+    "translations": [
+      "воротить нос",
+      "выказывать презрение",
+      "демонстрировать презрение",
+      "морщить нос",
+      "свернуть",
+      "сжимать"
+    ]
+  },
+  {
+    "id": 11112,
+    "infinitive": "rütteln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rüttelt",
+    "preterite": "rüttelte",
+    "perfect": "hat gerüttelt",
+    "translations": [
+      "трясти",
+      "шатать",
+      "расшатать",
+      "расшатывать"
+    ]
+  },
+  {
+    "id": 11113,
+    "infinitive": "ruhigstellen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stellt ruhig",
+    "preterite": "stellte ruhig",
+    "perfect": "hat ruhiggestellt",
+    "translations": [
+      "остановить",
+      "успокоить"
+    ]
+  },
+  {
+    "id": 11114,
+    "infinitive": "ruinieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "ruiniert",
+    "preterite": "ruinierte",
+    "perfect": "hat ruiniert",
+    "translations": [
+      "разорять",
+      "разрушать",
+      "губить",
+      "разорить",
+      "погубить",
+      "подорвать",
+      "подрывать",
+      "разориться",
+      "разоряться",
+      "разрушить",
+      "расшатать",
+      "расшатывать"
+    ]
+  },
+  {
+    "id": 11115,
+    "infinitive": "rumpeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "rumpelt",
+    "preterite": "rumpelte",
+    "perfect": "hat gerumpelt",
+    "translations": [
+      "громыхать",
+      "громыхнуть",
+      "грохотать",
+      "издавать глухой звук",
+      "издать глухой звук"
+    ]
+  },
+  {
+    "id": 11116,
+    "infinitive": "sanieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "saniert",
+    "preterite": "sanierte",
+    "perfect": "hat saniert",
+    "translations": [
+      "оздоровить",
+      "ремонтировать",
+      "санировать",
+      "оздоровлять",
+      "отремонтировать"
+    ]
+  },
+  {
+    "id": 11117,
+    "infinitive": "saugen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "saugt",
+    "preterite": "saugte",
+    "perfect": "hat gesaugt",
+    "translations": [
+      "всасывать",
+      "сосать",
+      "всосать",
+      "отсосать",
+      "почистить пылесосом",
+      "пропылесосить",
+      "пылесосить",
+      "чистить пылесосом"
+    ]
+  },
+  {
+    "id": 11118,
+    "infinitive": "schädigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schädigt",
+    "preterite": "schädigte",
+    "perfect": "hat geschädigt",
+    "translations": [
+      "вредить",
+      "повреждать",
+      "нанести ущерб",
+      "наносить ущерб"
+    ]
+  },
+  {
+    "id": 11119,
+    "infinitive": "schaufeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schaufelt",
+    "preterite": "schaufelte",
+    "perfect": "hat geschaufelt",
+    "translations": [
+      "копать",
+      "грузить",
+      "выкапывать",
+      "выкопать",
+      "вырывать",
+      "вырыть",
+      "грести",
+      "кидать",
+      "копнуть",
+      "отрывать",
+      "отрыть",
+      "работать лопатой",
+      "разгребать",
+      "разгрести",
+      "рыть",
+      "сгребать",
+      "сгрести",
+      "сгружать",
+      "сгрузить"
+    ]
+  },
+  {
+    "id": 11120,
+    "infinitive": "schillern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schillert",
+    "preterite": "schillerte",
+    "perfect": "hat geschillert",
+    "translations": [
+      "переливаться",
+      "быть трудно определимым",
+      "отливать"
+    ]
+  },
+  {
+    "id": 11121,
+    "infinitive": "schippen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schippt",
+    "preterite": "schippte",
+    "perfect": "hat geschippt",
+    "translations": [
+      "копать"
+    ]
+  },
+  {
+    "id": 11122,
+    "infinitive": "schlottern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schlottert",
+    "preterite": "schlotterte",
+    "perfect": "hat geschlottert",
+    "translations": [
+      "трястись",
+      "дрожать",
+      "болтаться"
+    ]
+  },
+  {
+    "id": 11123,
+    "infinitive": "schnallen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schnallt",
+    "preterite": "schnallte",
+    "perfect": "hat geschnallt",
+    "translations": [
+      "понимать",
+      "отстегнуть",
+      "отстёгивать",
+      "понять",
+      "прикрепить",
+      "прикреплять",
+      "пристегнуть",
+      "пристёгивать"
+    ]
+  },
+  {
+    "id": 11124,
+    "infinitive": "schönfärben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "färbt schön",
+    "preterite": "färbte schön",
+    "perfect": "hat schöngefärbt",
+    "translations": [
+      "приукрашивать",
+      "приукрасить"
+    ]
+  },
+  {
+    "id": 11125,
+    "infinitive": "schrecken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schreckt",
+    "preterite": "schreckte",
+    "perfect": "hat geschreckt",
+    "translations": [
+      "пугать",
+      "пугаться"
+    ]
+  },
+  {
+    "id": 11126,
+    "infinitive": "schwärmen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schwärmt",
+    "preterite": "schwärmte",
+    "perfect": "hat geschwärmt",
+    "translations": [
+      "восторгаться",
+      "увлекаться",
+      "бредить",
+      "быть без ума",
+      "быть в восторге",
+      "виться",
+      "восторженно отзываться",
+      "восторженно отозваться",
+      "восхищаться",
+      "мечтать",
+      "носиться",
+      "обожать",
+      "с восторгом рассказать",
+      "увлечься"
+    ]
+  },
+  {
+    "id": 11127,
+    "infinitive": "schwarzsehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "sieht schwarz",
+    "preterite": "sah schwarz",
+    "perfect": "hat schwarzgesehen",
+    "translations": [
+      "быть пессимистом"
+    ]
+  },
+  {
+    "id": 11128,
+    "infinitive": "schweben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schwebt",
+    "preterite": "schwebte",
+    "perfect": "hat geschwebt",
+    "translations": [
+      "парить"
+    ]
+  },
+  {
+    "id": 11129,
+    "infinitive": "sensibilisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sensibilisiert",
+    "preterite": "sensibilisierte",
+    "perfect": "hat sensibilisiert",
+    "translations": [
+      "сенсибилизировать",
+      "будить интерес",
+      "пробудить интерес",
+      "пробуждать интерес"
+    ]
+  },
+  {
+    "id": 11130,
+    "infinitive": "signieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "signiert",
+    "preterite": "signierte",
+    "perfect": "hat signiert",
+    "translations": [
+      "подписывать",
+      "подписать",
+      "зашифровать",
+      "зашифровывать",
+      "поставить автограф",
+      "ставить автограф",
+      "шифровать"
+    ]
+  },
+  {
+    "id": 11131,
+    "infinitive": "sinnieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sinniert",
+    "preterite": "sinnierte",
+    "perfect": "hat sinniert",
+    "translations": [
+      "размышлять",
+      "быть в раздумье",
+      "мечтать",
+      "раздумывать"
+    ]
+  },
+  {
+    "id": 11132,
+    "infinitive": "spalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "spaltet",
+    "preterite": "spaltete",
+    "perfect": "hat gespaltet/gespalten",
+    "translations": [
+      "разделять",
+      "раскалывать",
+      "расщеплять",
+      "колоть",
+      "раскалываться",
+      "расщепляться",
+      "раздваиваться",
+      "раздвоиться",
+      "разрубать",
+      "разрубить",
+      "раскраивать",
+      "раскроить",
+      "расщепить",
+      "расщепиться"
+    ]
+  },
+  {
+    "id": 11133,
+    "infinitive": "spotten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "spottet",
+    "preterite": "spottete",
+    "perfect": "hat gespottet",
+    "translations": [
+      "насмехаться",
+      "высмеивать",
+      "издеваться",
+      "высмеять",
+      "глумиться",
+      "поднять на смех"
+    ]
+  },
+  {
+    "id": 11134,
+    "infinitive": "sprengen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sprengt",
+    "preterite": "sprengte",
+    "perfect": "hat gesprengt",
+    "translations": [
+      "взрывать",
+      "подрывать",
+      "взорвать",
+      "взламывать",
+      "взломать",
+      "мчаться",
+      "нестись",
+      "подорвать",
+      "поливать",
+      "полить",
+      "сорвать",
+      "спрыскивать",
+      "спрыснуть",
+      "срывать"
+    ]
+  },
+  {
+    "id": 11135,
+    "infinitive": "sprinten",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "sprintet",
+    "preterite": "sprintete",
+    "perfect": "ist gesprintet",
+    "translations": [
+      "мчаться"
+    ]
+  },
+  {
+    "id": 11136,
+    "infinitive": "spucken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "spuckt",
+    "preterite": "spuckte",
+    "perfect": "hat gespuckt",
+    "translations": [
+      "плевать",
+      "плюнуть",
+      "выплюнуть",
+      "выплёвывать",
+      "плеваться"
+    ]
+  },
+  {
+    "id": 11137,
+    "infinitive": "stählen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stählt",
+    "preterite": "stählte",
+    "perfect": "hat gestählt",
+    "translations": [
+      "закалять",
+      "закалить",
+      "закалиться",
+      "закаляться"
+    ]
+  },
+  {
+    "id": 11138,
+    "infinitive": "stagnieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stagniert",
+    "preterite": "stagnierte",
+    "perfect": "hat stagniert",
+    "translations": [
+      "стагнировать",
+      "пережить период застоя"
+    ]
+  },
+  {
+    "id": 11139,
+    "infinitive": "stemmen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stemmt",
+    "preterite": "stemmte",
+    "perfect": "hat gestemmt",
+    "translations": [
+      "поднимать",
+      "упираться",
+      "сопротивляться",
+      "выдалбливать",
+      "выдолбить",
+      "давить",
+      "долбить",
+      "налегать",
+      "налечь",
+      "поднять",
+      "упереться",
+      "упереться в"
+    ]
+  },
+  {
+    "id": 11140,
+    "infinitive": "stottern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stottert",
+    "preterite": "stotterte",
+    "perfect": "hat gestottert",
+    "translations": [
+      "заикаться",
+      "заикнуться",
+      "лепетать"
+    ]
+  },
+  {
+    "id": 11141,
+    "infinitive": "straucheln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "strauchelt",
+    "preterite": "strauchelte",
+    "perfect": "ist gestrauchelt",
+    "translations": [
+      "спотыкаться",
+      "оступаться",
+      "оступиться"
+    ]
+  },
+  {
+    "id": 11142,
+    "infinitive": "strecken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "streckt",
+    "preterite": "streckte",
+    "perfect": "hat gestreckt",
+    "translations": [
+      "вытягивать",
+      "вытянуть",
+      "разбавлять",
+      "растягивать",
+      "вытягиваться",
+      "потягиваться",
+      "потянуться",
+      "протягиваться",
+      "разводить",
+      "растягиваться",
+      "растянуться",
+      "тянуться"
+    ]
+  },
+  {
+    "id": 11143,
+    "infinitive": "strukturieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "strukturiert",
+    "preterite": "strukturierte",
+    "perfect": "hat strukturiert",
+    "translations": [
+      "структурировать",
+      "организовать",
+      "определять структуру",
+      "создавать структуру",
+      "упорядочить"
+    ]
+  },
+  {
+    "id": 11144,
+    "infinitive": "suggerieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "suggeriert",
+    "preterite": "suggerierte",
+    "perfect": "hat suggeriert",
+    "translations": [
+      "внушать",
+      "внушить",
+      "намекнуть",
+      "подавать мысль",
+      "подать мысль",
+      "предложить",
+      "советовать"
+    ]
+  },
+  {
+    "id": 11145,
+    "infinitive": "symbolisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "symbolisiert",
+    "preterite": "symbolisierte",
+    "perfect": "hat symbolisiert",
+    "translations": [
+      "символизировать"
+    ]
+  },
+  {
+    "id": 11146,
+    "infinitive": "tabuisieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "tabuisiert",
+    "preterite": "tabuisierte",
+    "perfect": "hat tabuisiert",
+    "translations": [
+      "табуировать"
+    ]
+  },
+  {
+    "id": 11147,
+    "infinitive": "taumeln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "taumelt",
+    "preterite": "taumelte",
+    "perfect": "ist getaumelt",
+    "translations": [
+      "шататься",
+      "зашататься",
+      "идти нетвёрдой поступью",
+      "идти шатаясь",
+      "качаться",
+      "качнуться",
+      "пойти шатаясь",
+      "покачиваться",
+      "шатнуться"
+    ]
+  },
+  {
+    "id": 11148,
+    "infinitive": "timen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "timt",
+    "preterite": "timte",
+    "perfect": "hat getimt",
+    "translations": [
+      "время",
+      "определять время"
+    ]
+  },
+  {
+    "id": 11149,
+    "infinitive": "tönen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "tönt",
+    "preterite": "tönte",
+    "perfect": "hat getönt",
+    "translations": [
+      "звучать",
+      "слышаться",
+      "гудеть",
+      "донестись",
+      "доноситься",
+      "звенеть",
+      "погудеть",
+      "подкрашивать",
+      "послышаться",
+      "прозвенеть",
+      "прозвучать",
+      "раздаваться",
+      "раздаться"
+    ]
+  },
+  {
+    "id": 11150,
+    "infinitive": "totlachen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "lacht tot",
+    "preterite": "lachte tot",
+    "perfect": "hat totgelacht",
+    "translations": [
+      "насмеяться вдоволь",
+      "смеяться до слëз",
+      "смеяться до упаду"
+    ]
+  },
+  {
+    "id": 11151,
+    "infinitive": "tricksen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "trickst",
+    "preterite": "trickste",
+    "perfect": "hat getrickst",
+    "translations": [
+      "обманывать",
+      "хитрить"
+    ]
+  },
+  {
+    "id": 11152,
+    "infinitive": "trödeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "trödelt",
+    "preterite": "trödelte",
+    "perfect": "hat getrödelt",
+    "translations": [
+      "бездельничать",
+      "медлить",
+      "тратить время",
+      "тянуть время",
+      "торговать ветошью",
+      "торговать хламом"
+    ]
+  },
+  {
+    "id": 11153,
+    "infinitive": "trüben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "trübt",
+    "preterite": "trübte",
+    "perfect": "hat getrübt",
+    "translations": [
+      "мутить",
+      "омрачать",
+      "затуманивать",
+      "замутить",
+      "мутнеть",
+      "омрачить",
+      "помутнеть"
+    ]
+  },
+  {
+    "id": 11154,
+    "infinitive": "tummeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "tummelt",
+    "preterite": "tummelte",
+    "perfect": "hat getummelt",
+    "translations": [
+      "резвиться",
+      "возиться",
+      "порезвиться"
+    ]
+  },
+  {
+    "id": 11155,
+    "infinitive": "umbauen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "baut um",
+    "preterite": "baute um",
+    "perfect": "hat umgebaut",
+    "translations": [
+      "перестраивать",
+      "застроить",
+      "перестроить",
+      "приспосабливать",
+      "приспособить"
+    ]
+  },
+  {
+    "id": 11156,
+    "infinitive": "umfahren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "fährt um",
+    "preterite": "fuhr um (führe um)",
+    "perfect": "hat umgefahren",
+    "translations": [
+      "объезжать",
+      "объехать",
+      "обогнуть",
+      "огибать",
+      "переезжать",
+      "сбивать (кого-л"
+    ]
+  },
+  {
+    "id": 11157,
+    "infinitive": "umformen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "formt um",
+    "preterite": "formte um",
+    "perfect": "hat umgeformt",
+    "translations": [
+      "преобразовать",
+      "делать другим",
+      "преобразовывать",
+      "сделать другим",
+      "переформировать",
+      "переформировывать",
+      "придавать другой вид",
+      "придавать другую форму",
+      "придать другой вид",
+      "придать другую форму"
+    ]
+  },
+  {
+    "id": 11158,
+    "infinitive": "umfunktionieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "funktioniert um",
+    "preterite": "funktionierte um",
+    "perfect": "hat umfunktioniert",
+    "translations": [
+      "переоборудовать"
+    ]
+  },
+  {
+    "id": 11159,
+    "infinitive": "umhauen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "haut um",
+    "preterite": "haute um",
+    "perfect": "hat umgehauen",
+    "translations": [
+      "ошарашивать",
+      "ошарашить",
+      "поражать",
+      "поразить",
+      "рубить",
+      "срубать",
+      "срубить"
+    ]
+  },
+  {
+    "id": 11160,
+    "infinitive": "übergehen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "geht über",
+    "preterite": "ging über (ginge über)",
+    "perfect": "ist übergegangen",
+    "translations": [
+      "переходить",
+      "переходить/перейти"
+    ]
+  },
+  {
+    "id": 11161,
+    "infinitive": "überhandnehmen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "nimmt überhand",
+    "preterite": "nahm überhand (nähme überhand)",
+    "perfect": "hat überhandgenommen",
+    "translations": [
+      "возобладать",
+      "одержать победу"
+    ]
+  },
+  {
+    "id": 11162,
+    "infinitive": "überhöhen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überhöht",
+    "preterite": "überhöhte",
+    "perfect": "hat überhöht",
+    "translations": [
+      "превышать",
+      "делать выше",
+      "завысить",
+      "завышать",
+      "превысить",
+      "сделать выше"
+    ]
+  },
+  {
+    "id": 11163,
+    "infinitive": "überkommen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "überkommt",
+    "preterite": "überkam",
+    "perfect": "hat überkommen",
+    "translations": [
+      "наследовать",
+      "овладеть",
+      "унаследовать",
+      "заливать",
+      "захлёстывать",
+      "накатывать",
+      "нахлынуть",
+      "охватывать",
+      "получить по наследству"
+    ]
+  },
+  {
+    "id": 11164,
+    "infinitive": "überlagern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überlagert",
+    "preterite": "überlagerte",
+    "perfect": "hat überlagert",
+    "translations": [
+      "наложить",
+      "накладывать",
+      "напластовать",
+      "напластовывать"
+    ]
+  },
+  {
+    "id": 11165,
+    "infinitive": "überlasten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überlastet",
+    "preterite": "überlastete",
+    "perfect": "hat überlastet",
+    "translations": [
+      "перегружать",
+      "заваливать",
+      "завалить"
+    ]
+  },
+  {
+    "id": 11166,
+    "infinitive": "überleiten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "leitet über",
+    "preterite": "leitete über",
+    "perfect": "hat übergeleitet",
+    "translations": [
+      "переходить"
+    ]
+  },
+  {
+    "id": 11167,
+    "infinitive": "überliefern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überliefert",
+    "preterite": "überlieferte",
+    "perfect": "hat überliefert",
+    "translations": [
+      "передавать",
+      "передать"
+    ]
+  },
+  {
+    "id": 11168,
+    "infinitive": "überrennen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "überrennt",
+    "preterite": "überrannte (überrennte)",
+    "perfect": "hat überrannt",
+    "translations": [
+      "сбивать с ног",
+      "затаптывать",
+      "затоптать",
+      "опрокидывать",
+      "опрокинуть",
+      "подавить",
+      "подавлять",
+      "сбить с ног",
+      "сминать",
+      "смять"
+    ]
+  },
+  {
+    "id": 11169,
+    "infinitive": "überschätzen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überschätzt",
+    "preterite": "überschätzte",
+    "perfect": "hat überschätzt",
+    "translations": [
+      "переоценивать",
+      "дать завышенную оценку",
+      "переоценить"
+    ]
+  },
+  {
+    "id": 11170,
+    "infinitive": "überschreiten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "überschreitet",
+    "preterite": "überschritt (überschritte)",
+    "perfect": "hat überschritten",
+    "translations": [
+      "превышать",
+      "нарушать",
+      "перейти",
+      "переступать",
+      "переходить",
+      "перешагивать",
+      "выйти за пределы",
+      "выходить за пределы",
+      "перевыполнить",
+      "перевыполнять",
+      "переступить",
+      "перешагнуть",
+      "превзойти",
+      "превосходить",
+      "превысить",
+      "просрочивать",
+      "просрочить"
+    ]
+  },
+  {
+    "id": 11171,
+    "infinitive": "überschwemmen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überschwemmt",
+    "preterite": "überschwemmte",
+    "perfect": "hat überschwemmt",
+    "translations": [
+      "затопить",
+      "затапливать",
+      "наводнять"
+    ]
+  },
+  {
+    "id": 11172,
+    "infinitive": "überspringen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "überspringt",
+    "preterite": "übersprang (überspränge)",
+    "perfect": "hat übersprungen",
+    "translations": [
+      "перепрыгивать",
+      "перескакивать",
+      "пропускать",
+      "пропустить",
+      "проскакивать",
+      "перескочить",
+      "проскочить"
+    ]
+  },
+  {
+    "id": 11173,
+    "infinitive": "überstrahlen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "überstrahlt",
+    "preterite": "überstrahlte",
+    "perfect": "hat überstrahlt",
+    "translations": [
+      "затмевать",
+      "освещать",
+      "затмить",
+      "осветить"
+    ]
+  },
+  {
+    "id": 11174,
+    "infinitive": "übertreffen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "übertrifft",
+    "preterite": "übertraf (überträfe)",
+    "perfect": "hat übertroffen",
+    "translations": [
+      "превосходить",
+      "превзойти",
+      "превосходить себя",
+      "превысить",
+      "превышать",
+      "увеличивать",
+      "улучшать"
+    ]
+  },
+  {
+    "id": 11175,
+    "infinitive": "überwiegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "überwiegt",
+    "preterite": "überwog (überwöge)",
+    "perfect": "hat überwogen",
+    "translations": [
+      "превалировать",
+      "преобладать",
+      "перебарывать",
+      "перебороть",
+      "перевесить",
+      "перевешивать"
+    ]
+  },
+  {
+    "id": 11176,
+    "infinitive": "verabreichen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verabreicht",
+    "preterite": "verabreichte",
+    "perfect": "hat verabreicht",
+    "translations": [
+      "давать",
+      "выдавать",
+      "отпускать"
+    ]
+  },
+  {
+    "id": 11177,
+    "infinitive": "verachten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verachtet",
+    "preterite": "verachtete",
+    "perfect": "hat verachtet",
+    "translations": [
+      "презирать",
+      "гнушаться",
+      "презреть",
+      "пренебрегать",
+      "пренебречь"
+    ]
+  },
+  {
+    "id": 11178,
+    "infinitive": "verängstigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verängstigt",
+    "preterite": "verängstigte",
+    "perfect": "hat verängstigt",
+    "translations": [
+      "запугать",
+      "запугивать",
+      "страшить"
+    ]
+  },
+  {
+    "id": 11179,
+    "infinitive": "veräußern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "veräußert",
+    "preterite": "veräußerte",
+    "perfect": "hat veräußert",
+    "translations": [
+      "продавать",
+      "отчуждать"
+    ]
+  },
+  {
+    "id": 11180,
+    "infinitive": "veranlassen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "veranlasst",
+    "preterite": "veranlasste",
+    "perfect": "hat veranlasst",
+    "translations": [
+      "побуждать",
+      "давать повод",
+      "дать повод",
+      "инициировать",
+      "побудить"
+    ]
+  },
+  {
+    "id": 11181,
+    "infinitive": "verblassen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verblasst",
+    "preterite": "verblasste",
+    "perfect": "ist verblasst",
+    "translations": [
+      "выцветать",
+      "бледнеть",
+      "блёкнуть",
+      "выцвести",
+      "линять",
+      "меркнуть",
+      "побледнеть",
+      "поблёкнуть",
+      "пожухнуть",
+      "полинять",
+      "померкнуть"
+    ]
+  },
+  {
+    "id": 11182,
+    "infinitive": "verblüffen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verblüfft",
+    "preterite": "verblüffte",
+    "perfect": "hat verblüfft",
+    "translations": [
+      "ошеломлять",
+      "удивлять",
+      "изумить",
+      "изумлять",
+      "озадачивать",
+      "озадачить",
+      "ошеломить",
+      "поражать",
+      "поразить",
+      "удивить"
+    ]
+  },
+  {
+    "id": 11183,
+    "infinitive": "verbummeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verbummelt",
+    "preterite": "verbummelte",
+    "perfect": "hat verbummelt",
+    "translations": [
+      "прогуливать",
+      "прогулять"
+    ]
+  },
+  {
+    "id": 11184,
+    "infinitive": "verdammen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verdammt",
+    "preterite": "verdammte",
+    "perfect": "hat verdammt",
+    "translations": [
+      "осуждать",
+      "проклинать",
+      "осудить",
+      "проклясть",
+      "обрекать",
+      "обречь",
+      "предать проклятию"
+    ]
+  },
+  {
+    "id": 11185,
+    "infinitive": "verdanken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verdankt",
+    "preterite": "verdankte",
+    "perfect": "hat verdankt",
+    "translations": [
+      "быть должный",
+      "быть обязанным"
+    ]
+  },
+  {
+    "id": 11186,
+    "infinitive": "verdingen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verdingt",
+    "preterite": "verdang (verdänge/verdünge)",
+    "perfect": "hat verdungen",
+    "translations": [
+      "наниматься"
+    ]
+  },
+  {
+    "id": 11187,
+    "infinitive": "verdoppeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verdoppelt",
+    "preterite": "verdoppelte",
+    "perfect": "hat verdoppelt",
+    "translations": [
+      "удваивать",
+      "увеличивать вдвое",
+      "удваиваться",
+      "удвоить",
+      "удвоиться",
+      "увеличиваться вдвое",
+      "увеличить вдвое",
+      "увеличиться вдвое"
+    ]
+  },
+  {
+    "id": 11188,
+    "infinitive": "vereinsamen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "vereinsamt",
+    "preterite": "vereinsamte",
+    "perfect": "ist vereinsamt",
+    "translations": [
+      "впадать в одиночество",
+      "становиться одиноким"
+    ]
+  },
+  {
+    "id": 11189,
+    "infinitive": "verfälschen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verfälscht",
+    "preterite": "verfälschte",
+    "perfect": "hat verfälscht",
+    "translations": [
+      "подделывать",
+      "подделать",
+      "сфальсифицировать",
+      "фальсифицировать"
+    ]
+  },
+  {
+    "id": 11190,
+    "infinitive": "verfallen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "verfällt",
+    "preterite": "verfiel (verfiele)",
+    "perfect": "ist verfallen",
+    "translations": [
+      "разрушаться",
+      "истекать",
+      "впадать",
+      "впасть",
+      "гнить",
+      "деградировать",
+      "захиреть",
+      "истечь",
+      "прийти",
+      "прийти в упадок",
+      "приходить",
+      "приходить в упадок",
+      "разлагаться",
+      "разложиться",
+      "разрушиться",
+      "сгнить",
+      "хиреть"
+    ]
+  },
+  {
+    "id": 11191,
+    "infinitive": "verfeinern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verfeinert",
+    "preterite": "verfeinerte",
+    "perfect": "hat verfeinert",
+    "translations": [
+      "усовершенствовать",
+      "делать тонким",
+      "измельчать",
+      "измельчить",
+      "изощрить",
+      "изощриться",
+      "изощрять",
+      "изощряться",
+      "облагораживать вкус",
+      "облагородить вкус",
+      "рафинировать",
+      "сделать тонким",
+      "совершенствовать",
+      "улучшать вкус",
+      "улучшить вкус",
+      "утончать",
+      "утончить"
+    ]
+  },
+  {
+    "id": 11192,
+    "infinitive": "verfremden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verfremdet",
+    "preterite": "verfremdete",
+    "perfect": "hat verfremdet",
+    "translations": [
+      "искажать",
+      "отдалять",
+      "отчуждать"
+    ]
+  },
+  {
+    "id": 11193,
+    "infinitive": "verführen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verführt",
+    "preterite": "verführte",
+    "perfect": "hat verführt",
+    "translations": [
+      "соблазнять",
+      "обольстить",
+      "обольщать",
+      "склонять",
+      "соблазнить",
+      "совратить",
+      "совращать"
+    ]
+  },
+  {
+    "id": 11194,
+    "infinitive": "vergären",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "vergärt",
+    "preterite": "vergor (vergöre)",
+    "perfect": "ist vergoren",
+    "translations": [
+      "выбраживать",
+      "выбродить",
+      "дрожжевать",
+      "сбраживать",
+      "сбродить",
+      "ферментировать"
+    ]
+  },
+  {
+    "id": 11195,
+    "infinitive": "vergegenwärtigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vergegenwärtigt",
+    "preterite": "vergegenwärtigte",
+    "perfect": "hat vergegenwärtigt",
+    "translations": [
+      "воображать",
+      "представлять"
+    ]
+  },
+  {
+    "id": 11196,
+    "infinitive": "vergeuden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vergeudet",
+    "preterite": "vergeudete",
+    "perfect": "hat vergeudet",
+    "translations": [
+      "расточать",
+      "растрачивать",
+      "тратить впустую",
+      "попусту истратить",
+      "попусту потратить",
+      "попусту тратить",
+      "потратить впустую",
+      "расточить",
+      "растратить"
+    ]
+  },
+  {
+    "id": 11197,
+    "infinitive": "vergiften",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vergiftet",
+    "preterite": "vergiftete",
+    "perfect": "hat vergiftet",
+    "translations": [
+      "отравлять",
+      "заражать",
+      "отравить",
+      "заразить",
+      "отравиться",
+      "отравляться",
+      "травить",
+      "травиться"
+    ]
+  },
+  {
+    "id": 11198,
+    "infinitive": "verglasen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verglast",
+    "preterite": "verglaste",
+    "perfect": "ist verglast",
+    "translations": [
+      "застеклить",
+      "застеклять",
+      "остекленеть",
+      "остеклить",
+      "остекловаться",
+      "остекловываться",
+      "остеклять",
+      "покрывать глазурью",
+      "покрыть глазурью",
+      "превратиться в стекло",
+      "превращаться в стекло",
+      "стекленеть"
+    ]
+  },
+  {
+    "id": 11199,
+    "infinitive": "vergüten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vergütet",
+    "preterite": "vergütete",
+    "perfect": "hat vergütet",
+    "translations": [
+      "возмещать",
+      "оплачивать",
+      "возместить",
+      "оплатить"
+    ]
+  },
+  {
+    "id": 11200,
+    "infinitive": "verhängen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verhängt",
+    "preterite": "verhängte",
+    "perfect": "hat verhängt",
+    "translations": [
+      "завешивать",
+      "завесить",
+      "занавесить",
+      "занавешивать",
+      "назначать",
+      "назначить",
+      "налагать",
+      "приговаривать"
+    ]
+  },
+  {
+    "id": 11201,
+    "infinitive": "verheimlichen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verheimlicht",
+    "preterite": "verheimlichte",
+    "perfect": "hat verheimlicht",
+    "translations": [
+      "скрывать",
+      "утаивать",
+      "потаить",
+      "скрыть",
+      "таить",
+      "утаить"
+    ]
+  },
+  {
+    "id": 11202,
+    "infinitive": "verheißen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verheißt",
+    "preterite": "verhieß (verhieße)",
+    "perfect": "hat verheißen",
+    "translations": [
+      "предвещать"
+    ]
+  },
+  {
+    "id": 11203,
+    "infinitive": "verhelfen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verhilft",
+    "preterite": "verhalf (verhülfe/verhälfe)",
+    "perfect": "hat verholfen",
+    "translations": [
+      "способствовать",
+      "поспособствовать",
+      "содействовать"
+    ]
+  },
+  {
+    "id": 11204,
+    "infinitive": "verhören",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verhört",
+    "preterite": "verhörte",
+    "perfect": "hat verhört",
+    "translations": [
+      "допрашивать",
+      "допросить",
+      "ослышаться"
+    ]
+  },
+  {
+    "id": 11205,
+    "infinitive": "verkabeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verkabelt",
+    "preterite": "verkabelte",
+    "perfect": "hat verkabelt",
+    "translations": [
+      "присоединять"
+    ]
+  },
+  {
+    "id": 11206,
+    "infinitive": "verknüpfen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verknüpft",
+    "preterite": "verknüpfte",
+    "perfect": "hat verknüpft",
+    "translations": [
+      "связывать",
+      "соединять",
+      "связать",
+      "объединить",
+      "объединять",
+      "привязать",
+      "привязывать",
+      "прикрепить",
+      "прикреплять",
+      "скрепить",
+      "скреплять",
+      "соединить"
+    ]
+  },
+  {
+    "id": 11207,
+    "infinitive": "verkörpern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verkörpert",
+    "preterite": "verkörperte",
+    "perfect": "hat verkörpert",
+    "translations": [
+      "воплощать",
+      "олицетворять",
+      "воплотить",
+      "воплотиться",
+      "воплощаться",
+      "олицетворить",
+      "персонифицировать"
+    ]
+  },
+  {
+    "id": 11208,
+    "infinitive": "verkomplizieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verkompliziert",
+    "preterite": "verkomplizierte",
+    "perfect": "hat verkompliziert",
+    "translations": [
+      "усложнять"
+    ]
+  },
+  {
+    "id": 11209,
+    "infinitive": "verkraften",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verkraftet",
+    "preterite": "verkraftete",
+    "perfect": "hat verkraftet",
+    "translations": [
+      "справляться",
+      "справиться",
+      "выдерживать",
+      "выдержать",
+      "одолевать",
+      "одолеть"
+    ]
+  },
+  {
+    "id": 11210,
+    "infinitive": "verlegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verlegt",
+    "preterite": "verlegte",
+    "perfect": "hat verlegt",
+    "translations": [
+      "переносить",
+      "издавать",
+      "переводить",
+      "укладывать",
+      "засунуть не туда",
+      "затерять",
+      "издать",
+      "откладывать",
+      "отложить",
+      "отнести",
+      "относить",
+      "перебазировать",
+      "перевести",
+      "перенести",
+      "преградить",
+      "преграждать"
+    ]
+  },
+  {
+    "id": 11211,
+    "infinitive": "verlernen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verlernt",
+    "preterite": "verlernte",
+    "perfect": "hat verlernt",
+    "translations": [
+      "разучиться",
+      "забыть",
+      "забывать"
+    ]
+  },
+  {
+    "id": 11212,
+    "infinitive": "verlesen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verliest",
+    "preterite": "verlas (verläse)",
+    "perfect": "hat verlesen",
+    "translations": [
+      "зачитать",
+      "зачитывать",
+      "калибровать",
+      "огласить",
+      "оглашать"
+    ]
+  },
+  {
+    "id": 11213,
+    "infinitive": "verlöten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verlötet",
+    "preterite": "verlötete",
+    "perfect": "hat verlötet",
+    "translations": [
+      "запаивать",
+      "запаять",
+      "спаивать",
+      "спаять"
+    ]
+  },
+  {
+    "id": 11214,
+    "infinitive": "vermelden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vermeldet",
+    "preterite": "vermeldete",
+    "perfect": "hat vermeldet",
+    "translations": [
+      "сообщать",
+      "докладывать"
+    ]
+  },
+  {
+    "id": 11215,
+    "infinitive": "vermerken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vermerkt",
+    "preterite": "vermerkte",
+    "perfect": "hat vermerkt",
+    "translations": [
+      "отмечать",
+      "отметить",
+      "пометить",
+      "помечать"
+    ]
+  },
+  {
+    "id": 11216,
+    "infinitive": "verminen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vermint",
+    "preterite": "verminte",
+    "perfect": "hat vermint",
+    "translations": [
+      "минировать",
+      "заминировать"
+    ]
+  },
+  {
+    "id": 11217,
+    "infinitive": "vermischen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vermischt",
+    "preterite": "vermischte",
+    "perfect": "hat vermischt",
+    "translations": [
+      "смешивать",
+      "перемешивать",
+      "смешать",
+      "смешаться",
+      "смешиваться",
+      "перемешать",
+      "перемешаться",
+      "перемешиваться"
+    ]
+  },
+  {
+    "id": 11218,
+    "infinitive": "vernachlässigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vernachlässigt",
+    "preterite": "vernachlässigte",
+    "perfect": "hat vernachlässigt",
+    "translations": [
+      "пренебрегать",
+      "запускать",
+      "забрасывать",
+      "забросить",
+      "запустить",
+      "небрежно относиться",
+      "пренебречь"
+    ]
+  },
+  {
+    "id": 11219,
+    "infinitive": "vernetzen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vernetzt",
+    "preterite": "vernetzte",
+    "perfect": "hat vernetzt",
+    "translations": [
+      "включать в сеть",
+      "объединить в сеть",
+      "объединять в сеть"
+    ]
+  },
+  {
+    "id": 11220,
+    "infinitive": "verpesten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verpestet",
+    "preterite": "verpestete",
+    "perfect": "hat verpestet",
+    "translations": [
+      "загрязнять",
+      "отравлять",
+      "загрязнить",
+      "заражать",
+      "заразить",
+      "отравить"
+    ]
+  },
+  {
+    "id": 11221,
+    "infinitive": "verplempern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verplempert",
+    "preterite": "verplemperte",
+    "perfect": "hat verplempert",
+    "translations": [
+      "попусту истратить",
+      "попусту потратить",
+      "попусту тратить",
+      "потерять",
+      "потратить",
+      "растратить впустую",
+      "растрачивать впустую",
+      "терять",
+      "тратить"
+    ]
+  },
+  {
+    "id": 11222,
+    "infinitive": "verpuffen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verpufft",
+    "preterite": "verpuffte",
+    "perfect": "ist verpufft",
+    "translations": [
+      "взрываться",
+      "быстро сгорать",
+      "быстро сгореть",
+      "быть безрезультатным",
+      "взорваться",
+      "вспыхивать",
+      "вспыхнуть",
+      "не иметь эффекта"
+    ]
+  },
+  {
+    "id": 11223,
+    "infinitive": "verrechnen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verrechnet",
+    "preterite": "verrechnete",
+    "perfect": "hat verrechnet",
+    "translations": [
+      "обсчитываться",
+      "просчитаться",
+      "неправильно сосчитать",
+      "неправильно считать",
+      "обсчитаться",
+      "перечислять",
+      "поставить",
+      "просчитываться",
+      "ставить"
+    ]
+  },
+  {
+    "id": 11224,
+    "infinitive": "versagen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "versagt",
+    "preterite": "versagte",
+    "perfect": "hat versagt",
+    "translations": [
+      "отказывать",
+      "облажаться",
+      "отказать"
+    ]
+  },
+  {
+    "id": 11225,
+    "infinitive": "versalzen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "versalzt",
+    "preterite": "versalzte",
+    "perfect": "hat versalzen",
+    "translations": [
+      "пересолить",
+      "пересаливать"
+    ]
+  },
+  {
+    "id": 11226,
+    "infinitive": "versammeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "versammelt",
+    "preterite": "versammelte",
+    "perfect": "hat versammelt",
+    "translations": [
+      "собираться",
+      "собирать",
+      "собрать",
+      "собраться",
+      "скапливаться",
+      "скопиться",
+      "скопляться",
+      "собираться вместе",
+      "сойтись",
+      "сосредоточивать",
+      "сосредоточить",
+      "сходиться"
+    ]
+  },
+  {
+    "id": 11227,
+    "infinitive": "verschiffen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verschifft",
+    "preterite": "verschiffte",
+    "perfect": "hat verschifft",
+    "translations": [
+      "обоссать",
+      "обоссывать",
+      "отправить водным путём",
+      "отправить морем",
+      "отправлять водным путём",
+      "отправлять морем",
+      "погружать на корабль",
+      "погружать на судно",
+      "погрузить на корабль",
+      "погрузить на судно",
+      "сваливать",
+      "свалить",
+      "смываться",
+      "смыться"
+    ]
+  },
+  {
+    "id": 11228,
+    "infinitive": "verschimmeln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verschimmelt",
+    "preterite": "verschimmelte",
+    "perfect": "ist verschimmelt",
+    "translations": [
+      "плесневеть",
+      "покрываться плесенью",
+      "покрыться плесенью",
+      "заплесневеть"
+    ]
+  },
+  {
+    "id": 11229,
+    "infinitive": "verschleiern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verschleiert",
+    "preterite": "verschleierte",
+    "perfect": "hat verschleiert",
+    "translations": [
+      "скрывать",
+      "завуалировать",
+      "маскировать",
+      "скрыть",
+      "вуалировать",
+      "вуалироваться",
+      "закрывать",
+      "закрывать вуалью",
+      "замаскировать",
+      "замаскировывать",
+      "замыливать",
+      "покрывать вуалью",
+      "покрыть вуалью"
+    ]
+  },
+  {
+    "id": 11230,
+    "infinitive": "verschleudern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verschleudert",
+    "preterite": "verschleuderte",
+    "perfect": "hat verschleudert",
+    "translations": [
+      "растрачивать",
+      "продавать за бесценок",
+      "продать за бесценок",
+      "разбазаривать",
+      "разбазарить",
+      "растранжиривать",
+      "растранжирить",
+      "растратить",
+      "транжирить"
+    ]
+  },
+  {
+    "id": 11231,
+    "infinitive": "verschließen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verschließt",
+    "preterite": "verschloss (verschlösse)",
+    "perfect": "hat verschlossen",
+    "translations": [
+      "закрывать",
+      "запирать",
+      "закрыть",
+      "закатать",
+      "запереть",
+      "убирать"
+    ]
+  },
+  {
+    "id": 11232,
+    "infinitive": "verschlingen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verschlingt",
+    "preterite": "verschlang (verschlänge)",
+    "perfect": "hat verschlungen",
+    "translations": [
+      "поглощать",
+      "глотать",
+      "проглатывать",
+      "проглотить",
+      "есть",
+      "заглатывать",
+      "заглотать",
+      "переплестись",
+      "переплетаться",
+      "плести",
+      "поглотить",
+      "пожирать",
+      "сплести",
+      "сплестись",
+      "сплетать",
+      "сплетаться",
+      "съедать",
+      "съесть"
+    ]
+  },
+  {
+    "id": 11233,
+    "infinitive": "verschmelzen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "verschmilzt",
+    "preterite": "verschmolz (verschmölze)",
+    "perfect": "ist verschmolzen",
+    "translations": [
+      "объединяться",
+      "сливаться",
+      "объединиться",
+      "слиться"
+    ]
+  },
+  {
+    "id": 11234,
+    "infinitive": "verschrumpeln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verschrumpelt",
+    "preterite": "verschrumpelte",
+    "perfect": "ist verschrumpelt",
+    "translations": [
+      "сморщиваться",
+      "высыхать"
+    ]
+  },
+  {
+    "id": 11235,
+    "infinitive": "versilbern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "versilbert",
+    "preterite": "versilberte",
+    "perfect": "hat versilbert",
+    "translations": [
+      "высеребрить",
+      "посеребрить",
+      "продать"
+    ]
+  },
+  {
+    "id": 11236,
+    "infinitive": "verspielen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verspielt",
+    "preterite": "verspielte",
+    "perfect": "hat verspielt",
+    "translations": [
+      "потерять",
+      "проиграть",
+      "проигрывать",
+      "терять"
+    ]
+  },
+  {
+    "id": 11237,
+    "infinitive": "verspotten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verspottet",
+    "preterite": "verspottete",
+    "perfect": "hat verspottet",
+    "translations": [
+      "издеваться",
+      "насмехаться",
+      "высмеивать",
+      "высмеять",
+      "вышутить",
+      "вышучивать",
+      "глумиться",
+      "засмеивать",
+      "засмеять",
+      "насмеяться",
+      "стебаться"
+    ]
+  },
+  {
+    "id": 11238,
+    "infinitive": "verspüren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verspürt",
+    "preterite": "verspürte",
+    "perfect": "hat verspürt",
+    "translations": [
+      "ощущать",
+      "чувствовать",
+      "осязать",
+      "ощутить",
+      "почувствовать"
+    ]
+  },
+  {
+    "id": 11239,
+    "infinitive": "verständigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verständigt",
+    "preterite": "verständigte",
+    "perfect": "hat verständigt",
+    "translations": [
+      "договариваться",
+      "объясняться",
+      "уведомлять",
+      "договориться",
+      "изъясниться",
+      "изъясняться",
+      "объясниться"
+    ]
+  },
+  {
+    "id": 11240,
+    "infinitive": "verstellen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verstellt",
+    "preterite": "verstellte",
+    "perfect": "hat verstellt",
+    "translations": [
+      "притворяться",
+      "изменять",
+      "переставлять",
+      "притвориться",
+      "регулировать",
+      "загораживать",
+      "загородить",
+      "загромождать",
+      "загромоздить",
+      "заставлять",
+      "изменить",
+      "лицедействовать",
+      "лукавить",
+      "переставить",
+      "симулировать",
+      "слукавить"
+    ]
+  },
+  {
+    "id": 11241,
+    "infinitive": "verstopfen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verstopft",
+    "preterite": "verstopfte",
+    "perfect": "ist verstopft",
+    "translations": [
+      "засорять",
+      "закупоривать",
+      "закупориваться",
+      "закупорить",
+      "закупориться",
+      "засорить",
+      "засориться",
+      "засоряться",
+      "заткнуть",
+      "затыкать"
+    ]
+  },
+  {
+    "id": 11242,
+    "infinitive": "verstoßen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "verstößt",
+    "preterite": "verstieß (verstieße)",
+    "perfect": "hat verstoßen",
+    "translations": [
+      "нарушать",
+      "изгнать",
+      "изгонять",
+      "нарушить",
+      "отталкивать",
+      "противоречить",
+      "согрешить"
+    ]
+  },
+  {
+    "id": 11243,
+    "infinitive": "verstreichen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "verstreicht",
+    "preterite": "verstrich (verstriche)",
+    "perfect": "ist verstrichen",
+    "translations": [
+      "протекать",
+      "проходить",
+      "минуть",
+      "пройти",
+      "протечь",
+      "размазать",
+      "размазывать"
+    ]
+  },
+  {
+    "id": 11244,
+    "infinitive": "verstreuen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verstreut",
+    "preterite": "verstreute",
+    "perfect": "hat verstreut",
+    "translations": [
+      "разбросать",
+      "разбрасывать",
+      "просыпать",
+      "рассыпать",
+      "рассыпаться"
+    ]
+  },
+  {
+    "id": 11245,
+    "infinitive": "verstummen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verstummt",
+    "preterite": "verstummte",
+    "perfect": "ist verstummt",
+    "translations": [
+      "умолкать",
+      "умолкнуть",
+      "замолкать",
+      "замолкнуть",
+      "замолчать",
+      "затихать",
+      "неметь",
+      "онеметь",
+      "смолкать",
+      "стихать",
+      "стихнуть",
+      "утихать"
+    ]
+  },
+  {
+    "id": 11246,
+    "infinitive": "verteuern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verteuert",
+    "preterite": "verteuerte",
+    "perfect": "hat verteuert",
+    "translations": [
+      "подорожать",
+      "дорожать",
+      "вздорожать",
+      "удорожать"
+    ]
+  },
+  {
+    "id": 11247,
+    "infinitive": "verteufeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verteufelt",
+    "preterite": "verteufelte",
+    "perfect": "hat verteufelt",
+    "translations": [
+      "обвинять",
+      "осуждать",
+      "порочить",
+      "демонизировать",
+      "очернять"
+    ]
+  },
+  {
+    "id": 11248,
+    "infinitive": "vertun",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "vertut",
+    "preterite": "vertat (vertäte)",
+    "perfect": "hat vertan",
+    "translations": [
+      "потратить попусту",
+      "растранжиривать",
+      "растранжирить",
+      "транжирить",
+      "тратить попусту",
+      "упускать"
+    ]
+  },
+  {
+    "id": 11249,
+    "infinitive": "verunglücken",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verunglückt",
+    "preterite": "verunglückte",
+    "perfect": "ist verunglückt",
+    "translations": [
+      "попасть в аварию",
+      "не удаваться",
+      "пострадать",
+      "гибнуть",
+      "погибать",
+      "погибнуть",
+      "попадать"
+    ]
+  },
+  {
+    "id": 11250,
+    "infinitive": "vervielfältigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vervielfältigt",
+    "preterite": "vervielfältigte",
+    "perfect": "hat vervielfältigt",
+    "translations": [
+      "размножать",
+      "размножить"
+    ]
+  },
+  {
+    "id": 11251,
+    "infinitive": "verwirren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verwirrt",
+    "preterite": "verwirrte",
+    "perfect": "hat verwirrt",
+    "translations": [
+      "путать",
+      "смешивать",
+      "запутывать",
+      "смущать",
+      "баламутить",
+      "запутать",
+      "озадачивать",
+      "озадачить",
+      "перемешать",
+      "перемешаться",
+      "перемешивать",
+      "перемешиваться",
+      "перепутать",
+      "перепутаться",
+      "перепутывать",
+      "перепутываться",
+      "путаться",
+      "расстраивать",
+      "сбивать",
+      "сбить"
+    ]
+  },
+  {
+    "id": 11252,
+    "infinitive": "verwundern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verwundert",
+    "preterite": "verwunderte",
+    "perfect": "hat verwundert",
+    "translations": [
+      "удивлять",
+      "дивить",
+      "изумить",
+      "удивить",
+      "удивиться",
+      "удивляться"
+    ]
+  },
+  {
+    "id": 11253,
+    "infinitive": "verzehren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verzehrt",
+    "preterite": "verzehrte",
+    "perfect": "hat verzehrt",
+    "translations": [
+      "поглощать",
+      "есть",
+      "поглотить",
+      "поедать",
+      "потреблять",
+      "съедать",
+      "съесть"
+    ]
+  },
+  {
+    "id": 11254,
+    "infinitive": "verzetteln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verzettelt",
+    "preterite": "verzettelte",
+    "perfect": "hat verzettelt",
+    "translations": [
+      "растрачивать",
+      "выписать на карточки",
+      "выписывать на карточки",
+      "занести на карточки",
+      "заносить на карточки",
+      "каталогизировать",
+      "распылить",
+      "распылить свои силы",
+      "распылять",
+      "распылять свои силы",
+      "растратить"
+    ]
+  },
+  {
+    "id": 11255,
+    "infinitive": "verziehen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "verzieht",
+    "preterite": "verzog (verzöge)",
+    "perfect": "ist verzogen",
+    "translations": [
+      "баловать",
+      "искривить",
+      "искривлять",
+      "испортить",
+      "коробить",
+      "кривить",
+      "морщить",
+      "переезжать",
+      "переехать",
+      "перекосить",
+      "покоробить",
+      "покривить",
+      "портить",
+      "скривить",
+      "сморщивать",
+      "сморщить"
+    ]
+  },
+  {
+    "id": 11256,
+    "infinitive": "verzögern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verzögert",
+    "preterite": "verzögerte",
+    "perfect": "hat verzögert",
+    "translations": [
+      "задерживать",
+      "задерживаться",
+      "затягивать",
+      "длить",
+      "задержать",
+      "задержаться",
+      "замедлить",
+      "замедлять",
+      "затягиваться",
+      "затянуть",
+      "затянуться"
+    ]
+  },
+  {
+    "id": 11257,
+    "infinitive": "verzweifeln",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "verzweifelt",
+    "preterite": "verzweifelte",
+    "perfect": "ist verzweifelt",
+    "translations": [
+      "отчаиваться",
+      "терять надежду",
+      "отчаяться",
+      "потерять надежду",
+      "прийти в отчаяние",
+      "приходить в отчаяние",
+      "разочароваться",
+      "разочаровываться"
+    ]
+  },
+  {
+    "id": 11258,
+    "infinitive": "verzweigen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "verzweigt",
+    "preterite": "verzweigte",
+    "perfect": "hat verzweigt",
+    "translations": [
+      "разветвляться",
+      "ветвиться",
+      "разветвиться"
+    ]
+  },
+  {
+    "id": 11259,
+    "infinitive": "vibrieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vibriert",
+    "preterite": "vibrierte",
+    "perfect": "hat vibriert",
+    "translations": [
+      "вибрировать"
+    ]
+  },
+  {
+    "id": 11260,
+    "infinitive": "vollenden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "vollendet",
+    "preterite": "vollendete",
+    "perfect": "hat vollendet",
+    "translations": [
+      "завершать",
+      "завершить",
+      "закончить",
+      "совершенствовать"
+    ]
+  },
+  {
+    "id": 11261,
+    "infinitive": "vollziehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "vollzieht",
+    "preterite": "vollzog (vollzöge)",
+    "perfect": "hat vollzogen",
+    "translations": [
+      "выполнять",
+      "выполнить",
+      "осуществлять",
+      "произойти",
+      "происходить",
+      "вершить",
+      "исполнить",
+      "исполнять",
+      "осуществить",
+      "осуществиться",
+      "осуществляться",
+      "свершаться",
+      "свершиться",
+      "совершать",
+      "совершаться",
+      "совершить",
+      "совершиться"
+    ]
+  },
+  {
+    "id": 11262,
+    "infinitive": "voranbringen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "bringt voran",
+    "preterite": "brachte voran (brächte voran)",
+    "perfect": "hat vorangebracht",
+    "translations": [
+      "способствовать",
+      "двигать вперёд",
+      "поддерживать",
+      "двинуть вперёд",
+      "способствовать продвижению"
+    ]
+  },
+  {
+    "id": 11263,
+    "infinitive": "vorangehen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "geht voran",
+    "preterite": "ging voran (ginge voran)",
+    "perfect": "ist vorangegangen",
+    "translations": [
+      "идти впереди",
+      "предшествовать",
+      "идти",
+      "пойти",
+      "продвигаться"
+    ]
+  },
+  {
+    "id": 11264,
+    "infinitive": "vorankommen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "kommt voran",
+    "preterite": "kam voran",
+    "perfect": "ist vorangekommen",
+    "translations": [
+      "продвигаться",
+      "двигаться вперёд",
+      "двинуться вперёд",
+      "продвигаться вперёд",
+      "продвинуться",
+      "продвинуться вперёд"
+    ]
+  },
+  {
+    "id": 11265,
+    "infinitive": "vorantreiben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "treibt voran",
+    "preterite": "trieb voran (triebe voran)",
+    "perfect": "hat vorangetrieben",
+    "translations": [
+      "продвигать",
+      "ускорять",
+      "форсировать",
+      "продвинуть",
+      "ускорить"
+    ]
+  },
+  {
+    "id": 11266,
+    "infinitive": "vorbehalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "behält vor",
+    "preterite": "behielt vor (behielte vor)",
+    "perfect": "hat vorbehalten",
+    "translations": [
+      "оставлять за собой право"
+    ]
+  },
+  {
+    "id": 11267,
+    "infinitive": "vorbeifahren",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "fährt vorbei",
+    "preterite": "fuhr vorbei (führe vorbei)",
+    "perfect": "ist vorbeigefahren",
+    "translations": [
+      "проезжать мимо",
+      "заезжать",
+      "заехать",
+      "проехать мимо"
+    ]
+  },
+  {
+    "id": 11268,
+    "infinitive": "vorbeirasen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Regular",
+    "present": "rast vorbei",
+    "preterite": "raste vorbei",
+    "perfect": "ist vorbeigerast",
+    "translations": [
+      "проноситься"
+    ]
+  },
+  {
+    "id": 11269,
+    "infinitive": "vorfinanzieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "finanziert vor",
+    "preterite": "finanzierte vor",
+    "perfect": "hat vorfinanziert",
+    "translations": [
+      "предфинансировать"
+    ]
+  },
+  {
+    "id": 11270,
+    "infinitive": "vorführen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "führt vor",
+    "preterite": "führte vor",
+    "perfect": "hat vorgeführt",
+    "translations": [
+      "демонстрировать",
+      "показывать",
+      "выставлять",
+      "показать",
+      "продемонстрировать"
+    ]
+  },
+  {
+    "id": 11271,
+    "infinitive": "vorlegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "legt vor",
+    "preterite": "legte vor",
+    "perfect": "hat vorgelegt",
+    "translations": [
+      "представить",
+      "подавать",
+      "выставить",
+      "представлять",
+      "предъявить",
+      "предъявлять"
+    ]
+  },
+  {
+    "id": 11272,
+    "infinitive": "vorliegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "liegt vor",
+    "preterite": "lag vor (läge vor)",
+    "perfect": "hat vorgelegen",
+    "translations": [
+      "иметься",
+      "существовать",
+      "быть налицо",
+      "наличествовать"
+    ]
+  },
+  {
+    "id": 11273,
+    "infinitive": "vorschreiben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "schreibt vor",
+    "preterite": "schrieb vor (schriebe vor)",
+    "perfect": "hat vorgeschrieben",
+    "translations": [
+      "предписывать",
+      "назначать",
+      "назначить",
+      "наставлять",
+      "предписать"
+    ]
+  },
+  {
+    "id": 11274,
+    "infinitive": "vortäuschen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "täuscht vor",
+    "preterite": "täuschte vor",
+    "perfect": "hat vorgetäuscht",
+    "translations": [
+      "симулировать",
+      "блефовать",
+      "инсценировать"
+    ]
+  },
+  {
+    "id": 11275,
+    "infinitive": "vorwärtsgehen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "geht vorwärts",
+    "preterite": "ging vorwärts (ginge vorwärts)",
+    "perfect": "ist vorwärtsgegangen",
+    "translations": [
+      "двигаться вперёд",
+      "продвигаться"
+    ]
+  },
+  {
+    "id": 11276,
+    "infinitive": "vorziehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "zieht vor",
+    "preterite": "zog vor (zöge vor)",
+    "perfect": "hat vorgezogen",
+    "translations": [
+      "предпочитать",
+      "оказать предпочтение",
+      "оказывать предпочтение",
+      "предпочесть",
+      "променивать",
+      "променять"
+    ]
+  },
+  {
+    "id": 11277,
+    "infinitive": "wachrufen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "ruft wach",
+    "preterite": "rief wach (riefe wach)",
+    "perfect": "hat wachgerufen",
+    "translations": [
+      "воскресить в памяти",
+      "воскрешать в памяти",
+      "вызвать",
+      "вызывать",
+      "навевать",
+      "навеять"
+    ]
+  },
+  {
+    "id": 11278,
+    "infinitive": "wähnen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wähnt",
+    "preterite": "wähnte",
+    "perfect": "hat gewähnt",
+    "translations": [
+      "воображать",
+      "вообразить",
+      "мнить",
+      "ошибочно полагать"
+    ]
+  },
+  {
+    "id": 11279,
+    "infinitive": "währen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "währt",
+    "preterite": "währte",
+    "perfect": "hat gewährt",
+    "translations": [
+      "длиться"
+    ]
+  },
+  {
+    "id": 11280,
+    "infinitive": "wärmen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wärmt",
+    "preterite": "wärmte",
+    "perfect": "hat gewärmt",
+    "translations": [
+      "согревать",
+      "греть",
+      "нагревать",
+      "греться",
+      "нагреваться",
+      "нагреть",
+      "нагреться",
+      "обогревать",
+      "обогреть",
+      "подогревать",
+      "подогреть",
+      "согреваться",
+      "согреть",
+      "согреться"
+    ]
+  },
+  {
+    "id": 11281,
+    "infinitive": "wahren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wahrt",
+    "preterite": "wahrte",
+    "perfect": "hat gewahrt",
+    "translations": [
+      "сохранять",
+      "защитить",
+      "защищать",
+      "поддерживать",
+      "хранить",
+      "блюсти",
+      "охранить",
+      "охранять",
+      "представлять (права)",
+      "соблюдать",
+      "соблюсти",
+      "сохранить"
+    ]
+  },
+  {
+    "id": 11282,
+    "infinitive": "walten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "waltet",
+    "preterite": "waltete",
+    "perfect": "hat gewaltet",
+    "translations": [
+      "господствовать",
+      "править"
+    ]
+  },
+  {
+    "id": 11283,
+    "infinitive": "wegbrechen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "bricht weg",
+    "preterite": "brach weg (bräche weg)",
+    "perfect": "ist weggebrochen",
+    "translations": [
+      "отламывать",
+      "отламываться",
+      "отломаться",
+      "отломить",
+      "отломиться",
+      "отмениться",
+      "отменяться",
+      "резко сократиться",
+      "резко сокращаться",
+      "резко уменьшаться",
+      "резко уменьшиться",
+      "упраздниться",
+      "упраздняться"
+    ]
+  },
+  {
+    "id": 11284,
+    "infinitive": "wegsperren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sperrt weg",
+    "preterite": "sperrte weg",
+    "perfect": "hat weggesperrt",
+    "translations": [
+      "запирать"
+    ]
+  },
+  {
+    "id": 11285,
+    "infinitive": "weichen",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "weicht",
+    "preterite": "wich (wiche)",
+    "perfect": "ist gewichen",
+    "translations": [
+      "отступать",
+      "отходить",
+      "мокнуть",
+      "отступить",
+      "смягчать"
+    ]
+  },
+  {
+    "id": 11286,
+    "infinitive": "weiden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "weidet",
+    "preterite": "weidete",
+    "perfect": "hat geweidet",
+    "translations": [
+      "пастись"
+    ]
+  },
+  {
+    "id": 11287,
+    "infinitive": "weismachen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "macht weis",
+    "preterite": "machte weis",
+    "perfect": "hat weisgemacht",
+    "translations": [
+      "внушать"
+    ]
+  },
+  {
+    "id": 11288,
+    "infinitive": "weiterbringen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "bringt weiter",
+    "preterite": "brachte weiter (brächte weiter)",
+    "perfect": "hat weitergebracht",
+    "translations": [
+      "способствовать",
+      "помогать",
+      "помочь",
+      "поспособствовать",
+      "продвигать дальше",
+      "продвинуть дальше"
+    ]
+  },
+  {
+    "id": 11289,
+    "infinitive": "weiterentwickeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "entwickelt weiter",
+    "preterite": "entwickelte weiter",
+    "perfect": "hat weiterentwickelt",
+    "translations": [
+      "развивать",
+      "развиваться"
+    ]
+  },
+  {
+    "id": 11290,
+    "infinitive": "weitererzählen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "erzählt weiter",
+    "preterite": "erzählte weiter",
+    "perfect": "hat weitererzählt",
+    "translations": [
+      "рассказывать дальше"
+    ]
+  },
+  {
+    "id": 11291,
+    "infinitive": "weiterführen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "führt weiter",
+    "preterite": "führte weiter",
+    "perfect": "hat weitergeführt",
+    "translations": [
+      "продолжать"
+    ]
+  },
+  {
+    "id": 11292,
+    "infinitive": "weiterleben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "lebt weiter",
+    "preterite": "lebte weiter",
+    "perfect": "hat weitergelebt",
+    "translations": [
+      "жить дальше",
+      "продолжать жить"
+    ]
+  },
+  {
+    "id": 11293,
+    "infinitive": "weiterleiten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "leitet weiter",
+    "preterite": "leitete weiter",
+    "perfect": "hat weitergeleitet",
+    "translations": [
+      "передать",
+      "переадресовать",
+      "переслать",
+      "переадресовывать",
+      "пересылать",
+      "сообщить"
+    ]
+  },
+  {
+    "id": 11294,
+    "infinitive": "wickeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wickelt",
+    "preterite": "wickelte",
+    "perfect": "hat gewickelt",
+    "translations": [
+      "заворачивать",
+      "завернуть",
+      "наматывать",
+      "обертывать",
+      "обматывать",
+      "пеленать",
+      "закрутить",
+      "закручивать",
+      "закутываться",
+      "заматывать",
+      "заматываться",
+      "замотать",
+      "замотаться",
+      "мотать",
+      "намотать",
+      "обмотать"
+    ]
+  },
+  {
+    "id": 11295,
+    "infinitive": "widerfahren",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "widerfährt",
+    "preterite": "widerfuhr (widerführe)",
+    "perfect": "ist widerfahren",
+    "translations": [
+      "происходить",
+      "случаться",
+      "произойти",
+      "случиться"
+    ]
+  },
+  {
+    "id": 11296,
+    "infinitive": "widerlegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "widerlegt",
+    "preterite": "widerlegte",
+    "perfect": "hat widerlegt",
+    "translations": [
+      "опровергать",
+      "опровергнуть",
+      "отражать",
+      "отразить"
+    ]
+  },
+  {
+    "id": 11297,
+    "infinitive": "wippen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wippt",
+    "preterite": "wippte",
+    "perfect": "hat gewippt",
+    "translations": [
+      "качаться",
+      "покачиваться",
+      "качать",
+      "колыхаться",
+      "раскачивать",
+      "раскачиваться"
+    ]
+  },
+  {
+    "id": 11298,
+    "infinitive": "wirtschaften",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wirtschaftet",
+    "preterite": "wirtschaftete",
+    "perfect": "hat gewirtschaftet",
+    "translations": [
+      "вести хозяйство",
+      "хозяйничать",
+      "хозяйствовать",
+      "заниматься хозяйством",
+      "заняться хозяйством",
+      "распоряжаться",
+      "управлять хозяйством",
+      "хлопотать",
+      "хозяйничать по дому"
+    ]
+  },
+  {
+    "id": 11299,
+    "infinitive": "wittern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wittert",
+    "preterite": "witterte",
+    "perfect": "hat gewittert",
+    "translations": [
+      "чуять",
+      "почуять",
+      "учуять"
+    ]
+  },
+  {
+    "id": 11300,
+    "infinitive": "wühlen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "wühlt",
+    "preterite": "wühlte",
+    "perfect": "hat gewühlt",
+    "translations": [
+      "копаться",
+      "рыться",
+      "копать",
+      "рыть",
+      "грызть",
+      "ковыряться",
+      "подстрекать",
+      "подстрекнуть",
+      "тяжело работать"
+    ]
+  },
+  {
+    "id": 11301,
+    "infinitive": "zappeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zappelt",
+    "preterite": "zappelte",
+    "perfect": "hat gezappelt",
+    "translations": [
+      "барахтаться",
+      "биться",
+      "дёргаться",
+      "трепетать"
+    ]
+  },
+  {
+    "id": 11302,
+    "infinitive": "zaudern",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zaudert",
+    "preterite": "zauderte",
+    "perfect": "hat gezaudert",
+    "translations": [
+      "колебаться",
+      "медлить",
+      "колебнуться",
+      "не решаться",
+      "не решиться",
+      "поколебаться",
+      "помедлить",
+      "промедлить",
+      "раздумывать"
+    ]
+  },
+  {
+    "id": 11303,
+    "infinitive": "zensieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zensiert",
+    "preterite": "zensierte",
+    "perfect": "hat zensiert",
+    "translations": [
+      "оценивать",
+      "цензурировать",
+      "оценить",
+      "подвергать цензуре",
+      "подвергнуть цензуре",
+      "поставить отметки",
+      "ставить отметки"
+    ]
+  },
+  {
+    "id": 11304,
+    "infinitive": "zerbröseln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zerbröselt",
+    "preterite": "zerbröselte",
+    "perfect": "hat zerbröselt",
+    "translations": [
+      "крошить",
+      "крошиться",
+      "разваливаться",
+      "разламываться",
+      "рассыпаться",
+      "растирать"
+    ]
+  },
+  {
+    "id": 11305,
+    "infinitive": "zermatschen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zermatscht",
+    "preterite": "zermatschte",
+    "perfect": "hat zermatscht",
+    "translations": [
+      "раздавить",
+      "превращать в месиво"
+    ]
+  },
+  {
+    "id": 11306,
+    "infinitive": "zerquetschen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zerquetscht",
+    "preterite": "zerquetschte",
+    "perfect": "hat zerquetscht",
+    "translations": [
+      "раздавить",
+      "давить",
+      "мять",
+      "помять",
+      "раздавливать",
+      "разминать",
+      "размять",
+      "расплющивать",
+      "расплющить"
+    ]
+  },
+  {
+    "id": 11307,
+    "infinitive": "zerreden",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zerredet",
+    "preterite": "zerredete",
+    "perfect": "hat zerredet",
+    "translations": [
+      "утопить в разговорах"
+    ]
+  },
+  {
+    "id": 11308,
+    "infinitive": "zerren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zerrt",
+    "preterite": "zerrte",
+    "perfect": "hat gezerrt",
+    "translations": [
+      "растягивать",
+      "дёргать",
+      "дёрнуть",
+      "затаскивать",
+      "затащить",
+      "растянуть",
+      "тащить",
+      "теребить"
+    ]
+  },
+  {
+    "id": 11309,
+    "infinitive": "zerschlagen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "zerschlägt",
+    "preterite": "zerschlug (zerschlüge)",
+    "perfect": "hat zerschlagen",
+    "translations": [
+      "разбить",
+      "бить",
+      "ломать",
+      "разбивать",
+      "разбиваться",
+      "разбиться",
+      "разделить",
+      "разрушить",
+      "рушиться",
+      "сорваться",
+      "срываться",
+      "дробить",
+      "обрушиваться",
+      "обрушиться",
+      "перебивать",
+      "перебить",
+      "побить",
+      "развести",
+      "разводить",
+      "разгромить"
+    ]
+  },
+  {
+    "id": 11310,
+    "infinitive": "zerstreuen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zerstreut",
+    "preterite": "zerstreute",
+    "perfect": "hat zerstreut",
+    "translations": [
+      "отвлекаться",
+      "развлекаться",
+      "разгонять",
+      "рассеивать",
+      "рассеиваться",
+      "рассеяться",
+      "отвлечься",
+      "разбрасывать",
+      "развлекать",
+      "развлечь",
+      "развлечься",
+      "разогнать",
+      "рассеять",
+      "рассыпать"
+    ]
+  },
+  {
+    "id": 11311,
+    "infinitive": "zirpen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zirpt",
+    "preterite": "zirpte",
+    "perfect": "hat gezirpt",
+    "translations": [
+      "стрекотать",
+      "трещать",
+      "чирикать"
+    ]
+  },
+  {
+    "id": 11312,
+    "infinitive": "zitieren",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zitiert",
+    "preterite": "zitierte",
+    "perfect": "hat zitiert",
+    "translations": [
+      "цитировать",
+      "вызывать",
+      "процитировать"
+    ]
+  },
+  {
+    "id": 11313,
+    "infinitive": "zocken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zockt",
+    "preterite": "zockte",
+    "perfect": "hat gezockt",
+    "translations": [
+      "играть",
+      "азартно играть"
+    ]
+  },
+  {
+    "id": 11314,
+    "infinitive": "zubeißen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "beißt zu",
+    "preterite": "biss zu (bisse zu)",
+    "perfect": "hat zugebissen",
+    "translations": [
+      "кусать",
+      "впиваться зубами",
+      "закусить",
+      "схватить зубами"
+    ]
+  },
+  {
+    "id": 11315,
+    "infinitive": "zudrücken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "drückt zu",
+    "preterite": "drückte zu",
+    "perfect": "hat zugedrückt",
+    "translations": [
+      "закрывать",
+      "зажать",
+      "зажимать",
+      "плотно закрывать",
+      "плотно закрыть"
+    ]
+  },
+  {
+    "id": 11316,
+    "infinitive": "züchten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "züchtet",
+    "preterite": "züchtete",
+    "perfect": "hat gezüchtet",
+    "translations": [
+      "выращивать",
+      "разводить",
+      "вырастить",
+      "вывести",
+      "выводить",
+      "культивировать",
+      "посадить",
+      "развести",
+      "растить",
+      "сажать"
+    ]
+  },
+  {
+    "id": 11317,
+    "infinitive": "zügeln",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zügelt",
+    "preterite": "zügelte",
+    "perfect": "hat gezügelt",
+    "translations": [
+      "обуздать",
+      "обуздывать",
+      "удерживать",
+      "обуздать себя",
+      "сдержать",
+      "сдерживать",
+      "удержать"
+    ]
+  },
+  {
+    "id": 11318,
+    "infinitive": "zugeben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "gibt zu",
+    "preterite": "gab zu (gäbe zu)",
+    "perfect": "hat zugegeben",
+    "translations": [
+      "признавать",
+      "соглашаться",
+      "добавить",
+      "добавлять",
+      "согласиться",
+      "давать в придачу",
+      "дать в придачу",
+      "допускать",
+      "допустить",
+      "признать",
+      "признаться",
+      "принятый",
+      "сознаваться",
+      "сознаться"
+    ]
+  },
+  {
+    "id": 11319,
+    "infinitive": "zukaufen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kauft zu",
+    "preterite": "kaufte zu",
+    "perfect": "hat zugekauft",
+    "translations": [
+      "докупать"
+    ]
+  },
+  {
+    "id": 11320,
+    "infinitive": "zunicken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "nickt zu",
+    "preterite": "nickte zu",
+    "perfect": "hat zugenickt",
+    "translations": [
+      "кивать",
+      "кивнуть"
+    ]
+  },
+  {
+    "id": 11321,
+    "infinitive": "zupfen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zupft",
+    "preterite": "zupfte",
+    "perfect": "hat gezupft",
+    "translations": [
+      "дергать",
+      "щипать",
+      "дёргать",
+      "теребить",
+      "дёрнуть",
+      "подёргивать"
+    ]
+  },
+  {
+    "id": 11322,
+    "infinitive": "zurückblicken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "blickt zurück",
+    "preterite": "blickte zurück",
+    "perfect": "hat zurückgeblickt",
+    "translations": [
+      "оглянуться",
+      "оглядываться",
+      "оглядываться назад",
+      "оглянуться назад",
+      "припоминать",
+      "припомнить"
+    ]
+  },
+  {
+    "id": 11323,
+    "infinitive": "zurückdenken",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "denkt zurück",
+    "preterite": "dachte zurück (dächte zurück)",
+    "perfect": "hat zurückgedacht",
+    "translations": [
+      "вспоминать",
+      "вспомнить"
+    ]
+  },
+  {
+    "id": 11324,
+    "infinitive": "zurückhalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hält zurück",
+    "preterite": "hielt zurück (hielte zurück)",
+    "perfect": "hat zurückgehalten",
+    "translations": [
+      "сдерживать",
+      "удерживать",
+      "сдержать",
+      "сдержаться",
+      "сдерживаться",
+      "удержать",
+      "задерживать",
+      "останавливать",
+      "остановить",
+      "придержать",
+      "придерживать",
+      "удержаться",
+      "удерживаться",
+      "утерпеть"
+    ]
+  },
+  {
+    "id": 11325,
+    "infinitive": "zurückschalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schaltet zurück",
+    "preterite": "schaltete zurück",
+    "perfect": "hat zurückgeschaltet",
+    "translations": [
+      "вернуть",
+      "переключить на низшую передачу",
+      "переключить назад",
+      "понизить передачу"
+    ]
+  },
+  {
+    "id": 11326,
+    "infinitive": "zurückschrecken",
+    "level": "C1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "schrickt zurück",
+    "preterite": "schrak zurück",
+    "perfect": "ist zurückgeschrocken",
+    "translations": [
+      "отступать",
+      "испугаться",
+      "отшатнуться",
+      "пугаться",
+      "уклоняться"
+    ]
+  },
+  {
+    "id": 11327,
+    "infinitive": "zurückstellen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stellt zurück",
+    "preterite": "stellte zurück",
+    "perfect": "hat zurückgestellt",
+    "translations": [
+      "откладывать",
+      "отложить",
+      "давать отсрочку",
+      "дать отсрочку",
+      "отсрочивать",
+      "отсрочить",
+      "перевести назад",
+      "переводить назад",
+      "передвигать назад",
+      "передвинуть назад",
+      "поставить обратно",
+      "ставить обратно"
+    ]
+  },
+  {
+    "id": 11328,
+    "infinitive": "zurückweisen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "weist zurück",
+    "preterite": "wies zurück (wiese zurück)",
+    "perfect": "hat zurückgewiesen",
+    "translations": [
+      "отказывать",
+      "отклонять",
+      "отвергать",
+      "отказаться",
+      "отказываться",
+      "отражать"
+    ]
+  },
+  {
+    "id": 11329,
+    "infinitive": "zurückzahlen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "zahlt zurück",
+    "preterite": "zahlte zurück",
+    "perfect": "hat zurückgezahlt",
+    "translations": [
+      "возвращать",
+      "возвратить",
+      "заплатить",
+      "отдавать",
+      "отдать",
+      "платить",
+      "уплатить",
+      "уплачивать"
+    ]
+  },
+  {
+    "id": 11330,
+    "infinitive": "zurückziehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "zieht zurück",
+    "preterite": "zog zurück (zöge zurück)",
+    "perfect": "hat zurückgezogen",
+    "translations": [
+      "отступать",
+      "отойти",
+      "отступить",
+      "отходить",
+      "уединиться",
+      "уединяться",
+      "возвратиться",
+      "возвращаться",
+      "затвориться",
+      "затворяться",
+      "отдёргивать",
+      "отдёрнуть",
+      "отзывать",
+      "отодвигаться",
+      "отодвинуться",
+      "ретироваться",
+      "удалиться",
+      "удаляться",
+      "устраниться",
+      "устраняться"
+    ]
+  },
+  {
+    "id": 11331,
+    "infinitive": "zurufen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "ruft zu",
+    "preterite": "rief zu (riefe zu)",
+    "perfect": "hat zugerufen",
+    "translations": [
+      "крикнуть",
+      "кричать",
+      "окликать",
+      "окликнуть"
+    ]
+  },
+  {
+    "id": 11332,
+    "infinitive": "zusammenfegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "fegt zusammen",
+    "preterite": "fegte zusammen",
+    "perfect": "hat zusammengefegt",
+    "translations": [
+      "нанести",
+      "наносить",
+      "подметать",
+      "сметать"
+    ]
+  },
+  {
+    "id": 11333,
+    "infinitive": "zusammenführen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "führt zusammen",
+    "preterite": "führte zusammen",
+    "perfect": "hat zusammengeführt",
+    "translations": [
+      "сводить",
+      "свести"
+    ]
+  },
+  {
+    "id": 11334,
+    "infinitive": "zusammenhaben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hat zusammen",
+    "preterite": "hatte zusammen (hätte zusammen)",
+    "perfect": "hat zusammengehabt",
+    "translations": [
+      "вместе иметь"
+    ]
+  },
+  {
+    "id": 11335,
+    "infinitive": "zusammenhalten",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hält zusammen",
+    "preterite": "hielt zusammen (hielte zusammen)",
+    "perfect": "hat zusammengehalten",
+    "translations": [
+      "держаться вместе"
+    ]
+  },
+  {
+    "id": 11336,
+    "infinitive": "zusammenkriegen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "kriegt zusammen",
+    "preterite": "kriegte zusammen",
+    "perfect": "hat zusammengekriegt",
+    "translations": [
+      "достигнуть",
+      "собрать"
+    ]
+  },
+  {
+    "id": 11337,
+    "infinitive": "zusammenschweißen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "schweißt zusammen",
+    "preterite": "schweißte zusammen",
+    "perfect": "hat zusammengeschweißt",
+    "translations": [
+      "сваривать",
+      "спаивать",
+      "спаять",
+      "зацементировать",
+      "сварить",
+      "сплачивать",
+      "сплотить",
+      "цементировать"
+    ]
+  },
+  {
+    "id": 11338,
+    "infinitive": "zusammenstellen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "stellt zusammen",
+    "preterite": "stellte zusammen",
+    "perfect": "hat zusammengestellt",
+    "translations": [
+      "составлять",
+      "составить",
+      "вырабатывать",
+      "выработать",
+      "комбинировать",
+      "компоновать",
+      "набирать",
+      "набрать",
+      "скомбинировать",
+      "скомпоновать"
+    ]
+  },
+  {
+    "id": 11339,
+    "infinitive": "zuschreiben",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "schreibt zu",
+    "preterite": "schrieb zu (schriebe zu)",
+    "perfect": "hat zugeschrieben",
+    "translations": [
+      "приписывать",
+      "отнести",
+      "относить",
+      "приписать"
+    ]
+  },
+  {
+    "id": 11340,
+    "infinitive": "zusehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "sieht zu",
+    "preterite": "sah zu",
+    "perfect": "hat zugesehen",
+    "translations": [
+      "наблюдать",
+      "смотреть",
+      "посмотреть",
+      "следить"
+    ]
+  },
+  {
+    "id": 11341,
+    "infinitive": "zustehen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "steht zu",
+    "preterite": "stand zu (stünde/stände zu)",
+    "perfect": "hat zugestanden",
+    "translations": [
+      "быть положенным",
+      "полагаться",
+      "причитаться"
+    ]
+  },
+  {
+    "id": 11342,
+    "infinitive": "zuteilen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "teilt zu",
+    "preterite": "teilte zu",
+    "perfect": "hat zugeteilt",
+    "translations": [
+      "распределять",
+      "выделить",
+      "выделять",
+      "поручать",
+      "наделить",
+      "наделять",
+      "нормировать",
+      "поручить",
+      "распределить"
+    ]
+  },
+  {
+    "id": 11343,
+    "infinitive": "zuweisen",
+    "level": "C1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "weist zu",
+    "preterite": "wies zu (wiese zu)",
+    "perfect": "hat zugewiesen",
+    "translations": [
+      "предоставлять",
+      "ассигновать",
+      "выделить",
+      "выделять",
+      "отвести",
+      "отводить",
+      "поручать",
+      "предоставить"
+    ]
+  },
+  {
+    "id": 11344,
+    "infinitive": "sich abfinden",
+    "level": "B2",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "findet sich ab",
+    "preterite": "fand sich ab (fände ab)",
+    "perfect": "hat sich abgefunden",
+    "translations": [
+      "возместить",
+      "возмещать",
+      "компенсировать",
+      "мириться",
+      "возвратить",
+      "возвращать",
+      "довольствоваться",
+      "договариваться",
+      "договориться",
+      "погасить",
+      "погашать",
+      "помириться",
+      "прийти к соглашению",
+      "примириться",
+      "примиряться",
+      "приходить к соглашению",
+      "свыкаться",
+      "свыкнуться",
+      "удовлетворить",
+      "удовлетвориться"
+    ]
+  },
+  {
+    "id": 11345,
+    "infinitive": "sich anstrengen",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "strengt sich an",
+    "preterite": "strengte sich an",
+    "perfect": "hat sich angestrengt",
+    "translations": [
+      "напрягаться",
+      "быть напряжённым",
+      "напрячься",
+      "постараться",
+      "силиться",
+      "стараться"
+    ]
+  },
+  {
+    "id": 11346,
+    "infinitive": "sich ärgern über",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich über ärgert",
+    "preterite": "sich über ärgerte",
+    "perfect": "hat sich über geärgert",
+    "translations": [
+      "злиться (из-за чего-то)",
+      "сердиться",
+      "быть недовольным",
+      "досадовать",
+      "раздражаться",
+      "раздражиться",
+      "рассердиться"
+    ]
+  },
+  {
+    "id": 11347,
+    "infinitive": "sich trauen",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich traut",
+    "preterite": "sich traute",
+    "perfect": "hat sich getraut",
+    "translations": [
+      "осмелиться",
+      "решиться",
+      "дерзать",
+      "осмеливаться",
+      "отважиться",
+      "посметь",
+      "решаться",
+      "сметь"
+    ]
+  },
+  {
+    "id": 11348,
+    "infinitive": "sich streiten um",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "sich streitet um",
+    "preterite": "sich stritt um (stritte)",
+    "perfect": "hat sich um gestritten",
+    "translations": [
+      "ссориться (из-за чего-либо)",
+      "поссориться",
+      "поругаться",
+      "пререкаться",
+      "ругаться"
+    ]
+  },
+  {
+    "id": 11349,
+    "infinitive": "sich leisten",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich leistet",
+    "preterite": "sich leistete",
+    "perfect": "hat sich geleistet",
+    "translations": [
+      "позволить себе",
+      "позволять",
+      "позволить"
+    ]
+  },
+  {
+    "id": 11350,
+    "infinitive": "sich gewöhnen an",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich gewöhnt an",
+    "preterite": "sich gewöhnte an",
+    "perfect": "hat sich an gewöhnt",
+    "translations": [
+      "привыкать (к чему-либо)",
+      "привыкнуть",
+      "втягиваться",
+      "втянуться",
+      "осваиваться",
+      "освоиться",
+      "свыкаться",
+      "свыкнуться",
+      "уживаться",
+      "ужиться"
+    ]
+  },
+  {
+    "id": 11351,
+    "infinitive": "sich einlassen auf",
+    "level": "B2",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "lässt sich ein auf",
+    "preterite": "ließ sich ein auf (ließe ein)",
+    "perfect": "hat sich auf eingelassen",
+    "translations": [
+      "ввязаться (во что-либо)",
+      "заняться",
+      "поддаваться (чему-либо)",
+      "пускаться на",
+      "пуститься на",
+      "связаться",
+      "связываться"
+    ]
+  },
+  {
+    "id": 11352,
+    "infinitive": "einigen",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "einigt",
+    "preterite": "einigte",
+    "perfect": "hat geeinigt",
+    "translations": [
+      "объединять",
+      "привести к согласию",
+      "спаять"
+    ]
+  },
+  {
+    "id": 11353,
+    "infinitive": "beschweren",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "beschwert",
+    "preterite": "beschwerte",
+    "perfect": "hat beschwert",
+    "translations": [
+      "утяжелять",
+      "отягощять"
+    ]
+  },
+  {
+    "id": 11354,
+    "infinitive": "(sich) ausruhen von",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "ruht (sich) von aus",
+    "preterite": "ruhte (sich) von aus",
+    "perfect": "hat (sich) von ausgeruht",
+    "translations": [
+      "отдыхать (от чего-либо)",
+      "отдохнуть",
+      "восстанавливаться",
+      "отлежаться",
+      "давать отдых"
+    ]
+  },
+  {
+    "id": 11355,
+    "infinitive": "Angst haben vor",
+    "level": "A1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hat Angst vor",
+    "preterite": "hatte Angst vor",
+    "perfect": "hat Angst vor gehabt",
+    "translations": [
+      "бояться (чего-либо)",
+      "пугаться",
+      "беспокоиться",
+      "страшиться"
+    ]
+  },
+  {
+    "id": 11356,
+    "infinitive": "sich bedanken für",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich bedankt für",
+    "preterite": "sich bedankte für",
+    "perfect": "hat sich für bedankt",
+    "translations": [
+      "благодарить (за что-либо)",
+      "поблагодарить"
+    ]
+  },
+  {
+    "id": 11357,
+    "infinitive": "bestehen aus",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "besteht aus",
+    "preterite": "bestand aus (bestünde/bestände)",
+    "perfect": "hat aus bestanden",
+    "translations": [
+      "состоять (из чего-либо)"
+    ]
+  },
+  {
+    "id": 11358,
+    "infinitive": "bestehen",
+    "level": "A2",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "besteht",
+    "preterite": "bestand (bestünde/bestände)",
+    "perfect": "hat bestanden",
+    "translations": [
+      "существовать",
+      "сдать",
+      "выдержать",
+      "присутствовать"
+    ]
+  },
+  {
+    "id": 11359,
+    "infinitive": "denken über",
+    "level": "A1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "denkt über",
+    "preterite": "dachte über (dächte)",
+    "perfect": "hat über gedacht",
+    "translations": [
+      "судить (о ком-либо)",
+      "полагать"
+    ]
+  },
+  {
+    "id": 11360,
+    "infinitive": "einverstanden sein mit",
+    "level": "A1",
+    "helper_verb": "sein",
+    "conjugation_type": "Irregular",
+    "present": "ist einverstanden mit",
+    "preterite": "war einverstanden mit",
+    "perfect": "ist einverstanden mit gewesen",
+    "translations": [
+      "быть согласным (с чем-либо)",
+      "согласиться"
+    ]
+  },
+  {
+    "id": 11361,
+    "infinitive": "sich freuen auf",
+    "level": "A1",
+    "helper_verb": "haben",
+    "conjugation_type": "Regular",
+    "present": "sich freut auf",
+    "preterite": "sich freute auf",
+    "perfect": "hat sich auf gefreut",
+    "translations": [
+      "ждать с нетерпением (чего-либо)",
+      "обрадоваться"
+    ]
+  },
+  {
+    "id": 11362,
+    "infinitive": "halten für",
+    "level": "A1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "hält für",
+    "preterite": "hielt für (hielte)",
+    "perfect": "hat für gehalten",
+    "translations": [
+      "считать кого-либо (кем-либо, за кого-либо)"
+    ]
+  },
+  {
+    "id": 11363,
+    "infinitive": "leiden unten",
+    "level": "B1",
+    "helper_verb": "haben",
+    "conjugation_type": "Irregular",
+    "present": "leidet unten",
+    "preterite": "litt unten (litte)",
+    "perfect": "hat unten gelitten",
+    "translations": [
+      "страдать (от чего-либо)",
+      "терпеть",
+      "болеть",
+      "переносить",
+      "выносить",
+      "измучиваться",
+      "измучиться",
+      "мучаться",
+      "мучиться",
+      "перенести",
+      "пострадать",
+      "претерпевать",
+      "претерпеть"
+    ]
+  }
+]
