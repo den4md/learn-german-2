@@ -1,19 +1,21 @@
-export const dataDocumentSchemaVersion = 1
+import type { DocumentId } from './identifiers'
+import { createEmptyLearningData } from './learning-data'
+import type { LearningDataData } from './learning-data'
 
-export type InterfaceLanguage = 'en' | 'de' | 'ru'
+export const dataDocumentSchemaVersion = 1
 
 export interface DataDocument {
   schemaVersion: typeof dataDocumentSchemaVersion
-  documentId: string
+  documentId: DocumentId
   updatedAt: string
-  interfaceLanguage: InterfaceLanguage
+  learningData: LearningDataData
 }
 
-export function createEmptyDataDocument(): DataDocument {
+export function createEmptyDataDocument(documentId: DocumentId, updatedAt: string): DataDocument {
   return {
     schemaVersion: dataDocumentSchemaVersion,
-    documentId: crypto.randomUUID(),
-    updatedAt: new Date().toISOString(),
-    interfaceLanguage: 'en',
+    documentId,
+    updatedAt,
+    learningData: createEmptyLearningData(),
   }
 }

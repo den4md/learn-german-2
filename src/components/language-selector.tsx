@@ -1,4 +1,4 @@
-import type { InterfaceLanguage } from '../domain/data-document'
+import type { InterfaceLanguage } from '../domain/preferences'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
 const languageNames: Record<InterfaceLanguage, string> = {

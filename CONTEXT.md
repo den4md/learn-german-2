@@ -1,12 +1,20 @@
 # Learn German
 
-This context describes a public browser-based language-learning app. A visitor can use it locally or optionally keep their learning data synchronized through their own Google Drive.
+This context describes a public browser-based language-learning app. A user can use it locally or optionally keep their learning data synchronized through their own Google Drive.
 
-## Language
+## User and data
+
+**User**:
+The person using the app in one browser. A user may have no app account or profile.
+_Avoid_: visitor, account holder
 
 **Learning data**:
-The visitor's progress and preferences. It excludes notes, uploaded files, and personal profile data.
-_Avoid_: user data, account data
+The user's Preferences, Vocabulary learning records, User-added vocabulary items, an optional Active session, completed Sessions, and Daily streak history. It does not include the Default vocabulary set, notes, uploaded files, or profile data.
+_Avoid_: account data
+
+**Preferences**:
+The user's saved choices outside an individual Session. At present, Preferences contain the Interface language; the app adds more Preferences only when it needs them.
+_Avoid_: session settings, profile
 
 **Local copy**:
 The browser-specific copy of learning data. It belongs to one website origin and can exist without cloud sync.
@@ -21,7 +29,7 @@ The current browser's permission to read and write the cloud copy. It is not an 
 _Avoid_: login, account connection
 
 **Data document**:
-The single JSON record that contains one copy of learning data. It has a `documentId` and `updatedAt` value.
+The single JSON record that contains one copy of learning data and identifies that copy's logical document and last update.
 _Avoid_: database, file set
 
 **Real progress**:
@@ -29,27 +37,25 @@ Learning data that differs from the default empty state. It determines whether c
 _Avoid_: non-empty data
 
 **Data replacement**:
-An explicit visitor choice to copy the local copy to the cloud copy or the cloud copy to the local copy. It never merges the two copies.
+An explicit user choice to copy the local copy to the cloud copy or the cloud copy to the local copy. It never merges the two copies.
 _Avoid_: sync merge, reconciliation
+
+## Vocabulary
 
 **Default vocabulary set**:
 The curated set of German vocabulary items shipped with the app.
 _Avoid_: hard-coded words, master list
 
 **Vocabulary item ID**:
-The project-owned stable identifier assigned to a vocabulary item when the private working input is converted into the default vocabulary set. It remains unchanged in later default-vocabulary-set releases.
+The stable identifier assigned by the app to a Vocabulary item. A Default vocabulary item keeps its ID in later Default-vocabulary-set releases; a User-added vocabulary item keeps its ID through local and cloud copying.
 _Avoid_: source ID, MongoDB ID
 
-**Personal vocabulary set**:
-The vocabulary set presented to the visitor after applying their personal vocabulary overrides to the default vocabulary set.
-_Avoid_: copied default list, separate word database
-
-**Personal vocabulary override**:
-One visitor-owned addition or field change relative to the default vocabulary set. Overrides are sparse: unchanged default vocabulary items are not copied into learning data. Excluded is used instead of removing a default vocabulary item.
-_Avoid_: personal copy, temporary edit
+**Vocabulary learning record**:
+The user's sparse record for one Vocabulary item. It references either a Default vocabulary item or a User-added vocabulary item, and stores the item's Word state, Learning score, Learning statistics, Favourite status, and optional complete replacements for German text or Russian translations. Its absence for a Default vocabulary item means New, score and statistics of zero, and not favourite.
+_Avoid_: personal vocabulary override, user-specific word, word object
 
 **Favourite status**:
-A visitor-owned marker on a vocabulary item. It does not affect the item's word state, Learning score, or learning statistics. The visitor may toggle it and use it in filters and item ordering.
+A user-owned marker in a Vocabulary learning record. It does not affect the item's Word state, Learning score, or Learning statistics. The user may toggle it and use it in filters and item ordering.
 _Avoid_: rating, priority
 
 **Favourite-status filter**:
@@ -57,28 +63,52 @@ The session setting that selects all vocabulary items, favourites only, or non-f
 _Avoid_: favourite ordering
 
 **Vocabulary item**:
-One German word or expression in a vocabulary set, shown to the visitor as a flashcard. It has grammatical and translation data appropriate to its word type.
+One German word or expression in a vocabulary set. It contains grammatical and translation data appropriate to its Word type, but no user's learning state or progress.
 _Avoid_: card, question
+
+**User-added vocabulary item**:
+A Vocabulary item created by the user and stored in Learning data because it has no matching item in the Default vocabulary set. It receives a stable Vocabulary item ID.
+_Avoid_: personal word, custom override
 
 **Word type**:
 The data classification of a vocabulary item: noun, adjective, or verb. It is a data classification, not a general linguistic classification.
 _Avoid_: grammar category
 
 **Word state**:
-The visitor's current relationship to a vocabulary item. New is the default state for unseen items. Every Learning item that matches a new Learning session's session settings is eligible for that session, and every matching Known item is eligible for a new Repetition session. Excluded items appear in no session. The visitor may change a word's state during a session. Excluding an item is the way to remove it from all sessions.
+The part of a Vocabulary learning record that says where the item is in the user's learning. The only Word states are New, Learning, Known, and Excluded.
 _Avoid_: initial learning state, first answer
 
+**New**:
+A Word state for a Vocabulary item that the user has not classified yet. New items are eligible for a Knowledge-check session.
+_Avoid_: unlearned, untouched
+
+**Learning**:
+A Word state for a Vocabulary item that the user is practising. Learning items are eligible for a Learning session when they match its Session settings.
+_Avoid_: in progress, practising state
+
+**Known**:
+A Word state for a Vocabulary item that the user considers familiar. Known items are eligible for a Repetition session when they match its Session settings.
+_Avoid_: mastered, learned
+
+**Excluded**:
+A Word state for a Vocabulary item that keeps it in Learning data but removes it from every Session.
+_Avoid_: deleted, removed
+
+## Sessions and assessment
+
 **Self-assessment**:
-The visitor's own judgement after revealing a vocabulary item's other card side. In a Knowledge-check session, the visitor may say that they know the item, recognise it but want to learn it, do not know it, or exclude it. In Learning and Repetition sessions, they assess recall as correct or incorrect. A manual word-state change is also a completed self-assessment, but does not record a correct or incorrect assessment.
+The user's judgement after revealing a vocabulary item's other card side. In a Knowledge-check session, the user may say that they know the item, recognise it but want to learn it, do not know it, or exclude it. In Learning and Repetition sessions, they assess recall as correct or incorrect. A manual Word-state change is also a completed self-assessment, but does not record a correct or incorrect assessment.
 _Avoid_: automatic answer check, grade
 
 **Learning score**:
-The current count of consecutive correct recall judgements for a Learning item. Choosing "I recognise it, but want to learn it" in a Knowledge-check session starts or increases the score. A manual move to Learning or Known preserves the score, a move to New resets it to zero, and excluding an item preserves it.
+The count in a Vocabulary learning record of consecutive correct recall judgements for a Learning item. Choosing "I recognise it, but want to learn it" in a Knowledge-check session starts or increases the score. A manual move to Learning or Known preserves the score, a move to New resets it to zero, and excluding an item preserves it.
 _Avoid_: total correct answers, mastery percentage
 
 **Automatic state transition**:
-The app's automatic state change based on a self-assessment. A Learning score of ten moves the item from Learning to Known. In a Repetition session, an incorrect self-assessment moves the item to Learning and resets its Learning score to zero. The visitor may change a word's state manually at any time.
+The app's automatic change to a Vocabulary learning record's Word state after a Self-assessment. A Learning score of ten moves the item from Learning to Known. In a Repetition session, an incorrect self-assessment moves the item to Learning and resets its Learning score to zero. The user may change a Word state manually at any time.
 _Avoid_: suggestion, optional promotion
+
+## Progress
 
 **Streak pause**:
 The automatic one-day protection for a missed daily streak goal. It is always available, protects one missed UTC date, and never protects two consecutive missed UTC dates.
@@ -89,48 +119,56 @@ The default main view. It makes the daily streak visible and provides expandable
 _Avoid_: dashboard, analytics
 
 **Daily streak**:
-The visitor's consecutive streak days. A UTC date meets the V1 streak goal after five distinct correct session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the visitor, may configure a different goal in a later version.
+The user's consecutive streak days, calculated from Daily streak history. A UTC date meets the V1 streak goal after five distinct correct Session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the user, may configure a different goal in a later version.
 _Avoid_: login streak, activity streak
+
+**Daily streak history**:
+The stored result for each UTC date that affects the Daily streak: valid, pause-protected, or broken. It identifies each date as a `YYYY-MM-DD` string and keeps a valid date valid when a Session result later changes.
+_Avoid_: derived streak, streak cache
 
 **Streak popup**:
 The view opened by selecting the daily streak. It shows the previous seven UTC dates, including valid streak days, pause-protected missed days, non-streak days, and dates where the streak broke.
 _Avoid_: streak history page
 
+## Sessions
+
 **Session entry**:
-One vocabulary item in a session's fixed item list. It records whether the visitor has shown the other card side and its resulting word state. An entry completes after the other side is shown and a self-assessment assigns its resulting state.
+One Vocabulary item in a Session's fixed item list. It records that Session's reveal and Self-assessment result for the item, then updates its Vocabulary learning record. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
 _Avoid_: card progress, question state
 
 **Session**:
-One visitor-created fixed list of session entries. It has a start timestamp, a last-action timestamp, and an end timestamp when it completes or the visitor ends it. It remains in session history after ending.
+One user-created fixed list of Session entries. It has a start timestamp, a last-action timestamp, and an end timestamp when it completes or the user ends it. It remains in session history after ending.
 _Avoid_: run, attempt
 
 **Active session**:
-A session without an end timestamp. The app has at most one. It resumes with its fixed entry list and current position; starting another session requires the visitor to end it.
+A Session without an end timestamp. The app has at most one. It resumes with its fixed entry list and current position; starting another Session requires the user to end it.
 _Avoid_: paused session
 
 **Knowledge-check session**:
-A session that presents New vocabulary items so the visitor can classify them.
+A Session that presents New Vocabulary items so the user can classify them.
 _Avoid_: quiz, test
 
 **Learning session**:
-A session that presents Learning vocabulary items for active recall.
+A Session that presents Learning Vocabulary items for active recall.
 _Avoid_: practice mode
 
 **Repetition session**:
-A session that presents Known vocabulary items for continued recall.
+A Session that presents Known Vocabulary items for continued recall.
 _Avoid_: review mode
 
 **Session settings**:
-The visitor's choices for one session: its CEFR-level, word-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
+The user's choices for one Session: its CEFR-level, Word-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
 _Avoid_: global preferences, session type
 
 **Ordering source**:
-One criterion that orders session entries, selected from CEFR level, word type, vocabulary item, and Favourite status. The visitor sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported default vocabulary-set order unless another ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, word type with no sorting, and vocabulary item ascending.
+One criterion that orders Session entries, selected from CEFR level, Word type, Vocabulary item, and Favourite status. The user sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported Default-vocabulary-set order unless another Ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, Word type with no sorting, and Vocabulary item ascending.
 _Avoid_: sort preset, priority
 
 **Unlimited session**:
-A session with no fixed item limit. It admits each matching vocabulary item one at a time and ends only when the visitor ends it manually.
+A Session with no fixed item limit. It admits each matching Vocabulary item one at a time and ends only when the user ends it manually.
 _Avoid_: all-at-once session
+
+## Interface
 
 **German card side**:
 The flashcard side that shows the German headword. It always shows the CEFR level and word type, and can show selected grammatical characteristics.
@@ -141,9 +179,11 @@ The flashcard side that shows Russian translations. It always shows the CEFR lev
 _Avoid_: back side, answer side
 
 **Interface language**:
-The language used for the app's buttons, labels, and settings. The app supports English, German, and Russian interface languages, and uses English for a first visit.
+The Preferences value used for the app's buttons, labels, and settings. The app supports English, German, and Russian interface languages, and uses English for a first visit.
 _Avoid_: translation language, vocabulary language
 
+## Vocabulary statistics
+
 **Learning statistics**:
-The recorded number of card shows, correct assessments, and incorrect assessments for a vocabulary item. A session counts an item show only the first time it opens the item's card; revisiting it does not add another show. Replacing a completed entry's result replaces its earlier assessment statistic.
+The recorded number in a Vocabulary learning record of card shows, correct assessments, and incorrect assessments. A Session counts an item show only the first time it opens the item's card; revisiting it does not add another show. Replacing a completed entry's result replaces its earlier assessment statistic.
 _Avoid_: score, mastery percentage

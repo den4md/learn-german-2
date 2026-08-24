@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react'
 import type { PropsWithChildren } from 'react'
-import type { InterfaceLanguage } from '../domain/data-document'
+import type { InterfaceLanguage } from '../domain/preferences'
 import { messages } from './messages'
 import type { MessageKey } from './messages'
 

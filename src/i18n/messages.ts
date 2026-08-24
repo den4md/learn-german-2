@@ -1,4 +1,4 @@
-import type { InterfaceLanguage } from '../domain/data-document'
+import type { InterfaceLanguage } from '../domain/preferences'
 
 const englishMessages = {
   languageLabel: 'Interface language',
