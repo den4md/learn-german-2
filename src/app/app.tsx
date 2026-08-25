@@ -6,6 +6,7 @@ import type { InterfaceLanguage } from '../domain/preferences'
 import { InterfaceLanguageProvider, useInterfaceLanguage } from '../i18n/interface-language-context'
 import { IndexedDbDataDocumentStore } from '../storage/indexed-db-data-document-store'
 import { ProgressionView } from '../views/progression-view'
+import { AppShell } from './app-shell'
 
 export function App() {
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
@@ -68,7 +69,13 @@ export function App() {
       interfaceLanguage={learningData.preferences.interfaceLanguage}
       setInterfaceLanguage={setInterfaceLanguage}
     >
-      {isLoaded ? <ProgressionView /> : <LoadingView />}
+      {isLoaded ? (
+        <AppShell>
+          <ProgressionView learningData={learningData} />
+        </AppShell>
+      ) : (
+        <LoadingView />
+      )}
     </InterfaceLanguageProvider>
   )
 }
