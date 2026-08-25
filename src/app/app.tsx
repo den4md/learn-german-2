@@ -8,7 +8,7 @@ import type { InterfaceLanguage } from '../domain/preferences'
 import { InterfaceLanguageProvider, useInterfaceLanguage } from '../i18n/interface-language-context'
 import { messages } from '../i18n/messages'
 import { IndexedDbDataDocumentStore } from '../storage/indexed-db-data-document-store'
-import { ProgressionView } from '../views/progression-view'
+import { ProgressionView, SessionDetailsView } from '../views/progression-view'
 import { SessionSetupView } from '../views/session-setup-view'
 import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
@@ -180,6 +180,7 @@ export function App() {
 
   const route = path === '/session/active' && learningData.activeSession === undefined ? '/progression' : path
   const vocabularyEditMatch = route.match(/^\/vocabulary\/(\d+)\/edit$/)
+  const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 
   useEffect(() => {
     if (route !== path || browserPathFromRoute(route) !== window.location.pathname) navigate(route, true)
@@ -192,8 +193,16 @@ export function App() {
     >
       {isLoaded ? (
         <AppShell hasActiveSession={learningData.activeSession !== undefined} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
-          {route === '/progression' || route.startsWith('/sessions/') ? (
-            <ProgressionView learningData={learningData} onStartSession={startNewSession} />
+          {route === '/progression' ? (
+            <ProgressionView
+              learningData={learningData}
+              onChangeWordState={changeVocabularyItemWordState}
+              onEditVocabularyItem={(vocabularyItemId) => navigate(`/vocabulary/${vocabularyItemId}/edit`)}
+              onOpenSessionDetails={(sessionId) => navigate(`/sessions/${sessionId}`)}
+              onStartSession={startNewSession}
+            />
+          ) : route.startsWith('/sessions/') ? (
+            <SessionDetailsView learningData={learningData} onBack={() => navigate('/progression')} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
           ) : route === '/vocabulary' ? (
             <VocabularyView
               learningData={learningData}
@@ -233,7 +242,7 @@ export function App() {
 }
 
 function normalizePath(pathname: string): string {
-  if (pathname === '/' || !['/progression', '/session/new', '/session/active', '/settings', '/vocabulary'].some((path) => pathname === path || pathname.startsWith(`${path}/`))) return '/progression'
+  if (pathname === '/' || !['/progression', '/session/new', '/session/active', '/sessions', '/settings', '/vocabulary'].some((path) => pathname === path || pathname.startsWith(`${path}/`))) return '/progression'
   return pathname
 }
 
