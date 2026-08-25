@@ -77,6 +77,13 @@ export const sessionTypes = {
 
 export type SessionType = (typeof sessionTypes)[keyof typeof sessionTypes]
 
+export const sessionEndReasons = {
+  completed: 'completed',
+  userEnded: 'user-ended',
+} as const
+
+export type SessionEndReason = (typeof sessionEndReasons)[keyof typeof sessionEndReasons]
+
 export const cardSides = {
   german: 'de',
   russian: 'ru',

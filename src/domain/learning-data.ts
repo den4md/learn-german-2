@@ -123,6 +123,41 @@ export class LearningData {
     })
   }
 
+  showActiveSessionCandidate(vocabularyItemId: VocabularyItemId, shownAt: string): LearningData {
+    const activeSession = this.requireActiveSession()
+    const nextActiveSession = activeSession.showCandidate(vocabularyItemId, shownAt)
+
+    return new LearningData({
+      ...this.data,
+      activeSession: nextActiveSession.toData(),
+      vocabularyLearningRecords: this.withSessionEntryShown(vocabularyItemId),
+    })
+  }
+
+  dropActiveSessionCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): LearningData {
+    const activeSession = this.requireActiveSession()
+    return new LearningData({
+      ...this.data,
+      activeSession: activeSession.dropCandidate(vocabularyItemId, droppedAt).toData(),
+    })
+  }
+
+  selectNextActiveSessionCandidatePage(
+    vocabularyItemIds: VocabularyItemId[],
+    selectedAt: string,
+  ): LearningData {
+    const activeSession = this.requireActiveSession()
+    const nextActiveSession = activeSession.selectNextCandidatePage(vocabularyItemIds, selectedAt)
+
+    return nextActiveSession.isEnded
+      ? new LearningData({
+        ...this.data,
+        activeSession: undefined,
+        sessions: [...this.data.sessions, nextActiveSession.toData()],
+      })
+      : new LearningData({ ...this.data, activeSession: nextActiveSession.toData() })
+  }
+
   assessActiveSessionEntry(
     entryIndex: number,
     selfAssessment: SelfAssessment,
@@ -147,7 +182,7 @@ export class LearningData {
       : new LearningData({
         ...this.data,
         activeSession: undefined,
-        sessions: [...this.data.sessions, nextActiveSession.end(assessedAt).toData()],
+        sessions: [...this.data.sessions, nextActiveSession.complete(assessedAt).toData()],
         vocabularyLearningRecords: records,
       })
 

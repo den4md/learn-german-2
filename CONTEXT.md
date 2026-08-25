@@ -149,15 +149,23 @@ _Avoid_: streak history page
 ## Sessions
 
 **Session entry**:
-One Vocabulary item in a Session's fixed item list. It records that Session's reveal and Self-assessment result for the item, then updates its Vocabulary learning record. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
+One Vocabulary item that a Session has presented. It records that Session's reveal and Self-assessment result for the item, then updates its Vocabulary learning record. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
 _Avoid_: card progress, question state
 
 **Session**:
-One user-created fixed list of Session entries. It has a start timestamp, a last-action timestamp, and an end timestamp when it completes or the user ends it. It remains in session history after ending.
+One user-created sequence of Session entries. It has a start timestamp, a last-action timestamp, and an end timestamp and Session end reason when it completes or the user ends it. A user-ended Session may have no Session entries. It remains in session history after ending.
 _Avoid_: run, attempt
 
+**Session end reason**:
+The recorded reason a Session ended. A completed Session reached its natural end; a user-ended Session ended because the user chose to stop it. A user-ended Session is a normal learning outcome and preserves its recorded Self-assessments.
+_Avoid_: session status, outcome
+
+**No-matching-items start failure**:
+A rejected attempt to start a Session because no Vocabulary item matches its Session settings. It creates neither an Active session nor a completed Session.
+_Avoid_: empty session
+
 **Active session**:
-A Session without an end timestamp. The app has at most one. It resumes with its fixed entry list and current position; starting another Session requires the user to end it.
+A Session without an end timestamp. The app has at most one. It resumes with its recorded entries, current candidate page when applicable, and current position; starting another Session requires the user to end it.
 _Avoid_: paused session
 
 **Knowledge-check session**:
@@ -176,12 +184,24 @@ _Avoid_: review mode
 The user's choices for one Session: its CEFR-level, Word-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
 _Avoid_: global preferences, session type
 
+**Item limit**:
+A positive whole number in Session settings that caps the number of Vocabulary items in a Limited session. Invalid values cannot start a Session.
+_Avoid_: page size, batch size
+
+**Limited session**:
+A Session with an Item limit. It selects one ordered, fixed list of matching Vocabulary items when it starts and completes when every Session entry has a Self-assessment. An item stays in its fixed list even when it later stops matching the Session settings, except when it becomes Excluded. A user-ended Limited session discards unpresented items in its fixed list. No matching item produces a No-matching-items start failure.
+_Avoid_: normal session, capped session
+
 **Ordering source**:
-One criterion that orders Session entries, selected from CEFR level, Word type, Vocabulary item, and Favourite status. The user sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported Default-vocabulary-set order unless another Ordering source reorders them. If every source has no sorting, the app shuffles all matching items. The default order is CEFR level ascending, Word type with no sorting, and Vocabulary item ascending.
+One criterion that orders Session entries, selected from CEFR level, Word type, Vocabulary item, and Favourite status. The user sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported Default-vocabulary-set order unless another Ordering source reorders them. If every source has no sorting, the app shuffles all matching items. An Unlimited session reapplies its Ordering sources when it selects a Candidate page; shuffle randomizes each new page, while a selected page keeps its order. The default order is CEFR level ascending, Word type with no sorting, and Vocabulary item ascending.
 _Avoid_: sort preset, priority
 
+**Candidate page**:
+A snapshot of up to ten Vocabulary items selected for an Unlimited session before it presents them. It selects items that match the Session settings when the page is created and excludes every item the Session has already presented. Before presenting a candidate, the Session drops it when it no longer matches its Session settings. A candidate becomes a Session entry only when the Session presents it.
+_Avoid_: buffer, queue, batch
+
 **Unlimited session**:
-A Session with no fixed item limit. It admits each matching Vocabulary item one at a time and ends only when the user ends it manually.
+A Session with no fixed item limit. It selects matching Vocabulary items in Candidate pages rather than creating its complete item list at the start, and selects a new page after the current page completes. It cannot start without a Candidate page, which produces a No-matching-items start failure. It completes when no later Candidate page can be selected, or ends when the user stops it manually and discards unpresented candidates in its current Candidate page.
 _Avoid_: all-at-once session
 
 ## Interface

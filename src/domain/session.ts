@@ -10,6 +10,7 @@ import {
   orderingDirections,
   orderingSources,
   recallSelfAssessments,
+  sessionEndReasons,
   sessionTypes,
   wordStates,
 } from './constants'
@@ -22,6 +23,7 @@ import type {
   RecallSelfAssessment,
   SelfAssessment,
   SessionType,
+  SessionEndReason,
   VerbGermanSideHeaderField,
 } from './constants'
 
@@ -35,6 +37,7 @@ export type {
   RecallSelfAssessment,
   SelfAssessment,
   SessionType,
+  SessionEndReason,
   VerbGermanSideHeaderField,
 } from './constants'
 
@@ -66,16 +69,23 @@ export interface SessionData {
   type: SessionType
   settings: SessionSettingsData
   entries: SessionEntryData[]
+  candidateVocabularyItemIds?: VocabularyItemId[]
   currentEntryIndex: number
   startedAt: string
   lastActionAt: string
   endedAt?: string
+  endReason?: SessionEndReason
 }
+
+export const unlimitedSessionCandidatePageSize = 10
 
 export class SessionSettings {
   private readonly data: SessionSettingsData
 
   private constructor(data: SessionSettingsData) {
+    if (data.itemLimit !== undefined && (!Number.isSafeInteger(data.itemLimit) || data.itemLimit <= 0)) {
+      throw new Error('The Item limit must be a positive whole number.')
+    }
     this.data = data
   }
 
@@ -101,6 +111,10 @@ export class SessionSettings {
 
   toData(): SessionSettingsData {
     return copySessionSettingsData(this.data)
+  }
+
+  get itemLimit(): number | undefined {
+    return this.data.itemLimit
   }
 }
 
@@ -161,11 +175,29 @@ export class Session {
     vocabularyItemIds: VocabularyItemId[],
     startedAt: string,
   ): Session {
+    const itemLimit = settings.itemLimit
+    if (vocabularyItemIds.length === 0) {
+      throw new Error('There are no Vocabulary items that match the Session settings.')
+    }
+
+    if (itemLimit === undefined) {
+      return new Session({
+        id,
+        type,
+        settings: settings.toData(),
+        entries: [],
+        candidateVocabularyItemIds: vocabularyItemIds.slice(0, unlimitedSessionCandidatePageSize),
+        currentEntryIndex: 0,
+        startedAt,
+        lastActionAt: startedAt,
+      })
+    }
+
     return new Session({
       id,
       type,
       settings: settings.toData(),
-      entries: vocabularyItemIds.map((vocabularyItemId) => ({ vocabularyItemId })),
+      entries: vocabularyItemIds.slice(0, itemLimit).map((vocabularyItemId) => ({ vocabularyItemId })),
       currentEntryIndex: 0,
       startedAt,
       lastActionAt: startedAt,
@@ -177,6 +209,7 @@ export class Session {
       ...data,
       settings: SessionSettings.fromData(data.settings).toData(),
       entries: (data.entries ?? []).map((entry) => SessionEntry.fromData(entry).toData()),
+      candidateVocabularyItemIds: data.candidateVocabularyItemIds === undefined ? undefined : [...data.candidateVocabularyItemIds],
       currentEntryIndex: data.currentEntryIndex ?? 0,
     })
   }
@@ -193,8 +226,24 @@ export class Session {
     return this.data.entries.map(SessionEntry.fromData)
   }
 
+  get candidateVocabularyItemIds(): VocabularyItemId[] {
+    return this.data.candidateVocabularyItemIds === undefined ? [] : [...this.data.candidateVocabularyItemIds]
+  }
+
+  get isUnlimited(): boolean {
+    return this.data.settings.itemLimit === undefined
+  }
+
+  get isEnded(): boolean {
+    return this.data.endedAt !== undefined
+  }
+
   get isComplete(): boolean {
-    return this.data.entries.every((entry) => entry.selfAssessment !== undefined)
+    return !this.isUnlimited && this.data.entries.every((entry) => entry.selfAssessment !== undefined)
+  }
+
+  get isCandidatePageComplete(): boolean {
+    return this.isUnlimited && this.candidateVocabularyItemIds.length === 0 && this.data.entries.every((entry) => entry.selfAssessment !== undefined)
   }
 
   entryAt(index: number): SessionEntry {
@@ -213,6 +262,49 @@ export class Session {
     return new Session({ ...this.data, entries, currentEntryIndex: index, lastActionAt: shownAt })
   }
 
+  showCandidate(vocabularyItemId: VocabularyItemId, shownAt: string): Session {
+    if (!this.isUnlimited || !this.candidateVocabularyItemIds.includes(vocabularyItemId)) {
+      throw new Error('The Vocabulary item is not in the current Candidate page.')
+    }
+    const entries = [...this.data.entries, { vocabularyItemId, shownAt }]
+    return new Session({
+      ...this.data,
+      entries,
+      candidateVocabularyItemIds: this.candidateVocabularyItemIds.filter((id) => id !== vocabularyItemId),
+      currentEntryIndex: entries.length - 1,
+      lastActionAt: shownAt,
+    })
+  }
+
+  dropCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): Session {
+    if (!this.isUnlimited) {
+      throw new Error('Only an Unlimited session has a Candidate page.')
+    }
+    return new Session({
+      ...this.data,
+      candidateVocabularyItemIds: this.candidateVocabularyItemIds.filter((id) => id !== vocabularyItemId),
+      lastActionAt: droppedAt,
+    })
+  }
+
+  selectNextCandidatePage(vocabularyItemIds: VocabularyItemId[], selectedAt: string): Session {
+    if (!this.isCandidatePageComplete) {
+      throw new Error('Complete the current Candidate page before selecting another.')
+    }
+    if (vocabularyItemIds.length === 0) {
+      return this.complete(selectedAt)
+    }
+    const presentedVocabularyItemIds = new Set(this.data.entries.map((entry) => entry.vocabularyItemId))
+    if (vocabularyItemIds.some((id) => presentedVocabularyItemIds.has(id))) {
+      throw new Error('A Candidate page cannot contain a Vocabulary item already presented in the Session.')
+    }
+    return new Session({
+      ...this.data,
+      candidateVocabularyItemIds: vocabularyItemIds.slice(0, unlimitedSessionCandidatePageSize),
+      lastActionAt: selectedAt,
+    })
+  }
+
   assessEntry(index: number, selfAssessment: SelfAssessment, assessedAt: string): Session {
     const entry = this.entryAt(index)
     assertSelfAssessmentMatchesSessionType(this.data.type, selfAssessment)
@@ -229,8 +321,12 @@ export class Session {
     })
   }
 
+  complete(endedAt: string): Session {
+    return new Session({ ...this.data, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: sessionEndReasons.completed })
+  }
+
   end(endedAt: string): Session {
-    return new Session({ ...this.data, lastActionAt: endedAt, endedAt })
+    return new Session({ ...this.data, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: sessionEndReasons.userEnded })
   }
 
   toData(): SessionData {
@@ -238,6 +334,7 @@ export class Session {
       ...this.data,
       settings: SessionSettings.fromData(this.data.settings).toData(),
       entries: this.data.entries.map((entry) => SessionEntry.fromData(entry).toData()),
+      candidateVocabularyItemIds: this.data.candidateVocabularyItemIds === undefined ? undefined : [...this.data.candidateVocabularyItemIds],
     }
   }
 }
