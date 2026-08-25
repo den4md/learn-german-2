@@ -5,7 +5,7 @@ import type { DailyStreakHistoryData } from './learning-progress'
 import { Session } from './session'
 import type { SelfAssessment, SessionData, SessionEntryTransitionData } from './session'
 import { VocabularyItem, VocabularyLearningRecord } from './vocabulary'
-import type { VocabularyItemData, VocabularyLearningRecordData, WordState } from './vocabulary'
+import type { VocabularyItemData, VocabularyItemTextData, VocabularyLearningRecordData, WordState } from './vocabulary'
 import type { VocabularyItemId } from './identifiers'
 import { recallSelfAssessments } from './constants'
 
@@ -235,6 +235,33 @@ export class LearningData {
     const record = this.findVocabularyLearningRecord(vocabularyItemId)
     return this.withVocabularyLearningRecord(
       (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).withWordState(wordState),
+    )
+  }
+
+  withVocabularyItemFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): LearningData {
+    const record = this.findVocabularyLearningRecord(vocabularyItemId)
+    return this.withVocabularyLearningRecord(
+      (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).withFavouriteStatus(isFavourite),
+    )
+  }
+
+  withVocabularyItemGermanText(
+    vocabularyItemId: VocabularyItemId,
+    germanText: VocabularyItemTextData | undefined,
+  ): LearningData {
+    const record = this.findVocabularyLearningRecord(vocabularyItemId)
+    return this.withVocabularyLearningRecord(
+      (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).withGermanText(germanText),
+    )
+  }
+
+  withVocabularyItemTranslations(
+    vocabularyItemId: VocabularyItemId,
+    translations: string[] | undefined,
+  ): LearningData {
+    const record = this.findVocabularyLearningRecord(vocabularyItemId)
+    return this.withVocabularyLearningRecord(
+      (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).withTranslations(translations),
     )
   }
 

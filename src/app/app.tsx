@@ -12,6 +12,7 @@ import { ProgressionView } from '../views/progression-view'
 import { SessionSetupView } from '../views/session-setup-view'
 import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
+import { VocabularyEditView, VocabularyView } from '../views/vocabulary-view'
 import { AppShell } from './app-shell'
 
 export function App() {
@@ -150,6 +151,26 @@ export function App() {
     navigate('/session/new')
   }
 
+  const changeVocabularyItemWordState = (vocabularyItemId: VocabularyItemId, wordState: Parameters<LearningData['withManualWordState']>[1]) => {
+    saveLearningData(learningData.withManualWordState(vocabularyItemId, wordState))
+  }
+
+  const changeVocabularyItemFavouriteStatus = (vocabularyItemId: VocabularyItemId, isFavourite: boolean) => {
+    saveLearningData(learningData.withVocabularyItemFavouriteStatus(vocabularyItemId, isFavourite))
+  }
+
+  const saveVocabularyItem = (
+    vocabularyItemId: VocabularyItemId,
+    germanText: Parameters<LearningData['withVocabularyItemGermanText']>[1],
+    translations: Parameters<LearningData['withVocabularyItemTranslations']>[1],
+  ) => {
+    saveLearningData(
+      learningData
+        .withVocabularyItemGermanText(vocabularyItemId, germanText)
+        .withVocabularyItemTranslations(vocabularyItemId, translations),
+    )
+  }
+
   const clearData = () => {
     const nextDataDocument = createEmptyDataDocument(dataDocument.documentId, new Date().toISOString())
     setDataDocument(nextDataDocument)
@@ -158,6 +179,7 @@ export function App() {
   }
 
   const route = path === '/session/active' && learningData.activeSession === undefined ? '/progression' : path
+  const vocabularyEditMatch = route.match(/^\/vocabulary\/(\d+)\/edit$/)
 
   useEffect(() => {
     if (route !== path || browserPathFromRoute(route) !== window.location.pathname) navigate(route, true)
@@ -170,8 +192,22 @@ export function App() {
     >
       {isLoaded ? (
         <AppShell hasActiveSession={learningData.activeSession !== undefined} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
-          {route === '/progression' || route === '/vocabulary' || route.startsWith('/sessions/') || route.startsWith('/vocabulary/') ? (
+          {route === '/progression' || route.startsWith('/sessions/') ? (
             <ProgressionView learningData={learningData} onStartSession={startNewSession} />
+          ) : route === '/vocabulary' ? (
+            <VocabularyView
+              learningData={learningData}
+              onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
+              onChangeWordState={changeVocabularyItemWordState}
+              onEditVocabularyItem={(vocabularyItemId) => navigate(`/vocabulary/${vocabularyItemId}/edit`)}
+            />
+          ) : route.startsWith('/vocabulary/') ? (
+            <VocabularyEditView
+              learningData={learningData}
+              onBack={() => navigate('/vocabulary')}
+              onSaveVocabularyItem={saveVocabularyItem}
+              vocabularyItemId={vocabularyEditMatch === null ? undefined : Number(vocabularyEditMatch[1]) as VocabularyItemId}
+            />
           ) : route === '/session/new' ? (
             <SessionSetupView learningData={learningData} onBack={() => navigate('/progression')} onSessionStarted={startSession} />
           ) : route === '/settings' ? (

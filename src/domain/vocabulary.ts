@@ -171,6 +171,20 @@ export class VocabularyLearningRecord {
     return new VocabularyLearningRecord({ ...this.data, isFavourite })
   }
 
+  withGermanText(germanText: VocabularyItemTextData | undefined): VocabularyLearningRecord {
+    return new VocabularyLearningRecord({
+      ...this.data,
+      germanText: germanText === undefined ? undefined : { ...germanText },
+    })
+  }
+
+  withTranslations(translations: string[] | undefined): VocabularyLearningRecord {
+    return new VocabularyLearningRecord({
+      ...this.data,
+      translations: translations === undefined ? undefined : [...translations],
+    })
+  }
+
   withWordState(wordState: WordState): VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
