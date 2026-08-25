@@ -1,10 +1,29 @@
 import type { VocabularyItemId } from './identifiers'
 import type { SelfAssessment, SessionType } from './session'
 import { isRecallSelfAssessment } from './session'
+import {
+  recallSelfAssessments,
+  sessionTypes,
+  wordStates,
+  wordTypes,
+} from './constants'
+import type {
+  CefrLevel,
+  NounGender,
+  VerbConjugationType,
+  VerbHelperVerb,
+  WordState,
+  WordType,
+} from './constants'
 
-export type CefrLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1'
-export type WordType = 'noun' | 'adjective' | 'verb'
-export type WordState = 'new' | 'learning' | 'known' | 'excluded'
+export type {
+  CefrLevel,
+  NounGender,
+  VerbConjugationType,
+  VerbHelperVerb,
+  WordState,
+  WordType,
+} from './constants'
 
 export interface VocabularyItemBaseData {
   id: VocabularyItemId
@@ -14,7 +33,7 @@ export interface VocabularyItemBaseData {
 
 export interface NounVocabularyItemData extends VocabularyItemBaseData {
   nominative: string
-  gender: 'Male' | 'Female' | 'Neuter'
+  gender: NounGender
   plural: string
 }
 
@@ -24,8 +43,8 @@ export interface AdjectiveVocabularyItemData extends VocabularyItemBaseData {
 
 export interface VerbVocabularyItemData extends VocabularyItemBaseData {
   infinitive: string
-  helper_verb: 'haben' | 'sein'
-  conjugation_type: 'Regular' | 'Irregular'
+  helper_verb: VerbHelperVerb
+  conjugation_type: VerbConjugationType
   present: string
   preterite: string
   perfect: string
@@ -37,9 +56,9 @@ export type VocabularyItemData =
   | VerbVocabularyItemData
 
 export type VocabularyItemTextData =
-  | ({ wordType: 'noun' } & Omit<NounVocabularyItemData, keyof VocabularyItemBaseData>)
-  | ({ wordType: 'adjective' } & Omit<AdjectiveVocabularyItemData, keyof VocabularyItemBaseData>)
-  | ({ wordType: 'verb' } & Omit<VerbVocabularyItemData, keyof VocabularyItemBaseData>)
+  | ({ wordType: typeof wordTypes.noun } & Omit<NounVocabularyItemData, keyof VocabularyItemBaseData>)
+  | ({ wordType: typeof wordTypes.adjective } & Omit<AdjectiveVocabularyItemData, keyof VocabularyItemBaseData>)
+  | ({ wordType: typeof wordTypes.verb } & Omit<VerbVocabularyItemData, keyof VocabularyItemBaseData>)
 
 export interface LearningStatisticsData {
   cardShows: number
@@ -117,7 +136,7 @@ export class VocabularyLearningRecord {
   static createNew(vocabularyItemId: VocabularyItemId): VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       vocabularyItemId,
-      wordState: 'new',
+      wordState: wordStates.new,
       learningScore: 0,
       learningStatistics: createEmptyLearningStatistics(),
       isFavourite: false,
@@ -156,7 +175,7 @@ export class VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
       wordState,
-      learningScore: wordState === 'new' ? 0 : this.data.learningScore,
+      learningScore: wordState === wordStates.new ? 0 : this.data.learningScore,
     })
   }
 
@@ -177,8 +196,8 @@ export class VocabularyLearningRecord {
   ): VocabularyLearningRecord {
     let learningStatistics = { ...this.data.learningStatistics }
 
-    if (isRecallSelfAssessment(replacedSelfAssessment ?? 'new')) {
-      if (replacedSelfAssessment === 'correct') {
+    if (isRecallSelfAssessment(replacedSelfAssessment ?? wordStates.new)) {
+      if (replacedSelfAssessment === recallSelfAssessments.correct) {
         learningStatistics.correctAssessments -= 1
       } else {
         learningStatistics.incorrectAssessments -= 1
@@ -186,7 +205,7 @@ export class VocabularyLearningRecord {
     }
 
     if (isRecallSelfAssessment(selfAssessment)) {
-      if (selfAssessment === 'correct') {
+      if (selfAssessment === recallSelfAssessments.correct) {
         learningStatistics.correctAssessments += 1
       } else {
         learningStatistics.incorrectAssessments += 1
@@ -270,7 +289,7 @@ export class ResolvedVocabularyItem {
     return new ResolvedVocabularyItem({
       ...resolvedItemData,
       translations: recordData?.translations ?? resolvedItemData.translations,
-      wordState: recordData?.wordState ?? 'new',
+      wordState: recordData?.wordState ?? wordStates.new,
       learningScore: recordData?.learningScore ?? 0,
       learningStatistics: recordData?.learningStatistics ?? createEmptyLearningStatistics(),
       isFavourite: recordData?.isFavourite ?? false,
@@ -311,41 +330,42 @@ function applyAutomaticStateTransition(
   sessionType: SessionType,
   selfAssessment: SelfAssessment,
 ): Pick<VocabularyLearningRecordData, 'wordState' | 'learningScore'> {
-  if (sessionType === 'knowledge-check') {
-    if (selfAssessment === 'learning') {
-      return { wordState: 'learning', learningScore: data.learningScore + 1 }
+  if (sessionType === sessionTypes.knowledgeCheck) {
+    if (selfAssessment === wordStates.learning) {
+      return { wordState: wordStates.learning, learningScore: data.learningScore + 1 }
     }
-    if (selfAssessment === 'known') {
-      return { wordState: 'known', learningScore: data.learningScore }
+    if (selfAssessment === wordStates.known) {
+      return { wordState: wordStates.known, learningScore: data.learningScore }
     }
-    if (selfAssessment === 'excluded') {
-      return { wordState: 'excluded', learningScore: data.learningScore }
+    if (selfAssessment === wordStates.excluded) {
+      return { wordState: wordStates.excluded, learningScore: data.learningScore }
     }
-    return { wordState: 'new', learningScore: 0 }
+    return { wordState: wordStates.new, learningScore: 0 }
   }
 
-  if (selfAssessment === 'correct') {
-    const learningScore = sessionType === 'learning' ? data.learningScore + 1 : data.learningScore
+  if (selfAssessment === recallSelfAssessments.correct) {
+    const learningScore =
+      sessionType === sessionTypes.learning ? data.learningScore + 1 : data.learningScore
     return {
-      wordState: learningScore >= 10 ? 'known' : data.wordState,
+      wordState: learningScore >= 10 ? wordStates.known : data.wordState,
       learningScore,
     }
   }
 
   return {
-    wordState: 'learning',
+    wordState: wordStates.learning,
     learningScore: 0,
   }
 }
 
 export function getWordType(vocabularyItem: VocabularyItemData): WordType {
   if ('nominative' in vocabularyItem) {
-    return 'noun'
+    return wordTypes.noun
   }
   if ('positive' in vocabularyItem) {
-    return 'adjective'
+    return wordTypes.adjective
   }
-  return 'verb'
+  return wordTypes.verb
 }
 
 export function resolveVocabularyItems(

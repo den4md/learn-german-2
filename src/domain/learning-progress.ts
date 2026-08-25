@@ -1,4 +1,7 @@
-export type DailyStreakDayStatus = 'valid' | 'pause-protected' | 'broken'
+import { dailyStreakDayStatuses } from './constants'
+import type { DailyStreakDayStatus } from './constants'
+
+export type { DailyStreakDayStatus } from './constants'
 
 export interface DailyStreakDayData {
   utcDate: string
@@ -38,7 +41,7 @@ export class DailyStreakHistory {
     let laterUtcDate: string | undefined
 
     for (const day of [...this.data.days].reverse()) {
-      if (day.status === 'broken') {
+      if (day.status === dailyStreakDayStatuses.broken) {
         break
       }
       if (laterUtcDate !== undefined && addUtcDays(day.utcDate, 1) !== laterUtcDate) {
@@ -55,7 +58,11 @@ export class DailyStreakHistory {
     const currentUtcDate = toUtcDate(currentTimestamp)
     const lastDay = this.data.days.at(-1)
 
-    if (lastDay === undefined || lastDay.status === 'broken' || lastDay.utcDate >= currentUtcDate) {
+    if (
+      lastDay === undefined ||
+      lastDay.status === dailyStreakDayStatuses.broken ||
+      lastDay.utcDate >= currentUtcDate
+    ) {
       return this
     }
 
@@ -64,9 +71,12 @@ export class DailyStreakHistory {
     let utcDate = addUtcDays(lastDay.utcDate, 1)
 
     while (utcDate < currentUtcDate) {
-      const status: DailyStreakDayStatus = previousDay.status === 'valid' ? 'pause-protected' : 'broken'
+      const status: DailyStreakDayStatus =
+        previousDay.status === dailyStreakDayStatuses.valid
+          ? dailyStreakDayStatuses.pauseProtected
+          : dailyStreakDayStatuses.broken
       history = history.withDay({ utcDate, status })
-      if (status === 'broken') {
+      if (status === dailyStreakDayStatuses.broken) {
         return history
       }
       previousDay = { utcDate, status }
@@ -78,10 +88,10 @@ export class DailyStreakHistory {
 
   withValidDate(utcDate: string): DailyStreakHistory {
     const existingDay = this.data.days.find((day) => day.utcDate === utcDate)
-    if (existingDay?.status === 'valid') {
+    if (existingDay?.status === dailyStreakDayStatuses.valid) {
       return this
     }
-    return this.withDay({ utcDate, status: 'valid' })
+    return this.withDay({ utcDate, status: dailyStreakDayStatuses.valid })
   }
 
   toData(): DailyStreakHistoryData {

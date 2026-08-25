@@ -7,6 +7,7 @@ import type { SelfAssessment, SessionData } from './session'
 import { VocabularyItem, VocabularyLearningRecord } from './vocabulary'
 import type { VocabularyItemData, VocabularyLearningRecordData, WordState } from './vocabulary'
 import type { VocabularyItemId } from './identifiers'
+import { recallSelfAssessments } from './constants'
 
 export interface LearningDataData {
   preferences: PreferencesData
@@ -251,7 +252,7 @@ export class LearningData {
 
     return sessions.flatMap((session) => session.entries).filter(
       (entry) =>
-        entry.selfAssessment === 'correct' &&
+        entry.selfAssessment === recallSelfAssessments.correct &&
         entry.selfAssessedAt !== undefined &&
         toUtcDate(entry.selfAssessedAt) === utcDate,
     ).length

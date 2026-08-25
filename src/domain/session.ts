@@ -1,21 +1,42 @@
 import type { SessionId, VocabularyItemId } from './identifiers'
 import type { CefrLevel, WordType } from './vocabulary'
+import {
+  allCefrLevels,
+  allNounGermanSideHeaderFields,
+  allVerbGermanSideHeaderFields,
+  allWordTypes,
+  cardSides,
+  favouriteStatusFilters,
+  orderingDirections,
+  orderingSources,
+  recallSelfAssessments,
+  sessionTypes,
+  wordStates,
+} from './constants'
+import type {
+  CardSide,
+  FavouriteStatusFilter,
+  NounGermanSideHeaderField,
+  OrderingDirection,
+  OrderingSource,
+  RecallSelfAssessment,
+  SelfAssessment,
+  SessionType,
+  VerbGermanSideHeaderField,
+} from './constants'
 
-export type SessionType = 'knowledge-check' | 'learning' | 'repetition'
-export type CardSide = 'german' | 'russian'
-export type FavouriteStatusFilter = 'all' | 'favourites' | 'non-favourites'
-export type OrderingSource = 'cefr-level' | 'word-type' | 'vocabulary-item' | 'favourite-status'
-export type OrderingDirection = 'none' | 'ascending' | 'descending' | 'shuffle'
-export type NounGermanSideHeaderField = 'gender' | 'plural'
-export type VerbGermanSideHeaderField =
-  | 'helper-verb'
-  | 'conjugation-type'
-  | 'present'
-  | 'preterite'
-  | 'perfect'
-export type KnowledgeCheckSelfAssessment = 'known' | 'learning' | 'new' | 'excluded'
-export type RecallSelfAssessment = 'correct' | 'incorrect'
-export type SelfAssessment = KnowledgeCheckSelfAssessment | RecallSelfAssessment
+export type {
+  CardSide,
+  FavouriteStatusFilter,
+  KnowledgeCheckSelfAssessment,
+  NounGermanSideHeaderField,
+  OrderingDirection,
+  OrderingSource,
+  RecallSelfAssessment,
+  SelfAssessment,
+  SessionType,
+  VerbGermanSideHeaderField,
+} from './constants'
 
 export interface OrderingSourceData {
   source: OrderingSource
@@ -60,17 +81,17 @@ export class SessionSettings {
 
   static createDefault(): SessionSettings {
     return new SessionSettings({
-      cefrLevels: ['A1', 'A2', 'B1', 'B2', 'C1'],
-      wordTypes: ['noun', 'adjective', 'verb'],
-      favouriteStatusFilter: 'all',
+      cefrLevels: [...allCefrLevels],
+      wordTypes: [...allWordTypes],
+      favouriteStatusFilter: favouriteStatusFilters.all,
       orderingSources: [
-        { source: 'cefr-level', direction: 'ascending' },
-        { source: 'word-type', direction: 'none' },
-        { source: 'vocabulary-item', direction: 'ascending' },
+        { source: orderingSources.cefrLevel, direction: orderingDirections.ascending },
+        { source: orderingSources.wordType, direction: orderingDirections.none },
+        { source: orderingSources.vocabularyItem, direction: orderingDirections.ascending },
       ],
-      firstCardSide: 'german',
-      nounGermanSideHeaderFields: ['gender', 'plural'],
-      verbGermanSideHeaderFields: ['helper-verb', 'conjugation-type', 'present', 'preterite', 'perfect'],
+      firstCardSide: cardSides.german,
+      nounGermanSideHeaderFields: [...allNounGermanSideHeaderFields],
+      verbGermanSideHeaderFields: [...allVerbGermanSideHeaderFields],
     })
   }
 
@@ -224,7 +245,10 @@ export class Session {
 export function isRecallSelfAssessment(
   selfAssessment: SelfAssessment,
 ): selfAssessment is RecallSelfAssessment {
-  return selfAssessment === 'correct' || selfAssessment === 'incorrect'
+  return (
+    selfAssessment === recallSelfAssessments.correct ||
+    selfAssessment === recallSelfAssessments.incorrect
+  )
 }
 
 function assertSelfAssessmentMatchesSessionType(
@@ -232,12 +256,12 @@ function assertSelfAssessmentMatchesSessionType(
   selfAssessment: SelfAssessment,
 ): void {
   const isKnowledgeCheckAssessment =
-    selfAssessment === 'known' ||
-    selfAssessment === 'learning' ||
-    selfAssessment === 'new' ||
-    selfAssessment === 'excluded'
+    selfAssessment === wordStates.known ||
+    selfAssessment === wordStates.learning ||
+    selfAssessment === wordStates.new ||
+    selfAssessment === wordStates.excluded
 
-  if ((sessionType === 'knowledge-check') !== isKnowledgeCheckAssessment) {
+  if ((sessionType === sessionTypes.knowledgeCheck) !== isKnowledgeCheckAssessment) {
     throw new Error('The Self-assessment does not match the Session type.')
   }
 }

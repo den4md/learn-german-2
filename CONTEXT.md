@@ -86,6 +86,10 @@ _Avoid_: personal word, custom override
 The data classification of a vocabulary item: noun, adjective, or verb. It is a data classification, not a general linguistic classification.
 _Avoid_: grammar category
 
+**Noun gender**:
+The grammatical category recorded for a noun Vocabulary item. The only stored values are Male, Female, Neutral, and Plural.
+_Avoid_: gender identity
+
 **Word state**:
 The part of a Vocabulary learning record that says where the item is in the user's learning. The only Word states are New, Learning, Known, and Excluded.
 _Avoid_: initial learning state, first answer

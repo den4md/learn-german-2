@@ -1,10 +1,11 @@
 import type { InterfaceLanguage } from '../domain/preferences'
+import { allInterfaceLanguages, interfaceLanguages } from '../domain/constants'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
 const languageNames: Record<InterfaceLanguage, string> = {
-  en: 'English',
-  de: 'Deutsch',
-  ru: 'Русский',
+  [interfaceLanguages.english]: 'English',
+  [interfaceLanguages.german]: 'Deutsch',
+  [interfaceLanguages.russian]: 'Русский',
 }
 
 export function LanguageSelector() {
@@ -18,9 +19,9 @@ export function LanguageSelector() {
         value={interfaceLanguage}
         onChange={(event) => setInterfaceLanguage(event.target.value as InterfaceLanguage)}
       >
-        {Object.entries(languageNames).map(([language, name]) => (
+        {allInterfaceLanguages.map((language) => (
           <option key={language} value={language}>
-            {name}
+            {languageNames[language]}
           </option>
         ))}
       </select>

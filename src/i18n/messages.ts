@@ -1,4 +1,5 @@
 import type { InterfaceLanguage } from '../domain/preferences'
+import { interfaceLanguages } from '../domain/constants'
 
 const englishMessages = {
   languageLabel: 'Interface language',
@@ -12,15 +13,15 @@ export type MessageKey = keyof typeof englishMessages
 export type Messages = Record<MessageKey, string>
 
 export const messages: Record<InterfaceLanguage, Messages> = {
-  en: englishMessages,
-  de: {
+  [interfaceLanguages.english]: englishMessages,
+  [interfaceLanguages.german]: {
     languageLabel: 'Sprache der Benutzeroberfläche',
     loading: 'Lerndaten werden geladen...',
     title: 'Deutsch lernen',
     welcome: 'Dein Bereich zum Vokabellernen ist bereit.',
     nextStep: 'Als Nächstes werden der Standardwortschatz importiert und die erste Sitzung erstellt.',
   },
-  ru: {
+  [interfaceLanguages.russian]: {
     languageLabel: 'Язык интерфейса',
     loading: 'Загрузка данных обучения...',
     title: 'Учить немецкий',

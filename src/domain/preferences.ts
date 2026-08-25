@@ -1,4 +1,7 @@
-export type InterfaceLanguage = 'en' | 'de' | 'ru'
+import { interfaceLanguages } from './constants'
+import type { InterfaceLanguage } from './constants'
+
+export type { InterfaceLanguage } from './constants'
 
 export interface PreferencesData {
   interfaceLanguage: InterfaceLanguage
@@ -12,7 +15,7 @@ export class Preferences {
   }
 
   static createEmpty(): Preferences {
-    return new Preferences({ interfaceLanguage: 'en' })
+    return new Preferences({ interfaceLanguage: interfaceLanguages.english })
   }
 
   static fromData(data: PreferencesData): Preferences {
