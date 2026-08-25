@@ -6,8 +6,9 @@ node_modules/
 dist/
 .vite/
 
-# Local vocabulary source
+# Local vocabulary-maintenance files
 .words/
+scripts/generate-default-vocabulary-set.mjs
 
 # IDE files
 .idea/
