@@ -206,6 +206,35 @@ export class LearningData {
     })
   }
 
+  manuallySetActiveSessionEntryWordState(
+    entryIndex: number,
+    wordState: WordState,
+    assessedAt: string,
+  ): LearningData {
+    const activeSession = this.requireActiveSession()
+    const entry = activeSession.entryAt(entryIndex)
+    const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt)
+    const records = this.replaceVocabularyLearningRecord(
+      (this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId))
+        .withManualWordState(wordState, entry.selfAssessment),
+    )
+
+    const learningData = !nextActiveSession.isComplete
+      ? new LearningData({
+        ...this.data,
+        activeSession: nextActiveSession.toData(),
+        vocabularyLearningRecords: records,
+      })
+      : new LearningData({
+        ...this.data,
+        activeSession: undefined,
+        sessions: [...this.data.sessions, nextActiveSession.complete(assessedAt).toData()],
+        vocabularyLearningRecords: records,
+      })
+
+    return learningData.updateDailyStreak(assessedAt)
+  }
+
   withManualWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): LearningData {
     const record = this.findVocabularyLearningRecord(vocabularyItemId)
     return this.withVocabularyLearningRecord(

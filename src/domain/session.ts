@@ -1,5 +1,5 @@
 import type { SessionId, VocabularyItemId } from './identifiers'
-import type { CefrLevel, WordType } from './vocabulary'
+import type { CefrLevel, WordState, WordType } from './vocabulary'
 import {
   allCefrLevels,
   allNounGermanSideHeaderFields,
@@ -62,6 +62,7 @@ export interface SessionEntryData {
   shownAt?: string
   revealedAt?: string
   selfAssessment?: SelfAssessment
+  manualWordState?: WordState
   selfAssessedAt?: string
 }
 
@@ -142,12 +143,20 @@ export class SessionEntry {
     return this.data.selfAssessment
   }
 
+  get manualWordState(): WordState | undefined {
+    return this.data.manualWordState
+  }
+
   get revealedAt(): string | undefined {
     return this.data.revealedAt
   }
 
   get selfAssessedAt(): string | undefined {
     return this.data.selfAssessedAt
+  }
+
+  get isCompleted(): boolean {
+    return this.data.selfAssessment !== undefined || this.data.manualWordState !== undefined
   }
 
   withShownAt(shownAt: string): SessionEntry {
@@ -165,7 +174,11 @@ export class SessionEntry {
   }
 
   withSelfAssessment(selfAssessment: SelfAssessment, selfAssessedAt: string): SessionEntry {
-    return new SessionEntry({ ...this.data, selfAssessment, selfAssessedAt })
+    return new SessionEntry({ ...this.data, selfAssessment, manualWordState: undefined, selfAssessedAt })
+  }
+
+  withManualWordState(wordState: WordState, selfAssessedAt: string): SessionEntry {
+    return new SessionEntry({ ...this.data, selfAssessment: undefined, manualWordState: wordState, selfAssessedAt })
   }
 
   toData(): SessionEntryData {
@@ -251,11 +264,11 @@ export class Session {
   }
 
   get isComplete(): boolean {
-    return !this.isUnlimited && this.data.entries.every((entry) => entry.selfAssessment !== undefined)
+    return !this.isUnlimited && this.entries.every((entry) => entry.isCompleted)
   }
 
   get isCandidatePageComplete(): boolean {
-    return this.isUnlimited && this.candidateVocabularyItemIds.length === 0 && this.data.entries.every((entry) => entry.selfAssessment !== undefined)
+    return this.isUnlimited && this.candidateVocabularyItemIds.length === 0 && this.entries.every((entry) => entry.isCompleted)
   }
 
   entryAt(index: number): SessionEntry {
@@ -334,7 +347,25 @@ export class Session {
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withSelfAssessment(selfAssessment, assessedAt).toData() : candidate,
     )
-    const nextEntryIndex = entries.findIndex((candidate) => candidate.selfAssessment === undefined)
+    const nextEntryIndex = entries.findIndex((candidate) => !SessionEntry.fromData(candidate).isCompleted)
+
+    return new Session({
+      ...this.data,
+      entries,
+      currentEntryIndex: nextEntryIndex === -1 ? index : nextEntryIndex,
+      lastActionAt: assessedAt,
+    })
+  }
+
+  manuallySetEntryWordState(index: number, wordState: WordState, assessedAt: string): Session {
+    const entry = this.entryAt(index)
+    if (entry.revealedAt === undefined) {
+      throw new Error('Reveal the other card side before completing an entry with a manual Word-state change.')
+    }
+    const entries = this.data.entries.map((candidate, entryIndex) =>
+      entryIndex === index ? entry.withManualWordState(wordState, assessedAt).toData() : candidate,
+    )
+    const nextEntryIndex = entries.findIndex((candidate) => !SessionEntry.fromData(candidate).isCompleted)
 
     return new Session({
       ...this.data,

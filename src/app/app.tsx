@@ -117,6 +117,19 @@ export function App() {
     }
   }
 
+  const manuallySetActiveSessionEntryWordState = (entryIndex: number, wordState: Parameters<LearningData['manuallySetActiveSessionEntryWordState']>[1]) => {
+    const nextLearningData = learningData.manuallySetActiveSessionEntryWordState(entryIndex, wordState, new Date().toISOString())
+    saveLearningData(nextLearningData)
+    if (nextLearningData.activeSession === undefined) {
+      setView('progression')
+    }
+  }
+
+  const endActiveSession = () => {
+    saveLearningData(learningData.endActiveSession(new Date().toISOString()))
+    setView('progression')
+  }
+
   return (
     <InterfaceLanguageProvider
       interfaceLanguage={learningData.preferences.interfaceLanguage}
@@ -132,6 +145,8 @@ export function App() {
             <ActiveSessionView
               learningData={learningData}
               onAssessEntry={assessActiveSessionEntry}
+              onEndSession={endActiveSession}
+              onManuallySetWordState={manuallySetActiveSessionEntryWordState}
               onRevealEntry={revealActiveSessionEntry}
               onSelectNextCandidatePage={selectNextActiveSessionCandidatePage}
               onShowCandidate={showActiveSessionCandidate}

@@ -179,6 +179,26 @@ export class VocabularyLearningRecord {
     })
   }
 
+  withManualWordState(
+    wordState: WordState,
+    replacedSelfAssessment?: SelfAssessment,
+  ): VocabularyLearningRecord {
+    const learningStatistics = { ...this.data.learningStatistics }
+    if (replacedSelfAssessment === recallSelfAssessments.correct) {
+      learningStatistics.correctAssessments -= 1
+    }
+    if (replacedSelfAssessment === recallSelfAssessments.incorrect) {
+      learningStatistics.incorrectAssessments -= 1
+    }
+
+    return new VocabularyLearningRecord({
+      ...this.data,
+      wordState,
+      learningScore: wordState === wordStates.new ? 0 : this.data.learningScore,
+      learningStatistics,
+    })
+  }
+
   withSessionEntryShown(): VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
