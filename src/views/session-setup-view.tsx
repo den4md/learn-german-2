@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { allCefrLevels, allWordTypes, cardSides, favouriteStatusFilters, orderingDirections, orderingSources, sessionTypes } from '../domain/constants'
+import { allCefrLevels, allWordTypes, cardSides, favouriteStatusFilters, orderingDirections, orderingSources, sessionTypes, wordTypes } from '../domain/constants'
 import type { Dispatch, SetStateAction } from 'react'
 import type { CefrLevel, FavouriteStatusFilter, SessionType, WordType } from '../domain/constants'
 import { sessionId } from '../domain/identifiers'
@@ -121,7 +121,7 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
           <legend className="text-lg font-bold text-slate-950">{t('filters')}</legend>
           <div className="mt-4 grid gap-6 md:grid-cols-2">
             <CheckboxGroup label={t('cefrLevels')} values={allCefrLevels} selectedValues={settings.cefrLevels} onToggle={toggleCefrLevel} />
-            <CheckboxGroup label={t('wordTypes')} values={allWordTypes} selectedValues={settings.wordTypes} onToggle={toggleWordType} />
+            <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} values={allWordTypes} selectedValues={settings.wordTypes} onToggle={toggleWordType} />
           </div>
           <label className="mt-6 block max-w-xs text-sm font-semibold text-slate-700">
             <span>{t('favouriteStatus')}</span>
@@ -174,11 +174,11 @@ function RadioOption<T extends string>({ checked, label, name, value, onChange }
   </label>
 }
 
-function CheckboxGroup<T extends string>({ label, values, selectedValues, onToggle }: { label: string; values: readonly T[]; selectedValues: T[]; onToggle(value: T): void }) {
+function CheckboxGroup<T extends string>({ label, labels, values, selectedValues, onToggle }: { label: string; labels?: Partial<Record<T, string>>; values: readonly T[]; selectedValues: T[]; onToggle(value: T): void }) {
   return <div>
     <p className="text-sm font-semibold text-slate-700">{label}</p>
     <div className="mt-3 flex flex-wrap gap-3">
-      {values.map((value) => <label className="flex items-center gap-2 text-sm text-slate-700" key={value}><input checked={selectedValues.includes(value)} type="checkbox" onChange={() => onToggle(value)} />{value}</label>)}
+      {values.map((value) => <label className="flex items-center gap-2 text-sm text-slate-700" key={value}><input checked={selectedValues.includes(value)} type="checkbox" onChange={() => onToggle(value)} />{labels?.[value] ?? value}</label>)}
     </div>
   </div>
 }
