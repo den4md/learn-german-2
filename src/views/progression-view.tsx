@@ -13,9 +13,10 @@ const initiallyVisibleRows = 5
 
 interface ProgressionViewProps {
   learningData: LearningData
+  onStartSession(): void
 }
 
-export function ProgressionView({ learningData }: ProgressionViewProps) {
+export function ProgressionView({ learningData, onStartSession }: ProgressionViewProps) {
   const { interfaceLanguage, t } = useInterfaceLanguage()
   const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>([])
   const [vocabularyLoadError, setVocabularyLoadError] = useState(false)
@@ -71,6 +72,7 @@ export function ProgressionView({ learningData }: ProgressionViewProps) {
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <h2 className="text-2xl font-bold tracking-tight text-slate-950">{t('progressionTitle')}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">{t('progressionDescription')}</p>
+        <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onStartSession}>{t('startSession')}</button>
         {learningData.dailyStreakLength > 2 ? (
           <DailyStreak dailyStreakDays={learningData.dailyStreakHistory.days} length={learningData.dailyStreakLength} />
         ) : null}

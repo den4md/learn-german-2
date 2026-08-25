@@ -6,6 +6,11 @@ const vocabularyItemChunkLoaders = import.meta.glob<VocabularyItemData[]>(
   { import: 'default' },
 )
 
+export async function loadAllDefaultVocabularyItems(): Promise<VocabularyItemData[]> {
+  const chunks = await Promise.all(Object.values(vocabularyItemChunkLoaders).map((loadChunk) => loadChunk()))
+  return chunks.flat().sort((left, right) => left.id - right.id)
+}
+
 export async function loadDefaultVocabularyItems(
   vocabularyItemIds: VocabularyItemId[],
 ): Promise<VocabularyItemData[]> {

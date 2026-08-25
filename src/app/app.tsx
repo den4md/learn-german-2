@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from 'react'
 import { documentId } from '../domain/identifiers'
 import { createEmptyDataDocument } from '../domain/data-document'
 import { LearningData } from '../domain/learning-data'
+import type { Session } from '../domain/session'
 import type { InterfaceLanguage } from '../domain/preferences'
 import { InterfaceLanguageProvider, useInterfaceLanguage } from '../i18n/interface-language-context'
 import { IndexedDbDataDocumentStore } from '../storage/indexed-db-data-document-store'
 import { ProgressionView } from '../views/progression-view'
+import { SessionSetupView } from '../views/session-setup-view'
 import { AppShell } from './app-shell'
 
 export function App() {
@@ -16,6 +18,7 @@ export function App() {
   )
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [view, setView] = useState<'progression' | 'session-setup'>('progression')
   const learningData = LearningData.fromData(dataDocument.learningData)
 
   useEffect(() => {
@@ -64,6 +67,19 @@ export function App() {
     })
   }
 
+  const startSession = (session: Session) => {
+    const nextDataDocument = {
+      ...dataDocument,
+      updatedAt: new Date().toISOString(),
+      learningData: learningData.startSession(session).toData(),
+    }
+    setDataDocument(nextDataDocument)
+    void dataDocumentStore.save(nextDataDocument).catch((error: unknown) => {
+      console.error('Could not save the local Data document.', error)
+    })
+    setView('progression')
+  }
+
   return (
     <InterfaceLanguageProvider
       interfaceLanguage={learningData.preferences.interfaceLanguage}
@@ -71,7 +87,11 @@ export function App() {
     >
       {isLoaded ? (
         <AppShell>
-          <ProgressionView learningData={learningData} />
+          {view === 'progression' ? (
+            <ProgressionView learningData={learningData} onStartSession={() => setView('session-setup')} />
+          ) : (
+            <SessionSetupView learningData={learningData} onBack={() => setView('progression')} onSessionStarted={startSession} />
+          )}
         </AppShell>
       ) : (
         <LoadingView />
