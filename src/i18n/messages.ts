@@ -3,6 +3,9 @@ import { interfaceLanguages } from '../domain/constants'
 
 const englishMessages = {
   languageLabel: 'Interface language',
+  navigation: 'Navigation', openNavigation: 'Open navigation', continueSession: 'Continue Session', navigationVocabulary: 'Vocabulary', settings: 'Settings',
+  clearData: 'Clear data', clearDataDescription: 'This removes your learning data and preferences from this browser. The shipped vocabulary stays available.', clearDataConfirmation: 'Clear all learning data and preferences?',
+  startNewSessionConfirmation: 'End the current Session and start a new one?',
   loading: 'Loading learning data...',
   progressionTitle: 'Progression',
   progressionDescription: 'Review your recent Sessions and the Vocabulary items you are working on.',
@@ -57,6 +60,9 @@ export const messages: Record<InterfaceLanguage, Messages> = {
   [interfaceLanguages.english]: englishMessages,
   [interfaceLanguages.german]: {
     languageLabel: 'Sprache der Benutzeroberfläche',
+    navigation: 'Navigation', openNavigation: 'Navigation öffnen', continueSession: 'Sitzung fortsetzen', navigationVocabulary: 'Vokabeln', settings: 'Einstellungen',
+    clearData: 'Daten löschen', clearDataDescription: 'Dadurch werden deine Lerndaten und Einstellungen aus diesem Browser gelöscht. Der mitgelieferte Wortschatz bleibt erhalten.', clearDataConfirmation: 'Alle Lerndaten und Einstellungen löschen?',
+    startNewSessionConfirmation: 'Die aktuelle Sitzung beenden und eine neue starten?',
     loading: 'Lerndaten werden geladen...',
     progressionTitle: 'Fortschritt',
     progressionDescription: 'Sieh dir deine letzten Sitzungen und die Vokabeln an, die du gerade lernst.',
@@ -105,6 +111,9 @@ export const messages: Record<InterfaceLanguage, Messages> = {
   },
   [interfaceLanguages.russian]: {
     languageLabel: 'Язык интерфейса',
+    navigation: 'Навигация', openNavigation: 'Открыть навигацию', continueSession: 'Продолжить сессию', navigationVocabulary: 'Словарь', settings: 'Настройки',
+    clearData: 'Очистить данные', clearDataDescription: 'Это удалит данные обучения и настройки из этого браузера. Встроенный словарь останется доступен.', clearDataConfirmation: 'Удалить все данные обучения и настройки?',
+    startNewSessionConfirmation: 'Завершить текущую сессию и начать новую?',
     loading: 'Загрузка данных обучения...',
     progressionTitle: 'Прогресс',
     progressionDescription: 'Просматривайте последние сессии и слова, которые вы сейчас изучаете.',
