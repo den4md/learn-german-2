@@ -1,6 +1,13 @@
+# Dependencies and package-manager caches
 node_modules/
 .pnpm-store/
+
+# Build and development output
 dist/
 .vite/
+
+# Local vocabulary source
 .words/
+
+# IDE files
 .idea/
