@@ -79,6 +79,7 @@ export type SessionType = (typeof sessionTypes)[keyof typeof sessionTypes]
 
 export const sessionEndReasons = {
   completed: 'completed',
+  allWordsCompleted: 'all-words-completed',
   userEnded: 'user-ended',
 } as const
 

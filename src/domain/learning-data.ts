@@ -3,7 +3,7 @@ import type { PreferencesData } from './preferences'
 import { DailyStreakHistory, toUtcDate } from './learning-progress'
 import type { DailyStreakHistoryData } from './learning-progress'
 import { Session } from './session'
-import type { SelfAssessment, SessionData } from './session'
+import type { SelfAssessment, SessionData, SessionEntryTransitionData } from './session'
 import { VocabularyItem, VocabularyLearningRecord } from './vocabulary'
 import type { VocabularyItemData, VocabularyLearningRecordData, WordState } from './vocabulary'
 import type { VocabularyItemId } from './identifiers'
@@ -173,13 +173,10 @@ export class LearningData {
   ): LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
-    const nextActiveSession = activeSession.assessEntry(entryIndex, selfAssessment, assessedAt)
-    const records = this.withSessionSelfAssessment(
-      entry.vocabularyItemId,
-      activeSession.type,
-      selfAssessment,
-      entry.selfAssessment,
-    )
+    const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const afterRecord = beforeRecord.withSessionSelfAssessment(activeSession.type, selfAssessment, entry.selfAssessment)
+    const nextActiveSession = activeSession.assessEntry(entryIndex, selfAssessment, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
+    const records = this.replaceVocabularyLearningRecord(afterRecord)
 
     const learningData = !nextActiveSession.isComplete
       ? new LearningData({
@@ -213,11 +210,10 @@ export class LearningData {
   ): LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
-    const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt)
-    const records = this.replaceVocabularyLearningRecord(
-      (this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId))
-        .withManualWordState(wordState, entry.selfAssessment),
-    )
+    const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const afterRecord = beforeRecord.withManualWordState(wordState, entry.selfAssessment)
+    const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
+    const records = this.replaceVocabularyLearningRecord(afterRecord)
 
     const learningData = !nextActiveSession.isComplete
       ? new LearningData({
@@ -293,18 +289,6 @@ export class LearningData {
     )
   }
 
-  private withSessionSelfAssessment(
-    vocabularyItemId: VocabularyItemId,
-    sessionType: Session['type'],
-    selfAssessment: SelfAssessment,
-    replacedSelfAssessment: SelfAssessment | undefined,
-  ): VocabularyLearningRecordData[] {
-    return this.replaceVocabularyLearningRecord(
-      (this.findVocabularyLearningRecord(vocabularyItemId) ?? VocabularyLearningRecord.createNew(vocabularyItemId))
-        .withSessionSelfAssessment(sessionType, selfAssessment, replacedSelfAssessment),
-    )
-  }
-
   private replaceVocabularyLearningRecord(
     vocabularyLearningRecord: VocabularyLearningRecord,
   ): VocabularyLearningRecordData[] {
@@ -328,6 +312,15 @@ export class LearningData {
         entry.selfAssessedAt !== undefined &&
         toUtcDate(entry.selfAssessedAt) === utcDate,
     ).length
+  }
+}
+
+function createSessionEntryTransition(beforeRecord: VocabularyLearningRecord, afterRecord: VocabularyLearningRecord): SessionEntryTransitionData {
+  return {
+    beforeWordState: beforeRecord.wordState,
+    beforeLearningScore: beforeRecord.learningScore,
+    afterWordState: afterRecord.wordState,
+    afterLearningScore: afterRecord.learningScore,
   }
 }
 

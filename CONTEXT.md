@@ -149,7 +149,7 @@ _Avoid_: streak history page
 ## Sessions
 
 **Session entry**:
-One Vocabulary item that a Session has presented. It records that Session's reveal and Self-assessment result for the item, then updates its Vocabulary learning record. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
+One Vocabulary item that a Session has presented. It records that Session's reveal and Self-assessment result for the item, plus the recorded before-and-after Word state and Learning score when the app stored them. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
 _Avoid_: card progress, question state
 
 **Session**:
@@ -157,7 +157,7 @@ One user-created sequence of Session entries. It has a start timestamp, a last-a
 _Avoid_: run, attempt
 
 **Session end reason**:
-The recorded reason a Session ended. A completed Session reached its natural end; a user-ended Session ended because the user chose to stop it. A user-ended Session is a normal learning outcome and preserves its recorded Self-assessments.
+The recorded reason a Session ended. A Limited Session that reaches its natural end is Completed. An Unlimited Session that runs out of matching Vocabulary items ended by completing all words. A user-ended Session ended because the user chose to stop it. A user-ended Unlimited Session retains only completed Session entries.
 _Avoid_: session status, outcome
 
 **No-matching-items start failure**:

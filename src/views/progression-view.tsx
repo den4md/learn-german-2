@@ -141,7 +141,7 @@ function ProgressionList({ title, emptyMessage, children }: ProgressionListProps
 
 function RecentSessionRow({ interfaceLanguage, session }: { interfaceLanguage: string; session: SessionData }) {
   const { t } = useInterfaceLanguage()
-  const completedEntries = session.entries.filter((entry) => entry.selfAssessment !== undefined)
+  const completedEntries = session.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined)
   const correctAssessments = completedEntries.filter(
     (entry) => entry.selfAssessment === recallSelfAssessments.correct,
   ).length
@@ -158,7 +158,7 @@ function RecentSessionRow({ interfaceLanguage, session }: { interfaceLanguage: s
       <dl className="grid grid-cols-3 gap-3 text-sm text-slate-600">
         <div>
           <dt>{t('completedEntries')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{completedEntries.length} / {session.entries.length}</dd>
+          <dd className="mt-1 font-semibold text-slate-950">{session.settings.itemLimit === undefined && session.endReason === sessionEndReasons.userEnded ? completedEntries.length : `${completedEntries.length} / ${session.entries.length}`}</dd>
         </div>
         <div>
           <dt>{t('correctAssessments')}</dt>
@@ -275,6 +275,7 @@ const sessionTypeMessageKeys = {
 
 const sessionStatusMessageKeys = {
   [sessionEndReasons.completed]: 'sessionCompleted',
+  [sessionEndReasons.allWordsCompleted]: 'sessionCompletedAllWords',
   [sessionEndReasons.userEnded]: 'sessionEndedEarly',
 } as const
 
