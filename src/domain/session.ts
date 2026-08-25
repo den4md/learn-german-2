@@ -60,6 +60,7 @@ export interface SessionSettingsData {
 export interface SessionEntryData {
   vocabularyItemId: VocabularyItemId
   shownAt?: string
+  revealedAt?: string
   selfAssessment?: SelfAssessment
   selfAssessedAt?: string
 }
@@ -141,6 +142,10 @@ export class SessionEntry {
     return this.data.selfAssessment
   }
 
+  get revealedAt(): string | undefined {
+    return this.data.revealedAt
+  }
+
   get selfAssessedAt(): string | undefined {
     return this.data.selfAssessedAt
   }
@@ -150,6 +155,13 @@ export class SessionEntry {
       return this
     }
     return new SessionEntry({ ...this.data, shownAt })
+  }
+
+  withRevealedAt(revealedAt: string): SessionEntry {
+    if (this.data.revealedAt !== undefined) {
+      return this
+    }
+    return new SessionEntry({ ...this.data, revealedAt })
   }
 
   withSelfAssessment(selfAssessment: SelfAssessment, selfAssessedAt: string): SessionEntry {
@@ -276,6 +288,14 @@ export class Session {
     })
   }
 
+  revealEntry(index: number, revealedAt: string): Session {
+    const entry = this.entryAt(index)
+    const entries = this.data.entries.map((candidate, entryIndex) =>
+      entryIndex === index ? entry.withRevealedAt(revealedAt).toData() : candidate,
+    )
+    return new Session({ ...this.data, entries, currentEntryIndex: index, lastActionAt: revealedAt })
+  }
+
   dropCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): Session {
     if (!this.isUnlimited) {
       throw new Error('Only an Unlimited session has a Candidate page.')
@@ -307,6 +327,9 @@ export class Session {
 
   assessEntry(index: number, selfAssessment: SelfAssessment, assessedAt: string): Session {
     const entry = this.entryAt(index)
+    if (entry.revealedAt === undefined) {
+      throw new Error('Reveal the other card side before recording a Self-assessment.')
+    }
     assertSelfAssessmentMatchesSessionType(this.data.type, selfAssessment)
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withSelfAssessment(selfAssessment, assessedAt).toData() : candidate,

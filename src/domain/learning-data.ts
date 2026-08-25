@@ -134,6 +134,14 @@ export class LearningData {
     })
   }
 
+  revealActiveSessionEntry(entryIndex: number, revealedAt: string): LearningData {
+    const activeSession = this.requireActiveSession()
+    return new LearningData({
+      ...this.data,
+      activeSession: activeSession.revealEntry(entryIndex, revealedAt).toData(),
+    })
+  }
+
   dropActiveSessionCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): LearningData {
     const activeSession = this.requireActiveSession()
     return new LearningData({

@@ -340,7 +340,7 @@ function applyAutomaticStateTransition(
     if (selfAssessment === wordStates.excluded) {
       return { wordState: wordStates.excluded, learningScore: data.learningScore }
     }
-    return { wordState: wordStates.new, learningScore: 0 }
+    return { wordState: wordStates.learning, learningScore: 0 }
   }
 
   if (selfAssessment === recallSelfAssessments.correct) {

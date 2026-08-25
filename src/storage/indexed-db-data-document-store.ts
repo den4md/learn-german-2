@@ -17,7 +17,11 @@ export class IndexedDbDataDocumentStore implements DataDocumentStore {
 
       request.addEventListener('success', () => {
         const dataDocument = request.result as DataDocument | undefined
-        resolve(dataDocument === undefined ? undefined : normalizeDataDocument(dataDocument))
+        try {
+          resolve(dataDocument === undefined ? undefined : normalizeDataDocument(dataDocument))
+        } catch (error: unknown) {
+          reject(error)
+        }
       })
       request.addEventListener('error', () => reject(request.error))
     })
