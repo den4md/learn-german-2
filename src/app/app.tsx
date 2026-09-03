@@ -23,7 +23,7 @@ export function App() {
   )
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [path, setPath] = useState(() => routeFromBrowserPath(window.location.pathname))
+  const [location, setLocation] = useState(() => routeFromBrowserLocation())
   const [vocabularyEditReturnPath, setVocabularyEditReturnPath] = useState('/vocabulary')
   const learningData = LearningData.fromData(dataDocument.learningData)
 
@@ -58,18 +58,18 @@ export function App() {
   }, [dataDocumentStore, initialDataDocument])
 
   useEffect(() => {
-    const updatePath = () => setPath(routeFromBrowserPath(window.location.pathname))
-    window.addEventListener('popstate', updatePath)
-    return () => window.removeEventListener('popstate', updatePath)
+    const updateLocation = () => setLocation(routeFromBrowserLocation())
+    window.addEventListener('popstate', updateLocation)
+    return () => window.removeEventListener('popstate', updateLocation)
   }, [])
 
-  const navigate = (nextPath: string, replace = false) => {
-    const normalizedPath = normalizePath(nextPath)
-    const browserPath = browserPathFromRoute(normalizedPath)
-    if (window.location.pathname !== browserPath) {
-      window.history[replace ? 'replaceState' : 'pushState']({}, '', browserPath)
+  const navigate = (nextRoute: string, replace = false) => {
+    const nextLocation = routeLocationFromRoute(nextRoute)
+    const browserUrl = browserUrlFromRouteLocation(nextLocation)
+    if (browserUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      window.history[replace ? 'replaceState' : 'pushState']({}, '', browserUrl)
     }
-    setPath(normalizedPath)
+    setLocation(nextLocation)
   }
 
   const setInterfaceLanguage = (interfaceLanguage: InterfaceLanguage) => {
@@ -184,13 +184,16 @@ export function App() {
     navigate('/progression')
   }
 
-  const route = isLoaded && path === '/session/active' && learningData.activeSession === undefined ? '/progression' : path
-  const vocabularyEditMatch = route.match(/^\/vocabulary\/(\d+)\/edit$/)
+  const route = isLoaded && location.path === '/session/active' && learningData.activeSession === undefined ? '/progression' : location.path
+  const vocabularyEditMatch = route.match(/^\/vocabulary\/(-?\d+)\/edit$/)
   const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 
   useEffect(() => {
-    if (route !== path || browserPathFromRoute(route) !== window.location.pathname) navigate(route, true)
-  }, [path, route])
+    const canonicalLocation = { ...location, path: route }
+    if (browserUrlFromRouteLocation(canonicalLocation) !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
+      navigate(routeHrefFromLocation(canonicalLocation), true)
+    }
+  }, [location, route])
 
   return (
     <InterfaceLanguageProvider
@@ -248,18 +251,56 @@ export function App() {
   )
 }
 
+interface RouteLocation {
+  path: string
+  search: string
+  hash: string
+}
+
 function normalizePath(pathname: string): string {
-  if (pathname === '/' || !['/progression', '/session/new', '/session/active', '/sessions', '/settings', '/vocabulary'].some((path) => pathname === path || pathname.startsWith(`${path}/`))) return '/progression'
-  return pathname
+  if (pathname === '/') return '/progression'
+  if (['/progression', '/session/new', '/session/active', '/settings', '/vocabulary'].includes(pathname)) return pathname
+  if (/^\/sessions\/[^/]+$/.test(pathname)) return pathname
+  if (/^\/vocabulary\/-?\d+\/edit$/.test(pathname)) return pathname
+  return '/progression'
 }
 
-function routeFromBrowserPath(pathname: string): string {
+function routeFromBrowserLocation(): RouteLocation {
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
-  return normalizePath(pathname.startsWith(basePath) ? pathname.slice(basePath.length) || '/' : pathname)
+  const pathname = window.location.pathname.startsWith(basePath)
+    ? window.location.pathname.slice(basePath.length) || '/'
+    : window.location.pathname
+  const handoffRoute = pathname === '/' ? new URLSearchParams(window.location.search).get('route') : null
+
+  if (handoffRoute !== null) {
+    const recoveredRoute = routeLocationFromHandoff(handoffRoute)
+    if (recoveredRoute !== undefined) return recoveredRoute
+  }
+
+  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash }
 }
 
-function browserPathFromRoute(route: string): string {
-  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${route}`
+function routeLocationFromHandoff(handoffRoute: string): RouteLocation | undefined {
+  try {
+    const handoffUrl = new URL(handoffRoute, window.location.origin)
+    if (handoffUrl.origin !== window.location.origin || !handoffUrl.pathname.startsWith('/')) return undefined
+    return { path: normalizePath(handoffUrl.pathname), search: handoffUrl.search, hash: handoffUrl.hash }
+  } catch {
+    return undefined
+  }
+}
+
+function routeLocationFromRoute(route: string): RouteLocation {
+  const routeUrl = new URL(route, window.location.origin)
+  return { path: normalizePath(routeUrl.pathname), search: routeUrl.search, hash: routeUrl.hash }
+}
+
+function routeHrefFromLocation(location: RouteLocation): string {
+  return `${location.path}${location.search}${location.hash}`
+}
+
+function browserUrlFromRouteLocation(location: RouteLocation): string {
+  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${routeHrefFromLocation(location)}`
 }
 
 function LoadingView() {
