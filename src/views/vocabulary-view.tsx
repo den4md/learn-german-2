@@ -13,6 +13,7 @@ import {
 import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemTextData } from '../domain/vocabulary'
 import { loadAllDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
+import { PopupMenu } from '../components/popup-menu'
 
 const vocabularyPageSize = 50
 
@@ -246,16 +247,13 @@ function VocabularyManagementRow({
         <button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => onChangeFavouriteStatus(item.id, !item.isFavourite)} type="button">
           {t(item.isFavourite ? 'removeFavourite' : 'addFavourite')}
         </button>
-        <details className="relative">
-          <summary className="cursor-pointer list-none rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 marker:content-none active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100">{t('changeWordState')}</summary>
-          <div className="absolute right-0 z-10 mt-2 grid w-40 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40">
-            {Object.values(wordStates).map((wordState) => (
-              <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} onClick={() => onChangeWordState(item.id, wordState)} type="button">
-                {t(wordStateMessageKeys[wordState])}
-              </button>
-            ))}
-          </div>
-        </details>
+        <PopupMenu menuAriaLabel={t('changeWordState')} menuClassName="absolute right-0 z-10 mt-2 grid w-40 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('changeWordState')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={t('changeWordState')}>
+          {(onSelect) => <>{Object.values(wordStates).map((wordState) => (
+            <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} role="menuitem" onClick={() => { onSelect(); onChangeWordState(item.id, wordState) }} type="button">
+              {t(wordStateMessageKeys[wordState])}
+            </button>
+          ))}</>}
+        </PopupMenu>
         <button className="rounded-lg bg-blue-700 px-3 py-2 text-sm font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" onClick={() => onEditVocabularyItem(item.id)} type="button">{t('edit')}</button>
       </div>
     </li>

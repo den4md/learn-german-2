@@ -14,6 +14,7 @@ import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
 import { VocabularyEditView, VocabularyView } from '../views/vocabulary-view'
 import { AppShell } from './app-shell'
+import { PopupMenuProvider } from '../components/popup-menu'
 
 export function App() {
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
@@ -201,7 +202,8 @@ export function App() {
       setInterfaceLanguage={setInterfaceLanguage}
     >
       {isLoaded ? (
-        <AppShell hasActiveSession={learningData.activeSession !== undefined} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
+        <PopupMenuProvider>
+          <AppShell hasActiveSession={learningData.activeSession !== undefined} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}
@@ -243,7 +245,8 @@ export function App() {
               onShowEntry={showActiveSessionEntry}
             />
           )}
-        </AppShell>
+          </AppShell>
+        </PopupMenuProvider>
       ) : (
         <LoadingView />
       )}

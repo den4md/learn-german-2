@@ -10,6 +10,7 @@ import { DefaultVocabularySet, VocabularyItem, getWordType, resolveVocabularyIte
 import type { ResolvedVocabularyItemData, VocabularyItemData } from '../domain/vocabulary'
 import { loadDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
+import { PopupMenu } from '../components/popup-menu'
 import type { MessageKey } from '../i18n/messages'
 
 const initiallyVisibleRows = 5
@@ -215,14 +216,11 @@ function VocabularyItemRow({ onChangeWordState, onEditVocabularyItem, vocabulary
           <dd className="mt-1 font-semibold text-slate-950">{learningStatistics.incorrectAssessments}</dd>
         </div>
       </dl>
-      <details className="relative">
-        <summary className="cursor-pointer list-none rounded-lg border border-slate-300 px-3 py-2 text-center text-sm font-semibold text-slate-700 marker:content-none active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100">{t('moreActions')}</summary>
-        <div className="absolute right-0 z-10 mt-2 grid w-52 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40">
-          <p className="px-3 py-1 text-sm font-semibold text-slate-950">{t('changeWordState')}</p>
-          {Object.values(wordStates).map((wordState) => <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} type="button" onClick={() => onChangeWordState(vocabularyItem.id, wordState)}>{t(wordStateMessageKeys[wordState])}</button>)}
-          <button className="mt-1 rounded-lg bg-blue-700 px-3 py-2 text-left text-sm font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={() => onEditVocabularyItem(vocabularyItem.id)}>{t('edit')}</button>
-        </div>
-      </details>
+      <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 grid w-52 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('moreActions')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-center text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={t('moreActions')}>
+        {(onSelect) => <><p className="px-3 py-1 text-sm font-semibold text-slate-950">{t('changeWordState')}</p>
+          {Object.values(wordStates).map((wordState) => <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} role="menuitem" type="button" onClick={() => { onSelect(); onChangeWordState(vocabularyItem.id, wordState) }}>{t(wordStateMessageKeys[wordState])}</button>)}
+          <button className="mt-1 rounded-lg bg-blue-700 px-3 py-2 text-left text-sm font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" role="menuitem" type="button" onClick={() => { onSelect(); onEditVocabularyItem(vocabularyItem.id) }}>{t('edit')}</button></>}
+      </PopupMenu>
     </li>
   )
 }
