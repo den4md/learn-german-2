@@ -24,9 +24,10 @@ interface PopupMenuProps {
   triggerAriaLabel: string
   triggerClassName: string
   triggerContent: ReactNode
+  triggerDisabled?: boolean
 }
 
-export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, triggerAriaLabel, triggerClassName, triggerContent }: PopupMenuProps) {
+export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, triggerAriaLabel, triggerClassName, triggerContent, triggerDisabled }: PopupMenuProps) {
   const context = useContext(PopupMenuContext)
   if (context === undefined) throw new Error('PopupMenu must be used within PopupMenuProvider.')
 
@@ -104,7 +105,7 @@ export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, tri
 
   return (
     <div className="relative w-fit" ref={rootRef} onClick={handleClick}>
-      <button aria-controls={isOpen ? menuId : undefined} aria-expanded={isOpen} aria-haspopup="menu" aria-label={triggerAriaLabel} className={triggerClassName} ref={triggerRef} type="button" onClick={toggle} onKeyDown={handleTriggerKeyDown}>{triggerContent}</button>
+      <button aria-controls={isOpen ? menuId : undefined} aria-expanded={isOpen} aria-haspopup="menu" aria-label={triggerAriaLabel} className={triggerClassName} disabled={triggerDisabled} ref={triggerRef} type="button" onClick={toggle} onKeyDown={handleTriggerKeyDown}>{triggerContent}</button>
       {isOpen ? <section className={menuClassName} id={menuId} ref={menuRef} role="menu" aria-label={menuAriaLabel} onKeyDown={handleMenuKeyDown}>{children(() => close())}</section> : null}
     </div>
   )
