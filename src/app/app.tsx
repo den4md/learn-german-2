@@ -24,6 +24,7 @@ export function App() {
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
   const [path, setPath] = useState(() => routeFromBrowserPath(window.location.pathname))
+  const [vocabularyEditReturnPath, setVocabularyEditReturnPath] = useState('/vocabulary')
   const learningData = LearningData.fromData(dataDocument.learningData)
 
   useEffect(() => {
@@ -171,6 +172,11 @@ export function App() {
     )
   }
 
+  const openVocabularyItemEdit = (vocabularyItemId: VocabularyItemId, returnPath = '/vocabulary') => {
+    setVocabularyEditReturnPath(returnPath)
+    navigate(`/vocabulary/${vocabularyItemId}/edit`)
+  }
+
   const clearData = () => {
     const nextDataDocument = createEmptyDataDocument(dataDocument.documentId, new Date().toISOString())
     setDataDocument(nextDataDocument)
@@ -197,7 +203,7 @@ export function App() {
             <ProgressionView
               learningData={learningData}
               onChangeWordState={changeVocabularyItemWordState}
-              onEditVocabularyItem={(vocabularyItemId) => navigate(`/vocabulary/${vocabularyItemId}/edit`)}
+              onEditVocabularyItem={openVocabularyItemEdit}
               onOpenSessionDetails={(sessionId) => navigate(`/sessions/${sessionId}`)}
               onStartSession={startNewSession}
             />
@@ -208,12 +214,12 @@ export function App() {
               learningData={learningData}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onChangeWordState={changeVocabularyItemWordState}
-              onEditVocabularyItem={(vocabularyItemId) => navigate(`/vocabulary/${vocabularyItemId}/edit`)}
+              onEditVocabularyItem={openVocabularyItemEdit}
             />
           ) : route.startsWith('/vocabulary/') ? (
             <VocabularyEditView
               learningData={learningData}
-              onBack={() => navigate('/vocabulary')}
+              onBack={() => navigate(vocabularyEditReturnPath)}
               onSaveVocabularyItem={saveVocabularyItem}
               vocabularyItemId={vocabularyEditMatch === null ? undefined : Number(vocabularyEditMatch[1]) as VocabularyItemId}
             />
@@ -226,6 +232,7 @@ export function App() {
               learningData={learningData}
               onAssessEntry={assessActiveSessionEntry}
               onEndSession={endActiveSession}
+              onEditVocabularyItem={(vocabularyItemId) => openVocabularyItemEdit(vocabularyItemId, '/session/active')}
               onManuallySetWordState={manuallySetActiveSessionEntryWordState}
               onRevealEntry={revealActiveSessionEntry}
               onSelectNextCandidatePage={selectNextActiveSessionCandidatePage}
