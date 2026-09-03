@@ -217,9 +217,11 @@ export function App() {
           ) : route === '/vocabulary' ? (
             <VocabularyView
               learningData={learningData}
+              locationSearch={location.search}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onChangeWordState={changeVocabularyItemWordState}
-              onEditVocabularyItem={openVocabularyItemEdit}
+              onEditVocabularyItem={(vocabularyItemId) => openVocabularyItemEdit(vocabularyItemId, routeHrefFromLocation(location))}
+              onNavigate={navigate}
             />
           ) : route.startsWith('/vocabulary/') ? (
             <VocabularyEditView

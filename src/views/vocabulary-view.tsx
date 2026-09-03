@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
-import { nounGenders, verbConjugationTypes, verbHelperVerbs, wordStates, wordTypes } from '../domain/constants'
-import type { WordState } from '../domain/constants'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { allCefrLevels, allWordTypes, nounGenders, orderingDirections, orderingSources, verbConjugationTypes, verbHelperVerbs, wordStates, wordTypes } from '../domain/constants'
+import type { CefrLevel, OrderingDirection, OrderingSource, WordState, WordType } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import {
@@ -19,23 +19,28 @@ const vocabularyPageSize = 50
 
 interface VocabularyViewProps {
   learningData: LearningData
+  locationSearch: string
   onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
+  onNavigate(route: string, replace: boolean): void
 }
 
 export function VocabularyView({
   learningData,
+  locationSearch,
   onChangeWordState,
   onChangeFavouriteStatus,
   onEditVocabularyItem,
+  onNavigate,
 }: VocabularyViewProps) {
   const { t } = useInterfaceLanguage()
   const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[] | undefined>()
   const [hasLoadError, setHasLoadError] = useState(false)
-  const [query, setQuery] = useState('')
-  const [wordStateFilter, setWordStateFilter] = useState<'all' | WordState>('all')
-  const [page, setPage] = useState(1)
+  const routeState = useMemo(() => vocabularyResultStateFromSearch(locationSearch), [locationSearch])
+  const [query, setQuery] = useState(routeState.query)
+  const searchTimeout = useRef<number | undefined>(undefined)
+  const [resultPageSnapshot, setResultPageSnapshot] = useState<ResultPageSnapshot | undefined>()
 
   useEffect(() => {
     let isCurrent = true
@@ -54,6 +59,14 @@ export function VocabularyView({
     }
   }, [])
 
+  useEffect(() => {
+    setQuery(routeState.query)
+  }, [routeState.query])
+
+  useEffect(() => () => {
+    if (searchTimeout.current !== undefined) window.clearTimeout(searchTimeout.current)
+  }, [])
+
   const vocabularyItems = useMemo(
     () =>
       defaultVocabularyItems === undefined
@@ -65,26 +78,59 @@ export function VocabularyView({
         ).map((item) => item.toData()),
     [defaultVocabularyItems, learningData],
   )
-  const normalizedQuery = query.trim().toLocaleLowerCase()
-  const filteredVocabularyItems = vocabularyItems.filter((item) =>
-    (wordStateFilter === 'all' || item.wordState === wordStateFilter) &&
-    (normalizedQuery === '' || getVocabularySearchText(item).toLocaleLowerCase().includes(normalizedQuery)),
+  const filterState = { ...routeState, query: query.trim() }
+  const filteredVocabularyItems = applyVocabularyResultFilters(vocabularyItems, filterState)
+  const calculatedPageCount = Math.max(1, Math.ceil(filteredVocabularyItems.length / vocabularyPageSize))
+  const calculatedCurrentPage = Math.min(filterState.page, calculatedPageCount)
+  const calculatedVisibleVocabularyItems = filteredVocabularyItems.slice(
+    (calculatedCurrentPage - 1) * vocabularyPageSize,
+    calculatedCurrentPage * vocabularyPageSize,
   )
-  const pageCount = Math.max(1, Math.ceil(filteredVocabularyItems.length / vocabularyPageSize))
-  const currentPage = Math.min(page, pageCount)
-  const visibleVocabularyItems = filteredVocabularyItems.slice(
-    (currentPage - 1) * vocabularyPageSize,
-    currentPage * vocabularyPageSize,
-  )
+  const routeSearch = vocabularySearchFromResultState(routeState)
+  useEffect(() => {
+    if (resultPageSnapshot !== undefined && resultPageSnapshot.routeSearch !== routeSearch) setResultPageSnapshot(undefined)
+  }, [resultPageSnapshot, routeSearch])
+  const hasSnapshot = resultPageSnapshot?.routeSearch === routeSearch
+  const resultCount = hasSnapshot ? resultPageSnapshot.resultCount : filteredVocabularyItems.length
+  const pageCount = hasSnapshot ? resultPageSnapshot.pageCount : calculatedPageCount
+  const currentPage = hasSnapshot ? resultPageSnapshot.currentPage : calculatedCurrentPage
+  const visibleVocabularyItems = hasSnapshot ? resultPageSnapshot.visibleVocabularyItems : calculatedVisibleVocabularyItems
+  const canonicalSearch = vocabularySearchFromResultState({
+    ...routeState,
+    page: defaultVocabularyItems === undefined && !hasSnapshot ? routeState.page : currentPage,
+  })
+
+  useEffect(() => {
+    if (locationSearch !== canonicalSearch) onNavigate(`/vocabulary${canonicalSearch}`, true)
+  }, [canonicalSearch, locationSearch, onNavigate])
+
+  const navigateResultState = (nextState: VocabularyResultState, replace = false) => {
+    if (searchTimeout.current !== undefined) window.clearTimeout(searchTimeout.current)
+    setResultPageSnapshot(undefined)
+    onNavigate(`/vocabulary${vocabularySearchFromResultState(nextState)}`, replace)
+  }
 
   const changeQuery = (nextQuery: string) => {
     setQuery(nextQuery)
-    setPage(1)
+    if (searchTimeout.current !== undefined) window.clearTimeout(searchTimeout.current)
+    searchTimeout.current = window.setTimeout(() => {
+      navigateResultState({ ...routeState, query: nextQuery.trim(), page: 1 }, true)
+    }, 300)
   }
 
-  const changeWordStateFilter = (nextWordStateFilter: 'all' | WordState) => {
-    setWordStateFilter(nextWordStateFilter)
-    setPage(1)
+  const changeResultState = (change: Partial<VocabularyResultState>) => {
+    navigateResultState({ ...routeState, ...change, query: query.trim(), page: 1 })
+  }
+
+  const updateSnapshotAfterItemChange = (nextItem: ResolvedVocabularyItemData) => {
+    if (!hasSnapshot && matchesVocabularyResultFilters(nextItem, filterState)) return
+    setResultPageSnapshot({
+      currentPage,
+      pageCount,
+      resultCount,
+      routeSearch,
+      visibleVocabularyItems: visibleVocabularyItems.map((item) => item.id === nextItem.id ? nextItem : item),
+    })
   }
 
   return (
@@ -93,7 +139,7 @@ export function VocabularyView({
         <p className="text-sm font-semibold text-blue-700">{t('navigationVocabulary')}</p>
         <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">{t('vocabularyManagementTitle')}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">{t('vocabularyManagementDescription')}</p>
-        <div className="mt-6 grid gap-4 md:grid-cols-[minmax(0,1fr)_15rem]">
+        <div className="mt-6 grid gap-6">
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             {t('searchVocabulary')}
             <input
@@ -104,19 +150,41 @@ export function VocabularyView({
               value={query}
             />
           </label>
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            {t('wordState')}
-            <select
-              className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
-              onChange={(event) => changeWordStateFilter(event.target.value as 'all' | WordState)}
-              value={wordStateFilter}
-            >
-              <option value="all">{t('allVocabularyItems')}</option>
-              {Object.values(wordStates).map((wordState) => (
-                <option key={wordState} value={wordState}>{t(wordStateMessageKeys[wordState])}</option>
+          <div className="grid gap-6 md:grid-cols-2">
+            <CheckboxGroup label={t('cefrLevels')} selectedValues={routeState.cefrLevels} values={allCefrLevels} onToggle={(level) => changeResultState({ cefrLevels: toggleValue(routeState.cefrLevels, level) })} />
+            <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} selectedValues={routeState.wordTypes} values={allWordTypes} onToggle={(wordType) => changeResultState({ wordTypes: toggleValue(routeState.wordTypes, wordType) })} />
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              {t('wordState')}
+              <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ wordState: event.target.value === 'all' ? undefined : event.target.value as WordState })} value={routeState.wordState ?? 'all'}>
+                <option value="all">{t('allVocabularyItems')}</option>
+                {Object.values(wordStates).map((wordState) => <option key={wordState} value={wordState}>{t(wordStateMessageKeys[wordState])}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-2 text-sm font-semibold text-slate-700">
+              {t('favouriteStatus')}
+              <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ favourite: event.target.value === 'all' ? undefined : event.target.value === 'true' })} value={routeState.favourite === undefined ? 'all' : String(routeState.favourite)}>
+                <option value="all">{t('allItems')}</option><option value="true">{t('favouritesOnly')}</option><option value="false">{t('nonFavouritesOnly')}</option>
+              </select>
+            </label>
+          </div>
+          <fieldset className="border-t border-slate-200 pt-6">
+            <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
+            <p className="mt-2 text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
+            <div className="mt-4 space-y-3">
+              {toVocabularyOrderingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
+                <div className="grid gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
+                  <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
+                  <select className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
+                    <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
+                  </select>
+                  <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === allOrderingSources.length - 1} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })}><span aria-hidden="true">⬇️</span></button></div>
+                </div>
               ))}
-            </select>
-          </label>
+            </div>
+          </fieldset>
+          {routeSearch === '' && query.trim() === '' ? null : <button className="w-fit font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => { setQuery(''); navigateResultState(createEmptyVocabularyResultState()) }} type="button">{t('resetFilters')}</button>}
         </div>
       </section>
 
@@ -126,7 +194,7 @@ export function VocabularyView({
         <section aria-labelledby="vocabulary-results-title" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 sm:px-8">
             <h3 className="text-xl font-bold tracking-tight text-slate-950" id="vocabulary-results-title">{t('vocabularyResults')}</h3>
-            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-sm font-medium text-slate-600">{filteredVocabularyItems.length}</span>
+            <span className="rounded-full bg-slate-100 px-2.5 py-1 text-sm font-medium text-slate-600">{resultCount}</span>
           </div>
           {visibleVocabularyItems.length === 0 ? (
             <p className="border-t border-slate-100 px-6 py-8 text-slate-600 sm:px-8">{t('noVocabularyMatches')}</p>
@@ -136,18 +204,144 @@ export function VocabularyView({
                 <VocabularyManagementRow
                   item={item}
                   key={item.id}
-                  onChangeFavouriteStatus={onChangeFavouriteStatus}
-                  onChangeWordState={onChangeWordState}
+                  onChangeFavouriteStatus={(vocabularyItemId, isFavourite) => { updateSnapshotAfterItemChange({ ...item, isFavourite }); onChangeFavouriteStatus(vocabularyItemId, isFavourite) }}
+                  onChangeWordState={(vocabularyItemId, wordState) => { updateSnapshotAfterItemChange({ ...item, wordState }); onChangeWordState(vocabularyItemId, wordState) }}
                   onEditVocabularyItem={onEditVocabularyItem}
                 />
               ))}
             </ol>
           )}
-          <VocabularyPagination currentPage={currentPage} pageCount={pageCount} onChangePage={setPage} />
+          <VocabularyPagination currentPage={currentPage} pageCount={pageCount} onChangePage={(page) => navigateResultState({ ...routeState, query: query.trim(), page })} />
         </section>
-      ) : null}
+  ) : null}
     </div>
   )
+}
+
+interface VocabularyOrderingSource {
+  direction: typeof orderingDirections.ascending | typeof orderingDirections.descending
+  source: OrderingSource
+}
+
+interface VocabularyResultState {
+  cefrLevels: CefrLevel[]
+  favourite: boolean | undefined
+  orderingSources: VocabularyOrderingSource[]
+  page: number
+  query: string
+  wordState: WordState | undefined
+  wordTypes: WordType[]
+}
+
+interface ResultPageSnapshot {
+  currentPage: number
+  pageCount: number
+  resultCount: number
+  routeSearch: string
+  visibleVocabularyItems: ResolvedVocabularyItemData[]
+}
+
+function createEmptyVocabularyResultState(): VocabularyResultState {
+  return { cefrLevels: [], favourite: undefined, orderingSources: [], page: 1, query: '', wordState: undefined, wordTypes: [] }
+}
+
+function vocabularyResultStateFromSearch(search: string): VocabularyResultState {
+  const parameters = new URLSearchParams(search)
+  const cefrLevelValues = parameters.getAll('level')
+  const wordTypeValues = parameters.getAll('type')
+  const wordState = parameters.getAll('state').find((value): value is WordState => Object.values(wordStates).includes(value as WordState))
+  const favouriteValue = parameters.getAll('favourite').find((value) => value === 'true' || value === 'false')
+  const pageValue = parameters.getAll('page').find((value) => /^\d+$/.test(value) && Number(value) > 0)
+  const seenOrderingSources = new Set<OrderingSource>()
+  const activeOrderingSources = parameters.getAll('order').flatMap((value) => {
+    const [source, direction, extra] = value.split(':')
+    if (extra !== undefined || !Object.values(orderingSources).includes(source as OrderingSource) || ![orderingDirections.ascending, orderingDirections.descending].includes(direction as typeof orderingDirections.ascending | typeof orderingDirections.descending) || seenOrderingSources.has(source as OrderingSource)) return []
+    seenOrderingSources.add(source as OrderingSource)
+    return [{ direction: direction as VocabularyOrderingSource['direction'], source: source as OrderingSource }]
+  })
+
+  return {
+    cefrLevels: allCefrLevels.filter((level) => cefrLevelValues.includes(level)),
+    favourite: favouriteValue === undefined ? undefined : favouriteValue === 'true',
+    orderingSources: activeOrderingSources,
+    page: pageValue === undefined ? 1 : Number(pageValue),
+    query: (parameters.get('q') ?? '').trim(),
+    wordState,
+    wordTypes: allWordTypes.filter((wordType) => wordTypeValues.includes(wordType)),
+  }
+}
+
+function vocabularySearchFromResultState(resultState: VocabularyResultState): string {
+  const parameters = new URLSearchParams()
+  if (resultState.query !== '') parameters.set('q', resultState.query)
+  allCefrLevels.filter((level) => resultState.cefrLevels.includes(level)).forEach((level) => parameters.append('level', level))
+  allWordTypes.filter((wordType) => resultState.wordTypes.includes(wordType)).forEach((wordType) => parameters.append('type', wordType))
+  if (resultState.wordState !== undefined) parameters.set('state', resultState.wordState)
+  if (resultState.favourite !== undefined) parameters.set('favourite', String(resultState.favourite))
+  resultState.orderingSources.forEach((orderingSource) => parameters.append('order', `${orderingSource.source}:${orderingSource.direction}`))
+  if (resultState.page > 1) parameters.set('page', String(resultState.page))
+  const query = parameters.toString()
+  return query === '' ? '' : `?${query}`
+}
+
+function applyVocabularyResultFilters(items: ResolvedVocabularyItemData[], resultState: VocabularyResultState): ResolvedVocabularyItemData[] {
+  const filteredItems = items.filter((item) => matchesVocabularyResultFilters(item, resultState))
+  if (resultState.orderingSources.length === 0) return filteredItems
+  return [...filteredItems].sort((left, right) => compareVocabularyItems(left, right, resultState.orderingSources))
+
+}
+
+function matchesVocabularyResultFilters(item: ResolvedVocabularyItemData, resultState: VocabularyResultState): boolean {
+  return (resultState.cefrLevels.length === 0 || resultState.cefrLevels.includes(item.level)) &&
+    (resultState.wordTypes.length === 0 || resultState.wordTypes.includes(getWordType(item))) &&
+    (resultState.wordState === undefined || item.wordState === resultState.wordState) &&
+    (resultState.favourite === undefined || item.isFavourite === resultState.favourite) &&
+    (resultState.query === '' || getVocabularySearchText(item).toLocaleLowerCase().includes(resultState.query.toLocaleLowerCase()))
+}
+
+function compareVocabularyItems(left: ResolvedVocabularyItemData, right: ResolvedVocabularyItemData, activeOrderingSources: VocabularyOrderingSource[]): number {
+  for (const orderingSource of activeOrderingSources) {
+    const leftValue = getOrderingValue(left, orderingSource.source)
+    const rightValue = getOrderingValue(right, orderingSource.source)
+    const comparison = leftValue.localeCompare(rightValue, 'de')
+    if (comparison !== 0) return orderingSource.direction === orderingDirections.descending ? -comparison : comparison
+  }
+  return left.id - right.id
+}
+
+function getOrderingValue(item: ResolvedVocabularyItemData, source: OrderingSource): string {
+  if (source === orderingSources.cefrLevel) return item.level
+  if (source === orderingSources.wordType) return getWordType(item)
+  if (source === orderingSources.favouriteStatus) return String(item.isFavourite)
+  return getGermanHeadword(item)
+}
+
+function toVocabularyOrderingSources(activeOrderingSources: VocabularyOrderingSource[]): Array<{ direction: OrderingDirection; source: OrderingSource }> {
+  return [
+    ...activeOrderingSources,
+    ...Object.values(orderingSources)
+      .filter((source) => !activeOrderingSources.some((orderingSource) => orderingSource.source === source))
+      .map((source) => ({ direction: orderingDirections.none, source })),
+  ]
+}
+
+function activeVocabularyOrderingSources(sources: Array<{ direction: OrderingDirection; source: OrderingSource }>): VocabularyOrderingSource[] {
+  return sources.flatMap((source) =>
+    source.direction === orderingDirections.ascending || source.direction === orderingDirections.descending
+      ? [{ direction: source.direction, source: source.source }]
+      : [],
+  )
+}
+
+function toggleValue<T>(values: T[], value: T): T[] {
+  return values.includes(value) ? values.filter((candidate) => candidate !== value) : [...values, value]
+}
+
+function moveOrderingSource<T>(sources: T[], fromIndex: number, toIndex: number): T[] {
+  const nextSources = [...sources]
+  const [source] = nextSources.splice(fromIndex, 1)
+  nextSources.splice(toIndex, 0, source!)
+  return nextSources
 }
 
 interface VocabularyEditViewProps {
@@ -350,6 +544,10 @@ function VocabularyPagination({ currentPage, pageCount, onChangePage }: { curren
   return <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-6 py-4 sm:px-8"><p className="text-sm text-slate-600">{t('page')} {currentPage} / {pageCount}</p><div className="flex gap-2"><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={currentPage === 1} onClick={() => onChangePage(currentPage - 1)} type="button">{t('previousPage')}</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={currentPage === pageCount} onClick={() => onChangePage(currentPage + 1)} type="button">{t('nextPage')}</button></div></div>
 }
 
+function CheckboxGroup<T extends string>({ label, labels, values, selectedValues, onToggle }: { label: string; labels?: Partial<Record<T, string>>; values: readonly T[]; selectedValues: T[]; onToggle(value: T): void }) {
+  return <div><p className="text-sm font-semibold text-slate-700">{label}</p><div className="mt-3 flex flex-wrap gap-3">{values.map((value) => <label className="flex items-center gap-2 text-sm text-slate-700" key={value}><input checked={selectedValues.includes(value)} type="checkbox" onChange={() => onToggle(value)} />{labels?.[value] ?? value}</label>)}</div></div>
+}
+
 function VocabularyNotice({ children, tone = 'normal' }: { children: string; tone?: 'error' | 'normal' }) {
   return <p className={`rounded-2xl border p-6 shadow-sm ${tone === 'error' ? 'border-red-200 bg-red-50 text-red-800' : 'border-slate-200 bg-white text-slate-600'}`}>{children}</p>
 }
@@ -360,6 +558,13 @@ function Metadata({ label, value }: { label: string; value: string }) {
 
 const wordTypeMessageKeys = { [wordTypes.adjective]: 'adjective', [wordTypes.noun]: 'noun', [wordTypes.verb]: 'verb' } as const
 const wordStateMessageKeys = { [wordStates.new]: 'wordStateNew', [wordStates.learning]: 'wordStateLearning', [wordStates.known]: 'wordStateKnown', [wordStates.excluded]: 'wordStateExcluded' } as const
+const orderingSourceMessageKeys = { [orderingSources.cefrLevel]: 'cefrLevels', [orderingSources.wordType]: 'wordTypes', [orderingSources.vocabularyItem]: 'vocabulary', [orderingSources.favouriteStatus]: 'favouriteStatus' } as const
+const orderingDirectionMessageKeys = {
+  [orderingSources.cefrLevel]: { [orderingDirections.ascending]: 'ascendingCefrLevels', [orderingDirections.descending]: 'descendingCefrLevels' },
+  [orderingSources.wordType]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
+  [orderingSources.vocabularyItem]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
+  [orderingSources.favouriteStatus]: { [orderingDirections.ascending]: 'ascendingFavouriteStatus', [orderingDirections.descending]: 'descendingFavouriteStatus' },
+} as const
 
 function getGermanHeadword(item: VocabularyItemData | ResolvedVocabularyItemData): string {
   return 'nominative' in item ? item.nominative : 'positive' in item ? item.positive : item.infinitive
