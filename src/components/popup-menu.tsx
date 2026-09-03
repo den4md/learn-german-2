@@ -20,12 +20,13 @@ interface PopupMenuProps {
   children(onSelect: () => void): ReactNode
   menuAriaLabel: string
   menuClassName: string
+  onClose?(): void
   triggerAriaLabel: string
   triggerClassName: string
   triggerContent: ReactNode
 }
 
-export function PopupMenu({ children, menuAriaLabel, menuClassName, triggerAriaLabel, triggerClassName, triggerContent }: PopupMenuProps) {
+export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, triggerAriaLabel, triggerClassName, triggerContent }: PopupMenuProps) {
   const context = useContext(PopupMenuContext)
   if (context === undefined) throw new Error('PopupMenu must be used within PopupMenuProvider.')
 
@@ -39,6 +40,7 @@ export function PopupMenu({ children, menuAriaLabel, menuClassName, triggerAriaL
   const close = (restoreFocus = false) => {
     setPendingMenuFocus(undefined)
     context.closeMenu()
+    onClose?.()
     if (restoreFocus) requestAnimationFrame(() => triggerRef.current?.focus())
   }
 

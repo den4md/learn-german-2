@@ -6,11 +6,11 @@ import type { DailyStreakDayData } from '../domain/learning-progress'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionData } from '../domain/session'
-import { DefaultVocabularySet, VocabularyItem, getWordType, resolveVocabularyItems } from '../domain/vocabulary'
+import { DefaultVocabularySet, VocabularyItem, resolveVocabularyItems } from '../domain/vocabulary'
 import type { ResolvedVocabularyItemData, VocabularyItemData } from '../domain/vocabulary'
 import { loadDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
-import { PopupMenu } from '../components/popup-menu'
+import { VocabularyItemRow } from '../components/vocabulary-item-row'
 import type { MessageKey } from '../i18n/messages'
 
 const initiallyVisibleRows = 5
@@ -19,11 +19,13 @@ interface ProgressionViewProps {
   learningData: LearningData
   onStartSession(): void
   onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
+  onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
+  onOpenVocabulary(route: string): void
   onOpenSessionDetails(sessionId: string): void
 }
 
-export function ProgressionView({ learningData, onStartSession, onChangeWordState, onEditVocabularyItem, onOpenSessionDetails }: ProgressionViewProps) {
+export function ProgressionView({ learningData, onStartSession, onChangeWordState, onChangeFavouriteStatus, onEditVocabularyItem, onOpenSessionDetails, onOpenVocabulary }: ProgressionViewProps) {
   const { interfaceLanguage, t } = useInterfaceLanguage()
   const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>([])
   const [vocabularyLoadError, setVocabularyLoadError] = useState(false)
@@ -92,14 +94,14 @@ export function ProgressionView({ learningData, onStartSession, onChangeWordStat
             <RecentSessionRow interfaceLanguage={interfaceLanguage} key={session.id} onOpenDetails={onOpenSessionDetails} session={session} />
           ))}
         </ProgressionList>
-        <ProgressionList emptyMessage={t('noLearningVocabulary')} title={t('learningVocabulary')}>
+        <ProgressionList emptyMessage={t('noLearningVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=learning')} title={t('learningVocabulary')}>
           {learningVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow key={vocabularyItem.id} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} vocabularyItem={vocabularyItem.toData()} />
+            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
           ))}
         </ProgressionList>
-        <ProgressionList emptyMessage={t('noKnownVocabulary')} title={t('knownVocabulary')}>
+        <ProgressionList emptyMessage={t('noKnownVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=known')} title={t('knownVocabulary')}>
           {knownVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow key={vocabularyItem.id} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} vocabularyItem={vocabularyItem.toData()} />
+            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
           ))}
         </ProgressionList>
       </div>
@@ -111,12 +113,13 @@ interface ProgressionListProps {
   title: string
   emptyMessage: string
   children: ReactNode[]
+  onShowMore?(): void
 }
 
-function ProgressionList({ title, emptyMessage, children }: ProgressionListProps) {
+function ProgressionList({ title, emptyMessage, children, onShowMore }: ProgressionListProps) {
   const { t } = useInterfaceLanguage()
   const [isExpanded, setIsExpanded] = useState(false)
-  const visibleChildren = isExpanded ? children : children.slice(0, initiallyVisibleRows)
+  const visibleChildren = onShowMore === undefined && isExpanded ? children : children.slice(0, initiallyVisibleRows)
 
   return (
     <section aria-labelledby={`${title}-heading`} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -136,9 +139,9 @@ function ProgressionList({ title, emptyMessage, children }: ProgressionListProps
               <button
                 className="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100"
                 type="button"
-                onClick={() => setIsExpanded((value) => !value)}
+                onClick={onShowMore ?? (() => setIsExpanded((value) => !value))}
               >
-                {isExpanded ? t('showFewerRows') : t('showAllRows')}
+                {onShowMore === undefined && isExpanded ? t('showFewerRows') : t('showAllRows')}
               </button>
             </div>
           ) : null}
@@ -182,45 +185,6 @@ function RecentSessionRow({ interfaceLanguage, onOpenDetails, session }: { inter
         <p className="text-sm font-medium text-slate-700">{t(sessionStatusMessageKeys[session.endReason ?? sessionEndReasons.userEnded])}</p>
         <button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={() => onOpenDetails(session.id)}>{t('details')}</button>
       </div>
-    </li>
-  )
-}
-
-function VocabularyItemRow({ onChangeWordState, onEditVocabularyItem, vocabularyItem }: { onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; vocabularyItem: ResolvedVocabularyItemData }) {
-  const { t } = useInterfaceLanguage()
-  const { learningStatistics } = vocabularyItem
-  const wordType = getWordType(vocabularyItem)
-
-  return (
-    <li className="space-y-4 px-6 py-5 sm:px-8">
-      <div>
-        <p className="font-semibold text-slate-950">{getGermanHeadword(vocabularyItem)}</p>
-        <p className="mt-1 text-sm text-slate-600">{vocabularyItem.translations[0] ?? ''}</p>
-        <p className="mt-2 text-sm font-medium text-blue-700">{vocabularyItem.level} · {t(wordTypeMessageKeys[wordType])}</p>
-      </div>
-      <dl className="grid grid-cols-2 gap-x-6 gap-y-3 text-sm text-slate-600 sm:grid-cols-4">
-        <div>
-          <dt>{t('learningScore')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{vocabularyItem.learningScore} / 10</dd>
-        </div>
-        <div>
-          <dt>{t('cardShows')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{learningStatistics.cardShows}</dd>
-        </div>
-        <div>
-          <dt>{t('correctAssessments')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{learningStatistics.correctAssessments}</dd>
-        </div>
-        <div>
-          <dt>{t('incorrectAssessments')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{learningStatistics.incorrectAssessments}</dd>
-        </div>
-      </dl>
-      <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 grid w-52 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('moreActions')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-center text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={t('moreActions')}>
-        {(onSelect) => <><p className="px-3 py-1 text-sm font-semibold text-slate-950">{t('changeWordState')}</p>
-          {Object.values(wordStates).map((wordState) => <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} role="menuitem" type="button" onClick={() => { onSelect(); onChangeWordState(vocabularyItem.id, wordState) }}>{t(wordStateMessageKeys[wordState])}</button>)}
-          <button className="mt-1 rounded-lg bg-blue-700 px-3 py-2 text-left text-sm font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" role="menuitem" type="button" onClick={() => { onSelect(); onEditVocabularyItem(vocabularyItem.id) }}>{t('edit')}</button></>}
-      </PopupMenu>
     </li>
   )
 }
@@ -408,12 +372,6 @@ const wordStateMessageKeys = {
   [wordStates.learning]: 'wordStateLearning',
   [wordStates.known]: 'wordStateKnown',
   [wordStates.excluded]: 'wordStateExcluded',
-} as const
-
-const wordTypeMessageKeys = {
-  adjective: 'adjective',
-  noun: 'noun',
-  verb: 'verb',
 } as const
 
 const streakStatusMessageKeys = {

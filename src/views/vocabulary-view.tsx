@@ -13,7 +13,7 @@ import {
 import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemTextData } from '../domain/vocabulary'
 import { loadAllDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
-import { PopupMenu } from '../components/popup-menu'
+import { VocabularyItemRow } from '../components/vocabulary-item-row'
 
 const vocabularyPageSize = 50
 
@@ -425,33 +425,7 @@ function VocabularyManagementRow({
   onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
 }) {
-  const { t } = useInterfaceLanguage()
-
-  return (
-    <li className="grid gap-4 px-6 py-5 sm:px-8 lg:grid-cols-[minmax(15rem,1fr)_auto] lg:items-center">
-      <div>
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="font-semibold text-slate-950">{getGermanHeadword(item)}</p>
-          {item.isFavourite ? <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-semibold text-blue-800">{t('favourite')}</span> : null}
-        </div>
-        <p className="mt-1 text-sm text-slate-600">{item.translations.join(', ')}</p>
-        <p className="mt-2 text-sm font-medium text-blue-700">{item.level} · {t(wordTypeMessageKeys[getWordType(item)])} · {t(wordStateMessageKeys[item.wordState])}</p>
-      </div>
-      <div className="flex flex-wrap gap-2 lg:justify-end">
-        <button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => onChangeFavouriteStatus(item.id, !item.isFavourite)} type="button">
-          {t(item.isFavourite ? 'removeFavourite' : 'addFavourite')}
-        </button>
-        <PopupMenu menuAriaLabel={t('changeWordState')} menuClassName="absolute right-0 z-10 mt-2 grid w-40 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('changeWordState')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={t('changeWordState')}>
-          {(onSelect) => <>{Object.values(wordStates).map((wordState) => (
-            <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-100" key={wordState} role="menuitem" onClick={() => { onSelect(); onChangeWordState(item.id, wordState) }} type="button">
-              {t(wordStateMessageKeys[wordState])}
-            </button>
-          ))}</>}
-        </PopupMenu>
-        <button className="rounded-lg bg-blue-700 px-3 py-2 text-sm font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" onClick={() => onEditVocabularyItem(item.id)} type="button">{t('edit')}</button>
-      </div>
-    </li>
-  )
+  return <VocabularyItemRow item={item} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
 }
 
 function VocabularyEditForm({

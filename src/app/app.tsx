@@ -207,9 +207,11 @@ export function App() {
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}
+              onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onChangeWordState={changeVocabularyItemWordState}
               onEditVocabularyItem={openVocabularyItemEdit}
               onOpenSessionDetails={(sessionId) => navigate(`/sessions/${sessionId}`)}
+              onOpenVocabulary={navigate}
               onStartSession={startNewSession}
             />
           ) : route.startsWith('/sessions/') ? (
