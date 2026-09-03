@@ -62,6 +62,14 @@ _Avoid_: rating, priority
 The session setting that selects all vocabulary items, favourites only, or non-favourites only.
 _Avoid_: favourite ordering
 
+**Vocabulary filter**:
+A temporary criterion used only to browse Vocabulary items. A user may filter by search text, CEFR level, Word type, Word state, or Favourite status. Multiple selected CEFR levels or Word types match any selected value, while different criteria narrow the same result set. A Vocabulary filter is neither a Preference nor a Session setting.
+_Avoid_: session filter, saved filter
+
+**Vocabulary ordering**:
+A temporary, prioritised order for Vocabulary results. It uses CEFR level, Word type, Vocabulary item, and Favourite status as sources; each source may have no sorting, ascending, or descending direction. With no active source, results retain their imported Default-vocabulary-set order. Vocabulary ordering does not shuffle results.
+_Avoid_: Session ordering, sort preset
+
 **Vocabulary item**:
 One German word or expression in a vocabulary set. It contains grammatical and translation data appropriate to its Word type, but no user's learning state or progress.
 _Avoid_: card, question
