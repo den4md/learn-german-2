@@ -4,6 +4,7 @@ import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
 interface AppShellProps extends PropsWithChildren {
   hasActiveSession: boolean
+  isActiveSessionView: boolean
   onContinueSession(): void
   onOpenProgression(): void
   onOpenSessionSetup(): void
@@ -11,7 +12,7 @@ interface AppShellProps extends PropsWithChildren {
   onOpenVocabulary(): void
 }
 
-export function AppShell({ children, hasActiveSession, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
+export function AppShell({ children, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
@@ -21,7 +22,7 @@ export function AppShell({ children, hasActiveSession, onContinueSession, onOpen
       >
         {t('skipToMainContent')}
       </a>
-      <header className="border-b border-slate-200 bg-white">
+      {isActiveSessionView ? null : <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5 sm:px-10">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{t('title')}</h1>
@@ -37,7 +38,7 @@ export function AppShell({ children, hasActiveSession, onContinueSession, onOpen
             </nav>}
           </PopupMenu>
         </div>
-      </header>
+      </header>}
       <main className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-10 sm:py-12" id="main-content">
         {children}
       </main>

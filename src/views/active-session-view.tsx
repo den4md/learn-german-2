@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { cardSides, recallSelfAssessments, sessionTypes, wordStates, wordTypes } from '../domain/constants'
 import type { SelfAssessment } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
@@ -17,13 +17,18 @@ interface ActiveSessionViewProps {
   onShowCandidate(vocabularyItemId: VocabularyItemId): void
   onRevealEntry(entryIndex: number): void
   onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void
+  onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onEndSession(): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
   onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void
+  onOpenProgression(): void
+  onOpenSessionSetup(): void
+  onOpenSettings(): void
+  onOpenVocabulary(): void
   onSelectNextCandidatePage(vocabularyItemIds: VocabularyItemId[]): void
 }
 
-export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onEndSession, onEditVocabularyItem, onManuallySetWordState, onSelectNextCandidatePage }: ActiveSessionViewProps) {
+export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
   const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>()
   const [vocabularyLoadError, setVocabularyLoadError] = useState(false)
@@ -33,6 +38,8 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
   const activeEntryIndex = activeSession?.entries.findIndex((entry) => entry.selfAssessment === undefined && entry.manualWordState === undefined) ?? -1
   const activeEntry = activeEntryIndex === -1 || activeSession === undefined ? undefined : activeSession.entryAt(activeEntryIndex)
   const [isEndSessionConfirmationOpen, setIsEndSessionConfirmationOpen] = useState(false)
+  const [shouldRestoreEndSessionFocus, setShouldRestoreEndSessionFocus] = useState(false)
+  const endSessionButton = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     let isCurrent = true
@@ -79,25 +86,36 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
   const vocabularyItem = activeEntry === undefined ? undefined : vocabularyItemsById.get(activeEntry.vocabularyItemId)
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
   const totalEntryCount = activeSession.isUnlimited ? completedEntryCount + activeSession.candidateVocabularyItemIds.length + (activeEntry === undefined ? 0 : 1) : activeSession.entries.length
+  const closeEndSessionConfirmation = () => {
+    setIsEndSessionConfirmationOpen(false)
+    setShouldRestoreEndSessionFocus(true)
+  }
+
+  useEffect(() => {
+    if (!shouldRestoreEndSessionFocus) return
+    endSessionButton.current?.focus()
+    setShouldRestoreEndSessionFocus(false)
+  }, [shouldRestoreEndSessionFocus])
 
   return (
     <section className="mx-auto max-w-3xl">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-950">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2>
+      <header className="space-y-3 border-b border-slate-200 pb-5">
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2>
+          <SessionNavigation onOpenProgression={onOpenProgression} onOpenSessionSetup={onOpenSessionSetup} onOpenSettings={onOpenSettings} onOpenVocabulary={onOpenVocabulary} />
         </div>
-        <div className="flex items-center gap-4"><p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={() => setIsEndSessionConfirmationOpen(true)}>{t('endSession')}</button></div>
-      </div>
+        <div className="flex items-center justify-between gap-4"><p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" ref={endSessionButton} type="button" onClick={() => setIsEndSessionConfirmationOpen(true)}>{t('endSession')}</button></div>
+      </header>
 
-      {isEndSessionConfirmationOpen ? <section aria-labelledby="end-session-title" aria-modal="true" className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-slate-800" role="alertdialog"><h3 className="text-lg font-bold text-slate-950" id="end-session-title">{t('endSessionTitle')}</h3><p className="mt-2 text-sm leading-6">{t('endSessionDescription')}</p><div className="mt-5 flex flex-wrap gap-3"><button autoFocus className="rounded-xl bg-slate-950 px-4 py-2.5 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-slate-300" type="button" onClick={() => setIsEndSessionConfirmationOpen(false)}>{t('keepStudying')}</button><button className="rounded-xl border border-red-300 bg-white px-4 py-2.5 font-semibold text-red-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-red-100" type="button" onClick={onEndSession}>{t('endSessionNow')}</button></div></section> : null}
+      {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
 
       {vocabularyLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
-      {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : activeEntry === undefined ? null : <Flashcard activeEntryIndex={activeEntryIndex} isRevealed={activeEntry.revealedAt !== undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessEntry={onAssessEntry} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
+      {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : activeEntry === undefined ? null : <Flashcard activeEntryIndex={activeEntryIndex} isRevealed={activeEntry.revealedAt !== undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
     </section>
   )
 }
 
-function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabularyItem, onAssessEntry, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; isRevealed: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
+function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabularyItem, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; isRevealed: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
   const { t } = useInterfaceLanguage()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const firstSideIsGerman = settings.firstCardSide === cardSides.german
@@ -139,7 +157,7 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   }, [activeEntryIndex, isRevealed, onAssessEntry, onRevealEntry, sessionType])
 
   const card = <article className="relative min-h-80 cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100" onClick={flipCard}>
-    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600"><span>{visibleSideLabel}</span><MoreActions onChangeWordState={(wordState) => onManuallySetWordState(activeEntryIndex, wordState)} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div>
+    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600"><span>{visibleSideLabel}</span><div className="flex items-center gap-2"><button aria-label={t(vocabularyItem.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${vocabularyItem.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} type="button" onClick={(event) => { event.stopPropagation(); onChangeFavouriteStatus(vocabularyItem.id, !vocabularyItem.isFavourite) }}><span aria-hidden="true">{vocabularyItem.isFavourite ? '★' : '☆'}</span></button><MoreActions isRevealed={isRevealed} onChangeWordState={(wordState) => onManuallySetWordState(activeEntryIndex, wordState)} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div></div>
     <div className="px-6 py-8 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide vocabularyItem={vocabularyItem} />}</div>
   </article>
 
@@ -199,11 +217,72 @@ function AssessmentButton({ action, className, onAssess }: { action: { label: st
   return <button className={`${className} w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-center font-semibold text-slate-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100`} type="button" onClick={() => onAssess(action.value)}>{action.label}</button>
 }
 
-function MoreActions({ onChangeWordState, onEdit }: { onChangeWordState(wordState: typeof wordStates[keyof typeof wordStates]): void; onEdit(): void }) {
+function SessionNavigation({ onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: { onOpenProgression(): void; onOpenSessionSetup(): void; onOpenSettings(): void; onOpenVocabulary(): void }) {
+  const { t } = useInterfaceLanguage()
+
+  return <PopupMenu menuAriaLabel={t('navigation')} menuClassName="absolute right-0 z-10 mt-2 grid w-60 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('openNavigation')} triggerClassName="flex rounded-lg border border-slate-300 bg-white px-3 py-2 text-xl font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">≣</span>}>
+    {(onSelect) => <nav aria-label={t('navigation')}><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenSessionSetup() }}>{t('startSession')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenProgression() }}>{t('progressionTitle')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenVocabulary() }}>{t('navigationVocabulary')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenSettings() }}>{t('settings')}</button></nav>}
+  </PopupMenu>
+}
+
+function EndSessionConfirmation({ onClose, onEndSession }: { onClose(): void; onEndSession(): void }) {
+  const { t } = useInterfaceLanguage()
+  const dialog = useRef<HTMLElement>(null)
+  const keepStudyingButton = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    keepStudyingButton.current?.focus()
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+      if (event.key !== 'Tab') return
+      const focusableElements = dialog.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')
+      if (focusableElements === undefined || focusableElements.length === 0) return
+      const firstElement = focusableElements[0]!
+      const lastElement = focusableElements[focusableElements.length - 1]!
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault()
+        lastElement.focus()
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault()
+        firstElement.focus()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
+
+  return <div className="fixed inset-0 z-20 grid place-items-center bg-slate-950/40 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}><section aria-labelledby="end-session-title" aria-modal="true" className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl" ref={dialog} role="dialog"><h3 className="text-lg font-bold text-slate-950" id="end-session-title">{t('endSessionTitle')}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t('endSessionDescription')}</p><div className="mt-5 flex flex-wrap gap-3"><button className="rounded-xl bg-slate-950 px-4 py-2.5 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-slate-300" ref={keepStudyingButton} type="button" onClick={onClose}>{t('keepStudying')}</button><button className="rounded-xl border border-red-300 bg-white px-4 py-2.5 font-semibold text-red-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-red-100" type="button" onClick={onEndSession}>{t('endSessionNow')}</button></div></section></div>
+}
+
+function MoreActions({ isRevealed, onChangeWordState, onEdit }: { isRevealed: boolean; onChangeWordState(wordState: typeof wordStates[keyof typeof wordStates]): void; onEdit(): void }) {
   const { t } = useInterfaceLanguage()
   const actions = [{ label: t('wordStateNew'), value: wordStates.new }, { label: t('wordStateLearning'), value: wordStates.learning }, { label: t('wordStateKnown'), value: wordStates.known }, { label: t('wordStateExcluded'), value: wordStates.excluded }]
+  const [menuPage, setMenuPage] = useState<'actions' | 'states'>('actions')
+  const [pendingMenuFocus, setPendingMenuFocus] = useState<'actions' | 'states' | undefined>()
+  const changeWordStateButton = useRef<HTMLButtonElement>(null)
+  const firstWordStateButton = useRef<HTMLButtonElement>(null)
 
-  return <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 w-64 rounded-xl border border-slate-200 bg-white p-3 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('moreActions')} triggerClassName="ml-auto flex w-fit rounded-lg border border-slate-300 bg-white px-3 py-2 text-lg font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">•••</span>}>
-    {(onSelect) => <><p className="px-1 pb-2 text-sm font-bold text-slate-950">{t('changeWordState')}</p><div className="grid gap-1">{actions.map((action) => <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" key={action.value} role="menuitem" type="button" onClick={() => { onSelect(); onChangeWordState(action.value) }}>{action.label}</button>)}<button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onEdit() }}>{t('edit')}</button></div></>}
+  useEffect(() => {
+    if (pendingMenuFocus === 'actions') changeWordStateButton.current?.focus()
+    if (pendingMenuFocus === 'states') firstWordStateButton.current?.focus()
+    if (pendingMenuFocus !== undefined) setPendingMenuFocus(undefined)
+  }, [menuPage, pendingMenuFocus])
+
+  const showWordStates = () => {
+    setMenuPage('states')
+    setPendingMenuFocus('states')
+  }
+
+  const showActions = () => {
+    setMenuPage('actions')
+    setPendingMenuFocus('actions')
+  }
+
+  return <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 grid w-64 gap-1 rounded-xl border border-slate-200 bg-white p-3 shadow-lg shadow-slate-300/40" onClose={() => setMenuPage('actions')} triggerAriaLabel={t('moreActions')} triggerClassName="ml-auto flex w-fit rounded-lg border border-slate-300 bg-white px-3 py-2 text-lg font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">•••</span>}>
+    {(onSelect) => !isRevealed ? <><p className="px-1 py-2 text-sm leading-6 text-slate-600">{t('revealBeforeManualStateChange')}</p><button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onEdit() }}>{t('edit')}</button></> : menuPage === 'actions' ? <><button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" ref={changeWordStateButton} role="menuitem" type="button" onClick={showWordStates}>{t('changeWordState')}</button><button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onEdit() }}>{t('edit')}</button></> : <>{actions.map((action, index) => <button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" key={action.value} ref={index === 0 ? firstWordStateButton : undefined} role="menuitem" type="button" onClick={() => { setMenuPage('actions'); onSelect(); onChangeWordState(action.value) }}>{action.label}</button>)}<button className="rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={showActions}>{t('back')}</button></>}
   </PopupMenu>
 }

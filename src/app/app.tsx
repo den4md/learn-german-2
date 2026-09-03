@@ -203,7 +203,7 @@ export function App() {
     >
       {isLoaded ? (
         <PopupMenuProvider>
-          <AppShell hasActiveSession={learningData.activeSession !== undefined} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
+          <AppShell hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}
@@ -240,9 +240,14 @@ export function App() {
             <ActiveSessionView
               learningData={learningData}
               onAssessEntry={assessActiveSessionEntry}
+              onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onEndSession={endActiveSession}
               onEditVocabularyItem={(vocabularyItemId) => openVocabularyItemEdit(vocabularyItemId, '/session/active')}
               onManuallySetWordState={manuallySetActiveSessionEntryWordState}
+              onOpenProgression={() => navigate('/progression')}
+              onOpenSessionSetup={startNewSession}
+              onOpenSettings={() => navigate('/settings')}
+              onOpenVocabulary={() => navigate('/vocabulary')}
               onRevealEntry={revealActiveSessionEntry}
               onSelectNextCandidatePage={selectNextActiveSessionCandidatePage}
               onShowCandidate={showActiveSessionCandidate}
