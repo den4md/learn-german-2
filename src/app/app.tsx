@@ -184,7 +184,7 @@ export function App() {
     navigate('/progression')
   }
 
-  const route = path === '/session/active' && learningData.activeSession === undefined ? '/progression' : path
+  const route = isLoaded && path === '/session/active' && learningData.activeSession === undefined ? '/progression' : path
   const vocabularyEditMatch = route.match(/^\/vocabulary\/(\d+)\/edit$/)
   const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 

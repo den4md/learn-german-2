@@ -147,12 +147,12 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   }
 
   const actions = assessmentActions(sessionType, t)
-  return <div className="mt-8 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(22rem,42rem)_minmax(0,1fr)] sm:items-center">
-    <AssessmentButton action={actions.exclude} className="order-1 sm:col-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
-    <div className="order-2 sm:order-none sm:col-start-2 sm:row-start-2">{card}</div>
-    <AssessmentButton action={actions.negative} className="order-3 sm:order-none sm:col-start-1 sm:row-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
-    <AssessmentButton action={actions.positive} className="order-4 sm:order-none sm:col-start-3 sm:row-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
-    {actions.known === undefined ? null : <AssessmentButton action={actions.known} className="order-5 sm:order-none sm:col-start-2 sm:row-start-3" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />}
+  return <div className="mt-8 grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,42rem)_minmax(0,1fr)] lg:items-center">
+    <AssessmentButton action={actions.exclude} className="order-1 lg:col-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
+    <div className="order-2 lg:order-none lg:col-start-2 lg:row-start-2">{card}</div>
+    <AssessmentButton action={actions.negative} className="order-3 lg:order-none lg:col-start-1 lg:row-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
+    <AssessmentButton action={actions.positive} className="order-4 lg:order-none lg:col-start-3 lg:row-start-2" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />
+    {actions.known === undefined ? null : <AssessmentButton action={actions.known} className="order-5 lg:order-none lg:col-start-2 lg:row-start-3" onAssess={(selfAssessment) => onAssessEntry(activeEntryIndex, selfAssessment)} />}
   </div>
 }
 
@@ -195,7 +195,7 @@ function assessmentForArrowKey(sessionType: string, key: string): SelfAssessment
 }
 
 function AssessmentButton({ action, className, onAssess }: { action: { label: string; value: SelfAssessment }; className: string; onAssess(selfAssessment: SelfAssessment): void }) {
-  return <button className={`${className} rounded-xl border border-slate-300 bg-white px-4 py-3 text-center font-semibold text-slate-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100`} type="button" onClick={() => onAssess(action.value)}>{action.label}</button>
+  return <button className={`${className} w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 text-center font-semibold text-slate-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100`} type="button" onClick={() => onAssess(action.value)}>{action.label}</button>
 }
 
 function MoreActions({ onChangeWordState, onEdit }: { onChangeWordState(wordState: typeof wordStates[keyof typeof wordStates]): void; onEdit(): void }) {
