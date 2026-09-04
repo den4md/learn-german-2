@@ -1,9 +1,12 @@
 import type { PropsWithChildren } from 'react'
 import { appVersion } from '../app-version'
 import { PopupMenu } from '../components/popup-menu'
+import { DailyStreak } from '../components/daily-streak'
+import type { DailyStreakHistory } from '../domain/learning-progress'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
 interface AppShellProps extends PropsWithChildren {
+  dailyStreakHistory: DailyStreakHistory
   hasActiveSession: boolean
   isActiveSessionView: boolean
   onContinueSession(): void
@@ -13,7 +16,7 @@ interface AppShellProps extends PropsWithChildren {
   onOpenVocabulary(): void
 }
 
-export function AppShell({ children, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
+export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-950">
@@ -26,7 +29,10 @@ export function AppShell({ children, hasActiveSession, isActiveSessionView, onCo
       {isActiveSessionView ? null : <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-5 sm:px-10">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl"><button className="rounded-lg text-left focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onOpenProgression} type="button">{t('title')}</button></h1>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl"><button className="rounded-lg text-left focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onOpenProgression} type="button">{t('title')}</button></h1>
+              <DailyStreak dailyStreakHistory={dailyStreakHistory} />
+            </div>
             <p className="mt-1 text-sm font-medium text-blue-700">Made by <a className="underline decoration-blue-300 underline-offset-2 focus:outline-none focus:ring-4 focus:ring-blue-100" href="https://github.com/den4md">@den4md</a> and Codex</p>
           </div>
           <PopupMenu menuAriaLabel={t('navigation')} menuClassName="absolute right-0 z-10 mt-2 grid w-60 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('openNavigation')} triggerClassName="flex rounded-lg border border-slate-300 bg-white px-3 py-2 text-xl font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">≣</span>}>

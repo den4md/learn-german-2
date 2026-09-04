@@ -207,7 +207,7 @@ export function App() {
     >
       {isLoaded ? (
         <PopupMenuProvider>
-          <AppShell hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
+          <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}

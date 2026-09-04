@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { dailyStreakDayStatuses, recallSelfAssessments, sessionEndReasons, sessionTypes, wordStates } from '../domain/constants'
+import { recallSelfAssessments, sessionEndReasons, sessionTypes, wordStates } from '../domain/constants'
 import type { WordState } from '../domain/constants'
-import type { DailyStreakDayData } from '../domain/learning-progress'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionData } from '../domain/session'
@@ -82,9 +81,6 @@ export function ProgressionView({ learningData, onStartSession, onChangeWordStat
         <h2 className="text-2xl font-bold tracking-tight text-slate-950">{t('progressionTitle')}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">{t('progressionDescription')}</p>
         <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onStartSession}>{t('startSession')}</button>
-        {learningData.dailyStreakLength > 2 ? (
-          <DailyStreak dailyStreakDays={learningData.dailyStreakHistory.days} length={learningData.dailyStreakLength} />
-        ) : null}
       </section>
 
       {vocabularyLoadError ? <p className="text-sm text-red-700">{t('couldNotLoadVocabulary')}</p> : null}
@@ -296,65 +292,6 @@ function SessionMetadata({ label, value }: { label: string; value: string }) {
   return <div><dt className="font-medium text-slate-600">{label}</dt><dd className="mt-1 font-semibold text-slate-950">{value}</dd></div>
 }
 
-function DailyStreak({ dailyStreakDays, length }: { dailyStreakDays: DailyStreakDayData[]; length: number }) {
-  const { interfaceLanguage, t } = useInterfaceLanguage()
-  const [isOpen, setIsOpen] = useState(false)
-  const daysByUtcDate = new Map(dailyStreakDays.map((day) => [day.utcDate, day.status]))
-
-  useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false)
-      }
-    }
-    window.addEventListener('keydown', closeOnEscape)
-    return () => window.removeEventListener('keydown', closeOnEscape)
-  }, [isOpen])
-
-  return (
-    <>
-      <button
-        className="mt-6 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-left text-blue-950 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100"
-        type="button"
-        onClick={() => setIsOpen(true)}
-      >
-        <span className="block text-sm font-medium">{t('currentStreak')}</span>
-        <span className="mt-1 block text-2xl font-bold">{length} {t('days')}</span>
-      </button>
-      {isOpen ? (
-        <div className="fixed inset-0 z-20 grid place-items-center bg-slate-950/30 p-4">
-          <section aria-labelledby="streak-popup-title" aria-modal="true" className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl" role="dialog">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold text-blue-700">{t('currentStreak')}</p>
-                <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950" id="streak-popup-title">{t('streakHistory')}</h2>
-              </div>
-              <button className="rounded-lg px-3 py-2 font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={() => setIsOpen(false)}>
-                {t('close')}
-              </button>
-            </div>
-            <ol className="mt-6 divide-y divide-slate-100">
-              {getPreviousSevenUtcDates().map((utcDate) => {
-                const status = daysByUtcDate.get(utcDate)
-                return (
-                  <li className="flex items-center justify-between gap-4 py-3" key={utcDate}>
-                    <span className="text-slate-700">{formatUtcDate(utcDate, interfaceLanguage)}</span>
-                    <span className="font-medium text-slate-950">{t(streakStatusMessageKeys[status ?? 'none'])}</span>
-                  </li>
-                )
-              })}
-            </ol>
-          </section>
-        </div>
-      ) : null}
-    </>
-  )
-}
-
 const sessionTypeMessageKeys = {
   [sessionTypes.knowledgeCheck]: 'knowledgeCheckSession',
   [sessionTypes.learning]: 'learningSession',
@@ -372,13 +309,6 @@ const wordStateMessageKeys = {
   [wordStates.learning]: 'wordStateLearning',
   [wordStates.known]: 'wordStateKnown',
   [wordStates.excluded]: 'wordStateExcluded',
-} as const
-
-const streakStatusMessageKeys = {
-  [dailyStreakDayStatuses.valid]: 'streakDayValid',
-  [dailyStreakDayStatuses.pauseProtected]: 'streakDayPauseProtected',
-  [dailyStreakDayStatuses.broken]: 'streakDayBroken',
-  none: 'streakDayNone',
 } as const
 
 function getKnowledgeCheckCounts(entries: SessionData['entries']): Record<'learning' | 'known' | 'excluded', number> {
@@ -419,24 +349,4 @@ function getGermanHeadword(vocabularyItem: ResolvedVocabularyItemData): string {
 
 function formatDateTime(timestamp: string, interfaceLanguage: string): string {
   return new Intl.DateTimeFormat(interfaceLanguage, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(timestamp))
-}
-
-function formatUtcDate(utcDate: string, interfaceLanguage: string): string {
-  return new Intl.DateTimeFormat(interfaceLanguage, { dateStyle: 'medium', timeZone: 'UTC' }).format(
-    new Date(`${utcDate}T00:00:00.000Z`),
-  )
-}
-
-function getPreviousSevenUtcDates(): string[] {
-  const dates: string[] = []
-  const date = new Date()
-  date.setUTCHours(0, 0, 0, 0)
-
-  for (let daysAgo = 0; daysAgo < 7; daysAgo += 1) {
-    const previousDate = new Date(date)
-    previousDate.setUTCDate(date.getUTCDate() - daysAgo)
-    dates.push(previousDate.toISOString().slice(0, 10))
-  }
-
-  return dates
 }
