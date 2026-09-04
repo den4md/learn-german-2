@@ -98,7 +98,7 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
   }, [shouldRestoreEndSessionFocus])
 
   return (
-    <section className="mx-auto -mt-4 max-w-3xl sm:-mt-6">
+    <section className="-mt-4 sm:-mt-6">
       <header className="space-y-1 border-b border-slate-200 pb-3">
         <div className="flex items-center justify-between gap-4">
           <h1 className="text-xl font-bold tracking-tight text-slate-950 sm:text-2xl"><button className="rounded-lg text-left focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onOpenProgression} type="button">{t('title')}</button></h1>

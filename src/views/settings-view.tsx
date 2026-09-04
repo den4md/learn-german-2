@@ -5,7 +5,7 @@ export function SettingsView({ onClearData }: { onClearData(): void }) {
   const { t } = useInterfaceLanguage()
 
   return (
-    <section className="max-w-2xl rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
       <h2 className="text-2xl font-bold tracking-tight text-slate-950">{t('settings')}</h2>
       <div className="mt-8 border-t border-slate-100 pt-6"><LanguageSelector /></div>
       <div className="mt-8 border-t border-slate-100 pt-6">
