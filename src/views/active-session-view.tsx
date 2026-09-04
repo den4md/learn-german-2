@@ -119,12 +119,7 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   const { t } = useInterfaceLanguage()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const [areRemainingTranslationsVisible, setAreRemainingTranslationsVisible] = useState(false)
-  const [cardHeight, setCardHeight] = useState<number>()
   const [completionMotion, setCompletionMotion] = useState<CardMotion>()
-  const card = useRef<HTMLElement>(null)
-  const cardHeader = useRef<HTMLDivElement>(null)
-  const germanMeasurement = useRef<HTMLDivElement>(null)
-  const russianMeasurement = useRef<HTMLDivElement>(null)
   const completionTimeout = useRef<number | undefined>(undefined)
   const firstSideIsGerman = settings.firstCardSide === cardSides.german
   const isGermanVisible = visibleSide === 'first' ? firstSideIsGerman : !firstSideIsGerman
@@ -136,32 +131,6 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
     setAreRemainingTranslationsVisible(false)
     setCompletionMotion(undefined)
   }, [activeEntryIndex, isRevealed])
-
-  useLayoutEffect(() => {
-    const cardElement = card.current
-    const cardHeaderElement = cardHeader.current
-    const germanMeasurementElement = germanMeasurement.current
-    const russianMeasurementElement = russianMeasurement.current
-    if (cardElement === null || cardHeaderElement === null || germanMeasurementElement === null || russianMeasurementElement === null) return
-
-    let animationFrame: number | undefined
-    const measure = () => {
-      const measuredHeight = Math.max(320, cardHeaderElement.getBoundingClientRect().height + germanMeasurementElement.getBoundingClientRect().height, cardHeaderElement.getBoundingClientRect().height + russianMeasurementElement.getBoundingClientRect().height)
-      setCardHeight((currentHeight) => currentHeight === measuredHeight ? currentHeight : measuredHeight)
-    }
-    const scheduleMeasurement = () => {
-      window.cancelAnimationFrame(animationFrame ?? 0)
-      animationFrame = window.requestAnimationFrame(measure)
-    }
-    const resizeObserver = new ResizeObserver(scheduleMeasurement)
-    resizeObserver.observe(cardElement)
-    measure()
-
-    return () => {
-      resizeObserver.disconnect()
-      window.cancelAnimationFrame(animationFrame ?? 0)
-    }
-  }, [activeEntryIndex, settings, vocabularyItem])
 
   useEffect(() => () => {
     window.clearTimeout(completionTimeout.current)
@@ -206,13 +175,9 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activeEntryIndex, isCompletingEntry, isRevealed, onAssessEntry, onRevealEntry, sessionType])
 
-  const cardCanvas = <article className={`relative min-h-80 cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 ${isCompletingEntry ? 'pointer-events-none' : ''}`} ref={card} style={{ minHeight: cardHeight === undefined ? '20rem' : `${cardHeight}px`, transform: completionMotion?.transform, transformOrigin: completionMotion?.transformOrigin, transition: completionMotion === undefined ? undefined : `transform ${window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 280}ms ease-in` }} onClick={flipCard}>
-    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600" ref={cardHeader}><span>{visibleSideLabel}</span><div className="flex items-center gap-2"><button aria-label={t(vocabularyItem.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${vocabularyItem.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} disabled={isCompletingEntry} type="button" onClick={(event) => { event.stopPropagation(); onChangeFavouriteStatus(vocabularyItem.id, !vocabularyItem.isFavourite) }}><span aria-hidden="true">{vocabularyItem.isFavourite ? '★' : '☆'}</span></button><MoreActions disabled={isCompletingEntry} isRevealed={isRevealed} onChangeWordState={(wordState) => completeEntry(motionForWordState(wordState), () => onManuallySetWordState(activeEntryIndex, wordState))} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div></div>
-    <div className="px-6 py-8 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide areRemainingTranslationsVisible={areRemainingTranslationsVisible} disabled={isCompletingEntry} onToggleRemainingTranslations={() => setAreRemainingTranslationsVisible((visible) => !visible)} vocabularyItem={vocabularyItem} />}</div>
-    <div aria-hidden="true" className="pointer-events-none invisible absolute inset-x-0 top-0">
-      <div className="px-6 py-8 sm:px-10 sm:py-12" ref={germanMeasurement}><GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /></div>
-      <div className="px-6 py-8 sm:px-10 sm:py-12" ref={russianMeasurement}><RussianCardSide areRemainingTranslationsVisible disabled onToggleRemainingTranslations={() => undefined} vocabularyItem={vocabularyItem} /></div>
-    </div>
+  const cardCanvas = <article className={`relative h-[40rem] cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 sm:h-[33rem] ${isCompletingEntry ? 'pointer-events-none' : ''}`} style={{ transform: completionMotion?.transform, transformOrigin: completionMotion?.transformOrigin, transition: completionMotion === undefined ? undefined : `transform ${window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 280}ms ease-in` }} onClick={flipCard}>
+    <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600"><span>{visibleSideLabel}</span><div className="flex items-center gap-2"><button aria-label={t(vocabularyItem.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${vocabularyItem.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} disabled={isCompletingEntry} type="button" onClick={(event) => { event.stopPropagation(); onChangeFavouriteStatus(vocabularyItem.id, !vocabularyItem.isFavourite) }}><span aria-hidden="true">{vocabularyItem.isFavourite ? '★' : '☆'}</span></button><MoreActions disabled={isCompletingEntry} isRevealed={isRevealed} onChangeWordState={(wordState) => completeEntry(motionForWordState(wordState), () => onManuallySetWordState(activeEntryIndex, wordState))} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div></div>
+    <div className="h-[calc(100%-4.25rem)] overflow-hidden px-6 py-8 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide areRemainingTranslationsVisible={areRemainingTranslationsVisible} disabled={isCompletingEntry} onToggleRemainingTranslations={() => setAreRemainingTranslationsVisible((visible) => !visible)} vocabularyItem={vocabularyItem} />}</div>
   </article>
 
   if (!isRevealed) {
@@ -220,12 +185,14 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   }
 
   const actions = assessmentActions(sessionType, t)
-  return <div className="mt-8 grid grid-cols-2 gap-3 min-[1024px]:grid-cols-[minmax(0,1fr)_minmax(22rem,42rem)_minmax(0,1fr)] min-[1024px]:items-center">
-    <AssessmentButton action={actions.exclude} className="col-span-2 min-[1024px]:col-span-1 min-[1024px]:col-start-2" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-    <div className="col-span-2 min-[1024px]:col-span-1 min-[1024px]:col-start-2 min-[1024px]:row-start-2">{cardCanvas}</div>
-    <AssessmentButton action={actions.negative} className="min-[1024px]:col-start-1 min-[1024px]:row-start-2" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-    <AssessmentButton action={actions.positive} className="min-[1024px]:col-start-3 min-[1024px]:row-start-2" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-    {actions.known === undefined ? null : <AssessmentButton action={actions.known} className="col-span-2 min-[1024px]:col-span-1 min-[1024px]:col-start-2 min-[1024px]:row-start-3" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />}
+  return <div className="mt-8">
+    {cardCanvas}
+    <div className="mt-4 grid grid-cols-[40%_40%] justify-center gap-x-[20%] gap-y-3">
+      <AssessmentButton action={actions.exclude} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+      <AssessmentButton action={actions.negative} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+      <AssessmentButton action={actions.positive} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+      {actions.known === undefined ? null : <AssessmentButton action={actions.known} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />}
+    </div>
   </div>
 }
 
@@ -233,27 +200,52 @@ function GermanCardSide({ settings, vocabularyItem }: { settings: SessionSetting
   const { t } = useInterfaceLanguage()
   const wordType = 'nominative' in vocabularyItem ? wordTypes.noun : 'positive' in vocabularyItem ? wordTypes.adjective : wordTypes.verb
   const headword = 'nominative' in vocabularyItem ? vocabularyItem.nominative : 'positive' in vocabularyItem ? vocabularyItem.positive : vocabularyItem.infinitive
-  return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t(wordType)}</span></div><p className="mt-5 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">{headword}</p>{'nominative' in vocabularyItem ? <dl className="mt-8 grid gap-4 text-sm sm:grid-cols-2">{settings.nounGermanSideHeaderFields.includes('gender') ? <Info label={t('nounGender')} value={vocabularyItem.gender} /> : null}{settings.nounGermanSideHeaderFields.includes('plural') ? <Info label={t('nounPlural')} value={vocabularyItem.plural} /> : null}</dl> : 'positive' in vocabularyItem ? null : <dl className="mt-8 grid gap-4 text-sm sm:grid-cols-2">{settings.verbGermanSideHeaderFields.includes('helper-verb') ? <Info label={t('verbHelperVerb')} value={vocabularyItem.helper_verb} /> : null}{settings.verbGermanSideHeaderFields.includes('conjugation-type') ? <Info label={t('verbConjugationType')} value={vocabularyItem.conjugation_type} /> : null}{settings.verbGermanSideHeaderFields.includes('present') ? <Info label={t('verbPresent')} value={vocabularyItem.present} /> : null}{settings.verbGermanSideHeaderFields.includes('preterite') ? <Info label={t('verbPreterite')} value={vocabularyItem.preterite} /> : null}{settings.verbGermanSideHeaderFields.includes('perfect') ? <Info label={t('verbPerfect')} value={vocabularyItem.perfect} /> : null}</dl>}</div>
+  return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t(wordType)}</span></div><FittedText className="mt-5 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl" minimumFontSize={18}>{headword}</FittedText>{'nominative' in vocabularyItem ? <dl className="mt-8 flex flex-wrap gap-4 text-sm">{settings.nounGermanSideHeaderFields.includes('gender') ? <Info label={t('nounGender')} value={vocabularyItem.gender} /> : null}{settings.nounGermanSideHeaderFields.includes('plural') ? <Info label={t('nounPlural')} value={vocabularyItem.plural} /> : null}</dl> : 'positive' in vocabularyItem ? null : <dl className="mt-8 flex flex-wrap gap-4 text-sm">{settings.verbGermanSideHeaderFields.includes('helper-verb') ? <Info label={t('verbHelperVerb')} value={vocabularyItem.helper_verb} /> : null}{settings.verbGermanSideHeaderFields.includes('conjugation-type') ? <Info label={t('verbConjugationType')} value={vocabularyItem.conjugation_type} /> : null}{settings.verbGermanSideHeaderFields.includes('present') ? <Info label={t('verbPresent')} value={vocabularyItem.present} /> : null}{settings.verbGermanSideHeaderFields.includes('preterite') ? <Info label={t('verbPreterite')} value={vocabularyItem.preterite} /> : null}{settings.verbGermanSideHeaderFields.includes('perfect') ? <Info label={t('verbPerfect')} value={vocabularyItem.perfect} /> : null}</dl>}</div>
 }
 
 function RussianCardSide({ areRemainingTranslationsVisible, disabled, onToggleRemainingTranslations, vocabularyItem }: { areRemainingTranslationsVisible: boolean; disabled: boolean; onToggleRemainingTranslations(): void; vocabularyItem: ResolvedVocabularyItemData }) {
   const { t } = useInterfaceLanguage()
   const headerTranslations = vocabularyItem.translations.slice(0, 3)
   const remainingTranslations = vocabularyItem.translations.slice(3)
-  return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t('vocabulary')}</span></div><p className="mt-5 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{headerTranslations.join(', ')}</p>{remainingTranslations.length > 0 ? <div className="mt-8 border-t border-slate-100 pt-6"><button className="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={disabled} type="button" onClick={(event) => { event.stopPropagation(); onToggleRemainingTranslations() }}>{t(areRemainingTranslationsVisible ? 'showLess' : 'showMore')}</button>{areRemainingTranslationsVisible ? <p className="mt-3 text-lg font-semibold text-slate-700">{remainingTranslations.join(', ')}</p> : null}</div> : null}</div>
+  return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t('vocabulary')}</span></div><FittedText className="mt-5 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl" minimumFontSize={16}>{headerTranslations.join(', ')}</FittedText>{remainingTranslations.length > 0 ? <div className="mt-8 border-t border-slate-100 pt-6"><button className="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={disabled} type="button" onClick={(event) => { event.stopPropagation(); onToggleRemainingTranslations() }}>{t(areRemainingTranslationsVisible ? 'showLess' : 'showMore')}</button>{areRemainingTranslationsVisible ? <p className="mt-3 text-lg font-semibold text-slate-700">{remainingTranslations.join(', ')}</p> : null}</div> : null}</div>
 }
 
 function Info({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-xl bg-slate-50 px-4 py-3"><dt className="font-semibold text-slate-600">{label}</dt><dd className="mt-1 font-semibold text-slate-950">{value}</dd></div>
+  return <div className="w-44 rounded-xl bg-slate-50 px-4 py-3"><dt className="font-semibold text-slate-600">{label}</dt><dd className="mt-1"><FittedText className="font-semibold text-slate-950" minimumFontSize={12}>{value}</FittedText></dd></div>
+}
+
+function FittedText({ children, className, minimumFontSize }: { children: string; className: string; minimumFontSize: number }) {
+  const text = useRef<HTMLParagraphElement>(null)
+  const [fontSize, setFontSize] = useState<number>()
+
+  useLayoutEffect(() => {
+    const textElement = text.current
+    if (textElement === null) return
+
+    const fit = () => {
+      textElement.style.removeProperty('font-size')
+      const preferredFontSize = Number.parseFloat(window.getComputedStyle(textElement).fontSize)
+      const fittedFontSize = Math.max(minimumFontSize, Math.floor(preferredFontSize * Math.min(1, textElement.clientWidth / textElement.scrollWidth)))
+      textElement.style.fontSize = `${fittedFontSize}px`
+      setFontSize((currentFontSize) => currentFontSize === fittedFontSize ? currentFontSize : fittedFontSize)
+    }
+
+    const resizeObserver = new ResizeObserver(fit)
+    resizeObserver.observe(textElement)
+    fit()
+    return () => resizeObserver.disconnect()
+  }, [children, minimumFontSize])
+
+  return <p className={`${className} overflow-hidden whitespace-nowrap`} ref={text} style={fontSize === undefined ? undefined : { fontSize: `${fontSize}px` }}>{children}</p>
 }
 
 function assessmentActions(sessionType: string, t: ReturnType<typeof useInterfaceLanguage>['t']) {
   const isKnowledgeCheck = sessionType === sessionTypes.knowledgeCheck
   return {
     exclude: { label: t('exclude'), value: wordStates.excluded as SelfAssessment },
-    negative: { label: t(isKnowledgeCheck ? 'iDoNotKnowIt' : 'iDidNotKnowIt'), value: isKnowledgeCheck ? wordStates.new as SelfAssessment : recallSelfAssessments.incorrect },
-    positive: { label: t(isKnowledgeCheck ? 'iRecogniseItAndWantToLearn' : 'iKnewIt'), value: isKnowledgeCheck ? wordStates.learning as SelfAssessment : recallSelfAssessments.correct },
-    known: isKnowledgeCheck ? { label: t('iKnowIt'), value: wordStates.known as SelfAssessment } : undefined,
+    negative: { label: t('selfAssessmentUnknown'), value: isKnowledgeCheck ? wordStates.new as SelfAssessment : recallSelfAssessments.incorrect },
+    positive: { label: t(isKnowledgeCheck ? 'selfAssessmentLearning' : 'selfAssessmentKnown'), value: isKnowledgeCheck ? wordStates.learning as SelfAssessment : recallSelfAssessments.correct },
+    known: isKnowledgeCheck ? { label: t('selfAssessmentKnown'), value: wordStates.known as SelfAssessment } : undefined,
   }
 }
 
