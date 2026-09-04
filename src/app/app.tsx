@@ -13,7 +13,7 @@ import { SessionSetupView } from '../views/session-setup-view'
 import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
 import { VocabularyEditView, VocabularyView } from '../views/vocabulary-view'
-import { AppShell } from './app-shell'
+import { AppFooter, AppShell } from './app-shell'
 import { PopupMenuProvider } from '../components/popup-menu'
 
 export function App() {
@@ -319,8 +319,11 @@ function LoadingView() {
   const { t } = useInterfaceLanguage()
 
   return (
-    <main className="grid min-h-screen place-items-center bg-slate-50 px-6 text-slate-700">
-      <p>{t('loading')}</p>
-    </main>
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-700">
+      <main className="grid flex-1 place-items-center px-6">
+        <p>{t('loading')}</p>
+      </main>
+      <AppFooter />
+    </div>
   )
 }

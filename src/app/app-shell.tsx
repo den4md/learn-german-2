@@ -1,4 +1,5 @@
 import type { PropsWithChildren } from 'react'
+import { appVersion } from '../app-version'
 import { PopupMenu } from '../components/popup-menu'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
@@ -15,7 +16,7 @@ interface AppShellProps extends PropsWithChildren {
 export function AppShell({ children, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-950">
+    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-950">
       <a
         className="sr-only rounded-lg bg-blue-700 px-4 py-2 font-semibold text-white focus:absolute focus:left-4 focus:top-4 focus:not-sr-only focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-200"
         href="#main-content"
@@ -42,7 +43,18 @@ export function AppShell({ children, hasActiveSession, isActiveSessionView, onCo
       <main className="mx-auto w-full max-w-6xl px-6 py-8 sm:px-10 sm:py-12" id="main-content">
         {children}
       </main>
+      <AppFooter />
     </div>
+  )
+}
+
+export function AppFooter() {
+  return (
+    <footer className="mt-auto border-t border-slate-200 bg-white">
+      <div className="mx-auto w-full max-w-6xl px-6 py-4 text-sm text-slate-500 sm:px-10">
+        Version {appVersion}
+      </div>
+    </footer>
   )
 }
 
