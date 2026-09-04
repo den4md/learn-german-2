@@ -98,13 +98,14 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
   }, [shouldRestoreEndSessionFocus])
 
   return (
-    <section className="mx-auto max-w-3xl">
-      <header className="space-y-3 border-b border-slate-200 pb-5">
+    <section className="mx-auto -mt-4 max-w-3xl sm:-mt-6">
+      <header className="space-y-1 border-b border-slate-200 pb-3">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2>
+          <h1 className="text-xl font-bold tracking-tight text-slate-950 sm:text-2xl"><button className="rounded-lg text-left focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onOpenProgression} type="button">{t('title')}</button></h1>
           <SessionNavigation onOpenProgression={onOpenProgression} onOpenSessionSetup={onOpenSessionSetup} onOpenSettings={onOpenSettings} onOpenVocabulary={onOpenVocabulary} />
         </div>
-        <div className="flex items-center justify-between gap-4"><p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" ref={endSessionButton} type="button" onClick={() => setIsEndSessionConfirmationOpen(true)}>{t('endSession')}</button></div>
+        <div className="flex items-center justify-between gap-4"><h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" ref={endSessionButton} type="button" onClick={() => setIsEndSessionConfirmationOpen(true)}>{t('endSession')}</button></div>
+        <p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p>
       </header>
 
       {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
@@ -181,11 +182,11 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   </article>
 
   if (!isRevealed) {
-    return <div className="mt-8 space-y-4">{cardCanvas}<button className="w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button></div>
+    return <div className="mt-4 space-y-4">{cardCanvas}<button className="w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button></div>
   }
 
   const actions = assessmentActions(sessionType, t)
-  return <div className="mt-8">
+  return <div className="mt-4">
     {cardCanvas}
     <div className="mt-4 grid grid-cols-[40%_40%] justify-center gap-x-[20%] gap-y-3">
       <AssessmentButton action={actions.exclude} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
