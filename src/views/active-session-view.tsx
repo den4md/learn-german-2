@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import type { PointerEvent as ReactPointerEvent } from 'react'
 import { cardSides, recallSelfAssessments, sessionTypes, wordStates, wordTypes } from '../domain/constants'
 import type { SelfAssessment } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
@@ -121,7 +122,12 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const [areRemainingTranslationsVisible, setAreRemainingTranslationsVisible] = useState(false)
   const [completionMotion, setCompletionMotion] = useState<CardMotion>()
+  const [swipeMotion, setSwipeMotion] = useState<CardMotion>()
+  const [isSwipeInProgress, setIsSwipeInProgress] = useState(false)
   const completionTimeout = useRef<number | undefined>(undefined)
+  const swipeTimeout = useRef<number | undefined>(undefined)
+  const swipeStart = useRef<SwipeStart | undefined>(undefined)
+  const shouldIgnoreNextCardClick = useRef(false)
   const firstSideIsGerman = settings.firstCardSide === cardSides.german
   const isGermanVisible = visibleSide === 'first' ? firstSideIsGerman : !firstSideIsGerman
   const visibleSideLabel = t(isGermanVisible ? 'cardSideGerman' : 'cardSideRussian')
@@ -131,10 +137,15 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
     setVisibleSide(isRevealed ? 'other' : 'first')
     setAreRemainingTranslationsVisible(false)
     setCompletionMotion(undefined)
+    setSwipeMotion(undefined)
+    setIsSwipeInProgress(false)
+    swipeStart.current = undefined
+    shouldIgnoreNextCardClick.current = false
   }, [activeEntryIndex, isRevealed])
 
   useEffect(() => () => {
     window.clearTimeout(completionTimeout.current)
+    window.clearTimeout(swipeTimeout.current)
   }, [])
 
   const completeEntry = (motion: CardMotion, onComplete: () => void) => {
@@ -145,6 +156,10 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   }
 
   const flipCard = () => {
+    if (shouldIgnoreNextCardClick.current) {
+      shouldIgnoreNextCardClick.current = false
+      return
+    }
     if (isCompletingEntry) return
     if (!isRevealed) {
       onRevealEntry(activeEntryIndex)
@@ -176,7 +191,51 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [activeEntryIndex, isCompletingEntry, isRevealed, onAssessEntry, onRevealEntry, sessionType])
 
-  const cardCanvas = <article className={`relative h-[40rem] cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 sm:h-[33rem] ${isCompletingEntry ? 'pointer-events-none' : ''}`} style={{ transform: completionMotion?.transform, transformOrigin: completionMotion?.transformOrigin, transition: completionMotion === undefined ? undefined : `transform ${window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 280}ms ease-in` }} onClick={flipCard}>
+  const startSwipe = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!isRevealed || isCompletingEntry || event.pointerType !== 'touch' || event.target instanceof Element && event.target.closest('button, a, input, select, textarea, summary, [role="menu"], [role="menuitem"]')) return
+    window.clearTimeout(swipeTimeout.current)
+    swipeStart.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY }
+    setIsSwipeInProgress(true)
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const moveSwipe = (event: ReactPointerEvent<HTMLElement>) => {
+    const start = swipeStart.current
+    if (start === undefined || start.pointerId !== event.pointerId) return
+    const distanceX = event.clientX - start.x
+    const distanceY = event.clientY - start.y
+    if (Math.abs(distanceX) > 8 || Math.abs(distanceY) > 8) shouldIgnoreNextCardClick.current = true
+    setSwipeMotion({ transform: `translate(${distanceX}px, ${distanceY}px)`, transformOrigin: 'center' })
+  }
+
+  const endSwipe = (event: ReactPointerEvent<HTMLElement>) => {
+    const start = swipeStart.current
+    if (start === undefined || start.pointerId !== event.pointerId) return
+    swipeStart.current = undefined
+    const selfAssessment = assessmentForSwipe(sessionType, event.clientX - start.x, event.clientY - start.y)
+    setIsSwipeInProgress(false)
+    if (selfAssessment !== undefined) {
+      setSwipeMotion(undefined)
+      completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))
+      return
+    }
+    returnSwipeToRest()
+  }
+
+  const cancelSwipe = (event: ReactPointerEvent<HTMLElement>) => {
+    if (swipeStart.current?.pointerId !== event.pointerId) return
+    swipeStart.current = undefined
+    setIsSwipeInProgress(false)
+    returnSwipeToRest()
+  }
+
+  const returnSwipeToRest = () => {
+    setSwipeMotion({ transform: 'translate(0, 0)', transformOrigin: 'center' })
+    swipeTimeout.current = window.setTimeout(() => setSwipeMotion(undefined), 160)
+  }
+
+  const cardMotion = completionMotion ?? swipeMotion
+  const cardCanvas = <article className={`relative h-[40rem] cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 sm:h-[33rem] ${isCompletingEntry ? 'pointer-events-none' : ''}`} style={{ touchAction: isRevealed ? 'none' : undefined, transform: cardMotion?.transform, transformOrigin: cardMotion?.transformOrigin, transition: !isSwipeInProgress && cardMotion !== undefined ? `transform ${completionMotion === undefined ? 160 : window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1 : 280}ms ease-in` : undefined }} onClick={flipCard} onPointerCancel={cancelSwipe} onPointerDown={startSwipe} onPointerMove={moveSwipe} onPointerUp={endSwipe}>
     <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600"><span>{visibleSideLabel}</span><div className="flex items-center gap-2"><button aria-label={t(vocabularyItem.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${vocabularyItem.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} disabled={isCompletingEntry} type="button" onClick={(event) => { event.stopPropagation(); onChangeFavouriteStatus(vocabularyItem.id, !vocabularyItem.isFavourite) }}><span aria-hidden="true">{vocabularyItem.isFavourite ? '★' : '☆'}</span></button><MoreActions disabled={isCompletingEntry} isRevealed={isRevealed} onChangeWordState={(wordState) => completeEntry(motionForWordState(wordState), () => onManuallySetWordState(activeEntryIndex, wordState))} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div></div>
     <div className="h-[calc(100%-4.25rem)] overflow-hidden px-6 py-8 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide areRemainingTranslationsVisible={areRemainingTranslationsVisible} disabled={isCompletingEntry} onToggleRemainingTranslations={() => setAreRemainingTranslationsVisible((visible) => !visible)} vocabularyItem={vocabularyItem} />}</div>
   </article>
@@ -251,17 +310,38 @@ function assessmentActions(sessionType: string, t: ReturnType<typeof useInterfac
 }
 
 function assessmentForArrowKey(sessionType: string, key: string): SelfAssessment | undefined {
-  const actions = assessmentActions(sessionType, (messageKey) => messageKey)
-  if (key === 'ArrowUp') return actions.exclude.value
-  if (key === 'ArrowLeft') return actions.negative.value
-  if (key === 'ArrowRight') return actions.positive.value
-  if (key === 'ArrowDown') return actions.known?.value
+  if (key === 'ArrowUp') return assessmentForDirection(sessionType, 'up')
+  if (key === 'ArrowLeft') return assessmentForDirection(sessionType, 'left')
+  if (key === 'ArrowRight') return assessmentForDirection(sessionType, 'right')
+  if (key === 'ArrowDown') return assessmentForDirection(sessionType, 'down')
   return undefined
+}
+
+function assessmentForSwipe(sessionType: string, distanceX: number, distanceY: number): SelfAssessment | undefined {
+  const isHorizontal = Math.abs(distanceX) >= Math.abs(distanceY) * 1.5
+  const isVertical = Math.abs(distanceY) >= Math.abs(distanceX) * 1.5
+  if (isHorizontal && Math.abs(distanceX) >= 80) return assessmentForDirection(sessionType, distanceX < 0 ? 'left' : 'right')
+  if (isVertical && Math.abs(distanceY) >= 80) return assessmentForDirection(sessionType, distanceY < 0 ? 'up' : 'down')
+  return undefined
+}
+
+function assessmentForDirection(sessionType: string, direction: 'up' | 'left' | 'right' | 'down'): SelfAssessment | undefined {
+  const actions = assessmentActions(sessionType, (messageKey) => messageKey)
+  if (direction === 'up') return actions.exclude.value
+  if (direction === 'left') return actions.negative.value
+  if (direction === 'right') return actions.positive.value
+  return actions.known?.value
 }
 
 interface CardMotion {
   transform: string
   transformOrigin: string
+}
+
+interface SwipeStart {
+  pointerId: number
+  x: number
+  y: number
 }
 
 function motionForWordState(selfAssessment: SelfAssessment | typeof wordStates[keyof typeof wordStates]): CardMotion {
