@@ -165,11 +165,15 @@ export function App() {
     vocabularyItemId: VocabularyItemId,
     germanText: Parameters<LearningData['withVocabularyItemGermanText']>[1],
     translations: Parameters<LearningData['withVocabularyItemTranslations']>[1],
+    wordState: Parameters<LearningData['withManualWordState']>[1],
+    isFavourite: boolean,
   ) => {
     saveLearningData(
       learningData
         .withVocabularyItemGermanText(vocabularyItemId, germanText)
-        .withVocabularyItemTranslations(vocabularyItemId, translations),
+        .withVocabularyItemTranslations(vocabularyItemId, translations)
+        .withManualWordState(vocabularyItemId, wordState)
+        .withVocabularyItemFavouriteStatus(vocabularyItemId, isFavourite),
     )
   }
 

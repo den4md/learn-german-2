@@ -352,6 +352,8 @@ interface VocabularyEditViewProps {
     vocabularyItemId: VocabularyItemId,
     germanText: VocabularyItemTextData | undefined,
     translations: string[] | undefined,
+    wordState: WordState,
+    isFavourite: boolean,
   ): void
 }
 
@@ -409,7 +411,11 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
       key={vocabularyItemId}
       onBack={onBack}
       onSave={onSaveVocabularyItem}
+      isFavourite={resolvedVocabularyItem.isFavourite}
+      learningScore={resolvedVocabularyItem.learningScore}
+      learningStatistics={resolvedVocabularyItem.learningStatistics}
       vocabularyItem={toVocabularyItemData(resolvedVocabularyItem)}
+      wordState={resolvedVocabularyItem.wordState}
     />
   )
 }
@@ -430,17 +436,27 @@ function VocabularyManagementRow({
 
 function VocabularyEditForm({
   defaultVocabularyItem,
+  isFavourite,
+  learningScore,
+  learningStatistics,
   onBack,
   onSave,
   vocabularyItem,
+  wordState,
 }: {
   defaultVocabularyItem: VocabularyItemData | undefined
+  isFavourite: boolean
+  learningScore: number
+  learningStatistics: ResolvedVocabularyItemData['learningStatistics']
   onBack(): void
-  onSave(vocabularyItemId: VocabularyItemId, germanText: VocabularyItemTextData | undefined, translations: string[] | undefined): void
+  onSave(vocabularyItemId: VocabularyItemId, germanText: VocabularyItemTextData | undefined, translations: string[] | undefined, wordState: WordState, isFavourite: boolean): void
   vocabularyItem: VocabularyItemData
+  wordState: WordState
 }) {
   const { t } = useInterfaceLanguage()
   const [item, setItem] = useState(vocabularyItem)
+  const [selectedWordState, setSelectedWordState] = useState(wordState)
+  const [selectedFavouriteStatus, setSelectedFavouriteStatus] = useState(isFavourite)
   const hasDefaultVocabularyItem = defaultVocabularyItem !== undefined
 
   const save = () => {
@@ -449,7 +465,7 @@ function VocabularyEditForm({
     const translations = defaultVocabularyItem !== undefined && sameStrings(item.translations, defaultVocabularyItem.translations)
       ? undefined
       : item.translations
-    onSave(item.id, defaultGermanText !== undefined && sameGermanText(germanText, defaultGermanText) ? undefined : germanText, translations)
+    onSave(item.id, defaultGermanText !== undefined && sameGermanText(germanText, defaultGermanText) ? undefined : germanText, translations, selectedWordState, selectedFavouriteStatus)
     onBack()
   }
 
@@ -462,7 +478,19 @@ function VocabularyEditForm({
           <Metadata label={t('vocabularyItemId')} value={String(item.id)} />
           <Metadata label={t('cefrLevel')} value={item.level} />
           <Metadata label={t('wordType')} value={t(wordTypeMessageKeys[getWordType(item)])} />
+          <Metadata label={t('learningScore')} value={String(learningScore)} />
+          <Metadata label={t('cardShows')} value={String(learningStatistics.cardShows)} />
+          <Metadata label={t('correctAssessments')} value={String(learningStatistics.correctAssessments)} />
+          <Metadata label={t('incorrectAssessments')} value={String(learningStatistics.incorrectAssessments)} />
         </dl>
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+        <h3 className="text-xl font-bold tracking-tight text-slate-950">{t('wordState')}</h3>
+        <div className="mt-5 flex flex-wrap items-center gap-5">
+          <label className="text-sm font-semibold text-slate-700">{t('wordState')}<select className="mt-2 block rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => setSelectedWordState(event.target.value as WordState)} value={selectedWordState}>{Object.values(wordStates).map((state) => <option key={state} value={state}>{t(wordStateMessageKeys[state])}</option>)}</select></label>
+          <label className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-700"><input checked={selectedFavouriteStatus} onChange={(event) => setSelectedFavouriteStatus(event.target.checked)} type="checkbox" />{t('favourite')}</label>
+        </div>
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
