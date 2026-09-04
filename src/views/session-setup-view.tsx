@@ -114,9 +114,9 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
         <fieldset>
           <legend className="text-lg font-bold text-slate-950">{t('sessionType')}</legend>
           <div className="mt-3 grid gap-3 sm:grid-cols-3">
-            <SessionTypeOption checked={sessionType === sessionTypes.knowledgeCheck} label={t('knowledgeCheckSession')} value={sessionTypes.knowledgeCheck} onChange={setSessionType} />
-            <SessionTypeOption checked={sessionType === sessionTypes.learning} label={t('learningSession')} value={sessionTypes.learning} onChange={setSessionType} />
-            <SessionTypeOption checked={sessionType === sessionTypes.repetition} label={t('repetitionSession')} value={sessionTypes.repetition} onChange={setSessionType} />
+            <SessionTypeOption checked={sessionType === sessionTypes.knowledgeCheck} description={t('knowledgeCheckSessionDescription')} label={t('knowledgeCheckSession')} value={sessionTypes.knowledgeCheck} onChange={setSessionType} />
+            <SessionTypeOption checked={sessionType === sessionTypes.learning} description={t('learningSessionDescription')} label={t('learningSession')} value={sessionTypes.learning} onChange={setSessionType} />
+            <SessionTypeOption checked={sessionType === sessionTypes.repetition} description={t('repetitionSessionDescription')} label={t('repetitionSession')} value={sessionTypes.repetition} onChange={setSessionType} />
           </div>
         </fieldset>
 
@@ -186,8 +186,11 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
   )
 }
 
-function SessionTypeOption({ checked, label, value, onChange }: { checked: boolean; label: string; value: SessionType; onChange(value: SessionType): void }) {
-  return <RadioOption checked={checked} label={label} name="session-type" value={value} onChange={onChange} />
+function SessionTypeOption({ checked, description, label, value, onChange }: { checked: boolean; description: string; label: string; value: SessionType; onChange(value: SessionType): void }) {
+  return <label className="flex cursor-pointer items-start gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 has-checked:border-blue-600 has-checked:bg-blue-50">
+    <input checked={checked} className="mt-0.5" name="session-type" type="radio" value={value} onChange={() => onChange(value)} />
+    <span><span className="block font-semibold">{label}</span><span className="mt-1 block leading-5 text-slate-600">{description}</span></span>
+  </label>
 }
 
 function RadioOption<T extends string>({ checked, label, name, value, onChange }: { checked: boolean; label: string; name: string; value: T; onChange(value: T): void }) {
