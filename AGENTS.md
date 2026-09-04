@@ -1,6 +1,6 @@
 ## Versioning
 
-- With each commit, increase the patch version in `package.json`. Increase the minor or major version instead only when the user explicitly requests it.
+- With each edit by an AI agent, increase the patch version in `package.json` if it wasn't touched already. Increase the minor or major version instead only when the user explicitly requests it.
 
 ## Agent skills
 
