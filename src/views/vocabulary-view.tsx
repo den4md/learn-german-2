@@ -139,11 +139,11 @@ export function VocabularyView({
         <p className="text-sm font-semibold text-blue-700">{t('navigationVocabulary')}</p>
         <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">{t('vocabularyManagementTitle')}</h2>
         <p className="mt-3 max-w-2xl leading-7 text-slate-600">{t('vocabularyManagementDescription')}</p>
-        <div className="mt-6 grid gap-6">
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+        <div className="mt-6 grid grid-cols-1 gap-6">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             {t('searchVocabulary')}
             <input
-              className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
+              className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none placeholder:text-slate-400 focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
               onChange={(event) => changeQuery(event.target.value)}
               placeholder={t('searchVocabularyPlaceholder')}
               type="search"
