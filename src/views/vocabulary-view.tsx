@@ -169,14 +169,14 @@ export function VocabularyView({
               </select>
             </label>
           </div>
-          <fieldset className="border-t border-slate-200 pt-6">
+          <fieldset className="min-w-0 border-t border-slate-200 pt-6">
             <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
             <p className="mt-2 text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
             <div className="mt-4 space-y-3">
               {toVocabularyOrderingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
-                <div className="grid gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
+                <div className="grid min-w-0 grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
                   <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
-                  <select className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
+                  <select className="min-w-0 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
                     <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
                   </select>
                   <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === allOrderingSources.length - 1} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })}><span aria-hidden="true">⬇️</span></button></div>
