@@ -281,13 +281,22 @@ function Flashcard({ activeEntryIndex, assessmentFeedback, isShowingNextCard, is
         {assessmentFeedback === undefined ? null : <p className="assessment-decision text-3xl font-bold tracking-tight sm:text-4xl" data-accent={assessmentFeedback.accent}>{assessmentFeedback.label}</p>}
       </div>
     </div>
-    <div className="relative mt-4">
-      {!isRevealed ? <button className="absolute inset-x-0 top-0 w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button> : null}
-      <div aria-hidden={!isRevealed} className={`grid grid-cols-[40%_40%] justify-center gap-x-[20%] gap-y-3 ${isRevealed ? '' : 'invisible'}`} inert={!isRevealed}>
-        <AssessmentButton action={actions.exclude} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} selected={assessmentFeedback?.value === actions.exclude.value} onAssess={assessEntry} />
-        <AssessmentButton action={actions.negative} className="" disabled={isCompletingEntry} selected={assessmentFeedback?.value === actions.negative.value} onAssess={assessEntry} />
-        <AssessmentButton action={actions.positive} className="" disabled={isCompletingEntry} selected={assessmentFeedback?.value === actions.positive.value} onAssess={assessEntry} />
-        {actions.known === undefined ? <span aria-hidden="true" className="invisible col-span-2 w-full max-w-[40%] justify-self-center rounded-xl border border-transparent px-4 py-3 text-center font-semibold">{t('selfAssessmentKnown')}</span> : <AssessmentButton action={actions.known} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} selected={assessmentFeedback?.value === actions.known.value} onAssess={assessEntry} />}
+    <div className="session-controls relative mt-4">
+      <div aria-hidden={isRevealed} className="session-control-panel absolute inset-x-0 top-0" data-visible={!isRevealed} inert={isRevealed || isCompletingEntry}>
+        <button className="reveal-button w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isRevealed || isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button>
+        <div className="session-space-hint" data-disabled={isCompletingEntry}><KeyboardHint keyName="space" /></div>
+      </div>
+      <div aria-hidden={!isRevealed} className="session-control-panel grid grid-cols-[40%_20%_40%] gap-y-3" data-visible={isRevealed} inert={!isRevealed || isCompletingEntry}>
+        <AssessmentButton action={actions.exclude} className="col-span-3 max-w-[40%] justify-self-center" disabled={!isRevealed || isCompletingEntry} selected={assessmentFeedback?.value === actions.exclude.value} onAssess={assessEntry} />
+        <AssessmentButton action={actions.negative} className="" disabled={!isRevealed || isCompletingEntry} selected={assessmentFeedback?.value === actions.negative.value} onAssess={assessEntry} />
+        <div aria-hidden="true" className="session-arrow-hints" data-disabled={isCompletingEntry}>
+          <KeyboardHint keyName="up" />
+          <KeyboardHint keyName="left" />
+          {actions.known === undefined ? <span /> : <KeyboardHint keyName="down" />}
+          <KeyboardHint keyName="right" />
+        </div>
+        <AssessmentButton action={actions.positive} className="col-start-3" disabled={!isRevealed || isCompletingEntry} selected={assessmentFeedback?.value === actions.positive.value} onAssess={assessEntry} />
+        {actions.known === undefined ? <span aria-hidden="true" className="invisible col-span-3 w-full max-w-[40%] justify-self-center rounded-xl border border-transparent px-4 py-3 text-center font-semibold">{t('selfAssessmentKnown')}</span> : <AssessmentButton action={actions.known} className="col-span-3 max-w-[40%] justify-self-center" disabled={!isRevealed || isCompletingEntry} selected={assessmentFeedback?.value === actions.known.value} onAssess={assessEntry} />}
       </div>
     </div>
   </div>
@@ -407,6 +416,21 @@ function motionForWordState(selfAssessment: SelfAssessment | typeof wordStates[k
 
 function AssessmentButton({ action, className, disabled, selected, onAssess }: { action: AssessmentAction; className: string; disabled: boolean; selected: boolean; onAssess(selfAssessment: SelfAssessment): void }) {
   return <button className={`assessment-button ${className} w-full min-w-0 rounded-xl border px-4 py-3 text-center font-semibold disabled:cursor-not-allowed active:translate-y-px`} data-accent={action.accent} data-selected={selected} disabled={disabled} type="button" onClick={() => onAssess(action.value)}>{action.label}</button>
+}
+
+function KeyboardHint({ keyName }: { keyName: 'space' | 'up' | 'left' | 'down' | 'right' }) {
+  const arrowPaths = {
+    up: 'M16 18V8m-4 4 4-4 4 4',
+    left: 'M21 13H11m4-4-4 4 4 4',
+    down: 'M16 8v10m-4-4 4 4 4-4',
+    right: 'M11 13h10m-4-4 4 4-4 4',
+  }
+
+  return <kbd aria-hidden="true" className="session-key-hint" data-key={keyName}>
+    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox={keyName === 'space' ? '0 0 80 24' : '0 0 32 32'}>
+      {keyName === 'space' ? <><rect height="14" rx="3" width="68" x="6" y="2" /><path d="m7 3-5 4v13h76V7l-5-4M6 16l-4 4m72-4 4 4M20 8v3h40V8" /></> : <><rect height="21" rx="3" width="20" x="6" y="2" /><path d="m7 3-5 5v22h28V8l-5-5M6 23l-4 7m24-7 4 7" /><path d={arrowPaths[keyName]} /></>}
+    </svg>
+  </kbd>
 }
 
 function SessionNavigation({ onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: { onOpenProgression(): void; onOpenSessionSetup(): void; onOpenSettings(): void; onOpenVocabulary(): void }) {
