@@ -22,7 +22,7 @@ interface AppShellProps extends PropsWithChildren {
 export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, hasVocabularyCreateButton, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onOpenSessions }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 text-slate-950">
+    <div className={`flex min-h-screen flex-col bg-slate-50 text-slate-950 ${isActiveSessionView ? 'overflow-clip' : ''}`}>
       <a
         className="sr-only rounded-lg bg-blue-700 px-4 py-2 font-semibold text-white focus:absolute focus:left-4 focus:top-4 focus:not-sr-only focus:z-10 focus:outline-none focus:ring-4 focus:ring-blue-200"
         href="#main-content"
