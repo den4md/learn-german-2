@@ -10,6 +10,7 @@ interface AppShellProps extends PropsWithChildren {
   dailyStreakHistory: DailyStreakHistory
   hasActiveSession: boolean
   isActiveSessionView: boolean
+  hasVocabularyCreateButton: boolean
   onContinueSession(): void
   onOpenProgression(): void
   onOpenSessionSetup(): void
@@ -18,7 +19,7 @@ interface AppShellProps extends PropsWithChildren {
   onOpenVocabulary(): void
 }
 
-export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onOpenSessions }: AppShellProps) {
+export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, hasVocabularyCreateButton, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onOpenSessions }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-950">
@@ -53,7 +54,7 @@ export function AppShell({ children, dailyStreakHistory, hasActiveSession, isAct
         {children}
       </main>
       <AppFooter />
-      <BackToTop />
+      <BackToTop aboveCreateButton={hasVocabularyCreateButton} />
     </div>
   )
 }

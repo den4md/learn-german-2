@@ -3,7 +3,7 @@ import { allCefrLevels, allWordTypes, nounGenders, orderingDirections, orderingS
 import type { CefrLevel, OrderingDirection, OrderingSource, WordState, WordType } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
-import { ResolvedVocabularyItem, VocabularyItem, getWordType, resolveVocabularyItems } from '../domain/vocabulary'
+import { DefaultVocabularySet, ResolvedVocabularyItem, VocabularyItem, getWordType, resolveVocabularyItems } from '../domain/vocabulary'
 import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemTextData } from '../domain/vocabulary'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
@@ -20,6 +20,7 @@ interface VocabularyViewProps {
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
   onNavigate(route: string, replace: boolean): void
+  onCreateVocabularyItem(returnPath: string): void
 }
 
 export function VocabularyView({
@@ -29,6 +30,7 @@ export function VocabularyView({
   onChangeFavouriteStatus,
   onEditVocabularyItem,
   onNavigate,
+  onCreateVocabularyItem,
 }: VocabularyViewProps) {
   const { t } = useInterfaceLanguage()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
@@ -47,10 +49,8 @@ export function VocabularyView({
 
   const vocabularyItems = useMemo(
     () =>
-      defaultVocabularySet === undefined
-        ? []
-        : resolveVocabularyItems(
-          defaultVocabularySet,
+      resolveVocabularyItems(
+          defaultVocabularySet ?? DefaultVocabularySet.fromItems([]),
           learningData.userAddedVocabularyItems,
           learningData.vocabularyLearningRecords,
         ).map((item) => item.toData()),
@@ -97,12 +97,12 @@ export function VocabularyView({
     setQuery(nextQuery)
     if (searchTimeout.current !== undefined) window.clearTimeout(searchTimeout.current)
     searchTimeout.current = window.setTimeout(() => {
-      navigateResultState({ ...routeState, query: nextQuery.trim(), page: 1 }, true)
+      navigateResultState({ ...routeState, itemId: undefined, query: nextQuery.trim(), page: 1 }, true)
     }, 300)
   }
 
   const changeResultState = (change: Partial<VocabularyResultState>) => {
-    navigateResultState({ ...routeState, ...change, query: query.trim(), page: 1 })
+    navigateResultState({ ...routeState, ...change, itemId: undefined, query: query.trim(), page: 1 })
   }
 
   const updateSnapshotAfterItemChange = (nextItem: ResolvedVocabularyItemData) => {
@@ -118,6 +118,7 @@ export function VocabularyView({
 
   return (
     <div className="space-y-6">
+      {routeState.itemId !== undefined ? <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-blue-200 bg-blue-50 px-6 py-4"><p className="font-semibold text-blue-900">{t('showingAddedWord')}</p><button className="rounded-lg font-semibold text-blue-700 underline underline-offset-4 focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => navigateResultState(createEmptyVocabularyResultState())} type="button">{t('allVocabularyItems')}</button></div> : null}
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <p className="text-sm font-semibold text-blue-700">{t('navigationVocabulary')}</p>
         <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">{t('vocabularyManagementTitle')}</h2>
@@ -158,7 +159,7 @@ export function VocabularyView({
 
       {defaultVocabularySet === undefined && !hasLoadError ? <VocabularyNotice>{t('loadingVocabulary')}</VocabularyNotice> : null}
       {hasLoadError ? <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice> : null}
-      {defaultVocabularySet !== undefined && !hasLoadError ? (
+      {(defaultVocabularySet !== undefined && !hasLoadError) || learningData.userAddedVocabularyItems.length > 0 ? (
         <section aria-labelledby="vocabulary-results-title" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 sm:px-8">
             <h3 className="text-xl font-bold tracking-tight text-slate-950" id="vocabulary-results-title">{t('vocabularyResults')}</h3>
@@ -183,6 +184,7 @@ export function VocabularyView({
           <ResultPagination currentPage={currentPage} pageCount={pageCount} onChangePage={(page) => navigateResultState({ ...routeState, query: query.trim(), page })} />
         </section>
   ) : null}
+      <button aria-label={t('addWord')} className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))] z-10 flex size-14 items-center justify-center rounded-full bg-blue-700 text-white shadow-lg shadow-slate-950/20 hover:bg-blue-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" onClick={() => { if (searchTimeout.current !== undefined) window.clearTimeout(searchTimeout.current); onCreateVocabularyItem(`/vocabulary${vocabularySearchFromResultState({ ...routeState, query: query.trim() })}`) }} title={t('addWord')} type="button"><svg aria-hidden="true" className="size-7" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></button>
     </div>
   )
 }
@@ -193,6 +195,7 @@ interface VocabularySortingSource {
 }
 
 interface VocabularyResultState {
+  itemId?: VocabularyItemId
   cefrLevels: CefrLevel[]
   favourites: boolean[]
   orderingSources: VocabularySortingSource[]
@@ -216,6 +219,7 @@ function createEmptyVocabularyResultState(): VocabularyResultState {
 
 function vocabularyResultStateFromSearch(search: string): VocabularyResultState {
   const parameters = new URLSearchParams(search)
+  const itemIdValue = parameters.get('item')
   const cefrLevelValues = parameters.getAll('level')
   const wordTypeValues = parameters.getAll('type')
   const selectedWordStates = Object.values(wordStates).filter((state) => parameters.getAll('state').includes(state))
@@ -230,6 +234,7 @@ function vocabularyResultStateFromSearch(search: string): VocabularyResultState 
   })
 
   return {
+    itemId: itemIdValue !== null && /^-?\d+$/.test(itemIdValue) && Number.isSafeInteger(Number(itemIdValue)) ? Number(itemIdValue) as VocabularyItemId : undefined,
     cefrLevels: allCefrLevels.filter((level) => cefrLevelValues.includes(level)),
     favourites,
     orderingSources: activeOrderingSources,
@@ -242,6 +247,7 @@ function vocabularyResultStateFromSearch(search: string): VocabularyResultState 
 
 function vocabularySearchFromResultState(resultState: VocabularyResultState): string {
   const parameters = new URLSearchParams()
+  if (resultState.itemId !== undefined) parameters.set('item', String(resultState.itemId))
   if (resultState.query !== '') parameters.set('q', resultState.query)
   allCefrLevels.filter((level) => resultState.cefrLevels.includes(level)).forEach((level) => parameters.append('level', level))
   allWordTypes.filter((wordType) => resultState.wordTypes.includes(wordType)).forEach((wordType) => parameters.append('type', wordType))
@@ -263,7 +269,8 @@ function applyVocabularyResultFilters(items: ResolvedVocabularyItemData[], resul
 }
 
 function matchesVocabularyResultFilters(item: ResolvedVocabularyItemData, resultState: VocabularyResultState): boolean {
-  return (resultState.cefrLevels.length === 0 || resultState.cefrLevels.includes(item.level)) &&
+  return (resultState.itemId === undefined || item.id === resultState.itemId) &&
+    (resultState.cefrLevels.length === 0 || resultState.cefrLevels.includes(item.level)) &&
     (resultState.wordTypes.length === 0 || resultState.wordTypes.includes(getWordType(item))) &&
     (resultState.wordStates.length === 0 || resultState.wordStates.includes(item.wordState)) &&
     (resultState.favourites.length === 0 || resultState.favourites.includes(item.isFavourite)) &&
@@ -313,21 +320,23 @@ interface VocabularyEditViewProps {
 
 export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onSaveVocabularyItem }: VocabularyEditViewProps) {
   const { t } = useInterfaceLanguage()
-  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet(
+    vocabularyItemId !== undefined && vocabularyItemId > 0 ? [vocabularyItemId] : [],
+  )
 
   if (vocabularyItemId === undefined) {
     return <VocabularyNotice tone="error">{t('invalidVocabularyItem')}</VocabularyNotice>
   }
-  if (defaultVocabularySet === undefined) {
+  if (vocabularyItemId > 0 && defaultVocabularySet === undefined) {
     return hasLoadError
       ? <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice>
       : <VocabularyNotice>{t('loadingVocabulary')}</VocabularyNotice>
   }
-  if (hasLoadError) {
+  if (vocabularyItemId > 0 && hasLoadError) {
     return <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice>
   }
 
-  const defaultVocabularyItem = defaultVocabularySet.findLoadedItem(vocabularyItemId)?.toData()
+  const defaultVocabularyItem = defaultVocabularySet?.findLoadedItem(vocabularyItemId)?.toData()
   const userAddedVocabularyItem = learningData.userAddedVocabularyItems.find((item) => item.id === vocabularyItemId)
   const sourceVocabularyItem = defaultVocabularyItem === undefined
     ? userAddedVocabularyItem
@@ -464,7 +473,7 @@ function VocabularyEditForm({
   )
 }
 
-function GermanTextFields({ item, onChange }: { item: VocabularyItemData; onChange(item: VocabularyItemData): void }) {
+export function GermanTextFields({ item, onChange }: { item: VocabularyItemData; onChange(item: VocabularyItemData): void }) {
   const { t } = useInterfaceLanguage()
   const inputClassName = 'mt-2 w-full rounded-xl border border-slate-300 px-3 py-2.5 text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100'
 

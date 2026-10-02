@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { documentId } from '../domain/identifiers'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { documentId, vocabularyItemId } from '../domain/identifiers'
 import type { VocabularyItemId } from '../domain/identifiers'
 import { createEmptyDataDocument } from '../domain/data-document'
 import { LearningData } from '../domain/learning-data'
@@ -14,8 +14,12 @@ import { SessionSetupView } from '../views/session-setup-view'
 import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
 import { VocabularyEditView, VocabularyView } from '../views/vocabulary-view'
+import { VocabularyCreateView } from '../views/vocabulary-create-view'
+import { VocabularyItem } from '../domain/vocabulary'
+import type { VocabularyItemData, WordState } from '../domain/vocabulary'
 import { AppFooter, AppShell } from './app-shell'
 import { PopupMenuProvider } from '../components/popup-menu'
+import { AppNavigation } from './navigation'
 
 export function App() {
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
@@ -25,9 +29,17 @@ export function App() {
   )
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
-  const [location, setLocation] = useState(() => routeFromBrowserLocation())
+  const navigation = useMemo(() => new AppNavigation(window, import.meta.env.BASE_URL), [])
+  const [location, setLocation] = useState(navigation.location)
   const [sessionTransitionData, setSessionTransitionData] = useState<LearningData>()
   const learningData = LearningData.fromData(dataDocument.learningData)
+  const discardChangesMessage = messages[learningData.preferences.interfaceLanguage].discardVocabularyChanges
+  const setUnsavedVocabularyChanges = useCallback((hasChanges: boolean) => {
+    navigation.setUnsavedChanges(hasChanges, discardChangesMessage)
+  }, [navigation, discardChangesMessage])
+  const { navigate } = navigation
+
+  useEffect(() => navigation.connect(setLocation), [navigation])
 
   useEffect(() => {
     let isMounted = true
@@ -58,21 +70,6 @@ export function App() {
       isMounted = false
     }
   }, [dataDocumentStore, initialDataDocument])
-
-  useEffect(() => {
-    const updateLocation = () => setLocation(routeFromBrowserLocation())
-    window.addEventListener('popstate', updateLocation)
-    return () => window.removeEventListener('popstate', updateLocation)
-  }, [])
-
-  const navigate = (nextRoute: string, replace = false, vocabularyEditReturnPath?: string, sessionDetailsReturnPath?: string) => {
-    const nextLocation = { ...routeLocationFromRoute(nextRoute), vocabularyEditReturnPath, sessionDetailsReturnPath }
-    const browserUrl = browserUrlFromRouteLocation(nextLocation)
-    if (browserUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      window.history[replace ? 'replaceState' : 'pushState']({ vocabularyEditReturnPath, sessionDetailsReturnPath }, '', browserUrl)
-    }
-    setLocation(nextLocation)
-  }
 
   const setInterfaceLanguage = (interfaceLanguage: InterfaceLanguage) => {
     const nextLearningData = learningData.withPreferences(
@@ -143,7 +140,9 @@ export function App() {
   }
 
   const startNewSession = () => {
+    if (!navigation.allowNavigation()) return
     if (learningData.activeSession !== undefined && !window.confirm(messages[learningData.preferences.interfaceLanguage].startNewSessionConfirmation)) return
+    navigation.discardChanges()
     if (learningData.activeSession !== undefined) saveLearningData(learningData.endActiveSession(new Date().toISOString()))
     navigate('/session/new')
   }
@@ -173,7 +172,27 @@ export function App() {
   }
 
   const openVocabularyItemEdit = (vocabularyItemId: VocabularyItemId) => {
-    navigate(`/vocabulary/${vocabularyItemId}/edit`, false, routeHrefFromLocation(location))
+    navigation.openVocabularyItemEdit(vocabularyItemId)
+  }
+
+  const addVocabularyItem = async (item: VocabularyItemData, wordState: WordState, isFavourite: boolean) => {
+    const usedIds = [...learningData.userAddedVocabularyItems.map((candidate) => candidate.id), ...learningData.vocabularyLearningRecords.map((record) => record.vocabularyItemId)]
+    const id = vocabularyItemId(usedIds.reduce<number>((lowest, usedId) => Math.min(lowest, usedId), 0) - 1)
+    const nextLearningData = learningData
+      .withUserAddedVocabularyItem(VocabularyItem.fromData({ ...item, id }))
+      .withManualWordState(id, wordState)
+      .withVocabularyItemFavouriteStatus(id, isFavourite)
+    const nextDataDocument = { ...dataDocument, updatedAt: new Date().toISOString(), learningData: nextLearningData.toData() }
+    navigation.setSaving(true)
+    try {
+      await dataDocumentStore.save(nextDataDocument)
+    } finally {
+      navigation.setSaving(false)
+    }
+    setDataDocument(nextDataDocument)
+    navigation.discardChanges()
+    navigate(`/vocabulary?item=${id}`)
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }
 
   const clearData = () => {
@@ -188,11 +207,8 @@ export function App() {
   const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 
   useEffect(() => {
-    const canonicalLocation = { ...location, path: route }
-    if (browserUrlFromRouteLocation(canonicalLocation) !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      navigate(routeHrefFromLocation(canonicalLocation), true, location.vocabularyEditReturnPath, location.sessionDetailsReturnPath)
-    }
-  }, [location, route])
+    navigation.canonicalize(route)
+  }, [navigation, location, route])
 
   return (
     <InterfaceLanguageProvider
@@ -201,7 +217,7 @@ export function App() {
     >
       {isLoaded ? (
         <PopupMenuProvider>
-          <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')} onOpenSessions={() => navigate('/sessions')}>
+          <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} hasVocabularyCreateButton={route === '/vocabulary'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')} onOpenSessions={() => navigate('/sessions')}>
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}
@@ -215,7 +231,7 @@ export function App() {
               onStartSession={startNewSession}
             />
           ) : route === '/sessions' ? (
-            <SessionsView learningData={learningData} locationSearch={location.search} onNavigate={navigate} onContinue={() => navigate('/session/active')} onOpenDetails={(sessionId) => navigate(`/sessions/${sessionId}`, false, undefined, routeHrefFromLocation(location))} />
+            <SessionsView learningData={learningData} locationSearch={location.search} onNavigate={navigate} onContinue={() => navigate('/session/active')} onOpenDetails={(sessionId) => navigate(`/sessions/${sessionId}`, false, undefined, navigation.href)} />
           ) : route.startsWith('/sessions/') ? (
             <SessionDetailsView learningData={learningData} onBack={() => navigate(location.sessionDetailsReturnPath ?? '/progression')} backMessageKey={location.sessionDetailsReturnPath?.startsWith('/sessions') ? 'backToSessions' : 'backToProgression'} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
           ) : route === '/vocabulary' ? (
@@ -226,7 +242,10 @@ export function App() {
               onChangeWordState={changeVocabularyItemWordState}
               onEditVocabularyItem={openVocabularyItemEdit}
               onNavigate={navigate}
+              onCreateVocabularyItem={(returnPath) => { navigate('/vocabulary/new', false, returnPath); window.scrollTo({ top: 0, behavior: 'instant' }) }}
             />
+          ) : route === '/vocabulary/new' ? (
+            <VocabularyCreateView learningData={learningData} onBack={() => navigate(location.vocabularyEditReturnPath ?? '/vocabulary')} onAddVocabularyItem={addVocabularyItem} onEditVocabularyItem={openVocabularyItemEdit} onUnsavedChangesChange={setUnsavedVocabularyChanges} />
           ) : route.startsWith('/vocabulary/') ? (
             <VocabularyEditView
               learningData={learningData}
@@ -265,67 +284,6 @@ export function App() {
       )}
     </InterfaceLanguageProvider>
   )
-}
-
-interface RouteLocation {
-  path: string
-  search: string
-  hash: string
-  vocabularyEditReturnPath?: string
-  sessionDetailsReturnPath?: string
-}
-
-function normalizePath(pathname: string): string {
-  if (pathname === '/') return '/progression'
-  if (['/progression', '/session/new', '/session/active', '/settings', '/vocabulary', '/sessions'].includes(pathname)) return pathname
-  if (/^\/sessions\/[^/]+$/.test(pathname)) return pathname
-  if (/^\/vocabulary\/-?\d+\/edit$/.test(pathname)) return pathname
-  return '/progression'
-}
-
-function routeFromBrowserLocation(): RouteLocation {
-  const basePath = import.meta.env.BASE_URL.replace(/\/$/, '')
-  const pathname = window.location.pathname.startsWith(basePath)
-    ? window.location.pathname.slice(basePath.length) || '/'
-    : window.location.pathname
-  const handoffRoute = pathname === '/' ? new URLSearchParams(window.location.search).get('route') : null
-  const vocabularyEditReturnPath = typeof window.history.state?.vocabularyEditReturnPath === 'string'
-    ? window.history.state.vocabularyEditReturnPath
-    : undefined
-
-  const sessionDetailsReturnPath = typeof window.history.state?.sessionDetailsReturnPath === 'string'
-    ? window.history.state.sessionDetailsReturnPath
-    : undefined
-
-  if (handoffRoute !== null) {
-    const recoveredRoute = routeLocationFromHandoff(handoffRoute)
-    if (recoveredRoute !== undefined) return { ...recoveredRoute, vocabularyEditReturnPath, sessionDetailsReturnPath }
-  }
-
-  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash, vocabularyEditReturnPath, sessionDetailsReturnPath }
-}
-
-function routeLocationFromHandoff(handoffRoute: string): RouteLocation | undefined {
-  try {
-    const handoffUrl = new URL(handoffRoute, window.location.origin)
-    if (handoffUrl.origin !== window.location.origin || !handoffUrl.pathname.startsWith('/')) return undefined
-    return { path: normalizePath(handoffUrl.pathname), search: handoffUrl.search, hash: handoffUrl.hash }
-  } catch {
-    return undefined
-  }
-}
-
-function routeLocationFromRoute(route: string): RouteLocation {
-  const routeUrl = new URL(route, window.location.origin)
-  return { path: normalizePath(routeUrl.pathname), search: routeUrl.search, hash: routeUrl.hash }
-}
-
-function routeHrefFromLocation(location: RouteLocation): string {
-  return `${location.path}${location.search}${location.hash}`
-}
-
-function browserUrlFromRouteLocation(location: RouteLocation): string {
-  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${routeHrefFromLocation(location)}`
 }
 
 function LoadingView() {
