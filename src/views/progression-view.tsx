@@ -70,12 +70,12 @@ export function ProgressionView({ learningData, onStartSession, onChangeWordStat
         </ProgressionList>
         <ProgressionList emptyMessage={t('noLearningVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=learning')} title={t('learningVocabulary')}>
           {learningVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
+            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
           ))}
         </ProgressionList>
         <ProgressionList emptyMessage={t('noKnownVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=known')} title={t('knownVocabulary')}>
           {knownVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
+            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
           ))}
         </ProgressionList>
       </div>
@@ -96,7 +96,7 @@ function ProgressionList({ title, emptyMessage, children, onShowMore }: Progress
   const visibleChildren = onShowMore === undefined && isExpanded ? children : children.slice(0, initiallyVisibleRows)
 
   return (
-    <section aria-labelledby={`${title}-heading`} className="rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <section aria-labelledby={`${title}-heading`} className="rounded-2xl border border-slate-200 bg-white shadow-sm lg:flex lg:flex-col">
       <div className="flex items-center justify-between gap-4 px-6 py-5 sm:px-8">
         <h2 className="text-xl font-bold tracking-tight text-slate-950" id={`${title}-heading`}>
           {title}
@@ -107,9 +107,9 @@ function ProgressionList({ title, emptyMessage, children, onShowMore }: Progress
         <p className="border-t border-slate-100 px-6 py-8 text-slate-600 sm:px-8">{emptyMessage}</p>
       ) : (
         <>
-          <ol className="divide-y divide-slate-100 border-t border-slate-100">{visibleChildren}</ol>
+          <ol className={`divide-y divide-slate-100 border-t border-slate-100 ${children.length > initiallyVisibleRows ? 'border-b' : ''}`}>{visibleChildren}</ol>
           {children.length > initiallyVisibleRows ? (
-            <div className="border-t border-slate-100 px-6 py-4 sm:px-8">
+            <div className="px-6 py-4 sm:px-8 lg:mt-auto">
               <button
                 className="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100"
                 type="button"
@@ -145,20 +145,20 @@ function RecentSessionRow({ interfaceLanguage, onOpenDetails, session }: { inter
   return (
     <li className="space-y-4 px-6 py-5 sm:px-8">
       <div>
-        <p className="font-semibold text-slate-950">{t(sessionTypeMessageKeys[session.type])}</p>
-        <p className="mt-1 text-sm text-slate-600">{formatDateTime(session.startedAt, interfaceLanguage)}</p>
-      </div>
-      <dl className={`grid gap-3 text-sm text-slate-600 ${assessmentSummary.length === 3 ? 'grid-cols-2' : 'grid-cols-3'}`}>
-        <div>
-          <dt>{t('completedEntries')}</dt>
-          <dd className="mt-1 font-semibold text-slate-950">{session.settings.itemLimit === undefined && session.endReason === sessionEndReasons.userEnded ? completedEntries.length : `${completedEntries.length} / ${session.entries.length}`}</dd>
+        <div className="flex items-center justify-between gap-4">
+          <p className="min-w-0 font-semibold text-slate-950">{t(sessionTypeMessageKeys[session.type])}</p>
+          <button className="shrink-0 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={() => onOpenDetails(session.id)}>{t('details')}</button>
         </div>
-        {assessmentSummary.map((assessment) => <div key={assessment.label}><dt>{assessment.label}</dt><dd className="mt-1 font-semibold text-slate-950">{assessment.value}</dd></div>)}
-      </dl>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm font-medium text-slate-700">{t(sessionStatusMessageKeys[session.endReason ?? sessionEndReasons.userEnded])}</p>
-        <button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={() => onOpenDetails(session.id)}>{t('details')}</button>
+        <p className="mt-1 text-sm text-slate-600">{formatSessionDateTime(session, interfaceLanguage)}</p>
+        <p className="mt-1 text-sm text-slate-600">{t(sessionStatusMessageKeys[session.endReason ?? sessionEndReasons.userEnded])}</p>
       </div>
+      <dl className={`grid gap-x-3 gap-y-1 text-sm text-slate-600 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere ${assessmentSummary.length === 3 ? 'grid-cols-4' : 'grid-cols-3'}`}>
+        <div>
+          <dt>{t('done')}</dt>
+          <dd className="whitespace-nowrap font-semibold text-slate-950">{session.settings.itemLimit === undefined && session.endReason === sessionEndReasons.userEnded ? completedEntries.length : `${completedEntries.length} / ${session.entries.length}`}</dd>
+        </div>
+        {assessmentSummary.map((assessment) => <div key={assessment.label}><dt>{assessment.label}</dt><dd className="font-semibold text-slate-950">{assessment.value}</dd></div>)}
+      </dl>
     </li>
   )
 }
@@ -308,4 +308,17 @@ function getGermanHeadword(vocabularyItem: ResolvedVocabularyItemData): string {
 
 function formatDateTime(timestamp: string, interfaceLanguage: string): string {
   return new Intl.DateTimeFormat(interfaceLanguage, { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(timestamp))
+}
+
+function formatSessionDateTime(session: SessionData, interfaceLanguage: string): string {
+  const startedAt = formatDateTime(session.startedAt, interfaceLanguage)
+  if (session.endedAt === undefined) return startedAt
+
+  const start = new Date(session.startedAt)
+  const end = new Date(session.endedAt)
+  const sameDate = start.getFullYear() === end.getFullYear() && start.getMonth() === end.getMonth() && start.getDate() === end.getDate()
+  const endOptions: Intl.DateTimeFormatOptions = sameDate
+    ? { timeStyle: 'short' }
+    : { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }
+  return `${startedAt} → ${new Intl.DateTimeFormat(interfaceLanguage, endOptions).format(end)}`
 }
