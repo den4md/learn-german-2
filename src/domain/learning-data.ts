@@ -174,7 +174,7 @@ export class LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
     const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
-    const afterRecord = beforeRecord.withSessionSelfAssessment(activeSession.type, selfAssessment, entry.selfAssessment)
+    const afterRecord = beforeRecord.withSessionSelfAssessment(activeSession.type, selfAssessment, entry.selfAssessment, assessedAt)
     const nextActiveSession = activeSession.assessEntry(entryIndex, selfAssessment, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
     const records = this.replaceVocabularyLearningRecord(afterRecord)
 
@@ -211,7 +211,7 @@ export class LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
     const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
-    const afterRecord = beforeRecord.withManualWordState(wordState, entry.selfAssessment)
+    const afterRecord = beforeRecord.withManualWordState(wordState, entry.selfAssessment, assessedAt)
     const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
     const records = this.replaceVocabularyLearningRecord(afterRecord)
 

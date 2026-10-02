@@ -108,6 +108,8 @@ export class SessionSettings {
         { source: orderingSources.cefrLevel, direction: orderingDirections.ascending },
         { source: orderingSources.wordType, direction: orderingDirections.none },
         { source: orderingSources.vocabularyItem, direction: orderingDirections.ascending },
+        { source: orderingSources.favouriteStatus, direction: orderingDirections.none },
+        { source: orderingSources.lastUpdated, direction: orderingDirections.none },
       ],
       firstCardSide: cardSides.german,
       nounGermanSideHeaderFields: [...allNounGermanSideHeaderFields],

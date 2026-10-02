@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { allCefrLevels, allWordTypes, cardSides, favouriteStatusFilters, orderingDirections, orderingSources, sessionTypes, wordTypes } from '../domain/constants'
+import { allCefrLevels, allWordTypes, cardSides, favouriteStatusFilters, orderingDirections, sessionTypes, wordTypes } from '../domain/constants'
 import type { Dispatch, SetStateAction } from 'react'
-import type { CefrLevel, FavouriteStatusFilter, OrderingDirection, OrderingSource, SessionType, WordType } from '../domain/constants'
+import type { CefrLevel, OrderingDirection, OrderingSource, SessionType, WordType } from '../domain/constants'
 import { sessionId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import { Session, SessionSettings } from '../domain/session'
@@ -9,6 +9,8 @@ import type { SessionSettingsData } from '../domain/session'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
+
+import { CollapsibleControls, FavouriteFilter, SortingOptions } from '../components/browse-controls'
 
 interface SessionSetupViewProps {
   learningData: LearningData
@@ -23,6 +25,12 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
     ...SessionSettings.createDefault().toData(),
     itemLimit: 10,
   }))
+  const [favourites, setFavourites] = useState<boolean[]>([true, false])
+  const toggleFavourite = (value: boolean) => {
+    const nextValues = toggleValue(favourites, value)
+    setFavourites(nextValues)
+    setSettings((currentSettings) => ({ ...currentSettings, favouriteStatusFilter: nextValues.length === 1 ? nextValues[0] ? favouriteStatusFilters.favourites : favouriteStatusFilters.nonFavourites : favouriteStatusFilters.all }))
+  }
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const [startFailure, setStartFailure] = useState<'no-matching-items' | 'active-session' | undefined>()
 
@@ -107,41 +115,29 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
           </div>
         </fieldset>
 
-        <fieldset className="border-t border-slate-200 pt-8">
-          <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
-          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
-          <label className="mt-4 flex w-fit cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 has-checked:border-blue-600 has-checked:bg-blue-50">
-            <input checked={isShuffled(settings.orderingSources)} type="checkbox" onChange={toggleShuffled} />
-            {t('shuffled')}
-          </label>
-          <div className="mt-4 space-y-3">
-            {settings.orderingSources.map((orderingSource, index) => (
-              <div className="grid gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
-                <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
-                <select className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" value={orderingSource.direction} onChange={(event) => changeOrderingDirection(orderingSource.source, event.target.value as OrderingDirection)}>
-                  <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
-                </select>
-                <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => moveOrderingSource(index, index - 1, setSettings)}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === settings.orderingSources.length - 1} type="button" onClick={() => moveOrderingSource(index, index + 1, setSettings)}><span aria-hidden="true">⬇️</span></button></div>
-              </div>
-            ))}
-          </div>
-        </fieldset>
-
-        <fieldset className="border-t border-slate-200 pt-8">
-          <legend className="text-lg font-bold text-slate-950">{t('filters')}</legend>
-          <div className="mt-4 grid gap-6 md:grid-cols-2">
+        <CollapsibleControls defaultExpanded title={t('filters')}>
+          <div className="grid gap-6 md:grid-cols-2">
             <CheckboxGroup label={t('cefrLevels')} values={allCefrLevels} selectedValues={settings.cefrLevels} onToggle={toggleCefrLevel} />
             <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} values={allWordTypes} selectedValues={settings.wordTypes} onToggle={toggleWordType} />
           </div>
-          <label className="mt-6 block max-w-xs text-sm font-semibold text-slate-700">
-            <span>{t('favouriteStatus')}</span>
-            <select className="mt-2 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" value={settings.favouriteStatusFilter} onChange={(event) => setSettings((currentSettings) => ({ ...currentSettings, favouriteStatusFilter: event.target.value as FavouriteStatusFilter }))}>
-              <option value={favouriteStatusFilters.all}>{t('allItems')}</option>
-              <option value={favouriteStatusFilters.favourites}>{t('favouritesOnly')}</option>
-              <option value={favouriteStatusFilters.nonFavourites}>{t('nonFavouritesOnly')}</option>
-            </select>
+          <FavouriteFilter selectedValues={favourites} onToggle={toggleFavourite} />
+        </CollapsibleControls>
+
+        <CollapsibleControls defaultExpanded title={t('sorting')}>
+          <p className="text-sm leading-6 text-slate-600">{t('sortingDescription')}</p>
+          <label className="flex w-fit cursor-pointer items-center gap-2 text-sm font-semibold text-slate-700">
+            <input checked={isShuffled(settings.orderingSources)} className="accent-blue-700" type="checkbox" onChange={toggleShuffled} />
+            {t('shuffled')}
           </label>
-        </fieldset>
+          <div className="space-y-4">
+            {settings.orderingSources.map((orderingSource, index) => (
+              <SortingOptions key={orderingSource.source} source={orderingSource.source} direction={orderingSource.direction}
+                onChange={(direction) => changeOrderingDirection(orderingSource.source, direction)}
+                onMoveEarlier={index === 0 ? undefined : () => moveOrderingSource(index, index - 1, setSettings)}
+                onMoveLater={index === settings.orderingSources.length - 1 ? undefined : () => moveOrderingSource(index, index + 1, setSettings)} />
+            ))}
+          </div>
+        </CollapsibleControls>
 
         <fieldset className="border-t border-slate-200 pt-8">
           <legend className="text-lg font-bold text-slate-950">{t('cardAndLimit')}</legend>
@@ -200,14 +196,6 @@ function CheckboxGroup<T extends string>({ label, labels, values, selectedValues
 function toggleValue<T>(values: T[], value: T): T[] {
   return values.includes(value) ? values.filter((candidate) => candidate !== value) : [...values, value]
 }
-
-const orderingSourceMessageKeys = { [orderingSources.cefrLevel]: 'cefrLevels', [orderingSources.wordType]: 'wordTypes', [orderingSources.vocabularyItem]: 'vocabulary', [orderingSources.favouriteStatus]: 'favouriteStatus' } as const
-const orderingDirectionMessageKeys = {
-  [orderingSources.cefrLevel]: { [orderingDirections.ascending]: 'ascendingCefrLevels', [orderingDirections.descending]: 'descendingCefrLevels' },
-  [orderingSources.wordType]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
-  [orderingSources.vocabularyItem]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
-  [orderingSources.favouriteStatus]: { [orderingDirections.ascending]: 'ascendingFavouriteStatus', [orderingDirections.descending]: 'descendingFavouriteStatus' },
-} as const
 
 function createDefaultOrderingSources(): SessionSettingsData['orderingSources'] {
   return SessionSettings.createDefault().toData().orderingSources

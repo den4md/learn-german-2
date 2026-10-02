@@ -11,8 +11,11 @@ import {
   sessionResultStateFromSearch,
   sessionSearchFromResultState,
   sessionStatuses,
+  sessionSizes,
 } from './session-results'
 import type { SessionResultState } from './session-results'
+
+import { CollapsibleControls } from '../components/browse-controls'
 
 interface SessionsViewProps {
   learningData: LearningData
@@ -30,7 +33,7 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
   const currentPage = Math.min(routeState.page, pageCount)
   const canonicalSearch = sessionSearchFromResultState({ ...routeState, page: currentPage })
   const visibleSessions = sessions.slice((currentPage - 1) * resultPageSize, currentPage * resultPageSize)
-  const activeFilterGroupCount = [routeState.types.length > 0, routeState.statuses.length > 0, Boolean(routeState.from || routeState.to), routeState.size !== 'all'].filter(Boolean).length
+  const activeFilterGroupCount = [routeState.types.length > 0 && routeState.types.length < Object.values(sessionTypes).length, routeState.statuses.length > 0 && routeState.statuses.length < sessionStatuses.length, Boolean(routeState.from || routeState.to), routeState.sizes.length === 1].filter(Boolean).length
 
   useEffect(() => {
     if (locationSearch !== canonicalSearch) onNavigate(`/sessions${canonicalSearch}`, true)
@@ -45,16 +48,8 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
     <div className="space-y-6">
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <h2 className="text-2xl font-bold tracking-tight text-slate-950">{t('sessions')}</h2>
-        <details className="group mt-6 border-t border-slate-200">
-          <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-lg py-3 text-sm font-semibold text-blue-700 outline-none hover:text-blue-800 focus-visible:ring-4 focus-visible:ring-blue-100 [&::-webkit-details-marker]:hidden">
-            <span className="flex min-w-0 flex-wrap items-center gap-3">
-              <span>{t('filtersAndSorting')}</span>
-              {activeFilterGroupCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium">{t('activeFilterGroups')}: {activeFilterGroupCount}</span> : null}
-              {routeState.order === 'oldest' ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium">{t('oldestStartedFirst')}</span> : null}
-            </span>
-            <svg aria-hidden="true" className="mt-0.5 size-4 shrink-0 group-open:rotate-90" fill="none" viewBox="0 0 16 16"><path d="m6 3 5 5-5 5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" /></svg>
-          </summary>
-          <div className="grid gap-6 pt-3">
+        <div className="mt-6 grid gap-3">
+          <CollapsibleControls title={t('filters')} badge={activeFilterGroupCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">{t('activeFilterGroups')}: {activeFilterGroupCount}</span> : undefined}>
             <div className="grid gap-6 md:grid-cols-2">
               <fieldset>
                 <legend className="text-sm font-semibold text-slate-700">{t('sessionType')}</legend>
@@ -69,6 +64,12 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
                 </div>
               </fieldset>
             </div>
+            <fieldset>
+              <legend className="text-sm font-semibold text-slate-700">{t('sessionSize')}</legend>
+              <div className="mt-3 flex flex-wrap gap-4">
+                {sessionSizes.map((size) => <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-700" key={size}><input checked={routeState.sizes.includes(size)} className="accent-blue-700" type="checkbox" onChange={() => changeResultState({ sizes: routeState.sizes.includes(size) ? routeState.sizes.filter((value) => value !== size) : [...routeState.sizes, size] })} />{t(size === 'limited' ? 'limited' : 'unlimited')}</label>)}
+              </div>
+            </fieldset>
             <fieldset key={`${routeState.from}/${routeState.to}`}>
               <legend className="text-sm font-semibold text-slate-700">{t('sessionStartDate')}</legend>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
@@ -77,22 +78,16 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
               </div>
               <p className="mt-2 text-sm text-slate-500">{t('sessionDateRangeHint')}</p>
             </fieldset>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <label className="grid gap-2 text-sm font-semibold text-slate-700">
-                {t('sessionSize')}
-                <select className="min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" value={routeState.size} onChange={(event) => changeResultState({ size: event.target.value as SessionResultState['size'] })}>
-                  <option value="all">{t('allSessions')}</option><option value="limited">{t('limited')}</option><option value="unlimited">{t('unlimited')}</option>
-                </select>
-              </label>
-              <label className="grid gap-2 text-sm font-semibold text-slate-700">
-                {t('sorting')}
-                <select className="min-w-0 rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" value={routeState.order} onChange={(event) => changeResultState({ order: event.target.value as SessionResultState['order'] })}>
-                  <option value="newest">{t('newestStartedFirst')}</option><option value="oldest">{t('oldestStartedFirst')}</option>
-                </select>
-              </label>
-            </div>
-          </div>
-        </details>
+          </CollapsibleControls>
+          <CollapsibleControls title={t('sorting')} badge={routeState.order === 'oldest' ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">{t('oldestStartedFirst')}</span> : undefined}>
+            <fieldset>
+              <legend className="text-sm font-semibold text-slate-700">{t('sessionStartDate')}</legend>
+              <div className="mt-3 flex flex-wrap gap-4">
+                {(['newest', 'oldest'] as const).map((order) => <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-700" key={order}><input checked={routeState.order === order} className="accent-blue-700" name="session-start-sorting" type="radio" value={order} onChange={() => changeResultState({ order })} />{t(order === 'newest' ? 'newestStartedFirst' : 'oldestStartedFirst')}</label>)}
+              </div>
+            </fieldset>
+          </CollapsibleControls>
+        </div>
         {canonicalSearch ? <button className="mt-5 w-fit rounded-lg font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => onNavigate(`/sessions${sessionSearchFromResultState(emptySessionResultState())}`)} type="button">{t('resetFilters')}</button> : null}
       </section>
       <section aria-labelledby="sessions-results-title" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">

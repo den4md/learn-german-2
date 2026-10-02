@@ -51,7 +51,7 @@ The stable integer identifier assigned by the app to a Vocabulary item. A Defaul
 _Avoid_: source ID, MongoDB ID
 
 **Vocabulary learning record**:
-The user's sparse record for one Vocabulary item. It references either a Default vocabulary item or a User-added vocabulary item, and stores the item's Word state, Learning score, Learning statistics, Favourite status, and optional complete replacements for German text or Russian translations. Its absence for a Default vocabulary item means New, score and statistics of zero, and not favourite.
+The user's sparse record for one Vocabulary item. It references either a Default vocabulary item or a User-added vocabulary item, and stores the item's Word state, Learning score, Learning statistics, Favourite status, Last updated time, and optional complete replacements for German text or Russian translations. Its absence for a Default vocabulary item means New, score and statistics of zero, and not favourite.
 _Avoid_: personal vocabulary override, user-specific word, word object
 
 **Favourite status**:
@@ -59,16 +59,20 @@ A user-owned marker in a Vocabulary learning record. It does not affect the item
 _Avoid_: rating, priority
 
 **Favourite-status filter**:
-The session setting that selects all vocabulary items, favourites only, or non-favourites only.
+The filter that selects all vocabulary items, favourites only, or non-favourites only. Include favourites and Include non-favourites are independent choices; selecting neither or both includes all items.
 _Avoid_: favourite ordering
 
 **Vocabulary filter**:
-A temporary criterion used only to browse Vocabulary items. A user may filter by search text, CEFR level, Word type, Word state, or Favourite status. Multiple selected CEFR levels or Word types match any selected value, while different criteria narrow the same result set. A Vocabulary filter is neither a Preference nor a Session setting.
+A temporary criterion used only to browse Vocabulary items. A user may filter by search text, CEFR level, Word type, Word state, or Favourite status. Multiple selected values in one criterion match any selected value, while different criteria narrow the same result set. Selecting no values or all values leaves that criterion unrestricted. A Vocabulary filter is neither a Preference nor a Session setting.
 _Avoid_: session filter, saved filter
 
-**Vocabulary ordering**:
-A temporary, prioritised order for Vocabulary results. It uses CEFR level, Word type, Vocabulary item, and Favourite status as sources; each source may have no sorting, ascending, or descending direction. With no active source, results retain their imported Default-vocabulary-set order. Vocabulary ordering does not shuffle results.
-_Avoid_: Session ordering, sort preset
+**Vocabulary sorting**:
+A temporary, prioritised order for Vocabulary results. It uses CEFR level, Word type, German translation, Favourite status, and Last updated as criteria; each criterion may have no sorting or one of two directions. German translation sorts the German headword alphabetically. Word type sorts adjective, noun, verb or the reverse. With no active criterion, results retain their imported Default-vocabulary-set order. Vocabulary sorting does not shuffle results.
+_Avoid_: Vocabulary ordering, Session sorting, sort preset
+
+**Last updated**:
+The most recent time a Vocabulary item's Word state changed or the user recorded or replaced a Self-assessment for it. Changing Favourite status, German text, or Russian translations, or merely showing a card, does not change this time. Items without a recorded time count as oldest when sorting.
+_Avoid_: last edit, last shown
 
 **Vocabulary item**:
 One German word or expression in a vocabulary set. It contains grammatical and translation data appropriate to its Word type, but no user's learning state or progress.
@@ -143,16 +147,16 @@ The default main view, showing recent Sessions including the Active session, Lea
 _Avoid_: dashboard, analytics
 
 **Sessions view**:
-The browsing view for ended Sessions and the optional Active session, with filters, ordering, and paginated results. It shares the Progression view's Session summaries and provides Continue for an Active session and Details for an ended Session.
+The browsing view for ended Sessions and the optional Active session, with filters, sorting, and paginated results. It shares the Progression view's Session summaries and provides Continue for an Active session and Details for an ended Session.
 _Avoid_: session dashboard, completed-sessions view
 
 **Session filter**:
 A temporary browsing criterion for Session type, status, start date, or Limited versus Unlimited size. Values selected within one criterion match any selected value, while different criteria narrow the same results; start-date endpoints are independently optional and include the entire local calendar day.
 _Avoid_: Session setting, saved preference
 
-**Session ordering**:
+**Session sorting**:
 The temporary start-date order of Sessions in the Sessions view, either newest first or oldest first. The default is newest first, and the Active session follows the same order as ended Sessions.
-_Avoid_: Session-entry ordering, Ordering source
+_Avoid_: Session ordering, Session-entry sorting, Sorting criterion
 
 **Daily streak**:
 The user's consecutive streak days, calculated from Daily streak history. A UTC date meets the V1 streak goal after five distinct correct Session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the user, may configure a different goal in a later version.
@@ -201,7 +205,7 @@ A Session that presents Known Vocabulary items for continued recall.
 _Avoid_: review mode
 
 **Session settings**:
-The user's choices for one Session: its CEFR-level, Word-type, and Favourite-status filters; ordering sources; item limit; card side shown first; and selected German-side header fields for nouns and verbs.
+The user's choices for one Session: its CEFR-level, Word-type, and Favourite-status filters; Sorting criteria; item limit; card side shown first; and selected German-side header fields for nouns and verbs. Selecting no values or all values in a checkbox filter leaves that criterion unrestricted.
 _Avoid_: global preferences, session type
 
 **Item limit**:
@@ -212,9 +216,9 @@ _Avoid_: page size, batch size
 A Session with an Item limit. It selects one ordered, fixed list of matching Vocabulary items when it starts and completes when every Session entry has a Self-assessment. An item stays in its fixed list even when it later stops matching the Session settings, except when it becomes Excluded. A user-ended Limited session discards unpresented items in its fixed list. No matching item produces a No-matching-items start failure.
 _Avoid_: normal session, capped session
 
-**Ordering source**:
-One criterion that orders Session entries, selected from CEFR level, Word type, Vocabulary item, and Favourite status. The user sets the order in which the sources apply and sets each source to no sorting, ascending, descending, or shuffle. No sorting leaves items in their imported Default-vocabulary-set order unless another Ordering source reorders them. If every source has no sorting, the app shuffles all matching items. An Unlimited session reapplies its Ordering sources when it selects a Candidate page; shuffle randomizes each new page, while a selected page keeps its order. The default order is CEFR level ascending, Word type with no sorting, and Vocabulary item ascending.
-_Avoid_: sort preset, priority
+**Sorting criterion**:
+One criterion that sorts Session entries, selected from CEFR level, Word type, German translation, Favourite status, and Last updated. The user sets the priority of the criteria and sets each to no sorting or one of two directions. If every criterion has no sorting, the app shuffles all matching items. An Unlimited session reapplies its Sorting criteria when it selects a Candidate page; shuffle randomizes each new page, while a selected page keeps its order. The default is CEFR level A1 to C1, then German translation A to Z, with all other criteria inactive.
+_Avoid_: Ordering source, sort preset
 
 **Candidate page**:
 A snapshot of up to ten Vocabulary items selected for an Unlimited session before it presents them. It selects items that match the Session settings when the page is created and excludes every item the Session has already presented. Before presenting a candidate, the Session drops it when it no longer matches its Session settings. A candidate becomes a Session entry only when the Session presents it.

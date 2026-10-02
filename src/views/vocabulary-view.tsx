@@ -10,6 +10,9 @@ import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
 import { ResultPagination, resultPageSize } from '../components/result-pagination'
 
+import { CollapsibleControls, FavouriteFilter, SortingOptions } from '../components/browse-controls'
+import { compareVocabularyItems } from '../domain/vocabulary-sorting'
+
 interface VocabularyViewProps {
   learningData: LearningData
   locationSearch: string
@@ -62,10 +65,11 @@ export function VocabularyView({
     calculatedCurrentPage * resultPageSize,
   )
   const routeSearch = vocabularySearchFromResultState(routeState)
-  const activeFilterGroupCount = Number(routeState.cefrLevels.length > 0)
-    + Number(routeState.wordTypes.length > 0)
-    + Number(routeState.wordState !== undefined)
-    + Number(routeState.favourite !== undefined)
+  const activeSortingCount = routeState.orderingSources.filter((source) => source.direction !== orderingDirections.none).length
+  const activeFilterGroupCount = Number(routeState.cefrLevels.length > 0 && routeState.cefrLevels.length < allCefrLevels.length)
+    + Number(routeState.wordTypes.length > 0 && routeState.wordTypes.length < allWordTypes.length)
+    + Number(routeState.wordStates.length > 0 && routeState.wordStates.length < Object.values(wordStates).length)
+    + Number(routeState.favourites.length === 1)
   useEffect(() => {
     if (resultPageSnapshot !== undefined && resultPageSnapshot.routeSearch !== routeSearch) setResultPageSnapshot(undefined)
   }, [resultPageSnapshot, routeSearch])
@@ -129,58 +133,25 @@ export function VocabularyView({
               value={query}
             />
           </label>
-          <details className="group border-t border-slate-200">
-            <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-lg py-3 text-sm font-semibold text-blue-700 outline-none hover:text-blue-800 focus-visible:ring-4 focus-visible:ring-blue-100 [&::-webkit-details-marker]:hidden">
-              <span className="flex min-w-0 flex-wrap items-center gap-3">
-                <span>{t('filtersAndOrdering')}</span>
-                {activeFilterGroupCount > 0 || routeState.orderingSources.length > 0 ? (
-                  <span className="flex flex-wrap gap-2 text-xs font-medium">
-                    {activeFilterGroupCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1">{t('activeFilterGroups')}: {activeFilterGroupCount}</span> : null}
-                    {routeState.orderingSources.length > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1">{t('activeOrderingSources')}: {routeState.orderingSources.length}</span> : null}
-                  </span>
-                ) : null}
-              </span>
-              <svg aria-hidden="true" className="mt-0.5 size-4 shrink-0 group-open:rotate-90" fill="none" viewBox="0 0 16 16">
-                <path d="m6 3 5 5-5 5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
-              </svg>
-            </summary>
-            <div className="grid gap-6 pt-3">
-              <div className="grid gap-6 md:grid-cols-2">
-                <CheckboxGroup label={t('cefrLevels')} selectedValues={routeState.cefrLevels} values={allCefrLevels} onToggle={(level) => changeResultState({ cefrLevels: toggleValue(routeState.cefrLevels, level) })} />
-                <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} selectedValues={routeState.wordTypes} values={allWordTypes} onToggle={(wordType) => changeResultState({ wordTypes: toggleValue(routeState.wordTypes, wordType) })} />
-              </div>
-              <div className="grid gap-4 md:grid-cols-2">
-                <label className="grid gap-2 text-sm font-semibold text-slate-700">
-                  {t('wordState')}
-                  <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ wordState: event.target.value === 'all' ? undefined : event.target.value as WordState })} value={routeState.wordState ?? 'all'}>
-                    <option value="all">{t('allVocabularyItems')}</option>
-                    {Object.values(wordStates).map((wordState) => <option key={wordState} value={wordState}>{t(wordStateMessageKeys[wordState])}</option>)}
-                  </select>
-                </label>
-                <label className="grid gap-2 text-sm font-semibold text-slate-700">
-                  {t('favouriteStatus')}
-                  <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ favourite: event.target.value === 'all' ? undefined : event.target.value === 'true' })} value={routeState.favourite === undefined ? 'all' : String(routeState.favourite)}>
-                    <option value="all">{t('allItems')}</option><option value="true">{t('favouritesOnly')}</option><option value="false">{t('nonFavouritesOnly')}</option>
-                  </select>
-                </label>
-              </div>
-              <fieldset className="min-w-0 border-t border-slate-200 pt-6">
-                <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
-                <div className="mt-4 space-y-3">
-                  {toVocabularyOrderingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
-                    <div className="grid min-w-0 grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
-                      <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
-                      <select className="min-w-0 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
-                        <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
-                      </select>
-                      <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === allOrderingSources.length - 1} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })}><span aria-hidden="true">⬇️</span></button></div>
-                    </div>
-                  ))}
-                </div>
-              </fieldset>
+          <CollapsibleControls title={t('filters')} badge={activeFilterGroupCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">{t('activeFilterGroups')}: {activeFilterGroupCount}</span> : undefined}>
+            <div className="grid gap-6 md:grid-cols-2">
+              <CheckboxGroup label={t('cefrLevels')} selectedValues={routeState.cefrLevels} values={allCefrLevels} onToggle={(level) => changeResultState({ cefrLevels: toggleValue(routeState.cefrLevels, level) })} />
+              <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} selectedValues={routeState.wordTypes} values={allWordTypes} onToggle={(wordType) => changeResultState({ wordTypes: toggleValue(routeState.wordTypes, wordType) })} />
+              <CheckboxGroup label={t('wordState')} labels={Object.fromEntries(Object.values(wordStates).map((state) => [state, t(wordStateMessageKeys[state])]))} selectedValues={routeState.wordStates} values={Object.values(wordStates)} onToggle={(state) => changeResultState({ wordStates: toggleValue(routeState.wordStates, state) })} />
+              <FavouriteFilter selectedValues={routeState.favourites} onToggle={(value) => changeResultState({ favourites: toggleValue(routeState.favourites, value) })} />
             </div>
-          </details>
+          </CollapsibleControls>
+          <CollapsibleControls title={t('sorting')} badge={activeSortingCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-700">{t('activeSortings')}: {activeSortingCount}</span> : undefined}>
+            <p className="text-sm leading-6 text-slate-600">{t('sortingDescription')}</p>
+            <div className="space-y-4">
+              {toVocabularySortingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
+                <SortingOptions key={orderingSource.source} source={orderingSource.source} direction={orderingSource.direction}
+                  onChange={(direction) => changeResultState({ orderingSources: vocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction } : source)) })}
+                  onMoveEarlier={index === 0 ? undefined : () => changeResultState({ orderingSources: vocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}
+                  onMoveLater={index === allOrderingSources.length - 1 ? undefined : () => changeResultState({ orderingSources: vocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })} />
+              ))}
+            </div>
+          </CollapsibleControls>
           {routeSearch === '' && query.trim() === '' ? null : <button className="w-fit font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => { setQuery(''); navigateResultState(createEmptyVocabularyResultState()) }} type="button">{t('resetFilters')}</button>}
         </div>
       </section>
@@ -203,7 +174,7 @@ export function VocabularyView({
                   item={item}
                   key={item.id}
                   onChangeFavouriteStatus={(vocabularyItemId, isFavourite) => { updateSnapshotAfterItemChange({ ...item, isFavourite }); onChangeFavouriteStatus(vocabularyItemId, isFavourite) }}
-                  onChangeWordState={(vocabularyItemId, wordState) => { updateSnapshotAfterItemChange({ ...item, wordState }); onChangeWordState(vocabularyItemId, wordState) }}
+                  onChangeWordState={(vocabularyItemId, wordState) => { updateSnapshotAfterItemChange({ ...item, wordState, lastUpdatedAt: wordState === item.wordState ? item.lastUpdatedAt : new Date().toISOString() }); onChangeWordState(vocabularyItemId, wordState) }}
                   onEditVocabularyItem={onEditVocabularyItem}
                 />
               ))}
@@ -216,18 +187,18 @@ export function VocabularyView({
   )
 }
 
-interface VocabularyOrderingSource {
-  direction: typeof orderingDirections.ascending | typeof orderingDirections.descending
+interface VocabularySortingSource {
+  direction: typeof orderingDirections.none | typeof orderingDirections.ascending | typeof orderingDirections.descending
   source: OrderingSource
 }
 
 interface VocabularyResultState {
   cefrLevels: CefrLevel[]
-  favourite: boolean | undefined
-  orderingSources: VocabularyOrderingSource[]
+  favourites: boolean[]
+  orderingSources: VocabularySortingSource[]
   page: number
   query: string
-  wordState: WordState | undefined
+  wordStates: WordState[]
   wordTypes: WordType[]
 }
 
@@ -240,31 +211,31 @@ interface ResultPageSnapshot {
 }
 
 function createEmptyVocabularyResultState(): VocabularyResultState {
-  return { cefrLevels: [], favourite: undefined, orderingSources: [], page: 1, query: '', wordState: undefined, wordTypes: [] }
+  return { cefrLevels: [], favourites: [], orderingSources: [], page: 1, query: '', wordStates: [], wordTypes: [] }
 }
 
 function vocabularyResultStateFromSearch(search: string): VocabularyResultState {
   const parameters = new URLSearchParams(search)
   const cefrLevelValues = parameters.getAll('level')
   const wordTypeValues = parameters.getAll('type')
-  const wordState = parameters.getAll('state').find((value): value is WordState => Object.values(wordStates).includes(value as WordState))
-  const favouriteValue = parameters.getAll('favourite').find((value) => value === 'true' || value === 'false')
+  const selectedWordStates = Object.values(wordStates).filter((state) => parameters.getAll('state').includes(state))
+  const favourites = [true, false].filter((value) => parameters.getAll('favourite').includes(String(value)))
   const pageValue = parameters.getAll('page').find((value) => /^\d+$/.test(value) && Number(value) > 0)
   const seenOrderingSources = new Set<OrderingSource>()
   const activeOrderingSources = parameters.getAll('order').flatMap((value) => {
     const [source, direction, extra] = value.split(':')
-    if (extra !== undefined || !Object.values(orderingSources).includes(source as OrderingSource) || ![orderingDirections.ascending, orderingDirections.descending].includes(direction as typeof orderingDirections.ascending | typeof orderingDirections.descending) || seenOrderingSources.has(source as OrderingSource)) return []
+    if (extra !== undefined || !Object.values(orderingSources).includes(source as OrderingSource) || ![orderingDirections.none, orderingDirections.ascending, orderingDirections.descending].includes(direction as VocabularySortingSource['direction']) || seenOrderingSources.has(source as OrderingSource)) return []
     seenOrderingSources.add(source as OrderingSource)
-    return [{ direction: direction as VocabularyOrderingSource['direction'], source: source as OrderingSource }]
+    return [{ direction: direction as VocabularySortingSource['direction'], source: source as OrderingSource }]
   })
 
   return {
     cefrLevels: allCefrLevels.filter((level) => cefrLevelValues.includes(level)),
-    favourite: favouriteValue === undefined ? undefined : favouriteValue === 'true',
+    favourites,
     orderingSources: activeOrderingSources,
     page: pageValue === undefined ? 1 : Number(pageValue),
     query: (parameters.get('q') ?? '').trim(),
-    wordState,
+    wordStates: selectedWordStates,
     wordTypes: allWordTypes.filter((wordType) => wordTypeValues.includes(wordType)),
   }
 }
@@ -274,8 +245,10 @@ function vocabularySearchFromResultState(resultState: VocabularyResultState): st
   if (resultState.query !== '') parameters.set('q', resultState.query)
   allCefrLevels.filter((level) => resultState.cefrLevels.includes(level)).forEach((level) => parameters.append('level', level))
   allWordTypes.filter((wordType) => resultState.wordTypes.includes(wordType)).forEach((wordType) => parameters.append('type', wordType))
-  if (resultState.wordState !== undefined) parameters.set('state', resultState.wordState)
-  if (resultState.favourite !== undefined) parameters.set('favourite', String(resultState.favourite))
+  Object.values(wordStates).filter((state) => resultState.wordStates.includes(state)).forEach((state) => parameters.append('state', state))
+  for (const value of [true, false]) {
+    if (resultState.favourites.includes(value)) parameters.append('favourite', String(value))
+  }
   resultState.orderingSources.forEach((orderingSource) => parameters.append('order', `${orderingSource.source}:${orderingSource.direction}`))
   if (resultState.page > 1) parameters.set('page', String(resultState.page))
   const query = parameters.toString()
@@ -284,7 +257,7 @@ function vocabularySearchFromResultState(resultState: VocabularyResultState): st
 
 function applyVocabularyResultFilters(items: ResolvedVocabularyItemData[], resultState: VocabularyResultState): ResolvedVocabularyItemData[] {
   const filteredItems = items.filter((item) => matchesVocabularyResultFilters(item, resultState))
-  if (resultState.orderingSources.length === 0) return filteredItems
+  if (resultState.orderingSources.every((source) => source.direction === orderingDirections.none)) return filteredItems
   return [...filteredItems].sort((left, right) => compareVocabularyItems(left, right, resultState.orderingSources))
 
 }
@@ -292,29 +265,12 @@ function applyVocabularyResultFilters(items: ResolvedVocabularyItemData[], resul
 function matchesVocabularyResultFilters(item: ResolvedVocabularyItemData, resultState: VocabularyResultState): boolean {
   return (resultState.cefrLevels.length === 0 || resultState.cefrLevels.includes(item.level)) &&
     (resultState.wordTypes.length === 0 || resultState.wordTypes.includes(getWordType(item))) &&
-    (resultState.wordState === undefined || item.wordState === resultState.wordState) &&
-    (resultState.favourite === undefined || item.isFavourite === resultState.favourite) &&
+    (resultState.wordStates.length === 0 || resultState.wordStates.includes(item.wordState)) &&
+    (resultState.favourites.length === 0 || resultState.favourites.includes(item.isFavourite)) &&
     (resultState.query === '' || getVocabularySearchText(item).toLocaleLowerCase().includes(resultState.query.toLocaleLowerCase()))
 }
 
-function compareVocabularyItems(left: ResolvedVocabularyItemData, right: ResolvedVocabularyItemData, activeOrderingSources: VocabularyOrderingSource[]): number {
-  for (const orderingSource of activeOrderingSources) {
-    const leftValue = getOrderingValue(left, orderingSource.source)
-    const rightValue = getOrderingValue(right, orderingSource.source)
-    const comparison = leftValue.localeCompare(rightValue, 'de')
-    if (comparison !== 0) return orderingSource.direction === orderingDirections.descending ? -comparison : comparison
-  }
-  return left.id - right.id
-}
-
-function getOrderingValue(item: ResolvedVocabularyItemData, source: OrderingSource): string {
-  if (source === orderingSources.cefrLevel) return item.level
-  if (source === orderingSources.wordType) return getWordType(item)
-  if (source === orderingSources.favouriteStatus) return String(item.isFavourite)
-  return getGermanHeadword(item)
-}
-
-function toVocabularyOrderingSources(activeOrderingSources: VocabularyOrderingSource[]): Array<{ direction: OrderingDirection; source: OrderingSource }> {
+function toVocabularySortingSources(activeOrderingSources: VocabularySortingSource[]): Array<{ direction: OrderingDirection; source: OrderingSource }> {
   return [
     ...activeOrderingSources,
     ...Object.values(orderingSources)
@@ -323,9 +279,9 @@ function toVocabularyOrderingSources(activeOrderingSources: VocabularyOrderingSo
   ]
 }
 
-function activeVocabularyOrderingSources(sources: Array<{ direction: OrderingDirection; source: OrderingSource }>): VocabularyOrderingSource[] {
+function vocabularyOrderingSources(sources: Array<{ direction: OrderingDirection; source: OrderingSource }>): VocabularySortingSource[] {
   return sources.flatMap((source) =>
-    source.direction === orderingDirections.ascending || source.direction === orderingDirections.descending
+    source.direction === orderingDirections.none || source.direction === orderingDirections.ascending || source.direction === orderingDirections.descending
       ? [{ direction: source.direction, source: source.source }]
       : [],
   )
@@ -535,18 +491,6 @@ function Metadata({ label, value }: { label: string; value: string }) {
 
 const wordTypeMessageKeys = { [wordTypes.adjective]: 'adjective', [wordTypes.noun]: 'noun', [wordTypes.verb]: 'verb' } as const
 const wordStateMessageKeys = { [wordStates.new]: 'wordStateNew', [wordStates.learning]: 'wordStateLearning', [wordStates.known]: 'wordStateKnown', [wordStates.excluded]: 'wordStateExcluded' } as const
-const orderingSourceMessageKeys = { [orderingSources.cefrLevel]: 'cefrLevels', [orderingSources.wordType]: 'wordTypes', [orderingSources.vocabularyItem]: 'vocabulary', [orderingSources.favouriteStatus]: 'favouriteStatus' } as const
-const orderingDirectionMessageKeys = {
-  [orderingSources.cefrLevel]: { [orderingDirections.ascending]: 'ascendingCefrLevels', [orderingDirections.descending]: 'descendingCefrLevels' },
-  [orderingSources.wordType]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
-  [orderingSources.vocabularyItem]: { [orderingDirections.ascending]: 'ascendingAlphabetically', [orderingDirections.descending]: 'descendingAlphabetically' },
-  [orderingSources.favouriteStatus]: { [orderingDirections.ascending]: 'ascendingFavouriteStatus', [orderingDirections.descending]: 'descendingFavouriteStatus' },
-} as const
-
-function getGermanHeadword(item: VocabularyItemData | ResolvedVocabularyItemData): string {
-  return 'nominative' in item ? item.nominative : 'positive' in item ? item.positive : item.infinitive
-}
-
 function getVocabularySearchText(item: ResolvedVocabularyItemData): string {
   return 'nominative' in item
     ? [item.nominative, item.gender, item.plural, ...item.translations].join(' ')
@@ -556,7 +500,7 @@ function getVocabularySearchText(item: ResolvedVocabularyItemData): string {
 }
 
 function toVocabularyItemData(item: ResolvedVocabularyItemData): VocabularyItemData {
-  const { wordState: _, learningScore: __, learningStatistics: ___, isFavourite: ____, ...vocabularyItem } = item
+  const { wordState: _, learningScore: __, learningStatistics: ___, isFavourite: ____, lastUpdatedAt: _____, ...vocabularyItem } = item
   return vocabularyItem
 }
 

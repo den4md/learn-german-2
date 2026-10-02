@@ -106,6 +106,7 @@ export const orderingSources = {
   wordType: 'word-type',
   vocabularyItem: 'vocabulary-item',
   favouriteStatus: 'favourite-status',
+  lastUpdated: 'last-updated',
 } as const
 
 export type OrderingSource = (typeof orderingSources)[keyof typeof orderingSources]

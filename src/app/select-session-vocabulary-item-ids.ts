@@ -1,9 +1,11 @@
-import { favouriteStatusFilters, orderingDirections, orderingSources, sessionTypes, wordStates } from '../domain/constants'
+import { favouriteStatusFilters, orderingDirections, sessionTypes, wordStates } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionSettingsData, SessionType } from '../domain/session'
 import { getWordType, resolveVocabularyItems } from '../domain/vocabulary'
-import type { DefaultVocabularySet, ResolvedVocabularyItemData } from '../domain/vocabulary'
+import type { DefaultVocabularySet } from '../domain/vocabulary'
+
+import { compareVocabularyItems } from '../domain/vocabulary-sorting'
 
 export function selectSessionVocabularyItemIds(
   learningData: LearningData,
@@ -24,8 +26,8 @@ export function selectSessionVocabularyItemIds(
 
   const matchingVocabularyItems = vocabularyItems
     .filter((vocabularyItem) => vocabularyItem.wordState === requiredWordState)
-    .filter((vocabularyItem) => settings.cefrLevels.includes(vocabularyItem.toData().level))
-    .filter((vocabularyItem) => settings.wordTypes.includes(getWordType(vocabularyItem.toData())))
+    .filter((vocabularyItem) => settings.cefrLevels.length === 0 || settings.cefrLevels.includes(vocabularyItem.toData().level))
+    .filter((vocabularyItem) => settings.wordTypes.length === 0 || settings.wordTypes.includes(getWordType(vocabularyItem.toData())))
     .filter((vocabularyItem) =>
       settings.favouriteStatusFilter === favouriteStatusFilters.all ||
       vocabularyItem.isFavourite === (settings.favouriteStatusFilter === favouriteStatusFilters.favourites),
@@ -36,39 +38,8 @@ export function selectSessionVocabularyItemIds(
   }
 
   return [...matchingVocabularyItems]
-    .sort((left, right) => compareVocabularyItems(left.toData(), right.toData(), settings))
+    .sort((left, right) => compareVocabularyItems(left.toData(), right.toData(), settings.orderingSources))
     .map((vocabularyItem) => vocabularyItem.id)
-}
-
-function compareVocabularyItems(left: ResolvedVocabularyItemData, right: ResolvedVocabularyItemData, settings: SessionSettingsData): number {
-  for (const orderingSource of settings.orderingSources) {
-    if (orderingSource.direction === orderingDirections.none || orderingSource.direction === orderingDirections.shuffle) {
-      continue
-    }
-    const leftValue = orderingSource.source === orderingSources.cefrLevel
-      ? left.level
-      : orderingSource.source === orderingSources.wordType
-        ? getWordType(left)
-        : orderingSource.source === orderingSources.favouriteStatus
-          ? String(left.isFavourite)
-          : getHeadword(left)
-    const rightValue = orderingSource.source === orderingSources.cefrLevel
-      ? right.level
-      : orderingSource.source === orderingSources.wordType
-        ? getWordType(right)
-        : orderingSource.source === orderingSources.favouriteStatus
-          ? String(right.isFavourite)
-          : getHeadword(right)
-    const comparison = leftValue.localeCompare(rightValue, 'de')
-    if (comparison !== 0) {
-      return orderingSource.direction === orderingDirections.descending ? -comparison : comparison
-    }
-  }
-  return left.id - right.id
-}
-
-function getHeadword(vocabularyItem: ResolvedVocabularyItemData): string {
-  return 'nominative' in vocabularyItem ? vocabularyItem.nominative : 'positive' in vocabularyItem ? vocabularyItem.positive : vocabularyItem.infinitive
 }
 
 function shuffle<T>(items: T[]): T[] {

@@ -72,6 +72,7 @@ export interface VocabularyLearningRecordData {
   learningScore: number
   learningStatistics: LearningStatisticsData
   isFavourite: boolean
+  lastUpdatedAt?: string
   germanText?: VocabularyItemTextData
   translations?: string[]
 }
@@ -92,6 +93,7 @@ export type ResolvedVocabularyItemData = VocabularyItemData & {
   learningScore: number
   learningStatistics: LearningStatisticsData
   isFavourite: boolean
+  lastUpdatedAt?: string
 }
 
 export class VocabularyItem {
@@ -185,10 +187,11 @@ export class VocabularyLearningRecord {
     })
   }
 
-  withWordState(wordState: WordState): VocabularyLearningRecord {
+  withWordState(wordState: WordState, changedAt = new Date().toISOString()): VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
       wordState,
+      lastUpdatedAt: wordState === this.data.wordState ? this.data.lastUpdatedAt : changedAt,
       learningScore: wordState === wordStates.new ? 0 : this.data.learningScore,
     })
   }
@@ -196,6 +199,7 @@ export class VocabularyLearningRecord {
   withManualWordState(
     wordState: WordState,
     replacedSelfAssessment?: SelfAssessment,
+    changedAt = new Date().toISOString(),
   ): VocabularyLearningRecord {
     const learningStatistics = { ...this.data.learningStatistics }
     if (replacedSelfAssessment === recallSelfAssessments.correct) {
@@ -208,6 +212,7 @@ export class VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
       wordState,
+      lastUpdatedAt: wordState !== this.data.wordState || replacedSelfAssessment !== undefined ? changedAt : this.data.lastUpdatedAt,
       learningScore: wordState === wordStates.new ? 0 : this.data.learningScore,
       learningStatistics,
     })
@@ -227,6 +232,7 @@ export class VocabularyLearningRecord {
     sessionType: SessionType,
     selfAssessment: SelfAssessment,
     replacedSelfAssessment?: SelfAssessment,
+    assessedAt = new Date().toISOString(),
   ): VocabularyLearningRecord {
     let learningStatistics = { ...this.data.learningStatistics }
 
@@ -247,12 +253,13 @@ export class VocabularyLearningRecord {
     }
 
     if (replacedSelfAssessment !== undefined) {
-      return new VocabularyLearningRecord({ ...this.data, learningStatistics })
+      return new VocabularyLearningRecord({ ...this.data, learningStatistics, lastUpdatedAt: assessedAt })
     }
 
     return new VocabularyLearningRecord({
       ...this.data,
       ...applyAutomaticStateTransition(this.data, sessionType, selfAssessment),
+      lastUpdatedAt: assessedAt,
       learningStatistics,
     })
   }
@@ -327,6 +334,7 @@ export class ResolvedVocabularyItem {
       learningScore: recordData?.learningScore ?? 0,
       learningStatistics: recordData?.learningStatistics ?? createEmptyLearningStatistics(),
       isFavourite: recordData?.isFavourite ?? false,
+      lastUpdatedAt: recordData?.lastUpdatedAt,
     })
   }
 
