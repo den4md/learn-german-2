@@ -69,7 +69,10 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
     return null
   }
 
-  const vocabularyItem = activeEntry === undefined ? undefined : vocabularyItemsById.get(activeEntry.vocabularyItemId)
+  // Keep the outgoing card mounted while an Unlimited session prepares its next entry.
+  const displayedEntryIndex = activeEntryIndex === -1 ? activeSession.toData().currentEntryIndex : activeEntryIndex
+  const displayedEntry = activeSession.entries.length === 0 ? undefined : activeSession.entryAt(displayedEntryIndex)
+  const vocabularyItem = displayedEntry === undefined ? undefined : vocabularyItemsById.get(displayedEntry.vocabularyItemId)
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
   const totalEntryCount = activeSession.isUnlimited ? completedEntryCount + activeSession.candidateVocabularyItemIds.length + (activeEntry === undefined ? 0 : 1) : activeSession.entries.length
   const closeEndSessionConfirmation = () => {
@@ -97,12 +100,12 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
       {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
-      {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : activeEntry === undefined ? null : <Flashcard activeEntryIndex={activeEntryIndex} isRevealed={activeEntry.revealedAt !== undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
+      {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard activeEntryIndex={displayedEntryIndex} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
     </section>
   )
 }
 
-function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabularyItem, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; isRevealed: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
+function Flashcard({ activeEntryIndex, isRevealed, isWaitingForNextEntry, sessionType, settings, vocabularyItem, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; isRevealed: boolean; isWaitingForNextEntry: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
   const { t } = useInterfaceLanguage()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const [areRemainingTranslationsVisible, setAreRemainingTranslationsVisible] = useState(false)
@@ -116,7 +119,7 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
   const firstSideIsGerman = settings.firstCardSide === cardSides.german
   const isGermanVisible = visibleSide === 'first' ? firstSideIsGerman : !firstSideIsGerman
   const visibleSideLabel = t(isGermanVisible ? 'cardSideGerman' : 'cardSideRussian')
-  const isCompletingEntry = completionMotion !== undefined
+  const isCompletingEntry = completionMotion !== undefined || isWaitingForNextEntry
 
   useEffect(() => {
     setVisibleSide(isRevealed ? 'other' : 'first')
@@ -225,18 +228,17 @@ function Flashcard({ activeEntryIndex, isRevealed, sessionType, settings, vocabu
     <div className="h-[calc(100%-4.25rem)] overflow-hidden px-6 py-8 max-[480px]:py-6 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide areRemainingTranslationsVisible={areRemainingTranslationsVisible} disabled={isCompletingEntry} onToggleRemainingTranslations={() => setAreRemainingTranslationsVisible((visible) => !visible)} vocabularyItem={vocabularyItem} />}</div>
   </article>
 
-  if (!isRevealed) {
-    return <div className="mt-4 space-y-4">{cardCanvas}<button className="w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button></div>
-  }
-
   const actions = assessmentActions(sessionType, t)
   return <div className="mt-4">
     {cardCanvas}
-    <div className="mt-4 grid grid-cols-[40%_40%] justify-center gap-x-[20%] gap-y-3">
-      <AssessmentButton action={actions.exclude} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-      <AssessmentButton action={actions.negative} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-      <AssessmentButton action={actions.positive} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
-      {actions.known === undefined ? null : <AssessmentButton action={actions.known} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />}
+    <div className="relative mt-4">
+      {!isRevealed ? <button className="absolute inset-x-0 top-0 w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" disabled={isCompletingEntry} type="button" onClick={flipCard}>{t('revealAnswer')}</button> : null}
+      <div aria-hidden={!isRevealed} className={`grid grid-cols-[40%_40%] justify-center gap-x-[20%] gap-y-3 ${isRevealed ? '' : 'invisible'}`} inert={!isRevealed}>
+        <AssessmentButton action={actions.exclude} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+        <AssessmentButton action={actions.negative} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+        <AssessmentButton action={actions.positive} className="" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />
+        {actions.known === undefined ? <span aria-hidden="true" className="invisible col-span-2 w-full max-w-[40%] justify-self-center rounded-xl border border-transparent px-4 py-3 text-center font-semibold">{t('selfAssessmentKnown')}</span> : <AssessmentButton action={actions.known} className="col-span-2 max-w-[40%] justify-self-center" disabled={isCompletingEntry} onAssess={(selfAssessment) => completeEntry(motionForWordState(selfAssessment), () => onAssessEntry(activeEntryIndex, selfAssessment))} />}
+      </div>
     </div>
   </div>
 }
