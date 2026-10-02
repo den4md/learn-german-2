@@ -28,6 +28,7 @@ interface SessionsViewProps {
 export function SessionsView({ learningData, locationSearch, onNavigate, onOpenDetails, onContinue }: SessionsViewProps) {
   const { t } = useInterfaceLanguage()
   const routeState = useMemo(() => sessionResultStateFromSearch(locationSearch), [locationSearch])
+  const dateRange = `${routeState.from}/${routeState.to}`
   const sessions = filterAndSortSessions(allSessionData(learningData), routeState)
   const pageCount = Math.max(1, Math.ceil(sessions.length / resultPageSize))
   const currentPage = Math.min(routeState.page, pageCount)
@@ -70,11 +71,11 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
                 {sessionSizes.map((size) => <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-700" key={size}><input checked={routeState.sizes.includes(size)} className="accent-blue-700" type="checkbox" onChange={() => changeResultState({ sizes: routeState.sizes.includes(size) ? routeState.sizes.filter((value) => value !== size) : [...routeState.sizes, size] })} />{t(size === 'limited' ? 'limited' : 'unlimited')}</label>)}
               </div>
             </fieldset>
-            <fieldset key={`${routeState.from}/${routeState.to}`}>
+            <fieldset>
               <legend className="text-sm font-semibold text-slate-700">{t('sessionStartDate')}</legend>
               <div className="mt-3 grid gap-4 sm:grid-cols-2">
-                <SessionDateInput label={t('dateFrom')} value={routeState.from} onCommit={(from) => changeResultState({ from })} />
-                <SessionDateInput label={t('dateTo')} value={routeState.to} onCommit={(to) => changeResultState({ to })} />
+                <SessionDateInput dateRange={dateRange} label={t('dateFrom')} value={routeState.from} onCommit={(from) => changeResultState({ from })} />
+                <SessionDateInput dateRange={dateRange} label={t('dateTo')} value={routeState.to} onCommit={(to) => changeResultState({ to })} />
               </div>
               <p className="mt-2 text-sm text-slate-500">{t('sessionDateRangeHint')}</p>
             </fieldset>
@@ -107,11 +108,18 @@ export function SessionsView({ learningData, locationSearch, onNavigate, onOpenD
   )
 }
 
-function SessionDateInput({ label, value, onCommit }: { label: string; value: string; onCommit(value: string): void }) {
+function SessionDateInput({ dateRange, label, value, onCommit }: { dateRange: string; label: string; value: string; onCommit(value: string): void }) {
   const { t } = useInterfaceLanguage()
   const inputId = useId()
   const [draft, setDraft] = useState(value)
   const keyboardEditing = useRef(false)
+
+  useEffect(() => {
+    // Swapping the range can leave this endpoint unchanged while its draft needs resetting.
+    setDraft(value)
+    keyboardEditing.current = false
+  }, [dateRange, value])
+
   return (
     <div className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
       <label htmlFor={inputId}>{label}</label>
