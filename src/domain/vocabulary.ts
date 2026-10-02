@@ -364,15 +364,16 @@ function applyAutomaticStateTransition(
   sessionType: SessionType,
   selfAssessment: SelfAssessment,
 ): Pick<VocabularyLearningRecordData, 'wordState' | 'learningScore'> {
+  if (selfAssessment === wordStates.excluded) {
+    return { wordState: wordStates.excluded, learningScore: data.learningScore }
+  }
+
   if (sessionType === sessionTypes.knowledgeCheck) {
     if (selfAssessment === wordStates.learning) {
       return { wordState: wordStates.learning, learningScore: data.learningScore + 1 }
     }
     if (selfAssessment === wordStates.known) {
       return { wordState: wordStates.known, learningScore: data.learningScore }
-    }
-    if (selfAssessment === wordStates.excluded) {
-      return { wordState: wordStates.excluded, learningScore: data.learningScore }
     }
     return { wordState: wordStates.learning, learningScore: 0 }
   }

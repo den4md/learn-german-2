@@ -415,11 +415,14 @@ function assertSelfAssessmentMatchesSessionType(
   sessionType: SessionType,
   selfAssessment: SelfAssessment,
 ): void {
+  if (selfAssessment === wordStates.excluded) {
+    return
+  }
+
   const isKnowledgeCheckAssessment =
     selfAssessment === wordStates.known ||
     selfAssessment === wordStates.learning ||
-    selfAssessment === wordStates.new ||
-    selfAssessment === wordStates.excluded
+    selfAssessment === wordStates.new
 
   if ((sessionType === sessionTypes.knowledgeCheck) !== isKnowledgeCheckAssessment) {
     throw new Error('The Self-assessment does not match the Session type.')
