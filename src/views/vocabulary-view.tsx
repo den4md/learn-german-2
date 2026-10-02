@@ -8,8 +8,7 @@ import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemText
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
-
-const vocabularyPageSize = 50
+import { ResultPagination, resultPageSize } from '../components/result-pagination'
 
 interface VocabularyViewProps {
   learningData: LearningData
@@ -56,11 +55,11 @@ export function VocabularyView({
   )
   const filterState = { ...routeState, query: query.trim() }
   const filteredVocabularyItems = applyVocabularyResultFilters(vocabularyItems, filterState)
-  const calculatedPageCount = Math.max(1, Math.ceil(filteredVocabularyItems.length / vocabularyPageSize))
+  const calculatedPageCount = Math.max(1, Math.ceil(filteredVocabularyItems.length / resultPageSize))
   const calculatedCurrentPage = Math.min(filterState.page, calculatedPageCount)
   const calculatedVisibleVocabularyItems = filteredVocabularyItems.slice(
-    (calculatedCurrentPage - 1) * vocabularyPageSize,
-    calculatedCurrentPage * vocabularyPageSize,
+    (calculatedCurrentPage - 1) * resultPageSize,
+    calculatedCurrentPage * resultPageSize,
   )
   const routeSearch = vocabularySearchFromResultState(routeState)
   const activeFilterGroupCount = Number(routeState.cefrLevels.length > 0)
@@ -194,6 +193,7 @@ export function VocabularyView({
             <h3 className="text-xl font-bold tracking-tight text-slate-950" id="vocabulary-results-title">{t('vocabularyResults')}</h3>
             <span className="rounded-full bg-slate-100 px-2.5 py-1 text-sm font-medium text-slate-600">{resultCount}</span>
           </div>
+          <ResultPagination currentPage={currentPage} pageCount={pageCount} onChangePage={(page) => navigateResultState({ ...routeState, query: query.trim(), page })} />
           {visibleVocabularyItems.length === 0 ? (
             <p className="border-t border-slate-100 px-6 py-8 text-slate-600 sm:px-8">{t('noVocabularyMatches')}</p>
           ) : (
@@ -209,7 +209,7 @@ export function VocabularyView({
               ))}
             </ol>
           )}
-          <VocabularyPagination currentPage={currentPage} pageCount={pageCount} onChangePage={(page) => navigateResultState({ ...routeState, query: query.trim(), page })} />
+          <ResultPagination currentPage={currentPage} pageCount={pageCount} onChangePage={(page) => navigateResultState({ ...routeState, query: query.trim(), page })} />
         </section>
   ) : null}
     </div>
@@ -519,11 +519,6 @@ function GermanTextFields({ item, onChange }: { item: VocabularyItemData; onChan
     return <label className="mt-5 block max-w-xl text-sm font-semibold text-slate-700">{t('positive')}<input className={inputClassName} onChange={(event) => onChange({ ...item, positive: event.target.value })} value={item.positive} /></label>
   }
   return <div className="mt-5 grid gap-4 sm:grid-cols-2"><label className="text-sm font-semibold text-slate-700">{t('infinitive')}<input className={inputClassName} onChange={(event) => onChange({ ...item, infinitive: event.target.value })} value={item.infinitive} /></label><label className="text-sm font-semibold text-slate-700">{t('verbHelperVerb')}<select className={inputClassName} onChange={(event) => onChange({ ...item, helper_verb: event.target.value as typeof item.helper_verb })} value={item.helper_verb}>{Object.values(verbHelperVerbs).map((helperVerb) => <option key={helperVerb} value={helperVerb}>{helperVerb}</option>)}</select></label><label className="text-sm font-semibold text-slate-700">{t('verbConjugationType')}<select className={inputClassName} onChange={(event) => onChange({ ...item, conjugation_type: event.target.value as typeof item.conjugation_type })} value={item.conjugation_type}>{Object.values(verbConjugationTypes).map((conjugationType) => <option key={conjugationType} value={conjugationType}>{conjugationType}</option>)}</select></label><label className="text-sm font-semibold text-slate-700">{t('verbPresent')}<input className={inputClassName} onChange={(event) => onChange({ ...item, present: event.target.value })} value={item.present} /></label><label className="text-sm font-semibold text-slate-700">{t('verbPreterite')}<input className={inputClassName} onChange={(event) => onChange({ ...item, preterite: event.target.value })} value={item.preterite} /></label><label className="text-sm font-semibold text-slate-700">{t('verbPerfect')}<input className={inputClassName} onChange={(event) => onChange({ ...item, perfect: event.target.value })} value={item.perfect} /></label></div>
-}
-
-function VocabularyPagination({ currentPage, pageCount, onChangePage }: { currentPage: number; pageCount: number; onChangePage(page: number): void }) {
-  const { t } = useInterfaceLanguage()
-  return <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-6 py-4 sm:px-8"><p className="text-sm text-slate-600">{t('page')} {currentPage} / {pageCount}</p><div className="flex gap-2"><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={currentPage === 1} onClick={() => onChangePage(currentPage - 1)} type="button">{t('previousPage')}</button><button className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={currentPage === pageCount} onClick={() => onChangePage(currentPage + 1)} type="button">{t('nextPage')}</button></div></div>
 }
 
 function CheckboxGroup<T extends string>({ label, labels, values, selectedValues, onToggle }: { label: string; labels?: Partial<Record<T, string>>; values: readonly T[]; selectedValues: T[]; onToggle(value: T): void }) {

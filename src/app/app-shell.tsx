@@ -14,10 +14,11 @@ interface AppShellProps extends PropsWithChildren {
   onOpenProgression(): void
   onOpenSessionSetup(): void
   onOpenSettings(): void
+  onOpenSessions(): void
   onOpenVocabulary(): void
 }
 
-export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: AppShellProps) {
+export function AppShell({ children, dailyStreakHistory, hasActiveSession, isActiveSessionView, onContinueSession, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onOpenSessions }: AppShellProps) {
   const { t } = useInterfaceLanguage()
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-950">
@@ -41,6 +42,7 @@ export function AppShell({ children, dailyStreakHistory, hasActiveSession, isAct
               <MenuButton disabled={!hasActiveSession} onClick={() => { onSelect(); onContinueSession() }}>{t('continueSession')}</MenuButton>
               <MenuButton onClick={() => { onSelect(); onOpenSessionSetup() }}>{t('startSession')}</MenuButton>
               <MenuButton onClick={() => { onSelect(); onOpenProgression() }}>{t('progressionTitle')}</MenuButton>
+              <MenuButton onClick={() => { onSelect(); onOpenSessions() }}>{t('sessions')}</MenuButton>
               <MenuButton onClick={() => { onSelect(); onOpenVocabulary() }}>{t('navigationVocabulary')}</MenuButton>
               <MenuButton onClick={() => { onSelect(); onOpenSettings() }}>{t('settings')}</MenuButton>
             </nav>}

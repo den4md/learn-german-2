@@ -9,6 +9,7 @@ import { InterfaceLanguageProvider, useInterfaceLanguage } from '../i18n/interfa
 import { messages } from '../i18n/messages'
 import { IndexedDbDataDocumentStore } from '../storage/indexed-db-data-document-store'
 import { ProgressionView, SessionDetailsView } from '../views/progression-view'
+import { SessionsView } from '../views/sessions-view'
 import { SessionSetupView } from '../views/session-setup-view'
 import { ActiveSessionView } from '../views/active-session-view'
 import { SettingsView } from '../views/settings-view'
@@ -64,11 +65,11 @@ export function App() {
     return () => window.removeEventListener('popstate', updateLocation)
   }, [])
 
-  const navigate = (nextRoute: string, replace = false, vocabularyEditReturnPath?: string) => {
-    const nextLocation = { ...routeLocationFromRoute(nextRoute), vocabularyEditReturnPath }
+  const navigate = (nextRoute: string, replace = false, vocabularyEditReturnPath?: string, sessionDetailsReturnPath?: string) => {
+    const nextLocation = { ...routeLocationFromRoute(nextRoute), vocabularyEditReturnPath, sessionDetailsReturnPath }
     const browserUrl = browserUrlFromRouteLocation(nextLocation)
     if (browserUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      window.history[replace ? 'replaceState' : 'pushState']({ vocabularyEditReturnPath }, '', browserUrl)
+      window.history[replace ? 'replaceState' : 'pushState']({ vocabularyEditReturnPath, sessionDetailsReturnPath }, '', browserUrl)
     }
     setLocation(nextLocation)
   }
@@ -189,7 +190,7 @@ export function App() {
   useEffect(() => {
     const canonicalLocation = { ...location, path: route }
     if (browserUrlFromRouteLocation(canonicalLocation) !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      navigate(routeHrefFromLocation(canonicalLocation), true, location.vocabularyEditReturnPath)
+      navigate(routeHrefFromLocation(canonicalLocation), true, location.vocabularyEditReturnPath, location.sessionDetailsReturnPath)
     }
   }, [location, route])
 
@@ -200,19 +201,23 @@ export function App() {
     >
       {isLoaded ? (
         <PopupMenuProvider>
-          <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')}>
+          <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')} onOpenSessions={() => navigate('/sessions')}>
           {route === '/progression' ? (
             <ProgressionView
               learningData={learningData}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onChangeWordState={changeVocabularyItemWordState}
               onEditVocabularyItem={openVocabularyItemEdit}
-              onOpenSessionDetails={(sessionId) => navigate(`/sessions/${sessionId}`)}
+              onOpenSessionDetails={(sessionId) => navigate(`/sessions/${sessionId}`, false, undefined, '/progression')}
+              onContinueSession={() => navigate('/session/active')}
+              onOpenSessions={() => navigate('/sessions')}
               onOpenVocabulary={navigate}
               onStartSession={startNewSession}
             />
+          ) : route === '/sessions' ? (
+            <SessionsView learningData={learningData} locationSearch={location.search} onNavigate={navigate} onContinue={() => navigate('/session/active')} onOpenDetails={(sessionId) => navigate(`/sessions/${sessionId}`, false, undefined, routeHrefFromLocation(location))} />
           ) : route.startsWith('/sessions/') ? (
-            <SessionDetailsView learningData={learningData} onBack={() => navigate('/progression')} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
+            <SessionDetailsView learningData={learningData} onBack={() => navigate(location.sessionDetailsReturnPath ?? '/progression')} backMessageKey={location.sessionDetailsReturnPath?.startsWith('/sessions') ? 'backToSessions' : 'backToProgression'} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
           ) : route === '/vocabulary' ? (
             <VocabularyView
               learningData={learningData}
@@ -267,11 +272,12 @@ interface RouteLocation {
   search: string
   hash: string
   vocabularyEditReturnPath?: string
+  sessionDetailsReturnPath?: string
 }
 
 function normalizePath(pathname: string): string {
   if (pathname === '/') return '/progression'
-  if (['/progression', '/session/new', '/session/active', '/settings', '/vocabulary'].includes(pathname)) return pathname
+  if (['/progression', '/session/new', '/session/active', '/settings', '/vocabulary', '/sessions'].includes(pathname)) return pathname
   if (/^\/sessions\/[^/]+$/.test(pathname)) return pathname
   if (/^\/vocabulary\/-?\d+\/edit$/.test(pathname)) return pathname
   return '/progression'
@@ -287,12 +293,16 @@ function routeFromBrowserLocation(): RouteLocation {
     ? window.history.state.vocabularyEditReturnPath
     : undefined
 
+  const sessionDetailsReturnPath = typeof window.history.state?.sessionDetailsReturnPath === 'string'
+    ? window.history.state.sessionDetailsReturnPath
+    : undefined
+
   if (handoffRoute !== null) {
     const recoveredRoute = routeLocationFromHandoff(handoffRoute)
-    if (recoveredRoute !== undefined) return { ...recoveredRoute, vocabularyEditReturnPath }
+    if (recoveredRoute !== undefined) return { ...recoveredRoute, vocabularyEditReturnPath, sessionDetailsReturnPath }
   }
 
-  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash, vocabularyEditReturnPath }
+  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash, vocabularyEditReturnPath, sessionDetailsReturnPath }
 }
 
 function routeLocationFromHandoff(handoffRoute: string): RouteLocation | undefined {

@@ -139,8 +139,20 @@ The automatic one-day protection for a missed daily streak goal. It is always av
 _Avoid_: manual pause, earned pause
 
 **Progression view**:
-The default main view. It makes the daily streak visible and provides expandable lists of recent sessions, Learning vocabulary items, and Known vocabulary items. Each list starts with five rows and expands in place. A recent-session row shows its date and time, session type, status, completed-entry count, and correct and incorrect self-assessment counts. A vocabulary-item row shows its German headword, first Russian translation, CEFR level, word type, Learning score, card shows, and correct and incorrect self-assessment counts.
+The default main view, showing recent Sessions including the Active session, Learning vocabulary items, and Known vocabulary items. Each list previews up to five rows and opens its full browsing view through Show all; recent Sessions use start date from newest to oldest.
 _Avoid_: dashboard, analytics
+
+**Sessions view**:
+The browsing view for ended Sessions and the optional Active session, with filters, ordering, and paginated results. It shares the Progression view's Session summaries and provides Continue for an Active session and Details for an ended Session.
+_Avoid_: session dashboard, completed-sessions view
+
+**Session filter**:
+A temporary browsing criterion for Session type, status, start date, or Limited versus Unlimited size. Values selected within one criterion match any selected value, while different criteria narrow the same results; start-date endpoints are independently optional and include the entire local calendar day.
+_Avoid_: Session setting, saved preference
+
+**Session ordering**:
+The temporary start-date order of Sessions in the Sessions view, either newest first or oldest first. The default is newest first, and the Active session follows the same order as ended Sessions.
+_Avoid_: Session-entry ordering, Ordering source
 
 **Daily streak**:
 The user's consecutive streak days, calculated from Daily streak history. A UTC date meets the V1 streak goal after five distinct correct Session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the user, may configure a different goal in a later version.
