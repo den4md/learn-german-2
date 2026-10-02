@@ -63,6 +63,10 @@ export function VocabularyView({
     calculatedCurrentPage * vocabularyPageSize,
   )
   const routeSearch = vocabularySearchFromResultState(routeState)
+  const activeFilterGroupCount = Number(routeState.cefrLevels.length > 0)
+    + Number(routeState.wordTypes.length > 0)
+    + Number(routeState.wordState !== undefined)
+    + Number(routeState.favourite !== undefined)
   useEffect(() => {
     if (resultPageSnapshot !== undefined && resultPageSnapshot.routeSearch !== routeSearch) setResultPageSnapshot(undefined)
   }, [resultPageSnapshot, routeSearch])
@@ -126,40 +130,58 @@ export function VocabularyView({
               value={query}
             />
           </label>
-          <div className="grid gap-6 md:grid-cols-2">
-            <CheckboxGroup label={t('cefrLevels')} selectedValues={routeState.cefrLevels} values={allCefrLevels} onToggle={(level) => changeResultState({ cefrLevels: toggleValue(routeState.cefrLevels, level) })} />
-            <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} selectedValues={routeState.wordTypes} values={allWordTypes} onToggle={(wordType) => changeResultState({ wordTypes: toggleValue(routeState.wordTypes, wordType) })} />
-          </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
-              {t('wordState')}
-              <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ wordState: event.target.value === 'all' ? undefined : event.target.value as WordState })} value={routeState.wordState ?? 'all'}>
-                <option value="all">{t('allVocabularyItems')}</option>
-                {Object.values(wordStates).map((wordState) => <option key={wordState} value={wordState}>{t(wordStateMessageKeys[wordState])}</option>)}
-              </select>
-            </label>
-            <label className="grid gap-2 text-sm font-semibold text-slate-700">
-              {t('favouriteStatus')}
-              <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ favourite: event.target.value === 'all' ? undefined : event.target.value === 'true' })} value={routeState.favourite === undefined ? 'all' : String(routeState.favourite)}>
-                <option value="all">{t('allItems')}</option><option value="true">{t('favouritesOnly')}</option><option value="false">{t('nonFavouritesOnly')}</option>
-              </select>
-            </label>
-          </div>
-          <fieldset className="min-w-0 border-t border-slate-200 pt-6">
-            <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
-            <p className="mt-2 text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
-            <div className="mt-4 space-y-3">
-              {toVocabularyOrderingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
-                <div className="grid min-w-0 grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
-                  <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
-                  <select className="min-w-0 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
-                    <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
+          <details className="group border-t border-slate-200">
+            <summary className="grid cursor-pointer list-none grid-cols-[minmax(0,1fr)_auto] items-start gap-3 rounded-lg py-3 text-sm font-semibold text-blue-700 outline-none hover:text-blue-800 focus-visible:ring-4 focus-visible:ring-blue-100 [&::-webkit-details-marker]:hidden">
+              <span className="flex min-w-0 flex-wrap items-center gap-3">
+                <span>{t('filtersAndOrdering')}</span>
+                {activeFilterGroupCount > 0 || routeState.orderingSources.length > 0 ? (
+                  <span className="flex flex-wrap gap-2 text-xs font-medium">
+                    {activeFilterGroupCount > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1">{t('activeFilterGroups')}: {activeFilterGroupCount}</span> : null}
+                    {routeState.orderingSources.length > 0 ? <span className="rounded-full bg-blue-50 px-2.5 py-1">{t('activeOrderingSources')}: {routeState.orderingSources.length}</span> : null}
+                  </span>
+                ) : null}
+              </span>
+              <svg aria-hidden="true" className="mt-0.5 size-4 shrink-0 group-open:rotate-90" fill="none" viewBox="0 0 16 16">
+                <path d="m6 3 5 5-5 5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+              </svg>
+            </summary>
+            <div className="grid gap-6 pt-3">
+              <div className="grid gap-6 md:grid-cols-2">
+                <CheckboxGroup label={t('cefrLevels')} selectedValues={routeState.cefrLevels} values={allCefrLevels} onToggle={(level) => changeResultState({ cefrLevels: toggleValue(routeState.cefrLevels, level) })} />
+                <CheckboxGroup label={t('wordTypes')} labels={{ [wordTypes.noun]: t('noun'), [wordTypes.adjective]: t('adjective'), [wordTypes.verb]: t('verb') }} selectedValues={routeState.wordTypes} values={allWordTypes} onToggle={(wordType) => changeResultState({ wordTypes: toggleValue(routeState.wordTypes, wordType) })} />
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                <label className="grid gap-2 text-sm font-semibold text-slate-700">
+                  {t('wordState')}
+                  <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ wordState: event.target.value === 'all' ? undefined : event.target.value as WordState })} value={routeState.wordState ?? 'all'}>
+                    <option value="all">{t('allVocabularyItems')}</option>
+                    {Object.values(wordStates).map((wordState) => <option key={wordState} value={wordState}>{t(wordStateMessageKeys[wordState])}</option>)}
                   </select>
-                  <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === allOrderingSources.length - 1} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })}><span aria-hidden="true">⬇️</span></button></div>
+                </label>
+                <label className="grid gap-2 text-sm font-semibold text-slate-700">
+                  {t('favouriteStatus')}
+                  <select className="rounded-xl border border-slate-300 bg-white px-3 py-2.5 font-normal text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ favourite: event.target.value === 'all' ? undefined : event.target.value === 'true' })} value={routeState.favourite === undefined ? 'all' : String(routeState.favourite)}>
+                    <option value="all">{t('allItems')}</option><option value="true">{t('favouritesOnly')}</option><option value="false">{t('nonFavouritesOnly')}</option>
+                  </select>
+                </label>
+              </div>
+              <fieldset className="min-w-0 border-t border-slate-200 pt-6">
+                <legend className="text-lg font-bold text-slate-950">{t('ordering')}</legend>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{t('orderingDescription')}</p>
+                <div className="mt-4 space-y-3">
+                  {toVocabularyOrderingSources(routeState.orderingSources).map((orderingSource, index, allOrderingSources) => (
+                    <div className="grid min-w-0 grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-[1fr_14rem_auto] sm:items-center" key={orderingSource.source}>
+                      <span className="font-semibold text-slate-800">{t(orderingSourceMessageKeys[orderingSource.source])}</span>
+                      <select className="min-w-0 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-slate-950 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100" onChange={(event) => changeResultState({ orderingSources: activeVocabularyOrderingSources(allOrderingSources.map((source) => source.source === orderingSource.source ? { ...source, direction: event.target.value as OrderingDirection } : source)) })} value={orderingSource.direction}>
+                        <option value={orderingDirections.none}>{t('noSorting')}</option><option value={orderingDirections.ascending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.ascending])}</option><option value={orderingDirections.descending}>{t(orderingDirectionMessageKeys[orderingSource.source][orderingDirections.descending])}</option>
+                      </select>
+                      <div className="flex gap-2"><button aria-label={t('moveOrderingSourceEarlier')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === 0} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index - 1)) })}><span aria-hidden="true">⬆️</span></button><button aria-label={t('moveOrderingSourceLater')} className="rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 disabled:opacity-40" disabled={index === allOrderingSources.length - 1} type="button" onClick={() => changeResultState({ orderingSources: activeVocabularyOrderingSources(moveOrderingSource(allOrderingSources, index, index + 1)) })}><span aria-hidden="true">⬇️</span></button></div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </fieldset>
             </div>
-          </fieldset>
+          </details>
           {routeSearch === '' && query.trim() === '' ? null : <button className="w-fit font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => { setQuery(''); navigateResultState(createEmptyVocabularyResultState()) }} type="button">{t('resetFilters')}</button>}
         </div>
       </section>
