@@ -25,7 +25,6 @@ export function App() {
   const [dataDocument, setDataDocument] = useState(initialDataDocument)
   const [isLoaded, setIsLoaded] = useState(false)
   const [location, setLocation] = useState(() => routeFromBrowserLocation())
-  const [vocabularyEditReturnPath, setVocabularyEditReturnPath] = useState('/vocabulary')
   const [sessionTransitionData, setSessionTransitionData] = useState<LearningData>()
   const learningData = LearningData.fromData(dataDocument.learningData)
 
@@ -65,11 +64,11 @@ export function App() {
     return () => window.removeEventListener('popstate', updateLocation)
   }, [])
 
-  const navigate = (nextRoute: string, replace = false) => {
-    const nextLocation = routeLocationFromRoute(nextRoute)
+  const navigate = (nextRoute: string, replace = false, vocabularyEditReturnPath?: string) => {
+    const nextLocation = { ...routeLocationFromRoute(nextRoute), vocabularyEditReturnPath }
     const browserUrl = browserUrlFromRouteLocation(nextLocation)
     if (browserUrl !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      window.history[replace ? 'replaceState' : 'pushState']({}, '', browserUrl)
+      window.history[replace ? 'replaceState' : 'pushState']({ vocabularyEditReturnPath }, '', browserUrl)
     }
     setLocation(nextLocation)
   }
@@ -172,9 +171,8 @@ export function App() {
     )
   }
 
-  const openVocabularyItemEdit = (vocabularyItemId: VocabularyItemId, returnPath = '/vocabulary') => {
-    setVocabularyEditReturnPath(returnPath)
-    navigate(`/vocabulary/${vocabularyItemId}/edit`)
+  const openVocabularyItemEdit = (vocabularyItemId: VocabularyItemId) => {
+    navigate(`/vocabulary/${vocabularyItemId}/edit`, false, routeHrefFromLocation(location))
   }
 
   const clearData = () => {
@@ -191,7 +189,7 @@ export function App() {
   useEffect(() => {
     const canonicalLocation = { ...location, path: route }
     if (browserUrlFromRouteLocation(canonicalLocation) !== `${window.location.pathname}${window.location.search}${window.location.hash}`) {
-      navigate(routeHrefFromLocation(canonicalLocation), true)
+      navigate(routeHrefFromLocation(canonicalLocation), true, location.vocabularyEditReturnPath)
     }
   }, [location, route])
 
@@ -221,13 +219,13 @@ export function App() {
               locationSearch={location.search}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onChangeWordState={changeVocabularyItemWordState}
-              onEditVocabularyItem={(vocabularyItemId) => openVocabularyItemEdit(vocabularyItemId, routeHrefFromLocation(location))}
+              onEditVocabularyItem={openVocabularyItemEdit}
               onNavigate={navigate}
             />
           ) : route.startsWith('/vocabulary/') ? (
             <VocabularyEditView
               learningData={learningData}
-              onBack={() => navigate(vocabularyEditReturnPath)}
+              onBack={() => navigate(location.vocabularyEditReturnPath ?? '/vocabulary')}
               onSaveVocabularyItem={saveVocabularyItem}
               vocabularyItemId={vocabularyEditMatch === null ? undefined : Number(vocabularyEditMatch[1]) as VocabularyItemId}
             />
@@ -243,7 +241,7 @@ export function App() {
               onAssessEntry={assessActiveSessionEntry}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onEndSession={endActiveSession}
-              onEditVocabularyItem={(vocabularyItemId) => openVocabularyItemEdit(vocabularyItemId, '/session/active')}
+              onEditVocabularyItem={openVocabularyItemEdit}
               onManuallySetWordState={manuallySetActiveSessionEntryWordState}
               onOpenProgression={() => navigate('/progression')}
               onOpenSessionSetup={startNewSession}
@@ -268,6 +266,7 @@ interface RouteLocation {
   path: string
   search: string
   hash: string
+  vocabularyEditReturnPath?: string
 }
 
 function normalizePath(pathname: string): string {
@@ -284,13 +283,16 @@ function routeFromBrowserLocation(): RouteLocation {
     ? window.location.pathname.slice(basePath.length) || '/'
     : window.location.pathname
   const handoffRoute = pathname === '/' ? new URLSearchParams(window.location.search).get('route') : null
+  const vocabularyEditReturnPath = typeof window.history.state?.vocabularyEditReturnPath === 'string'
+    ? window.history.state.vocabularyEditReturnPath
+    : undefined
 
   if (handoffRoute !== null) {
     const recoveredRoute = routeLocationFromHandoff(handoffRoute)
-    if (recoveredRoute !== undefined) return recoveredRoute
+    if (recoveredRoute !== undefined) return { ...recoveredRoute, vocabularyEditReturnPath }
   }
 
-  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash }
+  return { path: normalizePath(pathname), search: window.location.search, hash: window.location.hash, vocabularyEditReturnPath }
 }
 
 function routeLocationFromHandoff(handoffRoute: string): RouteLocation | undefined {
