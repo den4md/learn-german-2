@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react'
 import { appVersion } from '../app-version'
 import { PopupMenu } from '../components/popup-menu'
 import { DailyStreak } from '../components/daily-streak'
+import { BackToTop } from '../components/back-to-top'
 import type { DailyStreakHistory } from '../domain/learning-progress'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 
@@ -50,6 +51,7 @@ export function AppShell({ children, dailyStreakHistory, hasActiveSession, isAct
         {children}
       </main>
       <AppFooter />
+      <BackToTop />
     </div>
   )
 }
