@@ -26,6 +26,7 @@ export function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [location, setLocation] = useState(() => routeFromBrowserLocation())
   const [vocabularyEditReturnPath, setVocabularyEditReturnPath] = useState('/vocabulary')
+  const [sessionTransitionData, setSessionTransitionData] = useState<LearningData>()
   const learningData = LearningData.fromData(dataDocument.learningData)
 
   useEffect(() => {
@@ -121,15 +122,12 @@ export function App() {
   const assessActiveSessionEntry = (entryIndex: number, selfAssessment: Parameters<LearningData['assessActiveSessionEntry']>[1]) => {
     const nextLearningData = learningData.assessActiveSessionEntry(entryIndex, selfAssessment, new Date().toISOString())
     saveLearningData(nextLearningData)
-    if (nextLearningData.activeSession === undefined) {
-      navigate('/progression')
-    }
   }
 
   const selectNextActiveSessionCandidatePage = (vocabularyItemIds: VocabularyItemId[]) => {
     const nextLearningData = learningData.selectNextActiveSessionCandidatePage(vocabularyItemIds, new Date().toISOString())
     saveLearningData(nextLearningData)
-    if (nextLearningData.activeSession === undefined) {
+    if (nextLearningData.activeSession === undefined && sessionTransitionData === undefined) {
       navigate('/progression')
     }
   }
@@ -137,9 +135,6 @@ export function App() {
   const manuallySetActiveSessionEntryWordState = (entryIndex: number, wordState: Parameters<LearningData['manuallySetActiveSessionEntryWordState']>[1]) => {
     const nextLearningData = learningData.manuallySetActiveSessionEntryWordState(entryIndex, wordState, new Date().toISOString())
     saveLearningData(nextLearningData)
-    if (nextLearningData.activeSession === undefined) {
-      navigate('/progression')
-    }
   }
 
   const endActiveSession = () => {
@@ -189,7 +184,7 @@ export function App() {
     navigate('/progression')
   }
 
-  const route = isLoaded && location.path === '/session/active' && learningData.activeSession === undefined ? '/progression' : location.path
+  const route = isLoaded && location.path === '/session/active' && learningData.activeSession === undefined && sessionTransitionData === undefined ? '/progression' : location.path
   const vocabularyEditMatch = route.match(/^\/vocabulary\/(-?\d+)\/edit$/)
   const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 
@@ -242,7 +237,9 @@ export function App() {
             <SettingsView onClearData={clearData} />
           ) : (
             <ActiveSessionView
-              learningData={learningData}
+              isSessionComplete={learningData.activeSession === undefined}
+              learningData={learningData.activeSession === undefined ? sessionTransitionData ?? learningData : learningData}
+              onAssessmentTransitionChange={setSessionTransitionData}
               onAssessEntry={assessActiveSessionEntry}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
               onEndSession={endActiveSession}

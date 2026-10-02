@@ -14,3 +14,106 @@ body {
 #root {
   min-height: 100vh;
 }
+
+[data-accent="excluded"] {
+  --assessment-color: #000000;
+  --assessment-tint: #ededed;
+  --assessment-border: #a3a3a3;
+}
+
+[data-accent="unknown"] {
+  --assessment-color: #b91c1c;
+  --assessment-tint: #fee2e2;
+  --assessment-border: #fca5a5;
+}
+
+[data-accent="learning"] {
+  --assessment-color: #15803d;
+  --assessment-tint: #dcfce7;
+  --assessment-border: #86efac;
+}
+
+[data-accent="known"] {
+  --assessment-color: #1d4ed8;
+  --assessment-tint: #dbeafe;
+  --assessment-border: #93c5fd;
+}
+
+.assessment-button {
+  color: var(--assessment-color);
+  background-color: var(--assessment-tint);
+  border-color: var(--assessment-border);
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+
+.assessment-button:enabled:hover {
+  border-color: var(--assessment-color);
+}
+
+.assessment-button:enabled:active,
+.assessment-button[data-selected="true"] {
+  color: #ffffff;
+  background-color: var(--assessment-color);
+  border-color: var(--assessment-color);
+}
+
+.assessment-button:disabled[data-selected="false"] {
+  opacity: 0.45;
+}
+
+.assessment-button:focus-visible {
+  outline: 2px solid var(--assessment-color);
+  outline-offset: 3px;
+}
+
+.assessment-backdrop {
+  background-color: var(--assessment-tint);
+  transition: opacity 300ms ease;
+}
+
+.flashcard {
+  animation: card-fade-in 300ms ease-out;
+  transition: transform 300ms ease-in, opacity 300ms ease-in, box-shadow 150ms;
+}
+
+.flashcard-exiting {
+  animation: none;
+  opacity: 0;
+}
+
+.assessment-decision {
+  color: var(--assessment-color);
+  animation: assessment-confirmation 1000ms linear both;
+}
+
+@keyframes card-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes assessment-confirmation {
+  0%, 100% { opacity: 0; }
+  30%, 70% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flashcard {
+    animation: none;
+    transform: none !important;
+    transition: none;
+  }
+
+  .assessment-backdrop,
+  .assessment-button {
+    transition: none;
+  }
+
+  .assessment-decision {
+    animation-name: assessment-confirmation-reduced;
+  }
+
+  @keyframes assessment-confirmation-reduced {
+    0%, 69.99% { opacity: 1; }
+    70%, 100% { opacity: 0; }
+  }
+}
