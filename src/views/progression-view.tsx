@@ -1,18 +1,19 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import { recallSelfAssessments, sessionEndReasons, sessionTypes, wordStates } from '../domain/constants'
 import type { WordState } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionData } from '../domain/session'
-import { DefaultVocabularySet, VocabularyItem, resolveVocabularyItems } from '../domain/vocabulary'
-import type { ResolvedVocabularyItemData, VocabularyItemData } from '../domain/vocabulary'
-import { loadDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
+import { DefaultVocabularySet, resolveVocabularyItems } from '../domain/vocabulary'
+import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
+import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
 import type { MessageKey } from '../i18n/messages'
 
 const initiallyVisibleRows = 5
+const emptyDefaultVocabularySet = DefaultVocabularySet.fromItems([])
 
 interface ProgressionViewProps {
   learningData: LearningData
@@ -26,44 +27,21 @@ interface ProgressionViewProps {
 
 export function ProgressionView({ learningData, onStartSession, onChangeWordState, onChangeFavouriteStatus, onEditVocabularyItem, onOpenSessionDetails, onOpenVocabulary }: ProgressionViewProps) {
   const { interfaceLanguage, t } = useInterfaceLanguage()
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>([])
-  const [vocabularyLoadError, setVocabularyLoadError] = useState(false)
   const vocabularyLearningRecords = learningData.vocabularyLearningRecords
   const trackedDefaultVocabularyItemIds = vocabularyLearningRecords
     .filter((record) => record.wordState === wordStates.learning || record.wordState === wordStates.known)
     .map((record) => record.vocabularyItemId)
     .filter((vocabularyItemId) => vocabularyItemId > 0)
-  const trackedDefaultVocabularyItemIdsKey = trackedDefaultVocabularyItemIds.join(',')
-
-  useEffect(() => {
-    let isCurrent = true
-    setVocabularyLoadError(false)
-
-    void loadDefaultVocabularyItems(trackedDefaultVocabularyItemIds)
-      .then((items) => {
-        if (isCurrent) {
-          setDefaultVocabularyItems(items)
-        }
-      })
-      .catch(() => {
-        if (isCurrent) {
-          setVocabularyLoadError(true)
-        }
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [trackedDefaultVocabularyItemIdsKey])
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet(trackedDefaultVocabularyItemIds)
 
   const resolvedVocabularyItems = useMemo(
     () =>
       resolveVocabularyItems(
-        DefaultVocabularySet.fromItems(defaultVocabularyItems.map(VocabularyItem.fromData)),
+        defaultVocabularySet ?? emptyDefaultVocabularySet,
         learningData.userAddedVocabularyItems,
         vocabularyLearningRecords,
       ),
-    [defaultVocabularyItems, learningData, vocabularyLearningRecords],
+    [defaultVocabularySet, learningData, vocabularyLearningRecords],
   )
   const learningVocabularyItems = resolvedVocabularyItems.filter(
     (vocabularyItem) => vocabularyItem.wordState === wordStates.learning,
@@ -83,7 +61,7 @@ export function ProgressionView({ learningData, onStartSession, onChangeWordStat
         <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onStartSession}>{t('startSession')}</button>
       </section>
 
-      {vocabularyLoadError ? <p className="text-sm text-red-700">{t('couldNotLoadVocabulary')}</p> : null}
+      {hasLoadError ? <p className="text-sm text-red-700">{t('couldNotLoadVocabulary')}</p> : null}
       <div className="grid gap-6 lg:grid-cols-3">
         <ProgressionList emptyMessage={t('noRecentSessions')} title={t('recentSessions')}>
           {recentSessions.map((session) => (
@@ -193,43 +171,24 @@ interface SessionDetailsViewProps {
 
 export function SessionDetailsView({ sessionId, learningData, onBack }: SessionDetailsViewProps) {
   const { interfaceLanguage, t } = useInterfaceLanguage()
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[] | undefined>()
-  const [hasLoadError, setHasLoadError] = useState(false)
   const session = learningData.sessions.find((candidate) => candidate.id === sessionId)
   const sessionData = session?.toData()
   const vocabularyItemIds = sessionData?.entries.map((entry) => entry.vocabularyItemId) ?? []
   const defaultVocabularyItemIds = vocabularyItemIds.filter((vocabularyItemId) => vocabularyItemId > 0)
-  const defaultVocabularyItemIdsKey = defaultVocabularyItemIds.join(',')
-
-  useEffect(() => {
-    let isCurrent = true
-    setHasLoadError(false)
-
-    void loadDefaultVocabularyItems(defaultVocabularyItemIds)
-      .then((items) => {
-        if (isCurrent) setDefaultVocabularyItems(items)
-      })
-      .catch(() => {
-        if (isCurrent) setHasLoadError(true)
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [defaultVocabularyItemIdsKey])
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet(defaultVocabularyItemIds)
 
   const vocabularyItemsById = useMemo(() => new Map(
-    (defaultVocabularyItems === undefined ? [] : resolveVocabularyItems(
-      DefaultVocabularySet.fromItems(defaultVocabularyItems.map(VocabularyItem.fromData)),
+    (defaultVocabularySet === undefined ? [] : resolveVocabularyItems(
+      defaultVocabularySet,
       learningData.userAddedVocabularyItems,
       learningData.vocabularyLearningRecords,
     )).map((item) => [item.id, item.toData()]),
-  ), [defaultVocabularyItems, learningData])
+  ), [defaultVocabularySet, learningData])
 
   if (sessionData === undefined) {
     return <SessionNotice tone="error">{t('invalidSession')}</SessionNotice>
   }
-  if (defaultVocabularyItems === undefined) {
+  if (defaultVocabularySet === undefined) {
     return hasLoadError ? <SessionNotice tone="error">{t('couldNotLoadVocabulary')}</SessionNotice> : <SessionNotice>{t('loadingVocabulary')}</SessionNotice>
   }
   if (hasLoadError) {

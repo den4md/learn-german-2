@@ -1,31 +1,67 @@
 import type { VocabularyItemId } from '../domain/identifiers'
+import { DefaultVocabularySet, VocabularyItem } from '../domain/vocabulary'
 import type { VocabularyItemData } from '../domain/vocabulary'
+import vocabularyChunkManifest from './vocabulary-chunks.json'
 
 const vocabularyItemChunkLoaders = import.meta.glob<VocabularyItemData[]>(
   './vocabulary-items/*.json',
   { import: 'default' },
 )
+const loadedVocabularyItemChunks = new Map<string, Promise<VocabularyItemData[]>>()
+let loadedDefaultVocabularySet: Promise<DefaultVocabularySet> | undefined
 
-export async function loadAllDefaultVocabularyItems(): Promise<VocabularyItemData[]> {
-  const chunks = await Promise.all(Object.values(vocabularyItemChunkLoaders).map((loadChunk) => loadChunk()))
-  return chunks.flat().sort((left, right) => left.id - right.id)
+export function loadAllDefaultVocabularySet(): Promise<DefaultVocabularySet> {
+  if (loadedDefaultVocabularySet === undefined) {
+    loadedDefaultVocabularySet = loadVocabularyItemChunks(
+      vocabularyChunkManifest.chunks.map((chunk) => chunk.path),
+    ).then(toDefaultVocabularySet).catch((error) => {
+      loadedDefaultVocabularySet = undefined
+      throw error
+    })
+  }
+  return loadedDefaultVocabularySet
 }
 
-export async function loadDefaultVocabularyItems(
+export async function loadDefaultVocabularySet(
   vocabularyItemIds: VocabularyItemId[],
-): Promise<VocabularyItemData[]> {
+): Promise<DefaultVocabularySet> {
   const requestedVocabularyItemIds = new Set(vocabularyItemIds.filter((vocabularyItemId) => vocabularyItemId > 0))
-  const chunkPaths = new Set(
-    [...requestedVocabularyItemIds].map(
-      (vocabularyItemId) => `./vocabulary-items/${Math.ceil(vocabularyItemId / 1000) * 1000}.json`,
-    ),
+  const chunkPaths = vocabularyChunkManifest.chunks
+    .filter((chunk) =>
+      [...requestedVocabularyItemIds].some(
+        (vocabularyItemId) =>
+          vocabularyItemId >= chunk.firstVocabularyItemId &&
+          vocabularyItemId <= chunk.lastVocabularyItemId,
+      ),
+    )
+    .map((chunk) => chunk.path)
+  const items = await loadVocabularyItemChunks(chunkPaths)
+  return toDefaultVocabularySet(
+    items.filter((vocabularyItem) => requestedVocabularyItemIds.has(vocabularyItem.id)),
   )
-  const chunks = await Promise.all(
-    [...chunkPaths].map(async (chunkPath) => {
-      const loadChunk = vocabularyItemChunkLoaders[chunkPath]
-      return loadChunk === undefined ? [] : loadChunk()
-    }),
-  )
+}
 
-  return chunks.flat().filter((vocabularyItem) => requestedVocabularyItemIds.has(vocabularyItem.id))
+function loadVocabularyItemChunks(chunkPaths: string[]): Promise<VocabularyItemData[]> {
+  return Promise.all(chunkPaths.map(loadVocabularyItemChunk)).then((chunks) => chunks.flat())
+}
+
+function loadVocabularyItemChunk(chunkPath: string): Promise<VocabularyItemData[]> {
+  const loadedChunk = loadedVocabularyItemChunks.get(chunkPath)
+  if (loadedChunk !== undefined) return loadedChunk
+
+  const loadChunk = vocabularyItemChunkLoaders[chunkPath]
+  const nextLoadedChunk = (loadChunk === undefined ? Promise.resolve([]) : loadChunk()).catch((error) => {
+    loadedVocabularyItemChunks.delete(chunkPath)
+    throw error
+  })
+  loadedVocabularyItemChunks.set(chunkPath, nextLoadedChunk)
+  return nextLoadedChunk
+}
+
+function toDefaultVocabularySet(items: VocabularyItemData[]): DefaultVocabularySet {
+  return DefaultVocabularySet.fromItems(
+    [...items]
+      .sort((left, right) => left.id - right.id)
+      .map(VocabularyItem.fromData),
+  )
 }

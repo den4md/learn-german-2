@@ -5,9 +5,9 @@ import type { SelfAssessment } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionSettingsData } from '../domain/session'
-import type { ResolvedVocabularyItemData, VocabularyItemData } from '../domain/vocabulary'
-import { DefaultVocabularySet, VocabularyItem, resolveVocabularyItems } from '../domain/vocabulary'
-import { loadAllDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
+import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
+import { resolveVocabularyItems } from '../domain/vocabulary'
+import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
@@ -31,10 +31,9 @@ interface ActiveSessionViewProps {
 
 export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>()
-  const [vocabularyLoadError, setVocabularyLoadError] = useState(false)
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const activeSession = learningData.activeSession
-  const resolvedVocabularyItems = useMemo(() => defaultVocabularyItems === undefined ? [] : resolveVocabularyItems(DefaultVocabularySet.fromItems(defaultVocabularyItems.map(VocabularyItem.fromData)), learningData.userAddedVocabularyItems, learningData.vocabularyLearningRecords), [defaultVocabularyItems, learningData])
+  const resolvedVocabularyItems = useMemo(() => defaultVocabularySet === undefined ? [] : resolveVocabularyItems(defaultVocabularySet, learningData.userAddedVocabularyItems, learningData.vocabularyLearningRecords), [defaultVocabularySet, learningData])
   const vocabularyItemsById = useMemo(() => new Map(resolvedVocabularyItems.map((item) => [item.id, item.toData()])), [resolvedVocabularyItems])
   const activeEntryIndex = activeSession?.entries.findIndex((entry) => entry.selfAssessment === undefined && entry.manualWordState === undefined) ?? -1
   const activeEntry = activeEntryIndex === -1 || activeSession === undefined ? undefined : activeSession.entryAt(activeEntryIndex)
@@ -43,21 +42,7 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
   const endSessionButton = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    let isCurrent = true
-    void loadAllDefaultVocabularyItems().then((items) => {
-      if (isCurrent) {
-        setDefaultVocabularyItems(items)
-      }
-    }).catch(() => {
-      if (isCurrent) {
-        setVocabularyLoadError(true)
-      }
-    })
-    return () => { isCurrent = false }
-  }, [])
-
-  useEffect(() => {
-    if (activeSession === undefined || defaultVocabularyItems === undefined) {
+    if (activeSession === undefined || defaultVocabularySet === undefined) {
       return
     }
     if (activeEntry !== undefined) {
@@ -75,10 +60,10 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
     }
     if (activeSession.isCandidatePageComplete) {
       const presentedVocabularyItemIds = new Set(activeSession.entries.map((entry) => entry.vocabularyItemId))
-      const candidateVocabularyItemIds = selectSessionVocabularyItemIds(learningData, defaultVocabularyItems, activeSession.type, activeSession.toData().settings).filter((id) => !presentedVocabularyItemIds.has(id))
+      const candidateVocabularyItemIds = selectSessionVocabularyItemIds(learningData, defaultVocabularySet, activeSession.type, activeSession.toData().settings).filter((id) => !presentedVocabularyItemIds.has(id))
       onSelectNextCandidatePage(candidateVocabularyItemIds)
     }
-  }, [activeEntry, activeEntryIndex, activeSession, defaultVocabularyItems, learningData, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
+  }, [activeEntry, activeEntryIndex, activeSession, defaultVocabularySet, learningData, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
 
   if (activeSession === undefined) {
     return null
@@ -111,7 +96,7 @@ export function ActiveSessionView({ learningData, onShowEntry, onShowCandidate, 
 
       {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
 
-      {vocabularyLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
+      {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
       {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : activeEntry === undefined ? null : <Flashcard activeEntryIndex={activeEntryIndex} isRevealed={activeEntry.revealedAt !== undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
     </section>
   )

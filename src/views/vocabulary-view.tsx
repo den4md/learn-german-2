@@ -3,15 +3,9 @@ import { allCefrLevels, allWordTypes, nounGenders, orderingDirections, orderingS
 import type { CefrLevel, OrderingDirection, OrderingSource, WordState, WordType } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
-import {
-  DefaultVocabularySet,
-  ResolvedVocabularyItem,
-  VocabularyItem,
-  getWordType,
-  resolveVocabularyItems,
-} from '../domain/vocabulary'
+import { ResolvedVocabularyItem, VocabularyItem, getWordType, resolveVocabularyItems } from '../domain/vocabulary'
 import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemTextData } from '../domain/vocabulary'
-import { loadAllDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
+import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
 
@@ -35,29 +29,11 @@ export function VocabularyView({
   onNavigate,
 }: VocabularyViewProps) {
   const { t } = useInterfaceLanguage()
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[] | undefined>()
-  const [hasLoadError, setHasLoadError] = useState(false)
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const routeState = useMemo(() => vocabularyResultStateFromSearch(locationSearch), [locationSearch])
   const [query, setQuery] = useState(routeState.query)
   const searchTimeout = useRef<number | undefined>(undefined)
   const [resultPageSnapshot, setResultPageSnapshot] = useState<ResultPageSnapshot | undefined>()
-
-  useEffect(() => {
-    let isCurrent = true
-    setHasLoadError(false)
-
-    void loadAllDefaultVocabularyItems()
-      .then((items) => {
-        if (isCurrent) setDefaultVocabularyItems(items)
-      })
-      .catch(() => {
-        if (isCurrent) setHasLoadError(true)
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [])
 
   useEffect(() => {
     setQuery(routeState.query)
@@ -69,14 +45,14 @@ export function VocabularyView({
 
   const vocabularyItems = useMemo(
     () =>
-      defaultVocabularyItems === undefined
+      defaultVocabularySet === undefined
         ? []
         : resolveVocabularyItems(
-          DefaultVocabularySet.fromItems(defaultVocabularyItems.map(VocabularyItem.fromData)),
+          defaultVocabularySet,
           learningData.userAddedVocabularyItems,
           learningData.vocabularyLearningRecords,
         ).map((item) => item.toData()),
-    [defaultVocabularyItems, learningData],
+    [defaultVocabularySet, learningData],
   )
   const filterState = { ...routeState, query: query.trim() }
   const filteredVocabularyItems = applyVocabularyResultFilters(vocabularyItems, filterState)
@@ -97,7 +73,7 @@ export function VocabularyView({
   const visibleVocabularyItems = hasSnapshot ? resultPageSnapshot.visibleVocabularyItems : calculatedVisibleVocabularyItems
   const canonicalSearch = vocabularySearchFromResultState({
     ...routeState,
-    page: defaultVocabularyItems === undefined && !hasSnapshot ? routeState.page : currentPage,
+    page: defaultVocabularySet === undefined && !hasSnapshot ? routeState.page : currentPage,
   })
 
   useEffect(() => {
@@ -188,9 +164,9 @@ export function VocabularyView({
         </div>
       </section>
 
-      {defaultVocabularyItems === undefined && !hasLoadError ? <VocabularyNotice>{t('loadingVocabulary')}</VocabularyNotice> : null}
+      {defaultVocabularySet === undefined && !hasLoadError ? <VocabularyNotice>{t('loadingVocabulary')}</VocabularyNotice> : null}
       {hasLoadError ? <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice> : null}
-      {defaultVocabularyItems !== undefined && !hasLoadError ? (
+      {defaultVocabularySet !== undefined && !hasLoadError ? (
         <section aria-labelledby="vocabulary-results-title" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-5 sm:px-8">
             <h3 className="text-xl font-bold tracking-tight text-slate-950" id="vocabulary-results-title">{t('vocabularyResults')}</h3>
@@ -359,30 +335,12 @@ interface VocabularyEditViewProps {
 
 export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onSaveVocabularyItem }: VocabularyEditViewProps) {
   const { t } = useInterfaceLanguage()
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[] | undefined>()
-  const [hasLoadError, setHasLoadError] = useState(false)
-
-  useEffect(() => {
-    let isCurrent = true
-    setHasLoadError(false)
-
-    void loadAllDefaultVocabularyItems()
-      .then((items) => {
-        if (isCurrent) setDefaultVocabularyItems(items)
-      })
-      .catch(() => {
-        if (isCurrent) setHasLoadError(true)
-      })
-
-    return () => {
-      isCurrent = false
-    }
-  }, [])
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
 
   if (vocabularyItemId === undefined) {
     return <VocabularyNotice tone="error">{t('invalidVocabularyItem')}</VocabularyNotice>
   }
-  if (defaultVocabularyItems === undefined) {
+  if (defaultVocabularySet === undefined) {
     return hasLoadError
       ? <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice>
       : <VocabularyNotice>{t('loadingVocabulary')}</VocabularyNotice>
@@ -391,7 +349,7 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
     return <VocabularyNotice tone="error">{t('couldNotLoadVocabulary')}</VocabularyNotice>
   }
 
-  const defaultVocabularyItem = defaultVocabularyItems.find((item) => item.id === vocabularyItemId)
+  const defaultVocabularyItem = defaultVocabularySet.findLoadedItem(vocabularyItemId)?.toData()
   const userAddedVocabularyItem = learningData.userAddedVocabularyItems.find((item) => item.id === vocabularyItemId)
   const sourceVocabularyItem = defaultVocabularyItem === undefined
     ? userAddedVocabularyItem

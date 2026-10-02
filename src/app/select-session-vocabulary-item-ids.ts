@@ -2,12 +2,12 @@ import { favouriteStatusFilters, orderingDirections, orderingSources, sessionTyp
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import type { SessionSettingsData, SessionType } from '../domain/session'
-import { DefaultVocabularySet, VocabularyItem, getWordType, resolveVocabularyItems } from '../domain/vocabulary'
-import type { ResolvedVocabularyItemData, VocabularyItemData } from '../domain/vocabulary'
+import { getWordType, resolveVocabularyItems } from '../domain/vocabulary'
+import type { DefaultVocabularySet, ResolvedVocabularyItemData } from '../domain/vocabulary'
 
 export function selectSessionVocabularyItemIds(
   learningData: LearningData,
-  defaultVocabularyItemData: VocabularyItemData[],
+  defaultVocabularySet: DefaultVocabularySet,
   sessionType: SessionType,
   settings: SessionSettingsData,
 ): VocabularyItemId[] {
@@ -17,7 +17,7 @@ export function selectSessionVocabularyItemIds(
       ? wordStates.learning
       : wordStates.known
   const vocabularyItems = resolveVocabularyItems(
-    DefaultVocabularySet.fromItems(defaultVocabularyItemData.map(VocabularyItem.fromData)),
+    defaultVocabularySet,
     learningData.userAddedVocabularyItems,
     learningData.vocabularyLearningRecords,
   )

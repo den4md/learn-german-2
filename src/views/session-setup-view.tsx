@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { allCefrLevels, allWordTypes, cardSides, favouriteStatusFilters, orderingDirections, orderingSources, sessionTypes, wordTypes } from '../domain/constants'
 import type { Dispatch, SetStateAction } from 'react'
 import type { CefrLevel, FavouriteStatusFilter, OrderingDirection, OrderingSource, SessionType, WordType } from '../domain/constants'
@@ -6,8 +6,7 @@ import { sessionId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
 import { Session, SessionSettings } from '../domain/session'
 import type { SessionSettingsData } from '../domain/session'
-import type { VocabularyItemData } from '../domain/vocabulary'
-import { loadAllDefaultVocabularyItems } from '../default-vocabulary-set/load-default-vocabulary-items'
+import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
 
@@ -24,20 +23,8 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
     ...SessionSettings.createDefault().toData(),
     itemLimit: 10,
   }))
-  const [defaultVocabularyItems, setDefaultVocabularyItems] = useState<VocabularyItemData[]>()
+  const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const [startFailure, setStartFailure] = useState<'no-matching-items' | 'active-session' | undefined>()
-
-  useEffect(() => {
-    let isCurrent = true
-    void loadAllDefaultVocabularyItems().then((items) => {
-      if (isCurrent) {
-        setDefaultVocabularyItems(items)
-      }
-    })
-    return () => {
-      isCurrent = false
-    }
-  }, [])
 
   const toggleCefrLevel = (level: CefrLevel) => {
     setSettings((currentSettings) => ({
@@ -75,14 +62,14 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
       setStartFailure('active-session')
       return
     }
-    if (defaultVocabularyItems === undefined) {
+    if (defaultVocabularySet === undefined) {
       return
     }
 
     const sessionSettings = SessionSettings.fromData(settings)
     const vocabularyItemIds = selectSessionVocabularyItemIds(
       learningData,
-      defaultVocabularyItems,
+      defaultVocabularySet,
       sessionType,
       sessionSettings.toData(),
     )
@@ -177,10 +164,11 @@ export function SessionSetupView({ learningData, onBack, onSessionStarted }: Ses
         </fieldset>
       </div>
 
-      {startFailure === 'no-matching-items' ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('noMatchingItems')}</p> : null}
-      {startFailure === 'active-session' ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('activeSessionAlreadyExists')}</p> : null}
-      <button className="mt-8 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200 disabled:cursor-wait disabled:bg-blue-300" disabled={defaultVocabularyItems === undefined} type="button" onClick={startSession}>
-        {defaultVocabularyItems === undefined ? t('loadingVocabulary') : t('startSession')}
+       {startFailure === 'no-matching-items' ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('noMatchingItems')}</p> : null}
+       {startFailure === 'active-session' ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('activeSessionAlreadyExists')}</p> : null}
+      {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('couldNotLoadVocabulary')}</p> : null}
+      <button className="mt-8 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200 disabled:cursor-wait disabled:bg-blue-300" disabled={defaultVocabularySet === undefined} type="button" onClick={startSession}>
+        {hasLoadError ? t('couldNotLoadVocabulary') : defaultVocabularySet === undefined ? t('loadingVocabulary') : t('startSession')}
       </button>
     </section>
   )

@@ -1,0 +1,16 @@
+{
+  "chunks": [
+    { "firstVocabularyItemId": 1, "lastVocabularyItemId": 1000, "path": "./vocabulary-items/1000.json" },
+    { "firstVocabularyItemId": 1001, "lastVocabularyItemId": 2000, "path": "./vocabulary-items/2000.json" },
+    { "firstVocabularyItemId": 2001, "lastVocabularyItemId": 3000, "path": "./vocabulary-items/3000.json" },
+    { "firstVocabularyItemId": 3001, "lastVocabularyItemId": 4000, "path": "./vocabulary-items/4000.json" },
+    { "firstVocabularyItemId": 4001, "lastVocabularyItemId": 5000, "path": "./vocabulary-items/5000.json" },
+    { "firstVocabularyItemId": 5001, "lastVocabularyItemId": 6000, "path": "./vocabulary-items/6000.json" },
+    { "firstVocabularyItemId": 6001, "lastVocabularyItemId": 7000, "path": "./vocabulary-items/7000.json" },
+    { "firstVocabularyItemId": 7001, "lastVocabularyItemId": 8000, "path": "./vocabulary-items/8000.json" },
+    { "firstVocabularyItemId": 8001, "lastVocabularyItemId": 9000, "path": "./vocabulary-items/9000.json" },
+    { "firstVocabularyItemId": 9001, "lastVocabularyItemId": 10000, "path": "./vocabulary-items/10000.json" },
+    { "firstVocabularyItemId": 10001, "lastVocabularyItemId": 11000, "path": "./vocabulary-items/11000.json" },
+    { "firstVocabularyItemId": 11001, "lastVocabularyItemId": 11363, "path": "./vocabulary-items/12000.json" }
+  ]
+}
