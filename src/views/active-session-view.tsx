@@ -343,7 +343,7 @@ function FittedText({ children, className, minimumFontSize }: { children: string
     return () => resizeObserver.disconnect()
   }, [children, minimumFontSize])
 
-  return <p className={`${className} overflow-hidden whitespace-nowrap`} ref={text} style={fontSize === undefined ? undefined : { fontSize: `${fontSize}px` }}>{children}</p>
+  return <p className={`${className} overflow-hidden whitespace-nowrap leading-normal`} ref={text} style={fontSize === undefined ? undefined : { fontSize: `${fontSize}px` }}>{children}</p>
 }
 
 interface AssessmentAction {
