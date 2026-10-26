@@ -35,7 +35,7 @@ export function SessionRow({ onOpenDetails, onContinue, session }: { onOpenDetai
       <dl className={`grid gap-x-1 gap-y-1 text-sm text-slate-600 min-[400px]:gap-x-2 sm:gap-x-3 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere ${assessmentSummary.length === 3 ? 'grid-cols-4' : 'grid-cols-3'}`}>
         <div>
           <dt>{t('done')}</dt>
-          <dd className="whitespace-nowrap font-semibold text-slate-950">{isUnlimited ? completedEntries.length : `${completedEntries.length} / ${session.entries.length}`}</dd>
+          <dd className="whitespace-nowrap font-semibold text-slate-950">{isUnlimited ? completedEntries.length : `${completedEntries.length} / ${session.selectedItemCount ?? session.entries.length}`}</dd>
         </div>
         {assessmentSummary.map((assessment) => <div key={assessment.label}><dt>{assessment.label}</dt><dd className="font-semibold text-slate-950">{assessment.value}</dd></div>)}
       </dl>

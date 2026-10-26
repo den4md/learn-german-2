@@ -252,10 +252,6 @@ export class VocabularyLearningRecord {
       }
     }
 
-    if (replacedSelfAssessment !== undefined) {
-      return new VocabularyLearningRecord({ ...this.data, learningStatistics, lastUpdatedAt: assessedAt })
-    }
-
     return new VocabularyLearningRecord({
       ...this.data,
       ...applyAutomaticStateTransition(this.data, sessionType, selfAssessment),

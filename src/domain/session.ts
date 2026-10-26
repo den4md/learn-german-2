@@ -1,5 +1,5 @@
 import type { SessionId, VocabularyItemId } from './identifiers'
-import type { CefrLevel, WordState, WordType } from './vocabulary'
+import type { CefrLevel, LearningStatisticsData, WordState, WordType } from './vocabulary'
 import {
   allCefrLevels,
   allNounGermanSideHeaderFields,
@@ -70,8 +70,10 @@ export interface SessionEntryData {
 export interface SessionEntryTransitionData {
   beforeWordState: WordState
   beforeLearningScore: number
+  beforeLearningStatistics?: LearningStatisticsData
   afterWordState: WordState
   afterLearningScore: number
+  afterLearningStatistics?: LearningStatisticsData
 }
 
 export interface SessionData {
@@ -79,6 +81,8 @@ export interface SessionData {
   type: SessionType
   settings: SessionSettingsData
   entries: SessionEntryData[]
+  deferredOutcomes?: boolean
+  selectedItemCount?: number
   candidateVocabularyItemIds?: VocabularyItemId[]
   currentEntryIndex: number
   startedAt: string
@@ -138,7 +142,7 @@ export class SessionEntry {
   }
 
   static fromData(data: SessionEntryData): SessionEntry {
-    return new SessionEntry({ ...data, transition: data.transition === undefined ? undefined : { ...data.transition } })
+    return new SessionEntry({ ...data, transition: copySessionEntryTransition(data.transition) })
   }
 
   get vocabularyItemId(): VocabularyItemId {
@@ -166,18 +170,18 @@ export class SessionEntry {
   }
 
   get transition(): SessionEntryTransitionData | undefined {
-    return this.data.transition === undefined ? undefined : { ...this.data.transition }
+    return copySessionEntryTransition(this.data.transition)
   }
 
   get isCompleted(): boolean {
     return this.data.selfAssessment !== undefined || this.data.manualWordState !== undefined
   }
 
-  withShownAt(shownAt: string): SessionEntry {
+  withShownAt(shownAt: string, transition: SessionEntryTransitionData): SessionEntry {
     if (this.data.shownAt !== undefined) {
       return this
     }
-    return new SessionEntry({ ...this.data, shownAt })
+    return SessionEntry.fromData({ ...this.data, shownAt, transition })
   }
 
   withRevealedAt(revealedAt: string): SessionEntry {
@@ -188,15 +192,15 @@ export class SessionEntry {
   }
 
   withSelfAssessment(selfAssessment: SelfAssessment, selfAssessedAt: string, transition: SessionEntryTransitionData): SessionEntry {
-    return new SessionEntry({ ...this.data, selfAssessment, manualWordState: undefined, selfAssessedAt, transition })
+    return SessionEntry.fromData({ ...this.data, selfAssessment, manualWordState: undefined, selfAssessedAt, transition })
   }
 
   withManualWordState(wordState: WordState, selfAssessedAt: string, transition: SessionEntryTransitionData): SessionEntry {
-    return new SessionEntry({ ...this.data, selfAssessment: undefined, manualWordState: wordState, selfAssessedAt, transition })
+    return SessionEntry.fromData({ ...this.data, selfAssessment: undefined, manualWordState: wordState, selfAssessedAt, transition })
   }
 
   toData(): SessionEntryData {
-    return { ...this.data, transition: this.data.transition === undefined ? undefined : { ...this.data.transition } }
+    return { ...this.data, transition: copySessionEntryTransition(this.data.transition) }
   }
 }
 
@@ -225,6 +229,7 @@ export class Session {
         type,
         settings: settings.toData(),
         entries: [],
+        deferredOutcomes: true,
         candidateVocabularyItemIds: vocabularyItemIds.slice(0, unlimitedSessionCandidatePageSize),
         currentEntryIndex: 0,
         startedAt,
@@ -237,6 +242,8 @@ export class Session {
       type,
       settings: settings.toData(),
       entries: vocabularyItemIds.slice(0, itemLimit).map((vocabularyItemId) => ({ vocabularyItemId })),
+      deferredOutcomes: true,
+      selectedItemCount: Math.min(vocabularyItemIds.length, itemLimit),
       currentEntryIndex: 0,
       startedAt,
       lastActionAt: startedAt,
@@ -248,6 +255,7 @@ export class Session {
       ...data,
       settings: SessionSettings.fromData(data.settings).toData(),
       entries: (data.entries ?? []).map((entry) => SessionEntry.fromData(entry).toData()),
+      selectedItemCount: data.settings.itemLimit === undefined ? undefined : data.selectedItemCount ?? (data.entries ?? []).length,
       candidateVocabularyItemIds: data.candidateVocabularyItemIds === undefined ? undefined : [...data.candidateVocabularyItemIds],
       currentEntryIndex: data.currentEntryIndex ?? 0,
     })
@@ -293,19 +301,21 @@ export class Session {
     return SessionEntry.fromData(entry)
   }
 
-  showEntry(index: number, shownAt: string): Session {
+  showEntry(index: number, shownAt: string, transition: SessionEntryTransitionData): Session {
+    this.assertActive()
     const entries = this.data.entries.map((entry, entryIndex) =>
-      entryIndex === index ? SessionEntry.fromData(entry).withShownAt(shownAt).toData() : entry,
+      entryIndex === index ? SessionEntry.fromData(entry).withShownAt(shownAt, transition).toData() : entry,
     )
     this.entryAt(index)
     return new Session({ ...this.data, entries, currentEntryIndex: index, lastActionAt: shownAt })
   }
 
-  showCandidate(vocabularyItemId: VocabularyItemId, shownAt: string): Session {
+  showCandidate(vocabularyItemId: VocabularyItemId, shownAt: string, transition: SessionEntryTransitionData): Session {
+    this.assertActive()
     if (!this.isUnlimited || !this.candidateVocabularyItemIds.includes(vocabularyItemId)) {
       throw new Error('The Vocabulary item is not in the current Candidate page.')
     }
-    const entries = [...this.data.entries, { vocabularyItemId, shownAt }]
+    const entries = [...this.data.entries, SessionEntry.fromData({ vocabularyItemId, shownAt, transition }).toData()]
     return new Session({
       ...this.data,
       entries,
@@ -316,7 +326,11 @@ export class Session {
   }
 
   revealEntry(index: number, revealedAt: string): Session {
+    this.assertActive()
     const entry = this.entryAt(index)
+    if (entry.shownAt === undefined) {
+      throw new Error('Show the Session entry before revealing it.')
+    }
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withRevealedAt(revealedAt).toData() : candidate,
     )
@@ -324,6 +338,7 @@ export class Session {
   }
 
   dropCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): Session {
+    this.assertActive()
     if (!this.isUnlimited) {
       throw new Error('Only an Unlimited session has a Candidate page.')
     }
@@ -335,6 +350,7 @@ export class Session {
   }
 
   selectNextCandidatePage(vocabularyItemIds: VocabularyItemId[], selectedAt: string): Session {
+    this.assertActive()
     if (!this.isCandidatePageComplete) {
       throw new Error('Complete the current Candidate page before selecting another.')
     }
@@ -353,6 +369,7 @@ export class Session {
   }
 
   assessEntry(index: number, selfAssessment: SelfAssessment, assessedAt: string, transition: SessionEntryTransitionData): Session {
+    this.assertActive()
     const entry = this.entryAt(index)
     if (entry.revealedAt === undefined) {
       throw new Error('Reveal the other card side before recording a Self-assessment.')
@@ -372,7 +389,11 @@ export class Session {
   }
 
   manuallySetEntryWordState(index: number, wordState: WordState, assessedAt: string, transition: SessionEntryTransitionData): Session {
+    this.assertActive()
     const entry = this.entryAt(index)
+    if (entry.revealedAt === undefined) {
+      throw new Error('Reveal the other card side before changing this entry.')
+    }
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withManualWordState(wordState, assessedAt, transition).toData() : candidate,
     )
@@ -387,11 +408,16 @@ export class Session {
   }
 
   complete(endedAt: string): Session {
+    this.assertActive()
+    if (!(this.isUnlimited ? this.isCandidatePageComplete : this.isComplete)) {
+      throw new Error('Complete every Session entry before finishing the Session.')
+    }
     return new Session({ ...this.data, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: this.isUnlimited ? sessionEndReasons.allWordsCompleted : sessionEndReasons.completed })
   }
 
   end(endedAt: string): Session {
-    return new Session({ ...this.data, entries: this.isUnlimited ? this.data.entries.filter((entry) => SessionEntry.fromData(entry).isCompleted) : this.data.entries, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: sessionEndReasons.userEnded })
+    this.assertActive()
+    return new Session({ ...this.data, entries: this.data.entries.filter((entry) => entry.shownAt !== undefined || SessionEntry.fromData(entry).isCompleted), candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: sessionEndReasons.userEnded })
   }
 
   toData(): SessionData {
@@ -401,6 +427,20 @@ export class Session {
       entries: this.data.entries.map((entry) => SessionEntry.fromData(entry).toData()),
       candidateVocabularyItemIds: this.data.candidateVocabularyItemIds === undefined ? undefined : [...this.data.candidateVocabularyItemIds],
     }
+  }
+
+  private assertActive(): void {
+    if (this.isEnded) {
+      throw new Error('An ended Session is read-only.')
+    }
+  }
+}
+
+function copySessionEntryTransition(transition: SessionEntryTransitionData | undefined): SessionEntryTransitionData | undefined {
+  return transition === undefined ? undefined : {
+    ...transition,
+    beforeLearningStatistics: transition.beforeLearningStatistics === undefined ? undefined : { ...transition.beforeLearningStatistics },
+    afterLearningStatistics: transition.afterLearningStatistics === undefined ? undefined : { ...transition.afterLearningStatistics },
   }
 }
 

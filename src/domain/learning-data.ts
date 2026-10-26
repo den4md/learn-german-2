@@ -5,7 +5,7 @@ import type { DailyStreakHistoryData } from './learning-progress'
 import { Session } from './session'
 import type { SelfAssessment, SessionData, SessionEntryTransitionData } from './session'
 import { VocabularyItem, VocabularyLearningRecord } from './vocabulary'
-import type { VocabularyItemData, VocabularyItemTextData, VocabularyLearningRecordData, WordState } from './vocabulary'
+import type { LearningStatisticsData, VocabularyItemData, VocabularyItemTextData, VocabularyLearningRecordData, WordState } from './vocabulary'
 import type { VocabularyItemId } from './identifiers'
 import { recallSelfAssessments } from './constants'
 
@@ -36,7 +36,7 @@ export class LearningData {
   }
 
   static fromData(data: LearningDataData): LearningData {
-    return new LearningData({
+    const learningData = new LearningData({
       ...data,
       preferences: Preferences.fromData(data.preferences).toData(),
       userAddedVocabularyItems: (data.userAddedVocabularyItems ?? []).map((item) =>
@@ -50,6 +50,25 @@ export class LearningData {
       dailyStreakHistory: DailyStreakHistory.fromData(
         data.dailyStreakHistory ?? DailyStreakHistory.createEmpty().toData(),
       ).toData(),
+    })
+
+    const activeSession = learningData.data.activeSession
+    if (activeSession === undefined || activeSession.deferredOutcomes === true) {
+      return learningData
+    }
+
+    // Older Active sessions already applied their outcomes. Undo only a still-matching
+    // state/score; their immediate statistics stay, and unavailable snapshots stay unknown.
+    const entriesById = new Map(activeSession.entries.map((entry) => [entry.vocabularyItemId, entry]))
+    return new LearningData({
+      ...learningData.data,
+      activeSession: { ...activeSession, deferredOutcomes: true },
+      vocabularyLearningRecords: learningData.data.vocabularyLearningRecords.map((record) => {
+        const transition = entriesById.get(record.vocabularyItemId)?.transition
+        return transition === undefined || record.wordState !== transition.afterWordState || record.learningScore !== transition.afterLearningScore
+          ? record
+          : { ...record, wordState: transition.beforeWordState, learningScore: transition.beforeLearningScore }
+      }),
     })
   }
 
@@ -104,16 +123,21 @@ export class LearningData {
     if (this.data.activeSession !== undefined) {
       throw new Error('End the Active session before starting another Session.')
     }
+    if (session.isEnded) {
+      throw new Error('An ended Session cannot become the Active session.')
+    }
     return new LearningData({ ...this.data, activeSession: session.toData() })
   }
 
   showActiveSessionEntry(entryIndex: number, shownAt: string): LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
-    const nextActiveSession = activeSession.showEntry(entryIndex, shownAt)
+    const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const afterRecord = beforeRecord.withSessionEntryShown()
+    const nextActiveSession = activeSession.showEntry(entryIndex, shownAt, createSessionEntryTransition(beforeRecord, afterRecord, beforeRecord.learningStatistics))
     const records =
       entry.shownAt === undefined
-        ? this.withSessionEntryShown(entry.vocabularyItemId)
+        ? this.replaceVocabularyLearningRecord(afterRecord)
         : this.data.vocabularyLearningRecords
 
     return new LearningData({
@@ -125,12 +149,14 @@ export class LearningData {
 
   showActiveSessionCandidate(vocabularyItemId: VocabularyItemId, shownAt: string): LearningData {
     const activeSession = this.requireActiveSession()
-    const nextActiveSession = activeSession.showCandidate(vocabularyItemId, shownAt)
+    const beforeRecord = this.findVocabularyLearningRecord(vocabularyItemId) ?? VocabularyLearningRecord.createNew(vocabularyItemId)
+    const afterRecord = beforeRecord.withSessionEntryShown()
+    const nextActiveSession = activeSession.showCandidate(vocabularyItemId, shownAt, createSessionEntryTransition(beforeRecord, afterRecord, beforeRecord.learningStatistics))
 
     return new LearningData({
       ...this.data,
       activeSession: nextActiveSession.toData(),
-      vocabularyLearningRecords: this.withSessionEntryShown(vocabularyItemId),
+      vocabularyLearningRecords: this.replaceVocabularyLearningRecord(afterRecord),
     })
   }
 
@@ -158,11 +184,7 @@ export class LearningData {
     const nextActiveSession = activeSession.selectNextCandidatePage(vocabularyItemIds, selectedAt)
 
     return nextActiveSession.isEnded
-      ? new LearningData({
-        ...this.data,
-        activeSession: undefined,
-        sessions: [...this.data.sessions, nextActiveSession.toData()],
-      })
+      ? this.finishSession(nextActiveSession)
       : new LearningData({ ...this.data, activeSession: nextActiveSession.toData() })
   }
 
@@ -173,34 +195,38 @@ export class LearningData {
   ): LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
-    const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const currentRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const beforeRecord = VocabularyLearningRecord.fromData({
+      ...currentRecord.toData(),
+      wordState: entry.transition?.beforeWordState ?? currentRecord.wordState,
+      learningScore: entry.transition?.beforeLearningScore ?? currentRecord.learningScore,
+    })
     const afterRecord = beforeRecord.withSessionSelfAssessment(activeSession.type, selfAssessment, entry.selfAssessment, assessedAt)
-    const nextActiveSession = activeSession.assessEntry(entryIndex, selfAssessment, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
-    const records = this.replaceVocabularyLearningRecord(afterRecord)
-
-    const learningData = !nextActiveSession.isComplete
-      ? new LearningData({
-        ...this.data,
-        activeSession: nextActiveSession.toData(),
-        vocabularyLearningRecords: records,
-      })
-      : new LearningData({
-        ...this.data,
-        activeSession: undefined,
-        sessions: [...this.data.sessions, nextActiveSession.complete(assessedAt).toData()],
-        vocabularyLearningRecords: records,
-      })
+    const nextActiveSession = activeSession.assessEntry(entryIndex, selfAssessment, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord, entry.transition?.beforeLearningStatistics))
+    const records = this.replaceVocabularyLearningRecord(VocabularyLearningRecord.fromData({
+      ...afterRecord.toData(),
+      wordState: currentRecord.wordState,
+      learningScore: currentRecord.learningScore,
+    }))
+    const learningData = new LearningData({
+      ...this.data,
+      activeSession: nextActiveSession.toData(),
+      vocabularyLearningRecords: records,
+    })
 
     return learningData.updateDailyStreak(assessedAt)
   }
 
   endActiveSession(endedAt: string): LearningData {
-    const completedSession = this.requireActiveSession().end(endedAt)
-    return new LearningData({
-      ...this.data,
-      activeSession: undefined,
-      sessions: [...this.data.sessions, completedSession.toData()],
-    })
+    return this.finishSession(this.requireActiveSession().end(endedAt))
+  }
+
+  completeActiveSession(endedAt: string): LearningData {
+    const activeSession = this.requireActiveSession()
+    if (activeSession.isUnlimited) {
+      throw new Error('An Unlimited session completes when no next Candidate page can be selected.')
+    }
+    return this.finishSession(activeSession.complete(endedAt))
   }
 
   manuallySetActiveSessionEntryWordState(
@@ -210,23 +236,24 @@ export class LearningData {
   ): LearningData {
     const activeSession = this.requireActiveSession()
     const entry = activeSession.entryAt(entryIndex)
-    const beforeRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const currentRecord = this.findVocabularyLearningRecord(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId)
+    const beforeRecord = VocabularyLearningRecord.fromData({
+      ...currentRecord.toData(),
+      wordState: entry.transition?.beforeWordState ?? currentRecord.wordState,
+      learningScore: entry.transition?.beforeLearningScore ?? currentRecord.learningScore,
+    })
     const afterRecord = beforeRecord.withManualWordState(wordState, entry.selfAssessment, assessedAt)
-    const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord))
-    const records = this.replaceVocabularyLearningRecord(afterRecord)
-
-    const learningData = !nextActiveSession.isComplete
-      ? new LearningData({
-        ...this.data,
-        activeSession: nextActiveSession.toData(),
-        vocabularyLearningRecords: records,
-      })
-      : new LearningData({
-        ...this.data,
-        activeSession: undefined,
-        sessions: [...this.data.sessions, nextActiveSession.complete(assessedAt).toData()],
-        vocabularyLearningRecords: records,
-      })
+    const nextActiveSession = activeSession.manuallySetEntryWordState(entryIndex, wordState, assessedAt, createSessionEntryTransition(beforeRecord, afterRecord, entry.transition?.beforeLearningStatistics))
+    const records = this.replaceVocabularyLearningRecord(VocabularyLearningRecord.fromData({
+      ...afterRecord.toData(),
+      wordState: currentRecord.wordState,
+      learningScore: currentRecord.learningScore,
+    }))
+    const learningData = new LearningData({
+      ...this.data,
+      activeSession: nextActiveSession.toData(),
+      vocabularyLearningRecords: records,
+    })
 
     return learningData.updateDailyStreak(assessedAt)
   }
@@ -309,11 +336,24 @@ export class LearningData {
     return data === undefined ? undefined : VocabularyLearningRecord.fromData(data)
   }
 
-  private withSessionEntryShown(vocabularyItemId: VocabularyItemId): VocabularyLearningRecordData[] {
-    return this.replaceVocabularyLearningRecord(
-      (this.findVocabularyLearningRecord(vocabularyItemId) ?? VocabularyLearningRecord.createNew(vocabularyItemId))
-        .withSessionEntryShown(),
-    )
+  private finishSession(session: Session): LearningData {
+    const recordsById = new Map(this.data.vocabularyLearningRecords.map((record) => [record.vocabularyItemId, record]))
+    for (const entry of session.entries) {
+      const transition = entry.transition
+      if (!entry.isCompleted || transition === undefined) continue
+      const record = recordsById.get(entry.vocabularyItemId) ?? VocabularyLearningRecord.createNew(entry.vocabularyItemId).toData()
+      recordsById.set(entry.vocabularyItemId, {
+        ...record,
+        wordState: transition.afterWordState,
+        learningScore: transition.afterLearningScore,
+      })
+    }
+    return new LearningData({
+      ...this.data,
+      vocabularyLearningRecords: [...recordsById.values()],
+      activeSession: undefined,
+      sessions: [...this.data.sessions, session.toData()],
+    })
   }
 
   private replaceVocabularyLearningRecord(
@@ -342,12 +382,14 @@ export class LearningData {
   }
 }
 
-function createSessionEntryTransition(beforeRecord: VocabularyLearningRecord, afterRecord: VocabularyLearningRecord): SessionEntryTransitionData {
+function createSessionEntryTransition(beforeRecord: VocabularyLearningRecord, afterRecord: VocabularyLearningRecord, beforeLearningStatistics: LearningStatisticsData | undefined): SessionEntryTransitionData {
   return {
     beforeWordState: beforeRecord.wordState,
     beforeLearningScore: beforeRecord.learningScore,
+    beforeLearningStatistics,
     afterWordState: afterRecord.wordState,
     afterLearningScore: afterRecord.learningScore,
+    afterLearningStatistics: beforeLearningStatistics === undefined ? undefined : afterRecord.learningStatistics,
   }
 }
 

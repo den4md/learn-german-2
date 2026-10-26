@@ -139,6 +139,11 @@ export function App() {
     navigate('/progression')
   }
 
+  const completeActiveSession = () => {
+    saveLearningData(learningData.completeActiveSession(new Date().toISOString()))
+    navigate('/progression')
+  }
+
   const startNewSession = () => {
     if (!navigation.allowNavigation()) return
     if (learningData.activeSession !== undefined && !window.confirm(messages[learningData.preferences.interfaceLanguage].startNewSessionConfirmation)) return
@@ -264,6 +269,7 @@ export function App() {
               onAssessmentTransitionChange={setSessionTransitionData}
               onAssessEntry={assessActiveSessionEntry}
               onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus}
+              onCompleteSession={completeActiveSession}
               onEndSession={endActiveSession}
               onEditVocabularyItem={openVocabularyItemEdit}
               onManuallySetWordState={manuallySetActiveSessionEntryWordState}

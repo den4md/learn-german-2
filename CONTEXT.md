@@ -133,7 +133,7 @@ The count in a Vocabulary learning record of consecutive correct recall judgemen
 _Avoid_: total correct answers, mastery percentage
 
 **Automatic state transition**:
-The app's automatic change to a Vocabulary learning record's Word state after a Self-assessment. A Learning score of ten moves the item from Learning to Known. In a Repetition session, an incorrect self-assessment moves the item to Learning and resets its Learning score to zero. The user may change a Word state manually at any time.
+The app's change to Word state and Learning score determined by a Self-assessment, kept pending during an Active session and applied when it ends. A Learning score of ten moves Learning to Known; an incorrect Repetition assessment moves Known to Learning and resets its score to zero.
 _Avoid_: suggestion, optional promotion
 
 ## Progress
@@ -173,7 +173,7 @@ _Avoid_: streak history page
 ## Sessions
 
 **Session entry**:
-One Vocabulary item that a Session has presented. It records that Session's reveal and Self-assessment result for the item, plus the recorded before-and-after Word state and Learning score when the app stored them. It does not own the item's long-lived Word state, Learning score, Learning statistics, Favourite status, or text changes.
+One Vocabulary item that a Session has presented, recording its reveal state, final Self-assessment or manual decision, and historical before-and-after Word state, Learning score, and Learning statistics where available. Its baseline precedes the first card show; replacing its decision recalculates its pending result from that baseline, while unavailable older statistics remain unknown.
 _Avoid_: card progress, question state
 
 **Session**:
@@ -181,7 +181,7 @@ One user-created sequence of Session entries. It has a start timestamp, a last-a
 _Avoid_: run, attempt
 
 **Session end reason**:
-The recorded reason a Session ended. A Limited Session that reaches its natural end is Completed. An Unlimited Session that runs out of matching Vocabulary items ended by completing all words. A user-ended Session ended because the user chose to stop it. A user-ended Unlimited Session retains only completed Session entries.
+The recorded reason a Session ended: Completed for a finalized Limited session, completing all words for an exhausted Unlimited session, or user-ended when stopped manually. A user-ended Session retains all presented entries, including unanswered cards, and discards unpresented selections.
 _Avoid_: session status, outcome
 
 **No-matching-items start failure**:
@@ -189,7 +189,7 @@ A rejected attempt to start a Session because no Vocabulary item matches its Ses
 _Avoid_: empty session
 
 **Active session**:
-A Session without an end timestamp. The app has at most one. It resumes with its recorded entries, current candidate page when applicable, and current position; starting another Session requires the user to end it.
+A Session without an end timestamp, at most one per user, which resumes with its recorded entries, current candidate page when applicable, and pending outcomes. Answers, Learning statistics, and Daily streak effects are immediate, while Word state and Learning score stay committed until the Session ends; starting another Session requires ending this one first.
 _Avoid_: paused session
 
 **Knowledge-check session**:
@@ -213,7 +213,7 @@ A positive whole number in Session settings that caps the number of Vocabulary i
 _Avoid_: page size, batch size
 
 **Limited session**:
-A Session with an Item limit. It selects one ordered, fixed list of matching Vocabulary items when it starts and completes when every Session entry has a Self-assessment. An item stays in its fixed list even when it later stops matching the Session settings, except when it becomes Excluded. A user-ended Limited session discards unpresented items in its fixed list. No matching item produces a No-matching-items start failure.
+A Session with an Item limit that selects one ordered, fixed list at its start and becomes ready to finish when every entry has a Self-assessment or manual decision, remaining Active until finalized. Ending it discards unpresented selections while preserving its original selected total for history; no matching item produces a No-matching-items start failure.
 _Avoid_: normal session, capped session
 
 **Sorting criterion**:

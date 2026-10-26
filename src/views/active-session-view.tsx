@@ -21,6 +21,7 @@ interface ActiveSessionViewProps {
   onRevealEntry(entryIndex: number): void
   onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
+  onCompleteSession(): void
   onEndSession(): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
   onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void
@@ -31,7 +32,7 @@ interface ActiveSessionViewProps {
   onSelectNextCandidatePage(vocabularyItemIds: VocabularyItemId[]): void
 }
 
-export function ActiveSessionView({ isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
+export function ActiveSessionView({ isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const activeSession = learningData.activeSession
@@ -126,7 +127,12 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
       {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
-      {vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard activeEntryIndex={displayedEntryIndex} assessmentFeedback={assessmentFeedback?.action} isShowingNextCard={isShowingNextCard} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={isSessionComplete || activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessmentFeedback={startAssessmentFeedback} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
+      {activeSession.isComplete && assessmentFeedback === undefined ? (
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center shadow-sm">
+          <h3 className="text-xl font-bold text-slate-950">{t('sessionReadyToFinish')}</h3>
+          <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onCompleteSession}>{t('finishSession')}</button>
+        </div>
+      ) : vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard activeEntryIndex={displayedEntryIndex} assessmentFeedback={assessmentFeedback?.action} isShowingNextCard={isShowingNextCard} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={isSessionComplete || activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessmentFeedback={startAssessmentFeedback} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
     </section>
   )
 }
