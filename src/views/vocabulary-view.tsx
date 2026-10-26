@@ -12,6 +12,7 @@ import { ResultPagination, resultPageSize } from '../components/result-paginatio
 
 import { CollapsibleControls, FavouriteFilter, SortingOptions } from '../components/browse-controls'
 import { compareVocabularyItems } from '../domain/vocabulary-sorting'
+import { useAppPopup } from '../components/app-popup'
 
 interface VocabularyViewProps {
   learningData: LearningData
@@ -309,16 +310,17 @@ interface VocabularyEditViewProps {
   vocabularyItemId: VocabularyItemId | undefined
   learningData: LearningData
   onBack(): void
+  onUnsavedChangesChange(hasChanges: boolean): void
   onSaveVocabularyItem(
     vocabularyItemId: VocabularyItemId,
     germanText: VocabularyItemTextData | undefined,
     translations: string[] | undefined,
     wordState: WordState,
     isFavourite: boolean,
-  ): void
+  ): Promise<void>
 }
 
-export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onSaveVocabularyItem }: VocabularyEditViewProps) {
+export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onSaveVocabularyItem, onUnsavedChangesChange }: VocabularyEditViewProps) {
   const { t } = useInterfaceLanguage()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet(
     vocabularyItemId !== undefined && vocabularyItemId > 0 ? [vocabularyItemId] : [],
@@ -356,6 +358,7 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
       key={vocabularyItemId}
       onBack={onBack}
       onSave={onSaveVocabularyItem}
+      onUnsavedChangesChange={onUnsavedChangesChange}
       isFavourite={resolvedVocabularyItem.isFavourite}
       learningScore={resolvedVocabularyItem.learningScore}
       learningStatistics={resolvedVocabularyItem.learningStatistics}
@@ -386,6 +389,7 @@ function VocabularyEditForm({
   learningStatistics,
   onBack,
   onSave,
+  onUnsavedChangesChange,
   vocabularyItem,
   wordState,
 }: {
@@ -394,7 +398,8 @@ function VocabularyEditForm({
   learningScore: number
   learningStatistics: ResolvedVocabularyItemData['learningStatistics']
   onBack(): void
-  onSave(vocabularyItemId: VocabularyItemId, germanText: VocabularyItemTextData | undefined, translations: string[] | undefined, wordState: WordState, isFavourite: boolean): void
+  onSave(vocabularyItemId: VocabularyItemId, germanText: VocabularyItemTextData | undefined, translations: string[] | undefined, wordState: WordState, isFavourite: boolean): Promise<void>
+  onUnsavedChangesChange(hasChanges: boolean): void
   vocabularyItem: VocabularyItemData
   wordState: WordState
 }) {
@@ -402,20 +407,40 @@ function VocabularyEditForm({
   const [item, setItem] = useState(vocabularyItem)
   const [selectedWordState, setSelectedWordState] = useState(wordState)
   const [selectedFavouriteStatus, setSelectedFavouriteStatus] = useState(isFavourite)
+  const [isSaving, setIsSaving] = useState(false)
+  const saveButton = useRef<HTMLButtonElement>(null)
+  const { showError } = useAppPopup()
   const hasDefaultVocabularyItem = defaultVocabularyItem !== undefined
+  const hasChanges = !sameGermanText(toVocabularyItemTextData(item), toVocabularyItemTextData(vocabularyItem))
+    || !sameStrings(item.translations, vocabularyItem.translations)
+    || selectedWordState !== wordState || selectedFavouriteStatus !== isFavourite
 
-  const save = () => {
+  useEffect(() => {
+    onUnsavedChangesChange(hasChanges)
+    return () => onUnsavedChangesChange(false)
+  }, [hasChanges, onUnsavedChangesChange])
+
+  const save = async () => {
+    if (isSaving) return
     const germanText = toVocabularyItemTextData(item)
     const defaultGermanText = defaultVocabularyItem === undefined ? undefined : toVocabularyItemTextData(defaultVocabularyItem)
     const translations = defaultVocabularyItem !== undefined && sameStrings(item.translations, defaultVocabularyItem.translations)
       ? undefined
       : item.translations
-    onSave(item.id, defaultGermanText !== undefined && sameGermanText(germanText, defaultGermanText) ? undefined : germanText, translations, selectedWordState, selectedFavouriteStatus)
-    onBack()
+    setIsSaving(true)
+    try {
+      await onSave(item.id, defaultGermanText !== undefined && sameGermanText(germanText, defaultGermanText) ? undefined : germanText, translations, selectedWordState, selectedFavouriteStatus)
+      onUnsavedChangesChange(false)
+      onBack()
+    } catch {
+      showError({ title: t('couldNotSaveChangesTitle'), description: t('couldNotSaveChanges'), actionLabel: t('ok'), returnFocus: saveButton.current ?? undefined })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" inert={isSaving}>
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <p className="text-sm font-semibold text-blue-700">{t('navigationVocabulary')}</p>
         <h2 className="mt-1 text-2xl font-bold tracking-tight text-slate-950">{t('editVocabularyItem')}</h2>
@@ -467,7 +492,7 @@ function VocabularyEditForm({
 
       <div className="flex flex-wrap justify-end gap-3">
         <button className="rounded-xl border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onBack} type="button">{t('cancel')}</button>
-        <button className="rounded-xl bg-blue-700 px-4 py-2.5 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" onClick={save} type="button">{t('saveChanges')}</button>
+        <button className="rounded-xl bg-blue-700 px-4 py-2.5 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" ref={saveButton} onClick={save} type="button">{t('saveChanges')}</button>
       </div>
     </div>
   )

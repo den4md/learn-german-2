@@ -19,9 +19,11 @@ import { VocabularyItem } from '../domain/vocabulary'
 import type { VocabularyItemData, WordState } from '../domain/vocabulary'
 import { AppFooter, AppShell } from './app-shell'
 import { PopupMenuProvider } from '../components/popup-menu'
+import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
 
 export function App() {
+  const { confirm } = useAppPopup()
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
   const initialDataDocument = useMemo(
     () => createEmptyDataDocument(documentId(crypto.randomUUID()), new Date().toISOString()),
@@ -34,12 +36,20 @@ export function App() {
   const [sessionTransitionData, setSessionTransitionData] = useState<LearningData>()
   const learningData = LearningData.fromData(dataDocument.learningData)
   const discardChangesMessage = messages[learningData.preferences.interfaceLanguage].discardVocabularyChanges
+  const labels = messages[learningData.preferences.interfaceLanguage]
+  const confirmDiscardChanges = useCallback((description: string) => confirm({
+    title: labels.discardChangesTitle,
+    description,
+    actionLabel: labels.discardChangesAction,
+    cancelLabel: labels.cancel,
+    destructive: true,
+  }), [confirm, labels])
   const setUnsavedVocabularyChanges = useCallback((hasChanges: boolean) => {
     navigation.setUnsavedChanges(hasChanges, discardChangesMessage)
   }, [navigation, discardChangesMessage])
   const { navigate } = navigation
 
-  useEffect(() => navigation.connect(setLocation), [navigation])
+  useEffect(() => navigation.connect(setLocation, confirmDiscardChanges), [navigation, confirmDiscardChanges])
 
   useEffect(() => {
     let isMounted = true
@@ -144,9 +154,9 @@ export function App() {
     navigate('/progression')
   }
 
-  const startNewSession = () => {
-    if (!navigation.allowNavigation()) return
-    if (learningData.activeSession !== undefined && !window.confirm(messages[learningData.preferences.interfaceLanguage].startNewSessionConfirmation)) return
+  const startNewSession = async () => {
+    if (!await navigation.allowNavigation()) return
+    if (learningData.activeSession !== undefined && !await confirm({ title: labels.startSession, description: labels.startNewSessionConfirmation, actionLabel: labels.startSession, cancelLabel: labels.cancel, destructive: true })) return
     navigation.discardChanges()
     if (learningData.activeSession !== undefined) saveLearningData(learningData.endActiveSession(new Date().toISOString()))
     navigate('/session/new')
@@ -160,20 +170,27 @@ export function App() {
     saveLearningData(learningData.withVocabularyItemFavouriteStatus(vocabularyItemId, isFavourite))
   }
 
-  const saveVocabularyItem = (
+  const saveVocabularyItem = async (
     vocabularyItemId: VocabularyItemId,
     germanText: Parameters<LearningData['withVocabularyItemGermanText']>[1],
     translations: Parameters<LearningData['withVocabularyItemTranslations']>[1],
     wordState: Parameters<LearningData['withManualWordState']>[1],
     isFavourite: boolean,
   ) => {
-    saveLearningData(
-      learningData
-        .withVocabularyItemGermanText(vocabularyItemId, germanText)
-        .withVocabularyItemTranslations(vocabularyItemId, translations)
-        .withManualWordState(vocabularyItemId, wordState)
-        .withVocabularyItemFavouriteStatus(vocabularyItemId, isFavourite),
-    )
+    const nextLearningData = learningData
+      .withVocabularyItemGermanText(vocabularyItemId, germanText)
+      .withVocabularyItemTranslations(vocabularyItemId, translations)
+      .withManualWordState(vocabularyItemId, wordState)
+      .withVocabularyItemFavouriteStatus(vocabularyItemId, isFavourite)
+    const nextDataDocument = { ...dataDocument, updatedAt: new Date().toISOString(), learningData: nextLearningData.toData() }
+    navigation.setSaving(true)
+    try {
+      await dataDocumentStore.save(nextDataDocument)
+      setDataDocument(nextDataDocument)
+      navigation.discardChanges()
+    } finally {
+      navigation.setSaving(false)
+    }
   }
 
   const openVocabularyItemEdit = (vocabularyItemId: VocabularyItemId) => {
@@ -256,6 +273,7 @@ export function App() {
               learningData={learningData}
               onBack={() => navigate(location.vocabularyEditReturnPath ?? '/vocabulary')}
               onSaveVocabularyItem={saveVocabularyItem}
+              onUnsavedChangesChange={setUnsavedVocabularyChanges}
               vocabularyItemId={vocabularyEditMatch === null ? undefined : Number(vocabularyEditMatch[1]) as VocabularyItemId}
             />
           ) : route === '/session/new' ? (

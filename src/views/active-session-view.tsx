@@ -11,6 +11,7 @@ import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-v
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
+import { useAppPopup } from '../components/app-popup'
 
 interface ActiveSessionViewProps {
   isSessionComplete: boolean
@@ -34,15 +35,13 @@ interface ActiveSessionViewProps {
 
 export function ActiveSessionView({ isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
+  const { confirm, isPopupOpen } = useAppPopup()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const activeSession = learningData.activeSession
   const resolvedVocabularyItems = useMemo(() => defaultVocabularySet === undefined ? [] : resolveVocabularyItems(defaultVocabularySet, learningData.userAddedVocabularyItems, learningData.vocabularyLearningRecords), [defaultVocabularySet, learningData])
   const vocabularyItemsById = useMemo(() => new Map(resolvedVocabularyItems.map((item) => [item.id, item.toData()])), [resolvedVocabularyItems])
   const activeEntryIndex = activeSession?.entries.findIndex((entry) => entry.selfAssessment === undefined && entry.manualWordState === undefined) ?? -1
   const activeEntry = activeEntryIndex === -1 || activeSession === undefined ? undefined : activeSession.entryAt(activeEntryIndex)
-  const [isEndSessionConfirmationOpen, setIsEndSessionConfirmationOpen] = useState(false)
-  const [shouldRestoreEndSessionFocus, setShouldRestoreEndSessionFocus] = useState(false)
-  const endSessionButton = useRef<HTMLButtonElement>(null)
   const [assessmentFeedback, setAssessmentFeedback] = useState<{ action: AssessmentAction; learningData: LearningData }>()
   const [isShowingNextCard, setIsShowingNextCard] = useState(false)
   const feedbackTimeouts = useRef<number[]>([])
@@ -67,7 +66,7 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
   }, [onAssessmentTransitionChange])
 
   useEffect(() => {
-    if (isSessionComplete || assessmentFeedback !== undefined && !isShowingNextCard || activeSession === undefined || defaultVocabularySet === undefined) {
+    if (isPopupOpen || isSessionComplete || assessmentFeedback !== undefined && !isShowingNextCard || activeSession === undefined || defaultVocabularySet === undefined) {
       return
     }
     if (activeEntry !== undefined) {
@@ -88,13 +87,7 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
       const candidateVocabularyItemIds = selectSessionVocabularyItemIds(learningData, defaultVocabularySet, activeSession.type, activeSession.toData().settings).filter((id) => !presentedVocabularyItemIds.has(id))
       onSelectNextCandidatePage(candidateVocabularyItemIds)
     }
-  }, [activeEntry, activeEntryIndex, activeSession, assessmentFeedback, defaultVocabularySet, isSessionComplete, isShowingNextCard, learningData, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
-
-  useEffect(() => {
-    if (!shouldRestoreEndSessionFocus) return
-    endSessionButton.current?.focus()
-    setShouldRestoreEndSessionFocus(false)
-  }, [shouldRestoreEndSessionFocus])
+  }, [activeEntry, activeEntryIndex, activeSession, assessmentFeedback, defaultVocabularySet, isPopupOpen, isSessionComplete, isShowingNextCard, learningData, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
 
   if (activeSession === undefined) {
     return null
@@ -108,9 +101,8 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
   const vocabularyItem = displayedEntry === undefined ? undefined : vocabularyItemsById.get(displayedEntry.vocabularyItemId)
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
   const totalEntryCount = activeSession.isUnlimited ? completedEntryCount + activeSession.candidateVocabularyItemIds.length + (activeEntry === undefined ? 0 : 1) : activeSession.entries.length
-  const closeEndSessionConfirmation = () => {
-    setIsEndSessionConfirmationOpen(false)
-    setShouldRestoreEndSessionFocus(true)
+  const requestEndSession = async () => {
+    if (await confirm({ title: t('endSessionTitle'), description: t('endSessionDescription'), actionLabel: t('endSessionNow'), cancelLabel: t('keepStudying'), destructive: true })) onEndSession()
   }
 
   return (
@@ -120,11 +112,9 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
           <h1 className="text-xl font-bold tracking-tight text-slate-950 sm:text-2xl"><button className="rounded-lg text-left focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={onOpenProgression} type="button">{t('title')}</button></h1>
           <SessionNavigation onOpenProgression={onOpenProgression} onOpenSessionSetup={onOpenSessionSetup} onOpenSettings={onOpenSettings} onOpenVocabulary={onOpenVocabulary} />
         </div>
-        <div className="flex items-center justify-between gap-4"><h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" ref={endSessionButton} type="button" onClick={() => setIsEndSessionConfirmationOpen(true)}>{t('endSession')}</button></div>
+        <div className="flex items-center justify-between gap-4"><h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={requestEndSession}>{t('endSession')}</button></div>
         <p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p>
       </header>
-
-      {isEndSessionConfirmationOpen ? <EndSessionConfirmation onClose={closeEndSessionConfirmation} onEndSession={onEndSession} /> : null}
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
       {activeSession.isComplete && assessmentFeedback === undefined ? (
@@ -139,6 +129,7 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
 
 function Flashcard({ activeEntryIndex, assessmentFeedback, isShowingNextCard, isRevealed, isWaitingForNextEntry, sessionType, settings, vocabularyItem, onAssessmentFeedback, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; assessmentFeedback?: AssessmentAction; isShowingNextCard: boolean; isRevealed: boolean; isWaitingForNextEntry: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onAssessmentFeedback(action: AssessmentAction): void; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
   const { t } = useInterfaceLanguage()
+  const { isPopupOpen } = useAppPopup()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const [areRemainingTranslationsVisible, setAreRemainingTranslationsVisible] = useState(false)
   const [completionMotion, setCompletionMotion] = useState<{ entryIndex: number; motion: CardMotion }>()
@@ -153,7 +144,7 @@ function Flashcard({ activeEntryIndex, assessmentFeedback, isShowingNextCard, is
   const isGermanVisible = visibleSide === 'first' ? firstSideIsGerman : !firstSideIsGerman
   const visibleSideLabel = t(isGermanVisible ? 'cardSideGerman' : 'cardSideRussian')
   const entryCompletionMotion = completionMotion?.entryIndex === activeEntryIndex ? completionMotion.motion : undefined
-  const isCompletingEntry = assessmentFeedback !== undefined || entryCompletionMotion !== undefined || isWaitingForNextEntry
+  const isCompletingEntry = isPopupOpen || assessmentFeedback !== undefined || entryCompletionMotion !== undefined || isWaitingForNextEntry
   const actions = assessmentActions(sessionType, t)
 
   useLayoutEffect(() => {
@@ -445,39 +436,6 @@ function SessionNavigation({ onOpenProgression, onOpenSessionSetup, onOpenSettin
   return <PopupMenu menuAriaLabel={t('navigation')} menuClassName="absolute right-0 z-10 mt-2 grid w-60 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" triggerAriaLabel={t('openNavigation')} triggerClassName="flex rounded-lg border border-slate-300 bg-white px-3 py-2 text-xl font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">≣</span>}>
     {(onSelect) => <nav aria-label={t('navigation')}><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenSessionSetup() }}>{t('startSession')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenProgression() }}>{t('progressionTitle')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenVocabulary() }}>{t('navigationVocabulary')}</button><button className="w-full rounded-lg px-3 py-2.5 text-left font-semibold text-slate-700 hover:bg-slate-50 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" role="menuitem" type="button" onClick={() => { onSelect(); onOpenSettings() }}>{t('settings')}</button></nav>}
   </PopupMenu>
-}
-
-function EndSessionConfirmation({ onClose, onEndSession }: { onClose(): void; onEndSession(): void }) {
-  const { t } = useInterfaceLanguage()
-  const dialog = useRef<HTMLElement>(null)
-  const keepStudyingButton = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    keepStudyingButton.current?.focus()
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault()
-        onClose()
-        return
-      }
-      if (event.key !== 'Tab') return
-      const focusableElements = dialog.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')
-      if (focusableElements === undefined || focusableElements.length === 0) return
-      const firstElement = focusableElements[0]!
-      const lastElement = focusableElements[focusableElements.length - 1]!
-      if (event.shiftKey && document.activeElement === firstElement) {
-        event.preventDefault()
-        lastElement.focus()
-      } else if (!event.shiftKey && document.activeElement === lastElement) {
-        event.preventDefault()
-        firstElement.focus()
-      }
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [onClose])
-
-  return <div className="fixed inset-0 z-20 grid place-items-center bg-slate-950/40 p-4" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose() }}><section aria-labelledby="end-session-title" aria-modal="true" className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl" ref={dialog} role="dialog"><h3 className="text-lg font-bold text-slate-950" id="end-session-title">{t('endSessionTitle')}</h3><p className="mt-2 text-sm leading-6 text-slate-700">{t('endSessionDescription')}</p><div className="mt-5 flex flex-wrap gap-3"><button className="rounded-xl bg-slate-950 px-4 py-2.5 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-slate-300" ref={keepStudyingButton} type="button" onClick={onClose}>{t('keepStudying')}</button><button className="rounded-xl border border-red-300 bg-white px-4 py-2.5 font-semibold text-red-800 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-red-100" type="button" onClick={onEndSession}>{t('endSessionNow')}</button></div></section></div>
 }
 
 function MoreActions({ disabled, isRevealed, onChangeWordState, onEdit }: { disabled: boolean; isRevealed: boolean; onChangeWordState(wordState: typeof wordStates[keyof typeof wordStates]): void; onEdit(): void }) {

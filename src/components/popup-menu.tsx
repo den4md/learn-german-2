@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent, PropsWithChildren, ReactNode } from 'react'
+import { useAppPopup } from './app-popup'
 
 interface PopupMenuContextValue {
   closeMenu(): void
@@ -10,8 +11,11 @@ interface PopupMenuContextValue {
 const PopupMenuContext = createContext<PopupMenuContextValue | undefined>(undefined)
 
 export function PopupMenuProvider({ children }: PropsWithChildren) {
+  const { isPopupOpen } = useAppPopup()
   const [openMenuId, setOpenMenuId] = useState<string | undefined>()
   const value = useMemo(() => ({ closeMenu: () => setOpenMenuId(undefined), openMenuId, setOpenMenuId }), [openMenuId])
+
+  useEffect(() => { if (isPopupOpen) setOpenMenuId(undefined) }, [isPopupOpen])
 
   return <PopupMenuContext.Provider value={value}>{children}</PopupMenuContext.Provider>
 }
@@ -42,7 +46,7 @@ export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, tri
     setPendingMenuFocus(undefined)
     context.closeMenu()
     onClose?.()
-    if (restoreFocus) requestAnimationFrame(() => triggerRef.current?.focus())
+    if (restoreFocus) triggerRef.current?.focus()
   }
 
   useEffect(() => {
@@ -106,7 +110,7 @@ export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, tri
   return (
     <div className="relative w-fit" ref={rootRef} onClick={handleClick}>
       <button aria-controls={isOpen ? menuId : undefined} aria-expanded={isOpen} aria-haspopup="menu" aria-label={triggerAriaLabel} className={triggerClassName} disabled={triggerDisabled} ref={triggerRef} type="button" onClick={toggle} onKeyDown={handleTriggerKeyDown}>{triggerContent}</button>
-      {isOpen ? <section className={menuClassName} id={menuId} ref={menuRef} role="menu" aria-label={menuAriaLabel} onKeyDown={handleMenuKeyDown}>{children(() => close())}</section> : null}
+      {isOpen ? <section className={menuClassName} id={menuId} ref={menuRef} role="menu" aria-label={menuAriaLabel} onKeyDown={handleMenuKeyDown}>{children(() => close(true))}</section> : null}
     </div>
   )
 }

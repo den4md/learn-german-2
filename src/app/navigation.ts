@@ -17,10 +17,14 @@ export class AppNavigation {
   private navigationEntryId: string
   private historyLength: number
   private restoringEntryId: string | undefined
+  private restoration: Promise<void> | undefined
+  private onRestored: (() => void) | undefined
+  private isConfirming = false
   private hasUnsavedChanges = false
   private isSaving = false
   private discardChangesMessage = ''
   private onLocationChange: (location: RouteLocation) => void = () => {}
+  private confirmDiscard: (message: string) => Promise<boolean> = async () => false
 
   constructor(browser: Window, basePath: string) {
     this.browser = browser
@@ -41,8 +45,9 @@ export class AppNavigation {
     return `${this.currentLocation.path}${this.currentLocation.search}${this.currentLocation.hash}`
   }
 
-  connect(onLocationChange: (location: RouteLocation) => void): () => void {
+  connect(onLocationChange: (location: RouteLocation) => void, confirmDiscard: (message: string) => Promise<boolean>): () => void {
     this.onLocationChange = onLocationChange
+    this.confirmDiscard = confirmDiscard
     this.browser.history.replaceState(this.entryState(), '')
     this.browser.addEventListener('popstate', this.updateLocation)
     this.browser.addEventListener('beforeunload', this.beforeUnload)
@@ -66,16 +71,28 @@ export class AppNavigation {
     this.hasUnsavedChanges = false
   }
 
-  allowNavigation(): boolean {
-    if (this.isSaving || this.restoringEntryId !== undefined) return false
-    return !this.hasUnsavedChanges || this.browser.confirm(this.discardChangesMessage)
+  async allowNavigation(): Promise<boolean> {
+    if (this.isSaving || this.isConfirming) return false
+    while (this.restoration !== undefined) await this.restoration
+    if (this.isSaving || this.isConfirming) return false
+    if (!this.hasUnsavedChanges) return true
+    this.isConfirming = true
+    try {
+      const accepted = await this.confirmDiscard(this.discardChangesMessage)
+      while (this.restoration !== undefined) await this.restoration
+      return accepted && !this.isSaving
+    } finally {
+      this.isConfirming = false
+    }
   }
 
-  navigate = (nextRoute: string, replace = false, vocabularyEditReturnPath?: string, sessionDetailsReturnPath?: string): boolean => {
-    if (this.restoringEntryId !== undefined) return false
+  navigate = async (nextRoute: string, replace = false, vocabularyEditReturnPath?: string, sessionDetailsReturnPath?: string): Promise<boolean> => {
+    if (this.isConfirming || this.isSaving) return false
+    while (this.restoration !== undefined) await this.restoration
     const nextLocation = { ...this.locationFromRoute(nextRoute), vocabularyEditReturnPath, sessionDetailsReturnPath }
     if (nextLocation.path !== this.currentLocation.path) {
-      if (!this.allowNavigation()) return false
+      // Unguarded transitions must stay synchronous with the caller's data update.
+      if (this.hasUnsavedChanges && !await this.allowNavigation()) return false
       this.discardChanges()
     }
     const browserUrl = this.browserUrl(nextLocation)
@@ -113,6 +130,9 @@ export class AppNavigation {
       this.restoringEntryId = undefined
       // Older or externally created entries may not have reliable indices.
       if (!hasRestoredEntry) this.restoreWithNewEntry()
+      this.restoration = undefined
+      this.onRestored?.()
+      this.onRestored = undefined
       return
     }
 
@@ -122,13 +142,17 @@ export class AppNavigation {
       : undefined
     const nextLocation = this.readLocation()
     const isSameView = nextLocation.path === this.currentLocation.path
-    if (!isSameView && !this.allowNavigation()) {
-      if (nextIndex !== undefined && nextIndex !== this.navigationIndex) {
-        this.restoringEntryId = this.navigationEntryId
-        this.browser.history.go(this.navigationIndex - nextIndex)
-      } else {
-        this.restoreWithNewEntry()
-      }
+    if (!isSameView && (this.hasUnsavedChanges || this.isSaving || this.isConfirming)) {
+      const isAlreadyConfirming = this.isConfirming
+      const targetStackId = this.navigationStackId
+      // Restore the editor's history entry before showing a non-blocking popup.
+      // Its component stays mounted, so cancellation cannot lose the draft.
+      void this.restoreLocation(nextIndex).then(async () => {
+        if (isAlreadyConfirming || !await this.allowNavigation()) return
+        this.discardChanges()
+        if (nextIndex !== undefined && nextIndex !== this.navigationIndex && targetStackId === this.navigationStackId) this.browser.history.go(nextIndex - this.navigationIndex)
+        else await this.navigate(`${nextLocation.path}${nextLocation.search}${nextLocation.hash}`, true, nextLocation.vocabularyEditReturnPath, nextLocation.sessionDetailsReturnPath)
+      })
       return
     }
 
@@ -160,6 +184,17 @@ export class AppNavigation {
     if (!this.hasUnsavedChanges && !this.isSaving) return
     event.preventDefault()
     event.returnValue = ''
+  }
+
+  private restoreLocation(nextIndex: number | undefined): Promise<void> {
+    if (nextIndex === undefined || nextIndex === this.navigationIndex) {
+      this.restoreWithNewEntry()
+      return Promise.resolve()
+    }
+    this.restoringEntryId = this.navigationEntryId
+    this.restoration = new Promise((resolve) => { this.onRestored = resolve })
+    this.browser.history.go(this.navigationIndex - nextIndex)
+    return this.restoration
   }
 
   private restoreWithNewEntry(): void {
