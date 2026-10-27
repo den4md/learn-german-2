@@ -100,7 +100,9 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
   const displayedEntry = displayedSession.entries.length === 0 ? undefined : displayedSession.entryAt(displayedEntryIndex)
   const vocabularyItem = displayedEntry === undefined ? undefined : vocabularyItemsById.get(displayedEntry.vocabularyItemId)
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
-  const totalEntryCount = activeSession.isUnlimited ? completedEntryCount + activeSession.candidateVocabularyItemIds.length + (activeEntry === undefined ? 0 : 1) : activeSession.entries.length
+  const totalEntryCount = activeSession.isUnlimited
+    ? activeSession.toData().totalItemCount ?? new Set([...activeSession.entries.map((entry) => entry.vocabularyItemId), ...activeSession.candidateVocabularyItemIds, ...(defaultVocabularySet === undefined ? [] : selectSessionVocabularyItemIds(learningData, defaultVocabularySet, activeSession.type, activeSession.toData().settings))]).size
+    : activeSession.toData().selectedItemCount ?? activeSession.entries.length
   const requestEndSession = async () => {
     if (await confirmAction({ title: t('endSessionTitle'), description: t('endSessionDescription'), actionLabel: t('endSessionNow'), cancelLabel: t('keepStudying'), destructive: true })) onEndSession()
   }
@@ -113,7 +115,7 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
           <SessionNavigation onOpenProgression={onOpenProgression} onOpenSessionSetup={onOpenSessionSetup} onOpenSettings={onOpenSettings} onOpenVocabulary={onOpenVocabulary} />
         </div>
         <div className="flex items-center justify-between gap-4"><h2 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{t(activeSession.type === sessionTypes.knowledgeCheck ? 'knowledgeCheckSession' : activeSession.type === sessionTypes.learning ? 'learningSession' : 'repetitionSession')}</h2><button className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 underline decoration-slate-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" type="button" onClick={requestEndSession}>{t('endSession')}</button></div>
-        <p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}{activeSession.isUnlimited ? ` ${t('remainingCards')}` : ''}</p>
+        <p className="text-sm font-semibold text-slate-600">{t('sessionProgress')}: {completedEntryCount} / {totalEntryCount}</p>
       </header>
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}

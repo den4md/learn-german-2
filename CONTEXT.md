@@ -221,11 +221,15 @@ One criterion that sorts Session entries, selected from CEFR level, Word type, G
 _Avoid_: Ordering source, sort preset
 
 **Candidate page**:
-A snapshot of up to ten Vocabulary items selected for an Unlimited session before it presents them. It selects items that match the Session settings when the page is created and excludes every item the Session has already presented. Before presenting a candidate, the Session drops it when it no longer matches its Session settings. A candidate becomes a Session entry only when the Session presents it.
+A snapshot of up to ten Vocabulary items selected for an Unlimited session before it presents them, matching the Session settings at selection and excluding already presented items. Selected candidates stay available despite later eligibility changes; a candidate becomes a Session entry only when presented.
 _Avoid_: buffer, queue, batch
 
+**Selected word**:
+A Vocabulary item already chosen for the Active session, including unshown Limited entries and the current Unlimited Candidate page. Its Word state is locked against changes outside that Session until the Session ends, while German text, Russian translations, and Favourite status remain editable.
+_Avoid_: queued external state change, eligible word
+
 **Unlimited session**:
-A Session with no fixed item limit. It selects matching Vocabulary items in Candidate pages rather than creating its complete item list at the start, and selects a new page after the current page completes. It cannot start without a Candidate page, which produces a No-matching-items start failure. It completes when no later Candidate page can be selected, or ends when the user stops it manually and discards unpresented candidates in its current Candidate page.
+A Session with no fixed item limit, selecting a new Candidate page after every entry in the current page is completed and ending when no new page matches or the user stops it. Its total counts the unique union of presented words, selected candidates, and currently eligible unselected words at Session start and each new page selection; no matching initial page produces a No-matching-items start failure.
 _Avoid_: all-at-once session
 
 ## Interface

@@ -17,7 +17,7 @@ import { useAppPopup } from '../components/app-popup'
 interface VocabularyViewProps {
   learningData: LearningData
   locationSearch: string
-  onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
+  onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): boolean
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
   onNavigate(route: string, replace: boolean): void
@@ -176,7 +176,7 @@ export function VocabularyView({
                   item={item}
                   key={item.id}
                   onChangeFavouriteStatus={(vocabularyItemId, isFavourite) => { updateSnapshotAfterItemChange({ ...item, isFavourite }); onChangeFavouriteStatus(vocabularyItemId, isFavourite) }}
-                  onChangeWordState={(vocabularyItemId, wordState) => { updateSnapshotAfterItemChange({ ...item, wordState, lastUpdatedAt: wordState === item.wordState ? item.lastUpdatedAt : new Date().toISOString() }); onChangeWordState(vocabularyItemId, wordState) }}
+                  onChangeWordState={(vocabularyItemId, wordState) => { if (onChangeWordState(vocabularyItemId, wordState)) updateSnapshotAfterItemChange({ ...item, wordState, lastUpdatedAt: wordState === item.wordState ? item.lastUpdatedAt : new Date().toISOString() }) }}
                   onEditVocabularyItem={onEditVocabularyItem}
                 />
               ))}
@@ -360,6 +360,7 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
       onSave={onSaveVocabularyItem}
       onUnsavedChangesChange={onUnsavedChangesChange}
       isFavourite={resolvedVocabularyItem.isFavourite}
+      isWordStateLocked={learningData.isVocabularyItemWordStateLocked(vocabularyItemId)}
       learningScore={resolvedVocabularyItem.learningScore}
       learningStatistics={resolvedVocabularyItem.learningStatistics}
       vocabularyItem={toVocabularyItemData(resolvedVocabularyItem)}
@@ -385,6 +386,7 @@ function VocabularyManagementRow({
 function VocabularyEditForm({
   defaultVocabularyItem,
   isFavourite,
+  isWordStateLocked,
   learningScore,
   learningStatistics,
   onBack,
@@ -395,6 +397,7 @@ function VocabularyEditForm({
 }: {
   defaultVocabularyItem: VocabularyItemData | undefined
   isFavourite: boolean
+  isWordStateLocked: boolean
   learningScore: number
   learningStatistics: ResolvedVocabularyItemData['learningStatistics']
   onBack(): void
@@ -458,9 +461,10 @@ function VocabularyEditForm({
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <h3 className="text-xl font-bold tracking-tight text-slate-950">{t('wordState')}</h3>
         <div className="mt-5 flex flex-wrap items-center gap-5">
-          <label className="text-sm font-semibold text-slate-700">{t('wordState')}<select className="mt-2 block rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => setSelectedWordState(event.target.value as WordState)} value={selectedWordState}>{Object.values(wordStates).map((state) => <option key={state} value={state}>{t(wordStateMessageKeys[state])}</option>)}</select></label>
+          <label className="text-sm font-semibold text-slate-700">{t('wordState')}<select aria-describedby={isWordStateLocked ? 'word-state-lock' : undefined} className="mt-2 block rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-slate-950 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100" onChange={(event) => { if (isWordStateLocked) { showError({ title: t('wordStateLockedTitle'), description: t('wordStateLocked'), actionLabel: t('ok'), returnFocus: event.currentTarget }); return }; setSelectedWordState(event.target.value as WordState) }} value={selectedWordState}>{Object.values(wordStates).map((state) => <option key={state} value={state}>{t(wordStateMessageKeys[state])}</option>)}</select></label>
           <label className="mt-6 flex items-center gap-2 text-sm font-semibold text-slate-700"><input checked={selectedFavouriteStatus} onChange={(event) => setSelectedFavouriteStatus(event.target.checked)} type="checkbox" />{t('favourite')}</label>
         </div>
+        {isWordStateLocked ? <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600" id="word-state-lock">{t('wordStateLocked')}</p> : null}
       </section>
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">

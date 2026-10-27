@@ -83,6 +83,7 @@ export interface SessionData {
   entries: SessionEntryData[]
   deferredOutcomes?: boolean
   selectedItemCount?: number
+  totalItemCount?: number
   candidateVocabularyItemIds?: VocabularyItemId[]
   currentEntryIndex: number
   startedAt: string
@@ -230,6 +231,7 @@ export class Session {
         settings: settings.toData(),
         entries: [],
         deferredOutcomes: true,
+        totalItemCount: new Set(vocabularyItemIds).size,
         candidateVocabularyItemIds: vocabularyItemIds.slice(0, unlimitedSessionCandidatePageSize),
         currentEntryIndex: 0,
         startedAt,
@@ -337,18 +339,6 @@ export class Session {
     return new Session({ ...this.data, entries, currentEntryIndex: index, lastActionAt: revealedAt })
   }
 
-  dropCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): Session {
-    this.assertActive()
-    if (!this.isUnlimited) {
-      throw new Error('Only an Unlimited session has a Candidate page.')
-    }
-    return new Session({
-      ...this.data,
-      candidateVocabularyItemIds: this.candidateVocabularyItemIds.filter((id) => id !== vocabularyItemId),
-      lastActionAt: droppedAt,
-    })
-  }
-
   selectNextCandidatePage(vocabularyItemIds: VocabularyItemId[], selectedAt: string): Session {
     this.assertActive()
     if (!this.isCandidatePageComplete) {
@@ -364,6 +354,7 @@ export class Session {
     return new Session({
       ...this.data,
       candidateVocabularyItemIds: vocabularyItemIds.slice(0, unlimitedSessionCandidatePageSize),
+      totalItemCount: new Set([...presentedVocabularyItemIds, ...vocabularyItemIds]).size,
       lastActionAt: selectedAt,
     })
   }
@@ -412,7 +403,7 @@ export class Session {
     if (!(this.isUnlimited ? this.isCandidatePageComplete : this.isComplete)) {
       throw new Error('Complete every Session entry before finishing the Session.')
     }
-    return new Session({ ...this.data, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: this.isUnlimited ? sessionEndReasons.allWordsCompleted : sessionEndReasons.completed })
+    return new Session({ ...this.data, totalItemCount: this.isUnlimited ? new Set(this.data.entries.map((entry) => entry.vocabularyItemId)).size : this.data.totalItemCount, candidateVocabularyItemIds: undefined, lastActionAt: endedAt, endedAt, endReason: this.isUnlimited ? sessionEndReasons.allWordsCompleted : sessionEndReasons.completed })
   }
 
   end(endedAt: string): Session {

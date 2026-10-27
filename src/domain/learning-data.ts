@@ -168,14 +168,6 @@ export class LearningData {
     })
   }
 
-  dropActiveSessionCandidate(vocabularyItemId: VocabularyItemId, droppedAt: string): LearningData {
-    const activeSession = this.requireActiveSession()
-    return new LearningData({
-      ...this.data,
-      activeSession: activeSession.dropCandidate(vocabularyItemId, droppedAt).toData(),
-    })
-  }
-
   selectNextActiveSessionCandidatePage(
     vocabularyItemIds: VocabularyItemId[],
     selectedAt: string,
@@ -258,8 +250,20 @@ export class LearningData {
     return learningData.updateDailyStreak(assessedAt)
   }
 
+  isVocabularyItemWordStateLocked(vocabularyItemId: VocabularyItemId): boolean {
+    const session = this.data.activeSession
+    return session !== undefined && (session.entries.some((entry) => entry.vocabularyItemId === vocabularyItemId)
+      || (session.candidateVocabularyItemIds ?? []).includes(vocabularyItemId))
+  }
+
   withManualWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): LearningData {
     const record = this.findVocabularyLearningRecord(vocabularyItemId)
+    if (this.isVocabularyItemWordStateLocked(vocabularyItemId)) {
+      if (wordState !== (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).wordState) {
+        throw new Error('The Word state is locked until the Active session ends.')
+      }
+      return this
+    }
     return this.withVocabularyLearningRecord(
       (record ?? VocabularyLearningRecord.createNew(vocabularyItemId)).withWordState(wordState),
     )

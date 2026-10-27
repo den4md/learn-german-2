@@ -23,7 +23,7 @@ import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
 
 export function App() {
-  const { confirmAction } = useAppPopup()
+  const { confirmAction, showError } = useAppPopup()
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
   const initialDataDocument = useMemo(
     () => createEmptyDataDocument(documentId(crypto.randomUUID()), new Date().toISOString()),
@@ -163,7 +163,12 @@ export function App() {
   }
 
   const changeVocabularyItemWordState = (vocabularyItemId: VocabularyItemId, wordState: Parameters<LearningData['withManualWordState']>[1]) => {
+    if (learningData.isVocabularyItemWordStateLocked(vocabularyItemId)) {
+      showError({ title: labels.wordStateLockedTitle, description: labels.wordStateLocked, actionLabel: labels.ok })
+      return false
+    }
     saveLearningData(learningData.withManualWordState(vocabularyItemId, wordState))
+    return true
   }
 
   const changeVocabularyItemFavouriteStatus = (vocabularyItemId: VocabularyItemId, isFavourite: boolean) => {
