@@ -35,7 +35,7 @@ interface ActiveSessionViewProps {
 
 export function ActiveSessionView({ isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
-  const { confirm, isPopupOpen } = useAppPopup()
+  const { confirmAction, isPopupOpen } = useAppPopup()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const activeSession = learningData.activeSession
   const resolvedVocabularyItems = useMemo(() => defaultVocabularySet === undefined ? [] : resolveVocabularyItems(defaultVocabularySet, learningData.userAddedVocabularyItems, learningData.vocabularyLearningRecords), [defaultVocabularySet, learningData])
@@ -102,7 +102,7 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
   const totalEntryCount = activeSession.isUnlimited ? completedEntryCount + activeSession.candidateVocabularyItemIds.length + (activeEntry === undefined ? 0 : 1) : activeSession.entries.length
   const requestEndSession = async () => {
-    if (await confirm({ title: t('endSessionTitle'), description: t('endSessionDescription'), actionLabel: t('endSessionNow'), cancelLabel: t('keepStudying'), destructive: true })) onEndSession()
+    if (await confirmAction({ title: t('endSessionTitle'), description: t('endSessionDescription'), actionLabel: t('endSessionNow'), cancelLabel: t('keepStudying'), destructive: true })) onEndSession()
   }
 
   return (

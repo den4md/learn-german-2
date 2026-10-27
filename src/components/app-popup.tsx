@@ -18,7 +18,7 @@ interface PopupRequest {
 }
 
 interface AppPopupContextValue {
-  confirm(options: PopupOptions & { cancelLabel: string }): Promise<boolean>
+  confirmAction(options: PopupOptions & { cancelLabel: string }): Promise<boolean>
   showError(options: Omit<PopupOptions, 'cancelLabel' | 'destructive'>): void
   isPopupOpen: boolean
 }
@@ -58,7 +58,7 @@ export function AppPopupProvider({ children }: PropsWithChildren) {
   }, [])
 
   const value = useMemo(() => ({
-    confirm: open,
+    confirmAction: open,
     showError: (options: PopupOptions) => { void open(options) },
     isPopupOpen: popup !== undefined,
   }), [open, popup])

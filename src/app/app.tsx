@@ -23,7 +23,7 @@ import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
 
 export function App() {
-  const { confirm } = useAppPopup()
+  const { confirmAction } = useAppPopup()
   const dataDocumentStore = useMemo(() => new IndexedDbDataDocumentStore(), [])
   const initialDataDocument = useMemo(
     () => createEmptyDataDocument(documentId(crypto.randomUUID()), new Date().toISOString()),
@@ -37,13 +37,13 @@ export function App() {
   const learningData = LearningData.fromData(dataDocument.learningData)
   const discardChangesMessage = messages[learningData.preferences.interfaceLanguage].discardVocabularyChanges
   const labels = messages[learningData.preferences.interfaceLanguage]
-  const confirmDiscardChanges = useCallback((description: string) => confirm({
+  const confirmDiscardChanges = useCallback((description: string) => confirmAction({
     title: labels.discardChangesTitle,
     description,
     actionLabel: labels.discardChangesAction,
     cancelLabel: labels.cancel,
     destructive: true,
-  }), [confirm, labels])
+  }), [confirmAction, labels])
   const setUnsavedVocabularyChanges = useCallback((hasChanges: boolean) => {
     navigation.setUnsavedChanges(hasChanges, discardChangesMessage)
   }, [navigation, discardChangesMessage])
@@ -156,7 +156,7 @@ export function App() {
 
   const startNewSession = async () => {
     if (!await navigation.allowNavigation()) return
-    if (learningData.activeSession !== undefined && !await confirm({ title: labels.startSession, description: labels.startNewSessionConfirmation, actionLabel: labels.startSession, cancelLabel: labels.cancel, destructive: true })) return
+    if (learningData.activeSession !== undefined && !await confirmAction({ title: labels.startSession, description: labels.startNewSessionConfirmation, actionLabel: labels.startSession, cancelLabel: labels.cancel, destructive: true })) return
     navigation.discardChanges()
     if (learningData.activeSession !== undefined) saveLearningData(learningData.endActiveSession(new Date().toISOString()))
     navigate('/session/new')

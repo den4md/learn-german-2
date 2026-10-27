@@ -4,7 +4,7 @@ import { useAppPopup } from '../components/app-popup'
 
 export function SettingsView({ onClearData }: { onClearData(): void }) {
   const { t } = useInterfaceLanguage()
-  const { confirm } = useAppPopup()
+  const { confirmAction } = useAppPopup()
 
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -13,7 +13,7 @@ export function SettingsView({ onClearData }: { onClearData(): void }) {
       <div className="mt-8 border-t border-slate-100 pt-6">
         <h3 className="text-lg font-bold text-slate-950">{t('clearData')}</h3>
         <p className="mt-2 max-w-xl leading-7 text-slate-600">{t('clearDataDescription')}</p>
-        <button className="mt-5 rounded-xl border border-red-300 bg-white px-5 py-3 font-semibold text-red-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-red-100" type="button" onClick={async () => { if (await confirm({ title: t('clearData'), description: t('clearDataConfirmation'), actionLabel: t('clearData'), cancelLabel: t('cancel'), destructive: true })) onClearData() }}>{t('clearData')}</button>
+        <button className="mt-5 rounded-xl border border-red-300 bg-white px-5 py-3 font-semibold text-red-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-red-100" type="button" onClick={async () => { if (await confirmAction({ title: t('clearData'), description: t('clearDataConfirmation'), actionLabel: t('clearData'), cancelLabel: t('cancel'), destructive: true })) onClearData() }}>{t('clearData')}</button>
       </div>
     </section>
   )

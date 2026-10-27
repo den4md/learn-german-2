@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "rules": {
+    "no-alert": "error",
+    "no-restricted-properties": [
+      "error",
+      { "property": "alert", "message": "Use useAppPopup() instead." },
+      { "property": "confirm", "message": "Use useAppPopup() instead." },
+      { "property": "prompt", "message": "Use useAppPopup() instead." }
+    ]
+  }
+}
