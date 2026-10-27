@@ -1,27 +1,38 @@
 import { useEffect, useRef, useState } from 'react'
-import { wordStates, wordTypes } from '../domain/constants'
+import { recallSelfAssessments, wordStates, wordTypes } from '../domain/constants'
 import type { WordState } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import { getWordType } from '../domain/vocabulary'
 import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from './popup-menu'
+import type { SessionEntryData } from '../domain/session'
+import { assessmentAccent } from './assessment-accent'
+import type { MessageKey } from '../i18n/messages'
 
 interface VocabularyItemRowProps {
   item: ResolvedVocabularyItemData
   showWordState?: boolean
+  sessionEntry?: SessionEntryData
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
 }
 
-export function VocabularyItemRow({ item, showWordState = true, onChangeFavouriteStatus, onChangeWordState, onEditVocabularyItem }: VocabularyItemRowProps) {
+export function VocabularyItemRow({ item, showWordState = true, sessionEntry, onChangeFavouriteStatus, onChangeWordState, onEditVocabularyItem }: VocabularyItemRowProps) {
   const { t } = useInterfaceLanguage()
   const [menuPage, setMenuPage] = useState<'actions' | 'states'>('actions')
   const [pendingMenuFocus, setPendingMenuFocus] = useState<'actions' | 'states' | undefined>()
   const changeWordStateButton = useRef<HTMLButtonElement>(null)
   const firstWordStateButton = useRef<HTMLButtonElement>(null)
   const wordType = getWordType(item)
+  const transition = sessionEntry?.transition
+  const notRecorded = t('notRecorded')
+  const wordState = sessionEntry === undefined ? t(wordStateMessageKeys[item.wordState]) : recordedChange(transition === undefined ? undefined : t(wordStateMessageKeys[transition.beforeWordState]), transition === undefined ? undefined : t(wordStateMessageKeys[transition.afterWordState]), notRecorded)
+  const score = sessionEntry === undefined ? String(item.learningScore) : recordedChange(transition?.beforeLearningScore, transition?.afterLearningScore, notRecorded)
+  const statistics = (['cardShows', 'correctAssessments', 'incorrectAssessments'] as const).map((field) => sessionEntry === undefined ? String(item.learningStatistics[field]) : recordedChange(transition?.beforeLearningStatistics?.[field], transition?.afterLearningStatistics?.[field], notRecorded))
+  const decision = sessionEntry?.manualWordState ?? sessionEntry?.selfAssessment
+  const decisionLabel = sessionEntry === undefined ? undefined : recordedDecisionLabel(sessionEntry, t)
 
   const showWordStates = () => {
     setMenuPage('states')
@@ -41,7 +52,7 @@ export function VocabularyItemRow({ item, showWordState = true, onChangeFavourit
 
   return <li className="px-6 py-5 sm:px-8">
     <div className="flex items-center justify-between gap-4">
-      <p className="min-w-0 wrap-anywhere font-semibold text-slate-950">{getGermanHeadword(item)}</p>
+      <p className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 wrap-anywhere font-semibold text-slate-950"><span>{getGermanHeadword(item)}</span>{sessionEntry === undefined ? null : <span className={`rounded-md px-2 py-1 text-sm font-medium ${decision === undefined ? 'bg-slate-100 text-slate-600' : 'recorded-assessment'}`} data-accent={decision === undefined ? undefined : assessmentAccent(decision)}>{decisionLabel}</span>}</p>
       <div className="flex shrink-0 items-center gap-2">
         <button aria-label={t(item.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${item.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} onClick={() => onChangeFavouriteStatus(item.id, !item.isFavourite)} type="button"><span aria-hidden="true">{item.isFavourite ? '★' : '☆'}</span></button>
         <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 grid w-52 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" onClose={() => setMenuPage('actions')} triggerAriaLabel={t('moreActions')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-lg font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">•••</span>}>
@@ -51,8 +62,8 @@ export function VocabularyItemRow({ item, showWordState = true, onChangeFavourit
     </div>
     <div>
       <p className="mt-1 text-sm text-slate-600">{item.translations.join(', ')}</p>
-      <p className="mt-2 text-sm font-medium text-blue-700">{showWordState ? `${t(wordStateMessageKeys[item.wordState])} · ` : ''}{item.level} · {t(wordTypeMessageKeys[wordType])}</p>
-      <dl className="mt-3 grid grid-cols-4 gap-x-3 gap-y-1 text-sm text-slate-600 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere"><div><dt>{t('score')}</dt><dd className="whitespace-nowrap font-semibold text-slate-950">{item.learningScore} / 10</dd></div><div><dt>{t('shows')}</dt><dd className="font-semibold text-slate-950">{item.learningStatistics.cardShows}</dd></div><div><dt>{t('correctAssessments')}</dt><dd className="font-semibold text-slate-950">{item.learningStatistics.correctAssessments}</dd></div><div><dt>{t('incorrectAssessments')}</dt><dd className="font-semibold text-slate-950">{item.learningStatistics.incorrectAssessments}</dd></div></dl>
+      <p className="mt-2 text-sm font-medium text-blue-700">{showWordState ? `${wordState} · ` : ''}{item.level} · {t(wordTypeMessageKeys[wordType])}</p>
+      <dl className={`mt-3 grid ${sessionEntry === undefined ? 'grid-cols-4' : 'grid-cols-2 sm:grid-cols-4'} gap-x-3 gap-y-1 text-sm text-slate-600 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere`}><div><dt>{t('score')}</dt><dd className={`${sessionEntry === undefined ? 'whitespace-nowrap' : ''} font-semibold text-slate-950`}>{score === notRecorded ? score : `${score} / 10`}</dd></div><div><dt>{t('shows')}</dt><dd className="font-semibold text-slate-950">{statistics[0]}</dd></div><div><dt>{t('correctAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[1]}</dd></div><div><dt>{t('incorrectAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[2]}</dd></div></dl>
     </div>
   </li>
 }
@@ -62,4 +73,19 @@ const wordStateMessageKeys = { [wordStates.new]: 'wordStateNew', [wordStates.lea
 
 function getGermanHeadword(item: ResolvedVocabularyItemData): string {
   return 'nominative' in item ? item.nominative : 'positive' in item ? item.positive : item.infinitive
+}
+
+function recordedChange(before: string | number | undefined, after: string | number | undefined, unknown: string): string {
+  return before === after ? String(after ?? unknown) : `${before ?? unknown} → ${after ?? unknown}`
+}
+
+function recordedDecisionLabel(entry: SessionEntryData, t: (key: MessageKey) => string): string {
+  if (entry.manualWordState !== undefined) return `${t('manualDecision')}: ${t(wordStateMessageKeys[entry.manualWordState])}`
+  if (entry.selfAssessment === recallSelfAssessments.correct) return t('correctAssessments')
+  if (entry.selfAssessment === recallSelfAssessments.incorrect) return t('incorrectAssessments')
+  if (entry.selfAssessment === wordStates.known) return t('selfAssessmentKnown')
+  if (entry.selfAssessment === wordStates.learning) return t('selfAssessmentLearning')
+  if (entry.selfAssessment === wordStates.new) return t('selfAssessmentUnknown')
+  if (entry.selfAssessment === wordStates.excluded) return t('exclude')
+  return t('notAssessed')
 }

@@ -13,6 +13,7 @@ import { sessionCardIndex, sessionCardRoute } from '../app/session-card-navigati
 import type { SessionFinishingCountdown } from '../app/session-finishing-countdown'
 import { SessionFinishingView } from './session-finishing-view'
 import { KeyboardHint } from '../components/keyboard-hint'
+import { assessmentAccent as accentForAssessment } from '../components/assessment-accent'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
@@ -376,13 +377,6 @@ interface AssessmentAction {
 }
 
 const wordStateMessageKeys = { [wordStates.new]: 'wordStateNew', [wordStates.learning]: 'wordStateLearning', [wordStates.known]: 'wordStateKnown', [wordStates.excluded]: 'wordStateExcluded' } as const
-
-function accentForAssessment(selfAssessment: SelfAssessment): AssessmentAction['accent'] {
-  if (selfAssessment === wordStates.excluded) return 'excluded'
-  if (selfAssessment === wordStates.new || selfAssessment === recallSelfAssessments.incorrect) return 'unknown'
-  if (selfAssessment === wordStates.known) return 'known'
-  return 'learning'
-}
 
 function assessmentActions(sessionType: string, t: ReturnType<typeof useInterfaceLanguage>['t']): { exclude: AssessmentAction; negative: AssessmentAction; positive: AssessmentAction; known?: AssessmentAction } {
   const isKnowledgeCheck = sessionType === sessionTypes.knowledgeCheck

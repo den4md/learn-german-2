@@ -1,12 +1,10 @@
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
-import { recallSelfAssessments, sessionEndReasons, wordStates } from '../domain/constants'
+import { sessionEndReasons, wordStates } from '../domain/constants'
 import type { WordState } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
 import type { LearningData } from '../domain/learning-data'
-import type { SessionData } from '../domain/session'
 import { DefaultVocabularySet, resolveVocabularyItems } from '../domain/vocabulary'
-import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
@@ -132,9 +130,12 @@ interface SessionDetailsViewProps {
   learningData: LearningData
   onBack(): void
   backMessageKey?: MessageKey
+  onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
+  onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
+  onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
 }
 
-export function SessionDetailsView({ sessionId, learningData, onBack, backMessageKey = 'backToProgression' }: SessionDetailsViewProps) {
+export function SessionDetailsView({ sessionId, learningData, onBack, backMessageKey = 'backToProgression', onChangeFavouriteStatus, onChangeWordState, onEditVocabularyItem }: SessionDetailsViewProps) {
   const { interfaceLanguage, t } = useInterfaceLanguage()
   const session = learningData.sessions.find((candidate) => candidate.id === sessionId)
   const sessionData = session?.toData()
@@ -178,33 +179,18 @@ export function SessionDetailsView({ sessionId, learningData, onBack, backMessag
         </dl>
       </section>
 
-      <section aria-labelledby="included-vocabulary-heading" className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <section aria-labelledby="included-vocabulary-heading" className="rounded-2xl border border-slate-200 bg-white shadow-sm">
         <div className="px-6 py-5 sm:px-8">
           <h3 className="text-xl font-bold tracking-tight text-slate-950" id="included-vocabulary-heading">{t('includedVocabulary')}</h3>
         </div>
         <ol className="divide-y divide-slate-100 border-t border-slate-100">
-          {sessionData.entries.map((entry) => <SessionEntryRow entry={entry} key={entry.vocabularyItemId} vocabularyItem={vocabularyItemsById.get(entry.vocabularyItemId)} />)}
+          {sessionData.entries.map((entry) => {
+            const item = vocabularyItemsById.get(entry.vocabularyItemId)
+            return item === undefined ? <li className="px-6 py-5 sm:px-8" key={entry.vocabularyItemId}>{t('vocabularyItemId')}: {entry.vocabularyItemId}, {t('notAvailable')}</li> : <VocabularyItemRow item={item} key={entry.vocabularyItemId} sessionEntry={entry} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
+          })}
         </ol>
       </section>
     </div>
-  )
-}
-
-function SessionEntryRow({ entry, vocabularyItem }: { entry: SessionData['entries'][number]; vocabularyItem: ResolvedVocabularyItemData | undefined }) {
-  const { t } = useInterfaceLanguage()
-  const transition = entry.transition
-
-  return (
-    <li className="grid gap-4 px-6 py-5 sm:px-8 lg:grid-cols-[minmax(14rem,1fr)_minmax(18rem,1.5fr)] lg:items-start">
-      <div>
-        <p className="font-semibold text-slate-950">{vocabularyItem === undefined ? `${t('vocabularyItemId')}: ${entry.vocabularyItemId}` : getGermanHeadword(vocabularyItem)}</p>
-        {vocabularyItem === undefined ? null : <p className="mt-1 text-sm text-slate-600">{vocabularyItem.translations.join(', ')}</p>}
-      </div>
-      <div className="grid gap-3 text-sm text-slate-600">
-        <p><span className="font-medium text-slate-700">{t('recordedAction')}:</span> {getRecordedActionLabel(entry, t)}</p>
-        <p><span className="font-medium text-slate-700">{t('recordedTransition')}:</span> {transition === undefined ? t('noRecordedTransition') : `${t(wordStateMessageKeys[transition.beforeWordState])} (${transition.beforeLearningScore}) -> ${t(wordStateMessageKeys[transition.afterWordState])} (${transition.afterLearningScore})`}</p>
-      </div>
-    </li>
   )
 }
 
@@ -214,31 +200,4 @@ function SessionNotice({ children, tone = 'normal' }: { children: string; tone?:
 
 function SessionMetadata({ label, value }: { label: string; value: string }) {
   return <div><dt className="font-medium text-slate-600">{label}</dt><dd className="mt-1 font-semibold text-slate-950">{value}</dd></div>
-}
-
-const wordStateMessageKeys = {
-  [wordStates.new]: 'wordStateNew',
-  [wordStates.learning]: 'wordStateLearning',
-  [wordStates.known]: 'wordStateKnown',
-  [wordStates.excluded]: 'wordStateExcluded',
-} as const
-
-function getRecordedActionLabel(entry: SessionData['entries'][number], t: (messageKey: MessageKey) => string): string {
-  if (entry.manualWordState !== undefined) {
-    return `${t('changeWordState')}: ${t(wordStateMessageKeys[entry.manualWordState])}`
-  }
-  if (entry.selfAssessment === recallSelfAssessments.correct) return t('iKnewIt')
-  if (entry.selfAssessment === recallSelfAssessments.incorrect) return t('iDidNotKnowIt')
-  if (entry.selfAssessment === wordStates.known) return t('iKnowIt')
-  if (entry.selfAssessment === wordStates.learning) return t('iRecogniseItAndWantToLearn')
-  if (entry.selfAssessment === wordStates.new) return t('iDoNotKnowIt')
-  if (entry.selfAssessment === wordStates.excluded) return t('exclude')
-  return t('notAvailable')
-}
-
-function getGermanHeadword(vocabularyItem: ResolvedVocabularyItemData): string {
-  if ('nominative' in vocabularyItem) {
-    return vocabularyItem.nominative
-  }
-  return 'positive' in vocabularyItem ? vocabularyItem.positive : vocabularyItem.infinitive
 }

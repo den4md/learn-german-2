@@ -46,6 +46,11 @@ body {
   transition: opacity 300ms ease, background-color 120ms, color 120ms, border-color 120ms;
 }
 
+.recorded-assessment {
+  color: var(--assessment-color);
+  background-color: var(--assessment-tint);
+}
+
 .session-controls {
   animation: card-fade-in 300ms ease-out;
 }

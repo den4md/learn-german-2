@@ -276,7 +276,7 @@ export function App() {
           ) : route === '/sessions' ? (
             <SessionsView learningData={learningData} locationSearch={location.search} onNavigate={navigate} onContinue={() => navigate('/session/active')} onOpenDetails={(sessionId) => navigate(`/sessions/${sessionId}`, false, undefined, navigation.href)} />
           ) : route.startsWith('/sessions/') ? (
-            <SessionDetailsView learningData={learningData} onBack={() => navigate(location.sessionDetailsReturnPath ?? '/progression')} backMessageKey={location.sessionDetailsReturnPath?.startsWith('/sessions') ? 'backToSessions' : 'backToProgression'} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
+            <SessionDetailsView learningData={learningData} onChangeFavouriteStatus={changeVocabularyItemFavouriteStatus} onChangeWordState={changeVocabularyItemWordState} onEditVocabularyItem={openVocabularyItemEdit} onBack={() => navigate(location.sessionDetailsReturnPath ?? '/progression')} backMessageKey={location.sessionDetailsReturnPath?.startsWith('/sessions') ? 'backToSessions' : 'backToProgression'} sessionId={sessionDetailsMatch === null ? undefined : sessionDetailsMatch[1]} />
           ) : route === '/vocabulary' ? (
             <VocabularyView
               learningData={learningData}
