@@ -1,6 +1,6 @@
 # Learn German
 
-This context describes a public browser-based language-learning app. A user can use it locally or optionally keep their learning data synchronized through their own Google Drive.
+This glossary describes a public browser-based language-learning app with local Learning data. Optional Google Drive sync is planned; cloud terms below describe that future capability.
 
 ## User and data
 
@@ -21,11 +21,11 @@ The browser-specific copy of learning data. It belongs to one website origin and
 _Avoid_: cache, backup
 
 **Cloud copy**:
-The optional copy of learning data held in the app's hidden Google Drive application-data folder.
+The planned optional copy of Learning data in the app's hidden Google Drive application-data folder.
 _Avoid_: Google account, Drive backup
 
 **Sync connection**:
-The current browser's permission to read and write the cloud copy. It is not an app account or a user profile.
+The planned browser permission to read and write the Cloud copy. It is not an app account or a user profile.
 _Avoid_: login, account connection
 
 **Data document**:
@@ -33,11 +33,11 @@ The single JSON record that contains one copy of learning data and identifies th
 _Avoid_: database, file set
 
 **Real progress**:
-Learning data that differs from the default empty state. It determines whether connecting a cloud copy needs an explicit replacement choice.
+Learning data that differs from the default empty state. In planned cloud sync, it determines whether connecting a Cloud copy needs an explicit replacement choice.
 _Avoid_: non-empty data
 
 **Data replacement**:
-An explicit user choice to copy the local copy to the cloud copy or the cloud copy to the local copy. It never merges the two copies.
+A planned explicit user choice to copy the Local copy to the Cloud copy or the Cloud copy to the Local copy. It never merges the two copies.
 _Avoid_: sync merge, reconciliation
 
 ## Vocabulary
@@ -91,7 +91,7 @@ The ordered Russian translations of a Vocabulary item. A Vocabulary learning rec
 _Avoid_: translation language
 
 **User-added vocabulary item**:
-A Vocabulary item created by the user and stored in Learning data because it has no matching item in the Default vocabulary set. It receives a stable Vocabulary item ID.
+A Vocabulary item created and owned by the user, stored in Learning data under its own stable negative Vocabulary item ID. Its headword may match another item; duplicate warnings do not prohibit saving it.
 _Avoid_: personal word, custom override
 
 **Word type**:
@@ -119,7 +119,7 @@ A Word state for a Vocabulary item that the user considers familiar. Known items
 _Avoid_: mastered, learned
 
 **Excluded**:
-A Word state for a Vocabulary item that keeps it in Learning data but removes it from every Session.
+A Word state that keeps a Vocabulary item in Learning data but makes it ineligible for new Session selections. An already Selected word remains available in its Active session.
 _Avoid_: deleted, removed
 
 ## Sessions and assessment
@@ -159,7 +159,7 @@ The temporary start-date order of Sessions in the Sessions view, either newest f
 _Avoid_: Session ordering, Session-entry sorting, Sorting criterion
 
 **Daily streak**:
-The user's consecutive streak days, calculated from Daily streak history. A UTC date meets the V1 streak goal after five distinct correct Session-entry self-assessments before the date ends. A manual Word-state change does not count toward that goal. The fifth correct entry makes the date valid and later result changes do not revoke it. A streak above two is visible on every main view. The app maintainer, not the user, may configure a different goal in a later version.
+The user's consecutive streak days, calculated from Daily streak history and displayed on main views. A UTC date becomes valid after five distinct correct Session-entry self-assessments, excluding manual actions; later result changes cannot revoke it.
 _Avoid_: login streak, activity streak
 
 **Daily streak history**:
@@ -205,7 +205,7 @@ A Session that presents Known Vocabulary items for continued recall.
 _Avoid_: review mode
 
 **Session settings**:
-The user's choices for one Session: its CEFR-level, Word-type, and Favourite-status filters; Sorting criteria; item limit; card side shown first; and selected German-side header fields for nouns and verbs. Selecting no values or all values in a checkbox filter leaves that criterion unrestricted.
+The user's choices for one Session: CEFR-level, Word-type, and Favourite-status filters; Sorting criteria; Item limit; and the card side shown first. Selecting no values or all values in a checkbox filter leaves that criterion unrestricted; all available German-side grammar fields are displayed.
 _Avoid_: global preferences, session type
 
 **Item limit**:
@@ -215,6 +215,10 @@ _Avoid_: page size, batch size
 **Limited session**:
 A Session with an Item limit that selects one ordered, fixed list at its start and becomes ready to finish when every entry has a Self-assessment or manual decision, remaining Active until finalized. Ending it discards unpresented selections while preserving its original selected total for history; no matching item produces a No-matching-items start failure.
 _Avoid_: normal session, capped session
+
+**Finishing wait**:
+The Limited session's final review window before applying outcomes, controlled by the saved finishing-delay Preference. Inactivity, menus, popups, and other app views pause the remaining time; returning from card review or refreshing starts a full wait, and Space or the finish action can end it early.
+_Avoid_: persisted deadline, undo window
 
 **Sorting criterion**:
 One criterion that sorts Session entries, selected from CEFR level, Word type, German translation, Favourite status, and Last updated. The user sets the priority of the criteria and sets each to no sorting or one of two directions. If every criterion has no sorting, the app shuffles all matching items. An Unlimited session reapplies its Sorting criteria when it selects a Candidate page; shuffle randomizes each new page, while a selected page keeps its order. The default is CEFR level A1 to C1, then German translation A to Z, with all other criteria inactive.
@@ -235,7 +239,7 @@ _Avoid_: all-at-once session
 ## Interface
 
 **German card side**:
-The flashcard side that shows the German headword. It always shows the CEFR level and word type, and can show selected grammatical characteristics.
+The flashcard side showing the German headword, CEFR level, Word type, and all available noun or verb grammatical characteristics. Grammar fields are not selectable.
 _Avoid_: front side, question side
 
 **Russian card side**:
