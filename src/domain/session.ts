@@ -303,6 +303,11 @@ export class Session {
     return SessionEntry.fromData(entry)
   }
 
+  nextEntryIndexAfter(index: number): number {
+    this.entryAt(index)
+    return nextSessionEntryIndex(this.data.entries, index, this.candidateVocabularyItemIds.length > 0)
+  }
+
   showEntry(index: number, shownAt: string, transition: SessionEntryTransitionData): Session {
     this.assertActive()
     const entries = this.data.entries.map((entry, entryIndex) =>
@@ -369,12 +374,12 @@ export class Session {
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withSelfAssessment(selfAssessment, assessedAt, transition).toData() : candidate,
     )
-    const nextEntryIndex = entries.findIndex((candidate) => !SessionEntry.fromData(candidate).isCompleted)
+    const nextEntryIndex = nextSessionEntryIndex(entries, index, this.candidateVocabularyItemIds.length > 0)
 
     return new Session({
       ...this.data,
       entries,
-      currentEntryIndex: nextEntryIndex === -1 ? index : nextEntryIndex,
+      currentEntryIndex: nextEntryIndex,
       lastActionAt: assessedAt,
     })
   }
@@ -388,12 +393,12 @@ export class Session {
     const entries = this.data.entries.map((candidate, entryIndex) =>
       entryIndex === index ? entry.withManualWordState(wordState, assessedAt, transition).toData() : candidate,
     )
-    const nextEntryIndex = entries.findIndex((candidate) => !SessionEntry.fromData(candidate).isCompleted)
+    const nextEntryIndex = nextSessionEntryIndex(entries, index, this.candidateVocabularyItemIds.length > 0)
 
     return new Session({
       ...this.data,
       entries,
-      currentEntryIndex: nextEntryIndex === -1 ? index : nextEntryIndex,
+      currentEntryIndex: nextEntryIndex,
       lastActionAt: assessedAt,
     })
   }
@@ -425,6 +430,12 @@ export class Session {
       throw new Error('An ended Session is read-only.')
     }
   }
+}
+
+function nextSessionEntryIndex(entries: SessionEntryData[], index: number, hasCandidates: boolean): number {
+  if (index + 1 < entries.length || hasCandidates) return index + 1
+  const unansweredIndex = entries.findIndex((entry) => !SessionEntry.fromData(entry).isCompleted)
+  return unansweredIndex === -1 ? entries.length : unansweredIndex
 }
 
 function copySessionEntryTransition(transition: SessionEntryTransitionData | undefined): SessionEntryTransitionData | undefined {

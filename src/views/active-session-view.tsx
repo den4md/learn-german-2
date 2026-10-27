@@ -9,11 +9,14 @@ import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
 import { resolveVocabularyItems } from '../domain/vocabulary'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
+import { sessionCardIndex, sessionCardRoute } from '../app/session-card-navigation'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
 
 interface ActiveSessionViewProps {
+  locationSearch: string
+  onNavigateCard(index: number, replace?: boolean): void
   isSessionComplete: boolean
   learningData: LearningData
   onAssessmentTransitionChange(learningData: LearningData | undefined): void
@@ -33,21 +36,21 @@ interface ActiveSessionViewProps {
   onSelectNextCandidatePage(vocabularyItemIds: VocabularyItemId[]): void
 }
 
-export function ActiveSessionView({ isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
+export function ActiveSessionView({ locationSearch, onNavigateCard, isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
   const { confirmAction, isPopupOpen } = useAppPopup()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
   const activeSession = learningData.activeSession
   const resolvedVocabularyItems = useMemo(() => defaultVocabularySet === undefined ? [] : resolveVocabularyItems(defaultVocabularySet, learningData.userAddedVocabularyItems, learningData.vocabularyLearningRecords), [defaultVocabularySet, learningData])
   const vocabularyItemsById = useMemo(() => new Map(resolvedVocabularyItems.map((item) => [item.id, item.toData()])), [resolvedVocabularyItems])
-  const activeEntryIndex = activeSession?.entries.findIndex((entry) => entry.selfAssessment === undefined && entry.manualWordState === undefined) ?? -1
-  const activeEntry = activeEntryIndex === -1 || activeSession === undefined ? undefined : activeSession.entryAt(activeEntryIndex)
-  const [assessmentFeedback, setAssessmentFeedback] = useState<{ action: AssessmentAction; learningData: LearningData }>()
+  const activeEntryIndex = activeSession === undefined ? 0 : sessionCardIndex(activeSession, locationSearch)
+  const activeEntry = activeSession?.entries[activeEntryIndex]
+  const [assessmentFeedback, setAssessmentFeedback] = useState<{ action: AssessmentAction; learningData: LearningData; entryIndex: number }>()
   const [isShowingNextCard, setIsShowingNextCard] = useState(false)
   const feedbackTimeouts = useRef<number[]>([])
 
   const startAssessmentFeedback = (action: AssessmentAction) => {
-    setAssessmentFeedback({ action, learningData })
+    setAssessmentFeedback({ action, learningData, entryIndex: activeEntryIndex })
     setIsShowingNextCard(false)
     onAssessmentTransitionChange(learningData)
     feedbackTimeouts.current = [
@@ -66,11 +69,25 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
   }, [onAssessmentTransitionChange])
 
   useEffect(() => {
+    if (activeSession === undefined || isSessionComplete) return
+    const search = sessionCardRoute(activeSession, activeEntryIndex).split('?')[1]
+    if (locationSearch !== `?${search}`) onNavigateCard(activeEntryIndex, true)
+  }, [activeSession, activeEntryIndex, isSessionComplete, locationSearch, onNavigateCard])
+
+  useEffect(() => {
+    if (assessmentFeedback === undefined || activeSession === undefined || activeEntryIndex === activeSession.toData().currentEntryIndex) return
+    feedbackTimeouts.current.forEach((timeout) => window.clearTimeout(timeout))
+    setAssessmentFeedback(undefined)
+    setIsShowingNextCard(false)
+    onAssessmentTransitionChange(undefined)
+  }, [activeEntryIndex, activeSession, assessmentFeedback, onAssessmentTransitionChange])
+
+  useEffect(() => {
     if (isPopupOpen || isSessionComplete || assessmentFeedback !== undefined && !isShowingNextCard || activeSession === undefined || defaultVocabularySet === undefined) {
       return
     }
     if (activeEntry !== undefined) {
-      if (activeEntry.shownAt === undefined) {
+      if (activeEntry.shownAt === undefined || activeSession.toData().currentEntryIndex !== activeEntryIndex) {
         onShowEntry(activeEntryIndex)
       }
       return
@@ -95,9 +112,8 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
 
   // Keep the outgoing card mounted while an Unlimited session prepares its next entry.
   const displayedSession = assessmentFeedback !== undefined && !isShowingNextCard ? assessmentFeedback.learningData.activeSession! : activeSession
-  const displayedPendingEntryIndex = displayedSession.entries.findIndex((entry) => entry.selfAssessment === undefined && entry.manualWordState === undefined)
-  const displayedEntryIndex = displayedPendingEntryIndex === -1 ? displayedSession.toData().currentEntryIndex : displayedPendingEntryIndex
-  const displayedEntry = displayedSession.entries.length === 0 ? undefined : displayedSession.entryAt(displayedEntryIndex)
+  const displayedEntryIndex = assessmentFeedback !== undefined && !isShowingNextCard ? assessmentFeedback.entryIndex : activeEntryIndex
+  const displayedEntry = displayedSession.entries[displayedEntryIndex]
   const vocabularyItem = displayedEntry === undefined ? undefined : vocabularyItemsById.get(displayedEntry.vocabularyItemId)
   const completedEntryCount = activeSession.entries.filter((entry) => entry.selfAssessment !== undefined || entry.manualWordState !== undefined).length
   const totalEntryCount = activeSession.isUnlimited
@@ -119,17 +135,22 @@ export function ActiveSessionView({ isSessionComplete, learningData, onAssessmen
       </header>
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
-      {activeSession.isComplete && assessmentFeedback === undefined ? (
+      {!activeSession.isUnlimited && activeEntryIndex === activeSession.entries.length && activeSession.isComplete && assessmentFeedback === undefined ? (
         <div className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center shadow-sm">
           <h3 className="text-xl font-bold text-slate-950">{t('sessionReadyToFinish')}</h3>
           <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onCompleteSession}>{t('finishSession')}</button>
         </div>
-      ) : vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard activeEntryIndex={displayedEntryIndex} assessmentFeedback={assessmentFeedback?.action} isShowingNextCard={isShowingNextCard} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={isSessionComplete || activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessmentFeedback={startAssessmentFeedback} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
+      ) : vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard key={`${activeSession.id}:${displayedEntryIndex}`} savedDecision={displayedEntry.manualWordState ?? displayedEntry.selfAssessment} activeEntryIndex={displayedEntryIndex} assessmentFeedback={assessmentFeedback?.action} isShowingNextCard={isShowingNextCard} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={isSessionComplete || activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessmentFeedback={startAssessmentFeedback} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
+      <nav aria-label={t('cardNavigation')} className="mt-5 flex items-center justify-between gap-3" inert={assessmentFeedback !== undefined || isPopupOpen}>
+        <button className="rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 disabled:opacity-45 focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={activeEntryIndex === 0} onClick={() => onNavigateCard(activeEntryIndex - 1)} type="button">{t('previousCard')}</button>
+        <span className="text-sm text-slate-600">{activeEntryIndex < activeSession.entries.length ? `${activeEntryIndex + 1} / ${activeSession.isUnlimited ? activeSession.entries.length + activeSession.candidateVocabularyItemIds.length : totalEntryCount}` : t('finishSession')}</span>
+        <button className="rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 disabled:opacity-45 focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={activeEntry === undefined} onClick={() => onNavigateCard(activeSession.nextEntryIndexAfter(activeEntryIndex))} type="button">{t('nextCard')}</button>
+      </nav>
     </section>
   )
 }
 
-function Flashcard({ activeEntryIndex, assessmentFeedback, isShowingNextCard, isRevealed, isWaitingForNextEntry, sessionType, settings, vocabularyItem, onAssessmentFeedback, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { activeEntryIndex: number; assessmentFeedback?: AssessmentAction; isShowingNextCard: boolean; isRevealed: boolean; isWaitingForNextEntry: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onAssessmentFeedback(action: AssessmentAction): void; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
+function Flashcard({ savedDecision, activeEntryIndex, assessmentFeedback, isShowingNextCard, isRevealed, isWaitingForNextEntry, sessionType, settings, vocabularyItem, onAssessmentFeedback, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { savedDecision?: SelfAssessment; activeEntryIndex: number; assessmentFeedback?: AssessmentAction; isShowingNextCard: boolean; isRevealed: boolean; isWaitingForNextEntry: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onAssessmentFeedback(action: AssessmentAction): void; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
   const { t } = useInterfaceLanguage()
   const { isPopupOpen } = useAppPopup()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
@@ -267,7 +288,7 @@ function Flashcard({ activeEntryIndex, assessmentFeedback, isShowingNextCard, is
   }
 
   const cardMotion = entryCompletionMotion ?? swipeMotion
-  const cardCanvas = <article className={`flashcard relative h-[40rem] cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 max-[480px]:h-[27rem] sm:h-[33rem] ${entryCompletionMotion === undefined ? '' : 'flashcard-exiting'} ${isCompletingEntry ? 'pointer-events-none' : ''}`} key={activeEntryIndex} inert={isCompletingEntry} style={{ touchAction: isRevealed ? 'none' : undefined, transform: cardMotion?.transform, transformOrigin: cardMotion?.transformOrigin, transitionDuration: isSwipeInProgress ? '0ms' : entryCompletionMotion === undefined && cardMotion !== undefined ? '160ms' : undefined }} onClick={flipCard} onPointerCancel={cancelSwipe} onPointerDown={startSwipe} onPointerMove={moveSwipe} onPointerUp={endSwipe}>
+  const cardCanvas = <article data-accent={savedDecision === undefined ? undefined : accentForAssessment(savedDecision)} className={`flashcard relative h-[40rem] cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm hover:shadow-md focus-within:ring-4 focus-within:ring-blue-100 max-[480px]:h-[27rem] sm:h-[33rem] ${entryCompletionMotion === undefined ? '' : 'flashcard-exiting'} ${isCompletingEntry ? 'pointer-events-none' : ''}`} key={activeEntryIndex} inert={isCompletingEntry} style={{ touchAction: isRevealed ? 'none' : undefined, transform: cardMotion?.transform, transformOrigin: cardMotion?.transformOrigin, transitionDuration: isSwipeInProgress ? '0ms' : entryCompletionMotion === undefined && cardMotion !== undefined ? '160ms' : undefined }} onClick={flipCard} onPointerCancel={cancelSwipe} onPointerDown={startSwipe} onPointerMove={moveSwipe} onPointerUp={endSwipe}>
     <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 text-sm font-semibold text-slate-600"><span>{visibleSideLabel}</span><div className="flex items-center gap-2"><button aria-label={t(vocabularyItem.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${vocabularyItem.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} disabled={isCompletingEntry} type="button" onClick={(event) => { event.stopPropagation(); onChangeFavouriteStatus(vocabularyItem.id, !vocabularyItem.isFavourite) }}><span aria-hidden="true">{vocabularyItem.isFavourite ? '★' : '☆'}</span></button><MoreActions disabled={isCompletingEntry} isRevealed={isRevealed} onChangeWordState={(wordState) => completeEntry({ label: t(wordStateMessageKeys[wordState]), value: wordState, accent: accentForAssessment(wordState) }, () => onManuallySetWordState(activeEntryIndex, wordState))} onEdit={() => onEditVocabularyItem(vocabularyItem.id)} /></div></div>
     <div className="h-[calc(100%-4.25rem)] overflow-hidden px-6 py-8 max-[480px]:py-6 sm:px-10 sm:py-12">{isGermanVisible ? <GermanCardSide settings={settings} vocabularyItem={vocabularyItem} /> : <RussianCardSide areRemainingTranslationsVisible={areRemainingTranslationsVisible} disabled={isCompletingEntry} onToggleRemainingTranslations={() => setAreRemainingTranslationsVisible((visible) => !visible)} vocabularyItem={vocabularyItem} />}</div>
   </article>

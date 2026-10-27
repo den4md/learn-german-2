@@ -164,6 +164,10 @@ body {
   transition: transform 300ms ease-in, opacity 300ms ease-in, box-shadow 150ms;
 }
 
+.flashcard[data-accent] {
+  border: 2px solid var(--assessment-color);
+}
+
 .flashcard-exiting {
   animation: none;
   opacity: 0;

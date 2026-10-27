@@ -21,6 +21,7 @@ import { AppFooter, AppShell } from './app-shell'
 import { PopupMenuProvider } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
+import { sessionCardRoute } from './session-card-navigation'
 
 export function App() {
   const { confirmAction, showError } = useAppPopup()
@@ -111,7 +112,7 @@ export function App() {
 
   const startSession = (session: Session) => {
     saveLearningData(learningData.startSession(session))
-    navigate('/session/active')
+    navigate(sessionCardRoute(session, 0))
   }
 
   const showActiveSessionEntry = (entryIndex: number) => {
@@ -129,6 +130,7 @@ export function App() {
   const assessActiveSessionEntry = (entryIndex: number, selfAssessment: Parameters<LearningData['assessActiveSessionEntry']>[1]) => {
     const nextLearningData = learningData.assessActiveSessionEntry(entryIndex, selfAssessment, new Date().toISOString())
     saveLearningData(nextLearningData)
+    navigate(sessionCardRoute(nextLearningData.activeSession!, nextLearningData.activeSession!.toData().currentEntryIndex))
   }
 
   const selectNextActiveSessionCandidatePage = (vocabularyItemIds: VocabularyItemId[]) => {
@@ -142,6 +144,7 @@ export function App() {
   const manuallySetActiveSessionEntryWordState = (entryIndex: number, wordState: Parameters<LearningData['manuallySetActiveSessionEntryWordState']>[1]) => {
     const nextLearningData = learningData.manuallySetActiveSessionEntryWordState(entryIndex, wordState, new Date().toISOString())
     saveLearningData(nextLearningData)
+    navigate(sessionCardRoute(nextLearningData.activeSession!, nextLearningData.activeSession!.toData().currentEntryIndex))
   }
 
   const endActiveSession = () => {
@@ -229,12 +232,15 @@ export function App() {
     navigate('/progression')
   }
 
-  const route = isLoaded && location.path === '/session/active' && learningData.activeSession === undefined && sessionTransitionData === undefined ? '/progression' : location.path
+  const representedSessionId = new URLSearchParams(location.search).get('session')
+  const visibleActiveSession = learningData.activeSession ?? sessionTransitionData?.activeSession
+  const route = isLoaded && location.path === '/session/active' && (visibleActiveSession === undefined || representedSessionId !== null && representedSessionId !== visibleActiveSession.id) ? '/progression' : location.path
   const vocabularyEditMatch = route.match(/^\/vocabulary\/(-?\d+)\/edit$/)
   const sessionDetailsMatch = route.match(/^\/sessions\/([^/]+)$/)
 
   useEffect(() => {
-    navigation.canonicalize(route)
+    if (location.path === '/session/active' && route !== location.path) navigate(route, true)
+    else navigation.canonicalize(route)
   }, [navigation, location, route])
 
   return (
@@ -287,6 +293,8 @@ export function App() {
             <SettingsView onClearData={clearData} />
           ) : (
             <ActiveSessionView
+              locationSearch={location.search}
+              onNavigateCard={(index, replace = false) => { if (learningData.activeSession !== undefined) navigate(sessionCardRoute(learningData.activeSession, index), replace) }}
               isSessionComplete={learningData.activeSession === undefined}
               learningData={learningData.activeSession === undefined ? sessionTransitionData ?? learningData : learningData}
               onAssessmentTransitionChange={setSessionTransitionData}
