@@ -13,7 +13,7 @@ The user's Preferences, Vocabulary learning records, User-added vocabulary items
 _Avoid_: account data
 
 **Preferences**:
-The user's saved choices outside an individual Session. At present, Preferences contain the Interface language; the app adds more Preferences only when it needs them.
+The user's saved choices outside an individual Session, including Interface language and the Limited-session finishing delay of zero, two, five, or ten seconds, with five as the default. The finishing delay stores a duration; elapsed countdown time is not part of Learning data.
 _Avoid_: session settings, profile
 
 **Local copy**:

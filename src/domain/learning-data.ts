@@ -221,6 +221,10 @@ export class LearningData {
     return this.finishSession(activeSession.complete(endedAt))
   }
 
+  selectActiveSessionFinishingPosition(selectedAt: string): LearningData {
+    return new LearningData({ ...this.data, activeSession: this.requireActiveSession().selectFinishingPosition(selectedAt).toData() })
+  }
+
   manuallySetActiveSessionEntryWordState(
     entryIndex: number,
     wordState: WordState,

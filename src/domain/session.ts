@@ -308,6 +308,12 @@ export class Session {
     return nextSessionEntryIndex(this.data.entries, index, this.candidateVocabularyItemIds.length > 0)
   }
 
+  selectFinishingPosition(selectedAt: string): Session {
+    this.assertActive()
+    if (!this.isComplete) throw new Error('Only a fully answered Limited session has a finishing position.')
+    return new Session({ ...this.data, currentEntryIndex: this.data.entries.length, lastActionAt: selectedAt })
+  }
+
   showEntry(index: number, shownAt: string, transition: SessionEntryTransitionData): Session {
     this.assertActive()
     const entries = this.data.entries.map((entry, entryIndex) =>

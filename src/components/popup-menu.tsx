@@ -10,6 +10,12 @@ interface PopupMenuContextValue {
 
 const PopupMenuContext = createContext<PopupMenuContextValue | undefined>(undefined)
 
+export function useIsPopupMenuOpen(): boolean {
+  const context = useContext(PopupMenuContext)
+  if (context === undefined) throw new Error('Popup menus require PopupMenuProvider.')
+  return context.openMenuId !== undefined
+}
+
 export function PopupMenuProvider({ children }: PropsWithChildren) {
   const { isPopupOpen } = useAppPopup()
   const [openMenuId, setOpenMenuId] = useState<string | undefined>()

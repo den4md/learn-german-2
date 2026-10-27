@@ -10,11 +10,16 @@ import { resolveVocabularyItems } from '../domain/vocabulary'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { selectSessionVocabularyItemIds } from '../app/select-session-vocabulary-item-ids'
 import { sessionCardIndex, sessionCardRoute } from '../app/session-card-navigation'
+import type { SessionFinishingCountdown } from '../app/session-finishing-countdown'
+import { SessionFinishingView } from './session-finishing-view'
+import { KeyboardHint } from '../components/keyboard-hint'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
 
 interface ActiveSessionViewProps {
+  finishingCountdown: SessionFinishingCountdown
+  onSelectFinishingPosition(): void
   locationSearch: string
   onNavigateCard(index: number, replace?: boolean): void
   isSessionComplete: boolean
@@ -36,7 +41,7 @@ interface ActiveSessionViewProps {
   onSelectNextCandidatePage(vocabularyItemIds: VocabularyItemId[]): void
 }
 
-export function ActiveSessionView({ locationSearch, onNavigateCard, isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
+export function ActiveSessionView({ finishingCountdown, onSelectFinishingPosition, locationSearch, onNavigateCard, isSessionComplete, learningData, onAssessmentTransitionChange, onShowEntry, onShowCandidate, onRevealEntry, onAssessEntry, onChangeFavouriteStatus, onCompleteSession, onEndSession, onEditVocabularyItem, onManuallySetWordState, onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary, onSelectNextCandidatePage }: ActiveSessionViewProps) {
   const { t } = useInterfaceLanguage()
   const { confirmAction, isPopupOpen } = useAppPopup()
   const { defaultVocabularySet, hasLoadError } = useDefaultVocabularySet()
@@ -93,6 +98,7 @@ export function ActiveSessionView({ locationSearch, onNavigateCard, isSessionCom
       return
     }
     if (!activeSession.isUnlimited) {
+      if (activeSession.isComplete && activeSession.toData().currentEntryIndex !== activeEntryIndex) onSelectFinishingPosition()
       return
     }
     if (activeSession.candidateVocabularyItemIds.length > 0) {
@@ -104,7 +110,7 @@ export function ActiveSessionView({ locationSearch, onNavigateCard, isSessionCom
       const candidateVocabularyItemIds = selectSessionVocabularyItemIds(learningData, defaultVocabularySet, activeSession.type, activeSession.toData().settings).filter((id) => !presentedVocabularyItemIds.has(id))
       onSelectNextCandidatePage(candidateVocabularyItemIds)
     }
-  }, [activeEntry, activeEntryIndex, activeSession, assessmentFeedback, defaultVocabularySet, isPopupOpen, isSessionComplete, isShowingNextCard, learningData, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
+  }, [activeEntry, activeEntryIndex, activeSession, assessmentFeedback, defaultVocabularySet, isPopupOpen, isSessionComplete, isShowingNextCard, learningData, onSelectFinishingPosition, onSelectNextCandidatePage, onShowCandidate, onShowEntry])
 
   if (activeSession === undefined) {
     return null
@@ -136,10 +142,7 @@ export function ActiveSessionView({ locationSearch, onNavigateCard, isSessionCom
 
       {hasLoadError ? <p className="mt-8 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-red-800">{t('cardCouldNotLoad')}</p> : null}
       {!activeSession.isUnlimited && activeEntryIndex === activeSession.entries.length && activeSession.isComplete && assessmentFeedback === undefined ? (
-        <div className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center shadow-sm">
-          <h3 className="text-xl font-bold text-slate-950">{t('sessionReadyToFinish')}</h3>
-          <button className="mt-6 rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-200" type="button" onClick={onCompleteSession}>{t('finishSession')}</button>
-        </div>
+        <SessionFinishingView countdown={finishingCountdown} onFinish={onCompleteSession} />
       ) : vocabularyItem === undefined ? <p className="mt-8 rounded-2xl border border-slate-200 bg-white px-6 py-16 text-center text-slate-600">{t('loadingCard')}</p> : displayedEntry === undefined ? null : <Flashcard key={`${activeSession.id}:${displayedEntryIndex}`} savedDecision={displayedEntry.manualWordState ?? displayedEntry.selfAssessment} activeEntryIndex={displayedEntryIndex} assessmentFeedback={assessmentFeedback?.action} isShowingNextCard={isShowingNextCard} isRevealed={displayedEntry.revealedAt !== undefined} isWaitingForNextEntry={isSessionComplete || activeEntry === undefined} sessionType={activeSession.type} settings={activeSession.toData().settings} vocabularyItem={vocabularyItem} onAssessmentFeedback={startAssessmentFeedback} onAssessEntry={onAssessEntry} onChangeFavouriteStatus={onChangeFavouriteStatus} onEditVocabularyItem={onEditVocabularyItem} onManuallySetWordState={onManuallySetWordState} onRevealEntry={onRevealEntry} />}
       <nav aria-label={t('cardNavigation')} className="mt-5 flex items-center justify-between gap-3" inert={assessmentFeedback !== undefined || isPopupOpen}>
         <button className="rounded-xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 disabled:opacity-45 focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={activeEntryIndex === 0} onClick={() => onNavigateCard(activeEntryIndex - 1)} type="button">{t('previousCard')}</button>
@@ -436,21 +439,6 @@ function motionForWordState(selfAssessment: SelfAssessment | typeof wordStates[k
 
 function AssessmentButton({ action, className, disabled, selected, onAssess }: { action: AssessmentAction; className: string; disabled: boolean; selected: boolean; onAssess(selfAssessment: SelfAssessment): void }) {
   return <button className={`assessment-button ${className} w-full min-w-0 rounded-xl border px-4 py-3 text-center font-semibold disabled:cursor-not-allowed active:translate-y-px`} data-accent={action.accent} data-selected={selected} disabled={disabled} type="button" onClick={() => onAssess(action.value)}>{action.label}</button>
-}
-
-function KeyboardHint({ keyName }: { keyName: 'space' | 'up' | 'left' | 'down' | 'right' }) {
-  const arrowPaths = {
-    up: 'M16 18V8m-4 4 4-4 4 4',
-    left: 'M21 13H11m4-4-4 4 4 4',
-    down: 'M16 8v10m-4-4 4 4 4-4',
-    right: 'M11 13h10m-4-4 4 4-4 4',
-  }
-
-  return <kbd aria-hidden="true" className="session-key-hint" data-key={keyName}>
-    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox={keyName === 'space' ? '0 0 80 24' : '0 0 32 32'}>
-      {keyName === 'space' ? <><rect height="14" rx="3" width="68" x="6" y="2" /><path d="m7 3-5 4v13h76V7l-5-4M6 16l-4 4m72-4 4 4M20 8v3h40V8" /></> : <><rect height="21" rx="3" width="20" x="6" y="2" /><path d="m7 3-5 5v22h28V8l-5-5M6 23l-4 7m24-7 4 7" /><path d={arrowPaths[keyName]} /></>}
-    </svg>
-  </kbd>
 }
 
 function SessionNavigation({ onOpenProgression, onOpenSessionSetup, onOpenSettings, onOpenVocabulary }: { onOpenProgression(): void; onOpenSessionSetup(): void; onOpenSettings(): void; onOpenVocabulary(): void }) {

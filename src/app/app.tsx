@@ -21,7 +21,8 @@ import { AppFooter, AppShell } from './app-shell'
 import { PopupMenuProvider } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
-import { sessionCardRoute } from './session-card-navigation'
+import { sessionCardIndex, sessionCardRoute } from './session-card-navigation'
+import { SessionFinishingCountdown } from './session-finishing-countdown'
 
 export function App() {
   const { confirmAction, showError } = useAppPopup()
@@ -36,6 +37,11 @@ export function App() {
   const [location, setLocation] = useState(navigation.location)
   const [sessionTransitionData, setSessionTransitionData] = useState<LearningData>()
   const learningData = LearningData.fromData(dataDocument.learningData)
+  const activeSessionId = learningData.activeSession?.id
+  const sessionFinishDelaySeconds = learningData.preferences.sessionFinishDelaySeconds
+  const finishingCountdown = useMemo(() => new SessionFinishingCountdown(sessionFinishDelaySeconds * 1000), [activeSessionId, sessionFinishDelaySeconds])
+  const activeSession = learningData.activeSession
+  const isReviewingSessionCard = location.path === '/session/active' && activeSession !== undefined && sessionCardIndex(activeSession, location.search) < activeSession.entries.length
   const discardChangesMessage = messages[learningData.preferences.interfaceLanguage].discardVocabularyChanges
   const labels = messages[learningData.preferences.interfaceLanguage]
   const confirmDiscardChanges = useCallback((description: string) => confirmAction({
@@ -49,6 +55,10 @@ export function App() {
     navigation.setUnsavedChanges(hasChanges, discardChangesMessage)
   }, [navigation, discardChangesMessage])
   const { navigate } = navigation
+
+  useEffect(() => {
+    if (isReviewingSessionCard) finishingCountdown.reset()
+  }, [finishingCountdown, isReviewingSessionCard, location.search])
 
   useEffect(() => navigation.connect(setLocation, confirmDiscardChanges), [navigation, confirmDiscardChanges])
 
@@ -290,9 +300,11 @@ export function App() {
           ) : route === '/session/new' ? (
             <SessionSetupView learningData={learningData} onBack={() => navigate('/progression')} onSessionStarted={startSession} />
           ) : route === '/settings' ? (
-            <SettingsView onClearData={clearData} />
+            <SettingsView onClearData={clearData} preferences={learningData.preferences} onChangeSessionFinishDelay={(seconds) => saveLearningData(learningData.withPreferences(learningData.preferences.withSessionFinishDelaySeconds(seconds)))} />
           ) : (
             <ActiveSessionView
+              finishingCountdown={finishingCountdown}
+              onSelectFinishingPosition={() => saveLearningData(learningData.selectActiveSessionFinishingPosition(new Date().toISOString()))}
               locationSearch={location.search}
               onNavigateCard={(index, replace = false) => { if (learningData.activeSession !== undefined) navigate(sessionCardRoute(learningData.activeSession, index), replace) }}
               isSessionComplete={learningData.activeSession === undefined}
