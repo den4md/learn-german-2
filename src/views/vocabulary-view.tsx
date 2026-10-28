@@ -174,6 +174,7 @@ export function VocabularyView({
               {visibleVocabularyItems.map((item) => (
                 <VocabularyManagementRow
                   item={item}
+                  learningScoreThreshold={learningData.preferences.learningScoreThreshold}
                   key={item.id}
                   onChangeFavouriteStatus={(vocabularyItemId, isFavourite) => { updateSnapshotAfterItemChange({ ...item, isFavourite }); onChangeFavouriteStatus(vocabularyItemId, isFavourite) }}
                   onChangeWordState={(vocabularyItemId, wordState) => { if (onChangeWordState(vocabularyItemId, wordState)) updateSnapshotAfterItemChange({ ...item, wordState, lastUpdatedAt: wordState === item.wordState ? item.lastUpdatedAt : new Date().toISOString() }) }}
@@ -362,6 +363,7 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
       isFavourite={resolvedVocabularyItem.isFavourite}
       isWordStateLocked={learningData.isVocabularyItemWordStateLocked(vocabularyItemId)}
       learningScore={resolvedVocabularyItem.learningScore}
+      learningScoreThreshold={learningData.preferences.learningScoreThreshold}
       learningStatistics={resolvedVocabularyItem.learningStatistics}
       vocabularyItem={toVocabularyItemData(resolvedVocabularyItem)}
       wordState={resolvedVocabularyItem.wordState}
@@ -371,16 +373,18 @@ export function VocabularyEditView({ vocabularyItemId, learningData, onBack, onS
 
 function VocabularyManagementRow({
   item,
+  learningScoreThreshold,
   onChangeFavouriteStatus,
   onChangeWordState,
   onEditVocabularyItem,
 }: {
   item: ResolvedVocabularyItemData
+  learningScoreThreshold: number
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
   onChangeWordState(vocabularyItemId: VocabularyItemId, wordState: WordState): void
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
 }) {
-  return <VocabularyItemRow item={item} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
+  return <VocabularyItemRow item={item} learningScoreThreshold={learningScoreThreshold} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
 }
 
 function VocabularyEditForm({
@@ -388,6 +392,7 @@ function VocabularyEditForm({
   isFavourite,
   isWordStateLocked,
   learningScore,
+  learningScoreThreshold,
   learningStatistics,
   onBack,
   onSave,
@@ -399,6 +404,7 @@ function VocabularyEditForm({
   isFavourite: boolean
   isWordStateLocked: boolean
   learningScore: number
+  learningScoreThreshold: number
   learningStatistics: ResolvedVocabularyItemData['learningStatistics']
   onBack(): void
   onSave(vocabularyItemId: VocabularyItemId, germanText: VocabularyItemTextData | undefined, translations: string[] | undefined, wordState: WordState, isFavourite: boolean): Promise<void>
@@ -451,7 +457,7 @@ function VocabularyEditForm({
           <Metadata label={t('vocabularyItemId')} value={String(item.id)} />
           <Metadata label={t('cefrLevel')} value={item.level} />
           <Metadata label={t('wordType')} value={t(wordTypeMessageKeys[getWordType(item)])} />
-          <Metadata label={t('learningScore')} value={String(learningScore)} />
+          <Metadata label={t('learningScore')} value={`${learningScore} / ${learningScoreThreshold}`} />
           <Metadata label={t('cardShows')} value={String(learningStatistics.cardShows)} />
           <Metadata label={t('correctAssessments')} value={String(learningStatistics.correctAssessments)} />
           <Metadata label={t('incorrectAssessments')} value={String(learningStatistics.incorrectAssessments)} />

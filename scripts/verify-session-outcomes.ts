@@ -4,6 +4,7 @@ import type { SelfAssessment, SessionType, WordState } from '../src/domain/const
 import { createEmptyDataDocument, normalizeDataDocument } from '../src/domain/data-document'
 import { documentId, sessionId, vocabularyItemId } from '../src/domain/identifiers'
 import { LearningData } from '../src/domain/learning-data'
+import { Preferences } from '../src/domain/preferences'
 import { Session, SessionSettings } from '../src/domain/session'
 import { VocabularyLearningRecord } from '../src/domain/vocabulary'
 
@@ -37,29 +38,29 @@ function refresh(data: LearningData): LearningData {
   return LearningData.fromData(normalizeDataDocument(JSON.parse(JSON.stringify(document))).learningData)
 }
 
-// A correction replaces both the pending transition and its immediate statistic.
+// Answers store a choice and immediate statistics, never a calculated future outcome.
 let data = showAndReveal(start())
-const snapshot = data.activeSession!.entryAt(0).transition!
-assert.deepEqual(snapshot.beforeLearningStatistics, baselineStatistics)
-assert.deepEqual(snapshot.afterLearningStatistics, { ...baselineStatistics, cardShows: 8 })
-snapshot.beforeLearningStatistics!.cardShows = 999
-data.activeSession!.toData().entries[0]!.transition!.afterLearningStatistics!.cardShows = 999
-assert.equal(data.activeSession!.entryAt(0).transition!.beforeLearningStatistics!.cardShows, 7)
-assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningStatistics!.cardShows, 8)
+const snapshot = data.activeSession!.entryAt(0).baseline!
+assert.deepEqual(snapshot.learningStatistics, baselineStatistics)
+snapshot.learningStatistics!.cardShows = 999
+data.activeSession!.toData().entries[0]!.baseline!.learningStatistics!.cardShows = 999
+assert.equal(data.activeSession!.entryAt(0).baseline!.learningStatistics!.cardShows, 7)
+assert.equal(record(data).learningStatistics.cardShows, 8)
 data = data.assessActiveSessionEntry(0, recallSelfAssessments.correct, now)
 assert.equal(record(data).wordState, wordStates.learning)
 assert.equal(record(data).learningScore, 9)
 assert.equal(record(data).learningStatistics.correctAssessments, 5)
 assert.equal(data.activeSession!.isComplete, true)
 assert.equal(data.sessions.length, 0)
-assert.equal(data.activeSession!.entryAt(0).transition!.afterWordState, wordStates.known)
-assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningScore, 10)
+assert.equal(data.activeSession!.entryAt(0).selfAssessment, recallSelfAssessments.correct)
+assert.equal(data.activeSession!.entryAt(0).transition, undefined)
 for (let repetition = 0; repetition < 2; repetition += 1) {
   data = data.assessActiveSessionEntry(0, recallSelfAssessments.incorrect, later)
 }
 assert.deepEqual(record(data).learningStatistics, { cardShows: 8, correctAssessments: 4, incorrectAssessments: 3 })
-assert.equal(data.activeSession!.entryAt(0).transition!.beforeLearningScore, 9)
-assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningScore, 0)
+assert.equal(data.activeSession!.entryAt(0).baseline!.learningScore, 9)
+assert.equal(data.activeSession!.entryAt(0).selfAssessment, recallSelfAssessments.incorrect)
+assert.equal(data.activeSession!.entryAt(0).transition, undefined)
 
 // Assessment/manual replacements always start at the original score, in either order.
 for (const state of [wordStates.known, wordStates.new, wordStates.learning, wordStates.excluded]) {
@@ -67,9 +68,10 @@ for (const state of [wordStates.known, wordStates.new, wordStates.learning, word
   assert.deepEqual(record(data).learningStatistics, { ...baselineStatistics, cardShows: 8 })
   assert.equal(record(data).wordState, wordStates.learning)
   assert.equal(record(data).learningScore, 9)
-  assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningScore, state === wordStates.new ? 0 : 9)
+  assert.equal(data.activeSession!.entryAt(0).manualWordState, state)
+  assert.equal(data.activeSession!.entryAt(0).transition, undefined)
   data = data.assessActiveSessionEntry(0, recallSelfAssessments.correct, later)
-  assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningScore, 10)
+  assert.equal(data.activeSession!.entryAt(0).manualWordState, undefined)
   assert.equal(record(data).learningStatistics.correctAssessments, 5)
 }
 data = data.assessActiveSessionEntry(0, recallSelfAssessments.incorrect, later)
@@ -96,7 +98,7 @@ for (const finish of [(value: LearningData) => value.completeActiveSession(later
   assert.throws(() => ended.endActiveSession(later), /no Active session/)
   assert.throws(() => ended.completeActiveSession(later), /no Active session/)
   assert.throws(() => ended.startSession(ended.sessions[0]!), /ended Session/)
-  assert.throws(() => ended.sessions[0]!.assessEntry(0, recallSelfAssessments.correct, later, historical), /read-only/)
+  assert.throws(() => ended.sessions[0]!.assessEntry(0, recallSelfAssessments.correct, later), /read-only/)
   const changed = ended.withManualWordState(ids[0]!, wordStates.known)
   assert.deepEqual(changed.sessions[0]!.entryAt(0).transition, historical)
 }
@@ -194,32 +196,124 @@ assert.equal(data.dailyStreakHistory.days.find((day) => day.utcDate === now.slic
 data = data.assessActiveSessionEntry(0, recallSelfAssessments.incorrect, later)
 assert.equal(refresh(data).dailyStreakHistory.days.find((day) => day.utcDate === now.slice(0, 10))?.status, dailyStreakDayStatuses.valid)
 
-// Older data keeps unknown statistics unknown; migration happens once, without recounting.
-const oldData = persisted.toData()
-delete oldData.activeSession!.deferredOutcomes
-delete oldData.activeSession!.entries[0]!.transition!.beforeLearningStatistics
-delete oldData.activeSession!.entries[0]!.transition!.afterLearningStatistics
-oldData.vocabularyLearningRecords[0]!.wordState = wordStates.learning
-oldData.vocabularyLearningRecords[0]!.learningScore = 0
-data = refresh(LearningData.fromData(oldData))
-assert.equal(record(data).learningScore, 9)
-assert.equal(data.activeSession!.entryAt(0).transition!.beforeLearningStatistics, undefined)
-data = refresh(data.assessActiveSessionEntry(0, recallSelfAssessments.correct, later))
-assert.equal(data.activeSession!.entryAt(0).transition!.afterLearningStatistics, undefined)
-assert.equal(record(data).learningScore, 9)
-const oldEnded = data.completeActiveSession(later)
-assert.equal(record(oldEnded).learningScore, 10)
-assert.equal(oldEnded.sessions[0]!.entryAt(0).transition!.beforeLearningStatistics, undefined)
-const historicalData = oldEnded.toData()
-delete historicalData.sessions[0]!.deferredOutcomes
-const oldHistory = refresh(LearningData.fromData(historicalData))
-assert.equal(oldHistory.sessions[0]!.entryAt(0).transition!.afterLearningStatistics, undefined)
-assert.equal(record(oldHistory).learningScore, 10)
+// Preferences accept only whole-number thresholds, and older data defaults to four.
+assert.equal(Preferences.createEmpty().learningScoreThreshold, 4)
+assert.equal(Preferences.fromData({ interfaceLanguage: 'en' }).learningScoreThreshold, 4)
+for (const invalid of [0, -1, 21, 1.5, NaN, Infinity, '4', null]) {
+  assert.equal(Preferences.fromData({ interfaceLanguage: 'en', learningScoreThreshold: invalid as number }).learningScoreThreshold, 4)
+  assert.throws(() => Preferences.createEmpty().withLearningScoreThreshold(invalid as number), /whole-number/)
+}
+for (let threshold = 1; threshold <= 20; threshold += 1) {
+  const preferences = Preferences.createEmpty().withLearningScoreThreshold(threshold)
+  assert.equal(Preferences.fromData(JSON.parse(JSON.stringify(preferences.toData()))).learningScoreThreshold, threshold)
+}
+
+// The final threshold controls all end paths, including answers made before it changed.
+for (const unlimited of [false, true]) {
+  for (const manualEnd of [false, true]) {
+    for (const [atAnswer, atEnd, expected] of [[10, 4, wordStates.known], [4, 10, wordStates.learning], [1, 20, wordStates.learning], [20, 1, wordStates.known]] as const) {
+      let initial = start().withVocabularyLearningRecord(VocabularyLearningRecord.fromData({ ...baselineRecord.toData(), learningScore: 3 }))
+      initial = initial.withPreferences(initial.preferences.withLearningScoreThreshold(atAnswer))
+      if (unlimited) {
+        const initialData = initial.toData()
+        initialData.activeSession = Session.start(sessionId('threshold-unlimited'), sessionTypes.learning, unlimitedSettings, [ids[0]!], now).toData()
+        initial = LearningData.fromData(initialData).showActiveSessionCandidate(ids[0]!, now).revealActiveSessionEntry(0, now)
+      } else {
+        initial = showAndReveal(initial)
+      }
+      const answered = initial.assessActiveSessionEntry(0, recallSelfAssessments.correct, now)
+      const changed = refresh(answered.withPreferences(answered.preferences.withLearningScoreThreshold(atEnd)))
+      assert.equal(record(changed).learningScore, 3)
+      assert.equal(record(changed).wordState, wordStates.learning)
+      assert.equal(changed.activeSession!.entryAt(0).transition, undefined)
+      assert.deepEqual(changed.activeSession!.toData(), refresh(answered).activeSession!.toData())
+      const ended = manualEnd ? changed.endActiveSession(later) : unlimited ? changed.selectNextActiveSessionCandidatePage([], later) : changed.completeActiveSession(later)
+      assert.equal(record(ended).learningScore, 4)
+      assert.equal(record(ended).wordState, expected)
+      assert.deepEqual(record(ended).learningStatistics, record(changed).learningStatistics)
+      assert.equal(ended.sessions[0]!.entryAt(0).transition!.afterWordState, expected)
+      assert.equal(ended.sessions[0]!.entryAt(0).transition!.afterLearningScore, 4)
+      assert.equal(ended.sessions[0]!.entryAt(0).baseline, undefined)
+      const history = refresh(ended).sessions[0]!.toData()
+      assert.deepEqual(refresh(ended.withPreferences(ended.preferences.withLearningScoreThreshold(atAnswer))).sessions[0]!.toData(), history)
+    }
+  }
+}
+
+// Manual choices replace recalled answers without applying automatic promotion or resetting early.
+for (const state of Object.values(wordStates)) {
+  let pending = showAndReveal(start()).assessActiveSessionEntry(0, recallSelfAssessments.correct, now)
+  pending = refresh(pending.manuallySetActiveSessionEntryWordState(0, state, later))
+  assert.equal(record(pending).wordState, wordStates.learning)
+  assert.equal(record(pending).learningScore, 9)
+  assert.equal(pending.activeSession!.entryAt(0).selfAssessment, undefined)
+  assert.equal(pending.activeSession!.entryAt(0).transition, undefined)
+  const ended = pending.completeActiveSession(later)
+  assert.equal(record(ended).wordState, state)
+  assert.equal(record(ended).learningScore, state === wordStates.new ? 0 : 9)
+  assert.deepEqual(record(ended).learningStatistics, { ...baselineStatistics, cardShows: 8 })
+}
+
+// Explicit Knowledge-check Learning and unanswered words do not promote at threshold one.
+let classified = start(1, sessionTypes.knowledgeCheck).withVocabularyLearningRecord(VocabularyLearningRecord.createNew(ids[0]!))
+classified = classified.withPreferences(classified.preferences.withLearningScoreThreshold(1))
+classified = showAndReveal(classified).assessActiveSessionEntry(0, wordStates.learning, now).completeActiveSession(later)
+assert.equal(record(classified).wordState, wordStates.learning)
+assert.equal(record(classified).learningScore, 1)
+const untouched = showAndReveal(start()).withPreferences(Preferences.createEmpty().withLearningScoreThreshold(1)).endActiveSession(later)
+assert.equal(record(untouched).wordState, wordStates.learning)
+assert.equal(record(untouched).learningScore, 9)
+
+// Earlier Active sessions with calculated transitions migrate to choices and baselines.
+for (const deferredOutcomes of [undefined, true]) {
+  const oldData = persisted.toData()
+  const oldEntry = oldData.activeSession!.entries[0]!
+  delete oldEntry.baseline
+  oldEntry.transition = {
+    beforeWordState: wordStates.learning, beforeLearningScore: 9,
+    afterWordState: wordStates.learning, afterLearningScore: 0,
+  }
+  oldData.activeSession!.deferredOutcomes = deferredOutcomes
+  oldData.vocabularyLearningRecords[0]!.learningScore = deferredOutcomes ? 9 : 0
+  data = refresh(LearningData.fromData(oldData))
+  assert.equal(record(data).learningScore, 9)
+  assert.equal(data.activeSession!.entryAt(0).transition, undefined)
+  assert.equal(data.activeSession!.entryAt(0).baseline!.learningStatistics, undefined)
+  data = refresh(data.assessActiveSessionEntry(0, recallSelfAssessments.correct, later))
+  assert.equal(data.activeSession!.entryAt(0).transition, undefined)
+  const oldEnded = data.completeActiveSession(later)
+  assert.equal(record(oldEnded).learningScore, 10)
+  assert.deepEqual(record(oldEnded).learningStatistics, { cardShows: 8, correctAssessments: 5, incorrectAssessments: 2 })
+  assert.equal(oldEnded.sessions[0]!.entryAt(0).transition!.beforeLearningStatistics, undefined)
+  assert.equal(oldEnded.sessions[0]!.entryAt(0).transition!.afterLearningStatistics, undefined)
+  const historicalData = oldEnded.toData()
+  delete historicalData.sessions[0]!.deferredOutcomes
+  const oldHistory = refresh(LearningData.fromData(historicalData))
+  assert.deepEqual(oldHistory.sessions[0]!.entryAt(0).toData(), refresh(oldEnded).sessions[0]!.entryAt(0).toData())
+  assert.equal(record(oldHistory).learningScore, 10)
+}
+// A deferred legacy snapshot is never used as the result, even without a new answer.
+const oldDeferred = showAndReveal(start()).assessActiveSessionEntry(0, recallSelfAssessments.correct, now).toData()
+delete oldDeferred.activeSession!.entries[0]!.baseline
+oldDeferred.activeSession!.entries[0]!.transition = {
+  beforeWordState: wordStates.learning, beforeLearningScore: 9,
+  afterWordState: wordStates.known, afterLearningScore: 999,
+}
+oldDeferred.preferences.learningScoreThreshold = 20
+const migratedDeferred = refresh(LearningData.fromData(oldDeferred)).completeActiveSession(later)
+assert.equal(record(migratedDeferred).wordState, wordStates.learning)
+assert.equal(record(migratedDeferred).learningScore, 10)
+assert.equal(migratedDeferred.sessions[0]!.entryAt(0).transition!.afterLearningScore, 10)
+
+// Entries without any older snapshot still apply their saved choice at completion.
 const oldUnanswered = showAndReveal(start()).toData()
 delete oldUnanswered.activeSession!.deferredOutcomes
-delete oldUnanswered.activeSession!.entries[0]!.transition
+delete oldUnanswered.activeSession!.entries[0]!.baseline
 const oldAnswered = LearningData.fromData(oldUnanswered).assessActiveSessionEntry(0, recallSelfAssessments.correct, now)
-assert.equal(oldAnswered.activeSession!.entryAt(0).transition!.beforeLearningStatistics, undefined)
-assert.equal(oldAnswered.activeSession!.entryAt(0).transition!.afterLearningStatistics, undefined)
+assert.equal(oldAnswered.activeSession!.entryAt(0).transition, undefined)
+const oldFinished = oldAnswered.completeActiveSession(later)
+assert.equal(record(oldFinished).learningScore, 10)
+assert.equal(oldFinished.sessions[0]!.entryAt(0).transition!.beforeLearningStatistics, undefined)
+assert.equal(oldFinished.sessions[0]!.entryAt(0).transition!.afterLearningStatistics, undefined)
 
-console.log('Session outcomes verification passed: corrections, manual actions, persistence, finalization, history, legacy data, and streaks.')
+console.log('Session outcomes verification passed: saved choices, corrections, manual actions, persistence, finalization, history, legacy data, and streaks.')

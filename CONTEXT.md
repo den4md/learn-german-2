@@ -13,7 +13,7 @@ The user's Preferences, Vocabulary learning records, User-added vocabulary items
 _Avoid_: account data
 
 **Preferences**:
-The user's saved choices outside an individual Session, including Interface language and the Limited-session finishing delay of zero, two, five, or ten seconds, with five as the default. The finishing delay stores a duration; elapsed countdown time is not part of Learning data.
+The user's saved choices outside an individual Session, including Interface language, Learning-score threshold, and the Limited-session finishing delay of zero, two, five, or ten seconds, with five as the default. The finishing delay stores a duration; elapsed countdown time is not part of Learning data.
 _Avoid_: session settings, profile
 
 **Local copy**:
@@ -133,11 +133,15 @@ The count in a Vocabulary learning record of consecutive correct recall judgemen
 _Avoid_: total correct answers, mastery percentage
 
 **Automatic state transition**:
-The app's rule for determining a Session outcome from a Self-assessment. A Learning score of ten moves Learning to Known; an incorrect Repetition assessment moves Known to Learning and resets its score to zero.
+The app's rule for determining a Session outcome from a Self-assessment. A correct Learning assessment whose resulting score reaches the Learning-score threshold moves Learning to Known when the Session ends; an incorrect Repetition assessment moves Known to Learning and resets its score to zero.
 _Avoid_: suggestion, optional promotion
 
+**Learning-score threshold**:
+The saved Preference from one to twenty, defaulting to four, used at Session end to decide automatic Learning-to-Known promotion. Changing it alone preserves scores and Word states; Knowledge-check classifications and manual decisions remain explicit choices even when their scores reach the threshold.
+_Avoid_: mastery score, Session threshold
+
 **Session outcome**:
-The Word state and Learning score determined by a Session entry's latest Self-assessment or in-session manual decision, pending until the Session ends. It is separate from Learning statistics and Daily streak effects, which are recorded during the Active session.
+The Word state and Learning score calculated and applied at Session end from a Session entry's latest Self-assessment or in-session manual decision and the current Preferences. It is separate from Learning statistics and Daily streak effects, which are recorded during the Active session.
 _Avoid_: answer, Session end reason
 
 ## Progress
@@ -181,7 +185,7 @@ _Avoid_: streak history page
 ## Sessions
 
 **Session entry**:
-One Vocabulary item that a Session has presented, recording its reveal state, final Self-assessment or manual decision, and historical before-and-after Word state, Learning score, and Learning statistics where available. Its baseline precedes the first card show; replacing its decision recalculates its pending result from that baseline, while unavailable older statistics remain unknown.
+One Vocabulary item that a Session has presented, recording its reveal state, latest Self-assessment or manual decision, and baseline before the first card show. It has no calculated outcome while active; Session end adds the actual before-and-after Word state, Learning score, and available Learning statistics for history, while unavailable older statistics remain unknown.
 _Avoid_: card progress, question state
 
 **Session**:
@@ -197,7 +201,7 @@ A rejected attempt to start a Session because no Vocabulary item matches its Ses
 _Avoid_: empty session
 
 **Active session**:
-A Session without an end timestamp, at most one per user, which resumes with its recorded entries, current candidate page when applicable, and pending outcomes. Answers, Learning statistics, and Daily streak effects are immediate, while Word state and Learning score stay committed until the Session ends; starting another Session requires ending this one first.
+A Session without an end timestamp, at most one per user, which resumes with its recorded entries, latest choices, and current candidate page when applicable. Answers, Learning statistics, and Daily streak effects are immediate, while Word state and Learning score change only when the Session ends and applies those choices; starting another Session requires ending this one first.
 _Avoid_: paused session
 
 **Knowledge-check session**:

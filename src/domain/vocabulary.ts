@@ -196,28 +196,6 @@ export class VocabularyLearningRecord {
     })
   }
 
-  withManualWordState(
-    wordState: WordState,
-    replacedSelfAssessment?: SelfAssessment,
-    changedAt = new Date().toISOString(),
-  ): VocabularyLearningRecord {
-    const learningStatistics = { ...this.data.learningStatistics }
-    if (replacedSelfAssessment === recallSelfAssessments.correct) {
-      learningStatistics.correctAssessments -= 1
-    }
-    if (replacedSelfAssessment === recallSelfAssessments.incorrect) {
-      learningStatistics.incorrectAssessments -= 1
-    }
-
-    return new VocabularyLearningRecord({
-      ...this.data,
-      wordState,
-      lastUpdatedAt: wordState !== this.data.wordState || replacedSelfAssessment !== undefined ? changedAt : this.data.lastUpdatedAt,
-      learningScore: wordState === wordStates.new ? 0 : this.data.learningScore,
-      learningStatistics,
-    })
-  }
-
   withSessionEntryShown(): VocabularyLearningRecord {
     return new VocabularyLearningRecord({
       ...this.data,
@@ -228,9 +206,8 @@ export class VocabularyLearningRecord {
     })
   }
 
-  withSessionSelfAssessment(
-    sessionType: SessionType,
-    selfAssessment: SelfAssessment,
+  withSessionAssessmentStatistics(
+    selfAssessment: SelfAssessment | undefined,
     replacedSelfAssessment?: SelfAssessment,
     assessedAt = new Date().toISOString(),
   ): VocabularyLearningRecord {
@@ -244,7 +221,7 @@ export class VocabularyLearningRecord {
       }
     }
 
-    if (isRecallSelfAssessment(selfAssessment)) {
+    if (selfAssessment !== undefined && isRecallSelfAssessment(selfAssessment)) {
       if (selfAssessment === recallSelfAssessments.correct) {
         learningStatistics.correctAssessments += 1
       } else {
@@ -254,9 +231,15 @@ export class VocabularyLearningRecord {
 
     return new VocabularyLearningRecord({
       ...this.data,
-      ...applyAutomaticStateTransition(this.data, sessionType, selfAssessment),
-      lastUpdatedAt: assessedAt,
+      lastUpdatedAt: selfAssessment !== undefined || replacedSelfAssessment !== undefined ? assessedAt : this.data.lastUpdatedAt,
       learningStatistics,
+    })
+  }
+
+  withSessionOutcome(sessionType: SessionType, selfAssessment: SelfAssessment, learningScoreThreshold: number): VocabularyLearningRecord {
+    return new VocabularyLearningRecord({
+      ...this.data,
+      ...applyAutomaticStateTransition(this.data, sessionType, selfAssessment, learningScoreThreshold),
     })
   }
 
@@ -367,6 +350,7 @@ function applyAutomaticStateTransition(
   data: VocabularyLearningRecordData,
   sessionType: SessionType,
   selfAssessment: SelfAssessment,
+  learningScoreThreshold: number,
 ): Pick<VocabularyLearningRecordData, 'wordState' | 'learningScore'> {
   if (selfAssessment === wordStates.excluded) {
     return { wordState: wordStates.excluded, learningScore: data.learningScore }
@@ -386,7 +370,7 @@ function applyAutomaticStateTransition(
     const learningScore =
       sessionType === sessionTypes.learning ? data.learningScore + 1 : data.learningScore
     return {
-      wordState: learningScore >= 10 ? wordStates.known : data.wordState,
+      wordState: learningScore >= learningScoreThreshold ? wordStates.known : data.wordState,
       learningScore,
     }
   }

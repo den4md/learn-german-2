@@ -300,7 +300,7 @@ export function App() {
           ) : route === '/session/new' ? (
             <SessionSetupView learningData={learningData} onBack={() => navigate('/progression')} onSessionStarted={startSession} />
           ) : route === '/settings' ? (
-            <SettingsView onClearData={clearData} preferences={learningData.preferences} onChangeSessionFinishDelay={(seconds) => saveLearningData(learningData.withPreferences(learningData.preferences.withSessionFinishDelaySeconds(seconds)))} />
+            <SettingsView onClearData={clearData} preferences={learningData.preferences} onChangeSessionFinishDelay={(seconds) => saveLearningData(learningData.withPreferences(learningData.preferences.withSessionFinishDelaySeconds(seconds)))} onChangeLearningScoreThreshold={(threshold) => saveLearningData(learningData.withPreferences(learningData.preferences.withLearningScoreThreshold(threshold)))} />
           ) : (
             <ActiveSessionView
               finishingCountdown={finishingCountdown}

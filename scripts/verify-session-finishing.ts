@@ -18,7 +18,7 @@ for (const seconds of sessionFinishDelays) {
   const data = LearningData.fromData(JSON.parse(JSON.stringify(LearningData.createEmpty().withPreferences(preferences).toData())))
   assert.equal(data.preferences.sessionFinishDelaySeconds, seconds)
   assert.equal(data.preferences.interfaceLanguage, interfaceLanguages.russian)
-  assert.deepEqual(Object.keys(data.preferences.toData()).sort(), ['interfaceLanguage', 'sessionFinishDelaySeconds'])
+  assert.deepEqual(Object.keys(data.preferences.toData()).sort(), ['interfaceLanguage', 'learningScoreThreshold', 'sessionFinishDelaySeconds'])
 
   const duration = seconds * 1000
   const countdown = new SessionFinishingCountdown(duration)

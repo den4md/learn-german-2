@@ -12,6 +12,7 @@ import type { MessageKey } from '../i18n/messages'
 
 interface VocabularyItemRowProps {
   item: ResolvedVocabularyItemData
+  learningScoreThreshold: number
   showWordState?: boolean
   sessionEntry?: SessionEntryData
   onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void
@@ -19,7 +20,7 @@ interface VocabularyItemRowProps {
   onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void
 }
 
-export function VocabularyItemRow({ item, showWordState = true, sessionEntry, onChangeFavouriteStatus, onChangeWordState, onEditVocabularyItem }: VocabularyItemRowProps) {
+export function VocabularyItemRow({ item, learningScoreThreshold, showWordState = true, sessionEntry, onChangeFavouriteStatus, onChangeWordState, onEditVocabularyItem }: VocabularyItemRowProps) {
   const { t } = useInterfaceLanguage()
   const [menuPage, setMenuPage] = useState<'actions' | 'states'>('actions')
   const [pendingMenuFocus, setPendingMenuFocus] = useState<'actions' | 'states' | undefined>()
@@ -63,7 +64,7 @@ export function VocabularyItemRow({ item, showWordState = true, sessionEntry, on
     <div>
       <p className="mt-1 text-sm text-slate-600">{item.translations.join(', ')}</p>
       <p className="mt-2 text-sm font-medium text-blue-700">{showWordState ? `${wordState} · ` : ''}{item.level} · {t(wordTypeMessageKeys[wordType])}</p>
-      <dl className={`mt-3 grid ${sessionEntry === undefined ? 'grid-cols-4' : 'grid-cols-2 sm:grid-cols-4'} gap-x-3 gap-y-1 text-sm text-slate-600 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere`}><div><dt>{t('score')}</dt><dd className={`${sessionEntry === undefined ? 'whitespace-nowrap' : ''} font-semibold text-slate-950`}>{score === notRecorded ? score : `${score} / 10`}</dd></div><div><dt>{t('shows')}</dt><dd className="font-semibold text-slate-950">{statistics[0]}</dd></div><div><dt>{t('correctAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[1]}</dd></div><div><dt>{t('incorrectAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[2]}</dd></div></dl>
+      <dl className={`mt-3 grid ${sessionEntry === undefined ? 'grid-cols-4' : 'grid-cols-2 sm:grid-cols-4'} gap-x-3 gap-y-1 text-sm text-slate-600 [&>div]:row-span-2 [&>div]:grid [&>div]:min-w-0 [&>div]:grid-rows-subgrid [&_dt]:wrap-anywhere`}><div><dt>{t('score')}</dt><dd className={`${sessionEntry === undefined ? 'whitespace-nowrap' : ''} font-semibold text-slate-950`}>{score === notRecorded ? score : `${score} / ${learningScoreThreshold}`}</dd></div><div><dt>{t('shows')}</dt><dd className="font-semibold text-slate-950">{statistics[0]}</dd></div><div><dt>{t('correctAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[1]}</dd></div><div><dt>{t('incorrectAssessments')}</dt><dd className="font-semibold text-slate-950">{statistics[2]}</dd></div></dl>
     </div>
   </li>
 }

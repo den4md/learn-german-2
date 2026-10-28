@@ -5,10 +5,13 @@ export type { InterfaceLanguage } from './constants'
 
 export const sessionFinishDelays = [0, 2, 5, 10] as const
 export type SessionFinishDelaySeconds = typeof sessionFinishDelays[number]
+export const learningScoreThresholds = Array.from({ length: 20 }, (_, index) => index + 1)
+export const defaultLearningScoreThreshold = 4
 
 export interface PreferencesData {
   interfaceLanguage: InterfaceLanguage
   sessionFinishDelaySeconds?: SessionFinishDelaySeconds
+  learningScoreThreshold?: number
 }
 
 export class Preferences {
@@ -19,12 +22,13 @@ export class Preferences {
   }
 
   static createEmpty(): Preferences {
-    return new Preferences({ interfaceLanguage: interfaceLanguages.english, sessionFinishDelaySeconds: 5 })
+    return new Preferences({ interfaceLanguage: interfaceLanguages.english, sessionFinishDelaySeconds: 5, learningScoreThreshold: defaultLearningScoreThreshold })
   }
 
   static fromData(data: PreferencesData): Preferences {
     const seconds = data.sessionFinishDelaySeconds ?? 5
-    return new Preferences({ ...data, sessionFinishDelaySeconds: sessionFinishDelays.includes(seconds) ? seconds : 5 })
+    const threshold = data.learningScoreThreshold ?? defaultLearningScoreThreshold
+    return new Preferences({ ...data, sessionFinishDelaySeconds: sessionFinishDelays.includes(seconds) ? seconds : 5, learningScoreThreshold: learningScoreThresholds.includes(threshold) ? threshold : defaultLearningScoreThreshold })
   }
 
   get interfaceLanguage(): InterfaceLanguage {
@@ -42,6 +46,15 @@ export class Preferences {
   withSessionFinishDelaySeconds(seconds: SessionFinishDelaySeconds): Preferences {
     if (!sessionFinishDelays.includes(seconds)) throw new Error('Choose a supported Session finishing delay.')
     return new Preferences({ ...this.data, sessionFinishDelaySeconds: seconds })
+  }
+
+  get learningScoreThreshold(): number {
+    return this.data.learningScoreThreshold ?? defaultLearningScoreThreshold
+  }
+
+  withLearningScoreThreshold(threshold: number): Preferences {
+    if (!learningScoreThresholds.includes(threshold)) throw new Error('Choose a whole-number Learning-score threshold from 1 to 20.')
+    return new Preferences({ ...this.data, learningScoreThreshold: threshold })
   }
 
   toData(): PreferencesData {

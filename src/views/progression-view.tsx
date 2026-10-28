@@ -70,12 +70,12 @@ export function ProgressionView({ learningData, onStartSession, onChangeWordStat
         </ProgressionList>
         <ProgressionList emptyMessage={t('noLearningVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=learning')} title={t('learningVocabulary')}>
           {learningVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
+            <VocabularyItemRow learningScoreThreshold={learningData.preferences.learningScoreThreshold} item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
           ))}
         </ProgressionList>
         <ProgressionList emptyMessage={t('noKnownVocabulary')} onShowMore={() => onOpenVocabulary('/vocabulary?state=known')} title={t('knownVocabulary')}>
           {knownVocabularyItems.map((vocabularyItem) => (
-            <VocabularyItemRow item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
+            <VocabularyItemRow learningScoreThreshold={learningData.preferences.learningScoreThreshold} item={vocabularyItem.toData()} key={vocabularyItem.id} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} showWordState={false} />
           ))}
         </ProgressionList>
       </div>
@@ -186,7 +186,7 @@ export function SessionDetailsView({ sessionId, learningData, onBack, backMessag
         <ol className="divide-y divide-slate-100 border-t border-slate-100">
           {sessionData.entries.map((entry) => {
             const item = vocabularyItemsById.get(entry.vocabularyItemId)
-            return item === undefined ? <li className="px-6 py-5 sm:px-8" key={entry.vocabularyItemId}>{t('vocabularyItemId')}: {entry.vocabularyItemId}, {t('notAvailable')}</li> : <VocabularyItemRow item={item} key={entry.vocabularyItemId} sessionEntry={entry} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
+            return item === undefined ? <li className="px-6 py-5 sm:px-8" key={entry.vocabularyItemId}>{t('vocabularyItemId')}: {entry.vocabularyItemId}, {t('notAvailable')}</li> : <VocabularyItemRow learningScoreThreshold={learningData.preferences.learningScoreThreshold} item={item} key={entry.vocabularyItemId} sessionEntry={entry} onChangeFavouriteStatus={onChangeFavouriteStatus} onChangeWordState={onChangeWordState} onEditVocabularyItem={onEditVocabularyItem} />
           })}
         </ol>
       </section>

@@ -66,7 +66,8 @@ for (const id of ids.slice(0, 3)) assert.throws(() => data.withManualWordState(i
 assert.doesNotThrow(() => data.withManualWordState(ids[3]!, wordStates.excluded))
 data = data.showActiveSessionEntry(0, now).revealActiveSessionEntry(0, now).manuallySetActiveSessionEntryWordState(0, wordStates.learning, now)
 assert.equal(data.activeSession!.toData().selectedItemCount, 3)
-assert.equal(data.activeSession!.entryAt(0).transition!.afterWordState, wordStates.learning)
+assert.equal(data.activeSession!.entryAt(0).manualWordState, wordStates.learning)
+assert.equal(data.activeSession!.entryAt(0).transition, undefined)
 assert.equal(data.vocabularyLearningRecords.find((record) => record.vocabularyItemId === ids[0])!.wordState, wordStates.new)
 assert.equal(data.endActiveSession(now).sessions[0]!.toData().selectedItemCount, 3)
 

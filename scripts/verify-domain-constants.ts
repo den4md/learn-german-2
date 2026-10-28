@@ -19,17 +19,19 @@ assert.equal(settings.firstCardSide, cardSides.german)
 assert.equal(settings.firstCardSide, 'de')
 
 const learningRecord = VocabularyLearningRecord.createNew(vocabularyItemId(1))
-const learningAssessment = learningRecord.withSessionSelfAssessment(
+const learningAssessment = learningRecord.withSessionOutcome(
   sessionTypes.knowledgeCheck,
   wordStates.learning,
+  4,
 )
 
 assert.equal(learningAssessment.wordState, wordStates.learning)
 assert.equal(learningAssessment.learningScore, 1)
 
-const correctAssessment = learningAssessment.withSessionSelfAssessment(
+const correctAssessment = learningAssessment.withSessionOutcome(
   sessionTypes.learning,
   recallSelfAssessments.correct,
+  4,
 )
 
 assert.equal(correctAssessment.wordState, wordStates.learning)
