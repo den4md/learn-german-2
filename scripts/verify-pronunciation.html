@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pronunciation regression checks</title>
+<body>
+<h1>Pronunciation regression checks</h1>
+<pre id="result">Running...</pre>
+<div id="preview"></div>
+<script type="module">
+  import { act, createElement as h, StrictMode } from 'react'
+  import { createRoot } from 'react-dom/client'
+  import { PronunciationButton, PronunciationProvider, usePronunciation } from '../src/components/pronunciation'
+  import { InterfaceLanguageProvider } from '../src/i18n/interface-language-context'
+  import '../src/styles.css'
+
+  globalThis.IS_REACT_ACT_ENVIRONMENT = true
+  const container = document.getElementById('preview')
+  const root = createRoot(container)
+  const calls = []
+  const listeners = new Set()
+  let cancellations = 0
+  let parentClicks = 0
+  const speech = {
+    available: true,
+    subscribe(listener) { listeners.add(listener); return () => listeners.delete(listener) },
+    speak(text, rate, started, finished) { calls.push({ text, rate, finished }); started() },
+    cancel() { cancellations += 1 },
+  }
+  function StopPlayback() {
+    const { stop } = usePronunciation()
+    return h('button', { onClick: stop }, 'Stop')
+  }
+  const tree = (scope, rates = { normal: 1, slow: 0.8 }) => h(StrictMode, null,
+    h(InterfaceLanguageProvider, { interfaceLanguage: 'en', setInterfaceLanguage() {} },
+      h(PronunciationProvider, { scope, rates, speech },
+        h('div', { className: 'm-8 flex items-center gap-4', onClick() { parentClicks += 1 } },
+          h('span', null, 'das Haus'), h(PronunciationButton, { text: 'das Haus' }),
+          h('span', null, 'die Straße'), h(PronunciationButton, { text: 'die Straße' }),
+          h('span', null, 'die Häuser'), h(PronunciationButton, { text: 'die Häuser', size: 'session' }),
+          h(PronunciationButton, { text: '' })),
+        h(StopPlayback, null))))
+  const assert = (value, message) => { if (!value) throw new Error(message) }
+  const render = (scope, rates) => act(() => root.render(tree(scope, rates)))
+  const click = (text) => act(() => container.querySelector(`button[aria-label="Listen: ${text}"]`).click())
+  try {
+    await render('/vocabulary')
+    for (const text of ['das Haus', 'das Haus', 'das Haus', 'die Straße', 'das Haus']) await click(text)
+    assert(JSON.stringify(calls.map(({ rate }) => rate)) === '[1,0.8,1,1,1]', 'Sequential alternation across buttons')
+    assert(parentClicks === 0, 'Pronunciation must not flip the containing card')
+    await click('die Häuser')
+    await click('das Haus')
+    assert(calls.at(-1).rate === 1, 'Changing forms resets the sequence')
+    await render('/vocabulary?page=2')
+    await click('das Haus')
+    assert(calls.at(-1).rate === 1, 'Changing page resets the sequence')
+    await render('/vocabulary?page=2', { normal: 1.2, slow: 0.7 })
+    await click('das Haus')
+    assert(calls.at(-1).rate === 0.7, 'Rate changes use the current settings')
+    await act(() => container.querySelector('button:not([aria-label])').click())
+    await click('das Haus')
+    assert(calls.at(-1).rate === 1.2, 'Hiding speech stops it without resetting the sequence')
+    const compact = container.querySelector('[aria-label="Listen: das Haus"]').getBoundingClientRect()
+    const session = container.querySelector('[aria-label="Listen: die Häuser"]').getBoundingClientRect()
+    assert(compact.width === 32 && compact.height === 32, 'Compact button is 32px')
+    assert(session.width === 44 && session.height === 44, 'Session button is 44px')
+    const icon = container.querySelector('[aria-label="Listen: die Häuser"] svg').getBoundingClientRect()
+    assert(Math.abs(icon.width - (window.innerWidth < 640 ? 16.8 : 24)) < 0.1, 'Mobile icon is 30 percent smaller without shrinking the target')
+    assert(container.querySelector('[aria-label="Listen: "]').disabled, 'Empty text is disabled')
+    speech.available = false
+    await act(() => listeners.forEach((listener) => listener()))
+    assert([...container.querySelectorAll('button[aria-label]')].every((button) => button.disabled), 'Missing German voice disables buttons')
+    const beforeExit = cancellations
+    await act(() => root.render(h('p', null, 'Another page')))
+    assert(cancellations > beforeExit, 'Leaving the page stops playback')
+    speech.available = true
+    await render('/preview')
+    document.getElementById('result').textContent = 'PASS: shared page counter, exact repeat sequence, forms, page cleanup, current rates, event isolation, unavailable voice, and button sizes.'
+  } catch (error) {
+    document.getElementById('result').textContent = `FAIL: ${error.stack}`
+  }
+</script>
+</body>
+</html>

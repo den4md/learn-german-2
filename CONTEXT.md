@@ -13,7 +13,7 @@ The user's Preferences, Vocabulary learning records, User-added vocabulary items
 _Avoid_: account data
 
 **Preferences**:
-The user's saved choices outside an individual Session, including Interface language, Learning-score threshold, and the Limited-session finishing delay of zero, two, five, or ten seconds, with five as the default. The finishing delay stores a duration; elapsed countdown time is not part of Learning data.
+The user's saved choices outside an individual Session, including Interface language, Learning-score threshold, Pronunciation speeds, and the Limited-session finishing delay of zero, two, five, or ten seconds, with five as the default. The finishing delay stores a duration; elapsed countdown time is not part of Learning data.
 _Avoid_: session settings, profile
 
 **Local copy**:
@@ -249,6 +249,14 @@ A Session with no fixed item limit, selecting a new Candidate page after every e
 _Avoid_: all-at-once session
 
 ## Interface
+
+**Pronunciation**:
+User-requested spoken German text: the headword with its existing article or reflexive particle in browsing views, and also individual German forms on the visible German card side. It does not record or assess the user's speech and does not change learning progress.
+_Avoid_: pronunciation exercise, pronunciation assessment
+
+**Pronunciation speeds**:
+The saved normal and slower repeat speeds, defaulting to 1.0 and 0.8, from 0.5 to 2.0 in steps of 0.1 with the slower value strictly below normal. Consecutive plays of the same text alternate speeds; another text, form, page, or card resets the sequence, which is not saved in Learning data.
+_Avoid_: word-specific speed, saved playback counter
 
 **German card side**:
 The flashcard side showing the German headword, CEFR level, Word type, and all available noun or verb grammatical characteristics. Grammar fields are not selectable.

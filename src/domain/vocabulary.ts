@@ -381,6 +381,10 @@ function applyAutomaticStateTransition(
   }
 }
 
+export function getGermanHeadword(item: VocabularyItemData): string {
+  return 'nominative' in item ? item.nominative : 'positive' in item ? item.positive : item.infinitive
+}
+
 export function getWordType(vocabularyItem: VocabularyItemData): WordType {
   if ('nominative' in vocabularyItem) {
     return wordTypes.noun

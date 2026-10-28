@@ -17,6 +17,7 @@ import { assessmentAccent as accentForAssessment } from '../components/assessmen
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from '../components/popup-menu'
 import { useAppPopup } from '../components/app-popup'
+import { PronunciationButton, usePronunciation } from '../components/pronunciation'
 
 interface ActiveSessionViewProps {
   finishingCountdown: SessionFinishingCountdown
@@ -157,6 +158,7 @@ export function ActiveSessionView({ finishingCountdown, onSelectFinishingPositio
 function Flashcard({ savedDecision, activeEntryIndex, assessmentFeedback, isShowingNextCard, isRevealed, isWaitingForNextEntry, sessionType, settings, vocabularyItem, onAssessmentFeedback, onAssessEntry, onChangeFavouriteStatus, onEditVocabularyItem, onManuallySetWordState, onRevealEntry }: { savedDecision?: SelfAssessment; activeEntryIndex: number; assessmentFeedback?: AssessmentAction; isShowingNextCard: boolean; isRevealed: boolean; isWaitingForNextEntry: boolean; sessionType: string; settings: SessionSettingsData; vocabularyItem: ResolvedVocabularyItemData; onAssessmentFeedback(action: AssessmentAction): void; onRevealEntry(entryIndex: number): void; onAssessEntry(entryIndex: number, selfAssessment: SelfAssessment): void; onChangeFavouriteStatus(vocabularyItemId: VocabularyItemId, isFavourite: boolean): void; onEditVocabularyItem(vocabularyItemId: VocabularyItemId): void; onManuallySetWordState(entryIndex: number, wordState: typeof wordStates[keyof typeof wordStates]): void }) {
   const { t } = useInterfaceLanguage()
   const { isPopupOpen } = useAppPopup()
+  const { stop: stopPronunciation } = usePronunciation()
   const [visibleSide, setVisibleSide] = useState<'first' | 'other'>(isRevealed ? 'other' : 'first')
   const [areRemainingTranslationsVisible, setAreRemainingTranslationsVisible] = useState(false)
   const [completionMotion, setCompletionMotion] = useState<{ entryIndex: number; motion: CardMotion }>()
@@ -173,6 +175,8 @@ function Flashcard({ savedDecision, activeEntryIndex, assessmentFeedback, isShow
   const entryCompletionMotion = completionMotion?.entryIndex === activeEntryIndex ? completionMotion.motion : undefined
   const isCompletingEntry = isPopupOpen || assessmentFeedback !== undefined || entryCompletionMotion !== undefined || isWaitingForNextEntry
   const actions = assessmentActions(sessionType, t)
+
+  useEffect(() => () => stopPronunciation(), [stopPronunciation, isGermanVisible, isCompletingEntry])
 
   useLayoutEffect(() => {
     window.clearTimeout(swipeTimeout.current)
@@ -330,7 +334,11 @@ function GermanCardSide({ vocabularyItem }: { vocabularyItem: ResolvedVocabulary
   const { t } = useInterfaceLanguage()
   const wordType = 'nominative' in vocabularyItem ? wordTypes.noun : 'positive' in vocabularyItem ? wordTypes.adjective : wordTypes.verb
   const headword = 'nominative' in vocabularyItem ? vocabularyItem.nominative : 'positive' in vocabularyItem ? vocabularyItem.positive : vocabularyItem.infinitive
-  return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t(wordType)}</span></div><FittedText className="mt-5 text-4xl font-bold tracking-tight text-slate-950 max-[480px]:mt-3 sm:text-5xl" minimumFontSize={18}>{headword}</FittedText>{'nominative' in vocabularyItem ? <dl className="mt-8 flex flex-wrap gap-4 text-sm max-[480px]:mt-5 max-[480px]:grid max-[480px]:grid-cols-2 max-[480px]:gap-3"><Info label={t('nounGender')} value={vocabularyItem.gender} /><Info label={t('nounPlural')} value={vocabularyItem.plural} /></dl> : 'positive' in vocabularyItem ? null : <dl className="mt-8 flex flex-wrap gap-4 text-sm max-[480px]:mt-5 max-[480px]:grid max-[480px]:grid-cols-2 max-[480px]:gap-3"><Info label={t('verbHelperVerb')} value={vocabularyItem.helper_verb} /><Info label={t('verbConjugationType')} value={vocabularyItem.conjugation_type} /><Info label={t('verbPresent')} value={vocabularyItem.present} /><Info label={t('verbPreterite')} value={vocabularyItem.preterite} /><Info label={t('verbPerfect')} value={vocabularyItem.perfect} /></dl>}</div>
+  return <div>
+    <div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t(wordType)}</span></div>
+    <div className="mt-5 flex items-start gap-3 max-[480px]:mt-3"><FittedText className="min-w-0 flex-1 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl" minimumFontSize={18}>{headword}</FittedText><PronunciationButton size="session" text={headword} /></div>
+    {'nominative' in vocabularyItem ? <dl className="mt-8 flex flex-wrap gap-4 text-sm max-[480px]:mt-5 max-[480px]:grid max-[480px]:grid-cols-2 max-[480px]:gap-3"><Info label={t('nounGender')} value={vocabularyItem.gender} /><Info pronounce label={t('nounPlural')} value={vocabularyItem.plural} /></dl> : 'positive' in vocabularyItem ? null : <dl className="mt-8 flex flex-wrap gap-4 text-sm max-[480px]:mt-5 max-[480px]:grid max-[480px]:grid-cols-2 max-[480px]:gap-3"><Info pronounce label={t('verbHelperVerb')} value={vocabularyItem.helper_verb} /><Info label={t('verbConjugationType')} value={vocabularyItem.conjugation_type} /><Info pronounce label={t('verbPresent')} value={vocabularyItem.present} /><Info pronounce label={t('verbPreterite')} value={vocabularyItem.preterite} /><Info pronounce label={t('verbPerfect')} value={vocabularyItem.perfect} /></dl>}
+  </div>
 }
 
 function RussianCardSide({ areRemainingTranslationsVisible, disabled, onToggleRemainingTranslations, vocabularyItem }: { areRemainingTranslationsVisible: boolean; disabled: boolean; onToggleRemainingTranslations(): void; vocabularyItem: ResolvedVocabularyItemData }) {
@@ -341,8 +349,8 @@ function RussianCardSide({ areRemainingTranslationsVisible, disabled, onToggleRe
   return <div><div className="flex flex-wrap gap-2 text-sm font-semibold text-slate-600"><span>{vocabularyItem.level}</span><span aria-hidden="true">/</span><span>{t(wordType)}</span></div><FittedText className="mt-5 text-3xl font-bold tracking-tight text-slate-950 max-[480px]:mt-3 sm:text-4xl" minimumFontSize={16}>{headerTranslations.join(', ')}</FittedText>{remainingTranslations.length > 0 ? <div className="mt-8 border-t border-slate-100 pt-6"><button className="text-sm font-semibold text-blue-700 underline decoration-blue-200 underline-offset-4 disabled:cursor-not-allowed disabled:opacity-45 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" disabled={disabled} type="button" onClick={(event) => { event.stopPropagation(); onToggleRemainingTranslations() }}>{t(areRemainingTranslationsVisible ? 'showLess' : 'showMore')}</button>{areRemainingTranslationsVisible ? <p className="mt-3 text-lg font-semibold text-slate-700">{remainingTranslations.join(', ')}</p> : null}</div> : null}</div>
 }
 
-function Info({ label, value }: { label: string; value: string }) {
-  return <div className="w-44 rounded-xl bg-slate-50 px-4 py-3 max-[480px]:w-auto max-[480px]:min-w-0 max-[480px]:px-3 max-[480px]:py-2.5"><dt className="font-semibold text-slate-600">{label}</dt><dd className="mt-1"><FittedText className="font-semibold text-slate-950" minimumFontSize={12}>{value}</FittedText></dd></div>
+function Info({ label, value, pronounce = false }: { label: string; value: string; pronounce?: boolean }) {
+  return <div className="w-44 rounded-xl bg-slate-50 px-4 py-3 max-[480px]:w-auto max-[480px]:min-w-0 max-[480px]:px-3 max-[480px]:py-2.5"><dt className="font-semibold text-slate-600">{label}</dt><dd className="mt-1 flex items-center gap-1"><FittedText className="min-w-0 flex-1 font-semibold text-slate-950" minimumFontSize={12}>{value}</FittedText>{pronounce && value.trim() && value !== '-' ? <PronunciationButton size="session" text={value} /> : null}</dd></div>
 }
 
 function FittedText({ children, className, minimumFontSize }: { children: string; className: string; minimumFontSize: number }) {

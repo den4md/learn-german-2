@@ -2,13 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { recallSelfAssessments, wordStates, wordTypes } from '../domain/constants'
 import type { WordState } from '../domain/constants'
 import type { VocabularyItemId } from '../domain/identifiers'
-import { getWordType } from '../domain/vocabulary'
+import { getGermanHeadword, getWordType } from '../domain/vocabulary'
 import type { ResolvedVocabularyItemData } from '../domain/vocabulary'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { PopupMenu } from './popup-menu'
 import type { SessionEntryData } from '../domain/session'
 import { assessmentAccent } from './assessment-accent'
 import type { MessageKey } from '../i18n/messages'
+import { PronunciationButton } from './pronunciation'
 
 interface VocabularyItemRowProps {
   item: ResolvedVocabularyItemData
@@ -53,7 +54,7 @@ export function VocabularyItemRow({ item, learningScoreThreshold, showWordState 
 
   return <li className="px-6 py-5 sm:px-8">
     <div className="flex items-center justify-between gap-4">
-      <p className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 wrap-anywhere font-semibold text-slate-950"><span>{getGermanHeadword(item)}</span>{sessionEntry === undefined ? null : <span className={`rounded-md px-2 py-1 text-sm font-medium ${decision === undefined ? 'bg-slate-100 text-slate-600' : 'recorded-assessment'}`} data-accent={decision === undefined ? undefined : assessmentAccent(decision)}>{decisionLabel}</span>}</p>
+      <p className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1 wrap-anywhere font-semibold text-slate-950"><span className="inline-flex min-w-0 items-center gap-1"><span className="min-w-0">{getGermanHeadword(item)}</span><PronunciationButton text={getGermanHeadword(item)} /></span>{sessionEntry === undefined ? null : <span className={`rounded-md px-2 py-1 text-sm font-medium ${decision === undefined ? 'bg-slate-100 text-slate-600' : 'recorded-assessment'}`} data-accent={decision === undefined ? undefined : assessmentAccent(decision)}>{decisionLabel}</span>}</p>
       <div className="flex shrink-0 items-center gap-2">
         <button aria-label={t(item.isFavourite ? 'removeFavourite' : 'addFavourite')} className={`rounded-lg border border-slate-300 px-3 py-2 text-lg leading-none active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100 ${item.isFavourite ? 'text-yellow-500' : 'text-slate-500'}`} onClick={() => onChangeFavouriteStatus(item.id, !item.isFavourite)} type="button"><span aria-hidden="true">{item.isFavourite ? '★' : '☆'}</span></button>
         <PopupMenu menuAriaLabel={t('moreActions')} menuClassName="absolute right-0 z-10 mt-2 grid w-52 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-lg shadow-slate-300/40" onClose={() => setMenuPage('actions')} triggerAriaLabel={t('moreActions')} triggerClassName="rounded-lg border border-slate-300 px-3 py-2 text-lg font-bold leading-none text-slate-700 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" triggerContent={<span aria-hidden="true">•••</span>}>
@@ -71,10 +72,6 @@ export function VocabularyItemRow({ item, learningScoreThreshold, showWordState 
 
 const wordTypeMessageKeys = { [wordTypes.adjective]: 'adjective', [wordTypes.noun]: 'noun', [wordTypes.verb]: 'verb' } as const
 const wordStateMessageKeys = { [wordStates.new]: 'wordStateNew', [wordStates.learning]: 'wordStateLearning', [wordStates.known]: 'wordStateKnown', [wordStates.excluded]: 'wordStateExcluded' } as const
-
-function getGermanHeadword(item: ResolvedVocabularyItemData): string {
-  return 'nominative' in item ? item.nominative : 'positive' in item ? item.positive : item.infinitive
-}
 
 function recordedChange(before: string | number | undefined, after: string | number | undefined, unknown: string): string {
   return before === after ? String(after ?? unknown) : `${before ?? unknown} → ${after ?? unknown}`

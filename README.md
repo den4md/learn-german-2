@@ -9,6 +9,7 @@ Learn German is a browser app for Russian speakers practising German with flashc
 - **Progression** shows recent Sessions and previews of Learning and Known words. The Sessions browser adds filters, sorting, and pagination. Ended-session details use Vocabulary cards with the recorded decision and historical changes.
 - **Settings** saves the Interface language, Learning-score threshold from 1 to 20 with 4 as the default, and Limited-session finishing delay. Learning data persists locally in IndexedDB and resumes after refresh. No app account or backend is required.
 - **Daily streak** uses five distinct correct Session entries per UTC date. A valid day stays valid after later corrections. One missed day can be pause-protected, but two consecutive missed days cannot.
+- **Pronunciation** uses an available German browser voice. Listen to headwords in Vocabulary, editors, Progression, and Session history; the visible German Session card also offers individual grammatical forms. Consecutive repeats alternate normal/slower speeds until the text, page, or card changes. Settings save both speeds, defaulting to 1.0/0.8. Playback interrupts earlier audio and stops when leaving the page or hiding German. Missing German voices disable the buttons; failures are logged without popups. Voice quality and offline availability depend on the browser/device. A better source remains a TODO if this quality is insufficient.
 
 ## Answers, review, and finishing
 
@@ -40,6 +41,8 @@ For the current implementation effort, selectable grammar fields and additional 
 
 Use Node.js 24 and the package's pinned pnpm version. Install dependencies with `pnpm install`, start the app with `pnpm dev`, and create a production build with `pnpm build`. The build runs oxlint, TypeScript, and Vite. `pnpm lint` runs the source checks separately. Focused runtime checks live in `scripts/verify-*` and use the existing Vite module runner rather than a separate test framework.
 
+Pronunciation checks are in `scripts/verify-pronunciation.ts`. With the dev server running, open `/learn-german-2/scripts/verify-pronunciation.html` for browser checks of shared counters, lifecycle cleanup, button interactions, and mobile sizing. These use an injected speech engine; actual voice quality requires listening on the target device. [Browser speech notes](docs/research/pronunciation.md) record the platform constraints.
+
 ## Project decisions
 
 - [Domain glossary](CONTEXT.md) defines Learning data, Word states, Sessions, and User-added vocabulary items, and identifies planned cloud concepts.
@@ -49,3 +52,5 @@ Use Node.js 24 and the package's pinned pnpm version. Install dependencies with 
 ## License
 
 No license has been selected yet.
+
+The speaker icon is from Radix Icons, Copyright (c) 2022 WorkOS, under the [MIT license](public/radix-icons-LICENSE.txt). Its license is included in production builds.

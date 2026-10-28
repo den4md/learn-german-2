@@ -23,6 +23,7 @@ import { useAppPopup } from '../components/app-popup'
 import { AppNavigation } from './navigation'
 import { sessionCardIndex, sessionCardRoute } from './session-card-navigation'
 import { SessionFinishingCountdown } from './session-finishing-countdown'
+import { PronunciationProvider } from '../components/pronunciation'
 
 export function App() {
   const { confirmAction, showError } = useAppPopup()
@@ -260,6 +261,7 @@ export function App() {
     >
       {isLoaded ? (
         <PopupMenuProvider>
+          <PronunciationProvider scope={`${route}${location.search}`} rates={learningData.preferences.pronunciationRates}>
           <AppShell dailyStreakHistory={learningData.dailyStreakHistory} hasActiveSession={learningData.activeSession !== undefined} isActiveSessionView={route === '/session/active'} hasVocabularyCreateButton={route === '/vocabulary'} onContinueSession={() => navigate('/session/active')} onOpenProgression={() => navigate('/progression')} onOpenSessionSetup={startNewSession} onOpenSettings={() => navigate('/settings')} onOpenVocabulary={() => navigate('/vocabulary')} onOpenSessions={() => navigate('/sessions')}>
           {route === '/progression' ? (
             <ProgressionView
@@ -300,7 +302,7 @@ export function App() {
           ) : route === '/session/new' ? (
             <SessionSetupView learningData={learningData} onBack={() => navigate('/progression')} onSessionStarted={startSession} />
           ) : route === '/settings' ? (
-            <SettingsView onClearData={clearData} preferences={learningData.preferences} onChangeSessionFinishDelay={(seconds) => saveLearningData(learningData.withPreferences(learningData.preferences.withSessionFinishDelaySeconds(seconds)))} onChangeLearningScoreThreshold={(threshold) => saveLearningData(learningData.withPreferences(learningData.preferences.withLearningScoreThreshold(threshold)))} />
+            <SettingsView onChangePronunciationRates={(rates) => saveLearningData(learningData.withPreferences(learningData.preferences.withPronunciationRates(rates)))} onClearData={clearData} preferences={learningData.preferences} onChangeSessionFinishDelay={(seconds) => saveLearningData(learningData.withPreferences(learningData.preferences.withSessionFinishDelaySeconds(seconds)))} onChangeLearningScoreThreshold={(threshold) => saveLearningData(learningData.withPreferences(learningData.preferences.withLearningScoreThreshold(threshold)))} />
           ) : (
             <ActiveSessionView
               finishingCountdown={finishingCountdown}
@@ -327,6 +329,7 @@ export function App() {
             />
           )}
           </AppShell>
+          </PronunciationProvider>
         </PopupMenuProvider>
       ) : (
         <LoadingView />

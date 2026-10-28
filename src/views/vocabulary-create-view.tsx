@@ -9,6 +9,7 @@ import type { VocabularyItemData } from '../domain/vocabulary'
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { GermanTextFields } from './vocabulary-view'
+import { PronunciationButton, usePronunciation } from '../components/pronunciation'
 
 interface VocabularyCreateViewProps {
   learningData: LearningData
@@ -33,6 +34,8 @@ export function VocabularyCreateView({ learningData, onBack, onAddVocabularyItem
   const formRef = useRef<HTMLFormElement>(null)
   const item = { ...germanDrafts[wordType], level }
   const headword = getHeadword(item).trim()
+  const { reset: resetPronunciation } = usePronunciation()
+  useEffect(() => resetPronunciation(), [resetPronunciation, headword])
   const hasChanges = wordType !== wordTypes.noun || level !== allCefrLevels[0]
     || JSON.stringify(germanDrafts) !== JSON.stringify(createGermanDrafts())
     || translations.length !== 1 || translations[0].text !== ''
@@ -91,7 +94,7 @@ export function VocabularyCreateView({ learningData, onBack, onAddVocabularyItem
         </section>
 
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8" data-german-fields>
-          <h3 className="text-xl font-bold tracking-tight text-slate-950">{t('germanText')}</h3>
+          <div className="flex items-center gap-2"><h3 className="text-xl font-bold tracking-tight text-slate-950">{t('germanText')}</h3><PronunciationButton text={headword} /></div>
           <p className="mt-2 text-sm leading-6 text-slate-600">{t('germanHeadwordRequired')}</p>
           <GermanTextFields item={item} onChange={(nextItem) => setGermanDrafts((current) => ({ ...current, [wordType]: { ...nextItem, level: allCefrLevels[0] } }))} />
           {duplicates.length > 0 ? <div className="mt-5 rounded-xl border border-amber-200 bg-amber-50 p-4" role="status">

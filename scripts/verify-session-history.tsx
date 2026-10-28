@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { AppPopupProvider } from '../src/components/app-popup'
 import { PopupMenuProvider } from '../src/components/popup-menu'
 import { VocabularyItemRow } from '../src/components/vocabulary-item-row'
+import { PronunciationProvider } from '../src/components/pronunciation'
 import { Preferences } from '../src/domain/preferences'
 import { SettingsView } from '../src/views/settings-view'
 import { assessmentAccent } from '../src/components/assessment-accent'
@@ -28,7 +29,7 @@ const entry: SessionEntryData = {
 }
 
 function render(sessionEntry: SessionEntryData | undefined, currentItem = item, language: 'en' | 'de' | 'ru' = 'en', threshold = 4) {
-  return renderToStaticMarkup(<AppPopupProvider><PopupMenuProvider><InterfaceLanguageProvider interfaceLanguage={language} setInterfaceLanguage={() => {}}><ol><VocabularyItemRow learningScoreThreshold={threshold} item={currentItem} sessionEntry={sessionEntry} onChangeFavouriteStatus={() => {}} onChangeWordState={() => {}} onEditVocabularyItem={() => {}} /></ol></InterfaceLanguageProvider></PopupMenuProvider></AppPopupProvider>)
+  return renderToStaticMarkup(<AppPopupProvider><PopupMenuProvider><InterfaceLanguageProvider interfaceLanguage={language} setInterfaceLanguage={() => {}}><PronunciationProvider scope="history" rates={{ normal: 1, slow: 0.8 }}><ol><VocabularyItemRow learningScoreThreshold={threshold} item={currentItem} sessionEntry={sessionEntry} onChangeFavouriteStatus={() => {}} onChangeWordState={() => {}} onEditVocabularyItem={() => {}} /></ol></PronunciationProvider></InterfaceLanguageProvider></PopupMenuProvider></AppPopupProvider>)
 }
 
 const historical = render(entry)
@@ -36,7 +37,7 @@ assert.match(historical, /Know, learn/)
 assert.match(historical, /New → Learning/)
 assert.match(historical, /0 → 1 \/ 4/)
 assert.match(historical, /Shows<\/dt><dd[^>]*>0 → 1/)
-assert.doesNotMatch(historical, /(?:99|88|77|8 \/ 4)/)
+assert.doesNotMatch(historical, />(?:99|88|77|8 \/ 4)</)
 assert.match(historical, /Remove from favourites/)
 assert.match(historical, /More actions/)
 const changedCurrent = render(entry, { ...item, positive: 'anders', translations: ['изменено'], learningScore: 10, isFavourite: false })
@@ -59,7 +60,7 @@ assert.match(unanswered, /Shows<\/dt><dd[^>]*>0 → 1/)
 const old = render({ ...entry, transition: { ...entry.transition!, beforeLearningStatistics: undefined, afterLearningStatistics: undefined } })
 assert.equal((old.match(/Not recorded/g) ?? []).length, 3)
 assert.match(old, /New → Learning/)
-assert.doesNotMatch(old, /99|88|77/)
+assert.doesNotMatch(old, />(?:99|88|77)</)
 assert.equal((render({ ...entry, transition: undefined }).match(/Not recorded/g) ?? []).length, 5)
 assert.match(render(entry, item, 'de'), /Neu → Lernen/)
 assert.match(render({ ...entry, transition: undefined }, item, 'ru'), /Не записано/)
@@ -70,7 +71,7 @@ for (const [assessment, accent] of [[wordStates.excluded, 'excluded'], [wordStat
 assert.match(render(undefined, item, 'en', 20), /8 \/ 20/)
 assert.match(render(entry, item, 'en', 1), /0 → 1 \/ 1/)
 for (const language of ['en', 'de', 'ru'] as const) {
-  const settings = renderToStaticMarkup(<AppPopupProvider><InterfaceLanguageProvider interfaceLanguage={language} setInterfaceLanguage={() => {}}><SettingsView preferences={Preferences.createEmpty().withLearningScoreThreshold(20)} onClearData={() => {}} onChangeSessionFinishDelay={() => {}} onChangeLearningScoreThreshold={() => {}} /></InterfaceLanguageProvider></AppPopupProvider>)
+  const settings = renderToStaticMarkup(<AppPopupProvider><InterfaceLanguageProvider interfaceLanguage={language} setInterfaceLanguage={() => {}}><SettingsView onChangePronunciationRates={() => {}} preferences={Preferences.createEmpty().withLearningScoreThreshold(20)} onClearData={() => {}} onChangeSessionFinishDelay={() => {}} onChangeLearningScoreThreshold={() => {}} /></InterfaceLanguageProvider></AppPopupProvider>)
   const thresholdSelect = settings.match(/<select aria-describedby="learning-score-threshold-description"[^>]*>(.*?)<\/select>/)![1]!
   assert.equal((thresholdSelect.match(/<option /g) ?? []).length, 20)
   assert.match(thresholdSelect, /value="20" selected=""/)

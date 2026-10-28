@@ -8,6 +8,8 @@ import type { ResolvedVocabularyItemData, VocabularyItemData, VocabularyItemText
 import { useDefaultVocabularySet } from '../default-vocabulary-set/use-default-vocabulary-set'
 import { useInterfaceLanguage } from '../i18n/interface-language-context'
 import { VocabularyItemRow } from '../components/vocabulary-item-row'
+import { PronunciationButton, usePronunciation } from '../components/pronunciation'
+import { getGermanHeadword } from '../domain/vocabulary'
 import { ResultPagination, resultPageSize } from '../components/result-pagination'
 
 import { CollapsibleControls, FavouriteFilter, SortingOptions } from '../components/browse-controls'
@@ -420,6 +422,9 @@ function VocabularyEditForm({
   const saveButton = useRef<HTMLButtonElement>(null)
   const { showError } = useAppPopup()
   const hasDefaultVocabularyItem = defaultVocabularyItem !== undefined
+  const { reset: resetPronunciation } = usePronunciation()
+  const headword = getGermanHeadword(item)
+  useEffect(() => resetPronunciation(), [resetPronunciation, headword])
   const hasChanges = !sameGermanText(toVocabularyItemTextData(item), toVocabularyItemTextData(vocabularyItem))
     || !sameStrings(item.translations, vocabularyItem.translations)
     || selectedWordState !== wordState || selectedFavouriteStatus !== isFavourite
@@ -475,7 +480,7 @@ function VocabularyEditForm({
 
       <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h3 className="text-xl font-bold tracking-tight text-slate-950">{t('germanText')}</h3>
+          <div className="flex items-center gap-2"><h3 className="text-xl font-bold tracking-tight text-slate-950">{t('germanText')}</h3><PronunciationButton text={getGermanHeadword(item)} /></div>
           {hasDefaultVocabularyItem ? <button className="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-4 active:translate-y-px focus:outline-none focus:ring-4 focus:ring-blue-100" onClick={() => setItem((currentItem) => ({ ...defaultVocabularyItem, translations: currentItem.translations }))} type="button">{t('resetGerman')}</button> : null}
         </div>
         <GermanTextFields item={item} onChange={setItem} />
