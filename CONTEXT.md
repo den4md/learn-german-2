@@ -133,8 +133,12 @@ The count in a Vocabulary learning record of consecutive correct recall judgemen
 _Avoid_: total correct answers, mastery percentage
 
 **Automatic state transition**:
-The app's change to Word state and Learning score determined by a Self-assessment, kept pending during an Active session and applied when it ends. A Learning score of ten moves Learning to Known; an incorrect Repetition assessment moves Known to Learning and resets its score to zero.
+The app's rule for determining a Session outcome from a Self-assessment. A Learning score of ten moves Learning to Known; an incorrect Repetition assessment moves Known to Learning and resets its score to zero.
 _Avoid_: suggestion, optional promotion
+
+**Session outcome**:
+The Word state and Learning score determined by a Session entry's latest Self-assessment or in-session manual decision, pending until the Session ends. It is separate from Learning statistics and Daily streak effects, which are recorded during the Active session.
+_Avoid_: answer, Session end reason
 
 ## Progress
 
@@ -149,6 +153,10 @@ _Avoid_: dashboard, analytics
 **Sessions view**:
 The browsing view for ended Sessions and the optional Active session, with filters, sorting, and paginated results. It shares the Progression view's Session summaries and provides Continue for an Active session and Details for an ended Session.
 _Avoid_: session dashboard, completed-sessions view
+
+**Session-details view**:
+The historical view of one ended Session, showing its presented Session entries, recorded decisions, and available before-and-after Word state, Learning score, and Learning statistics. These results are read-only, while German text, Russian translations, Favourite status, and word actions refer to the current Vocabulary item.
+_Avoid_: Session editor, progress snapshot
 
 **Session filter**:
 A temporary browsing criterion for Session type, status, start date, or Limited versus Unlimited size. Values selected within one criterion match any selected value, while different criteria narrow the same results; start-date endpoints are independently optional and include the entire local calendar day.
@@ -217,7 +225,7 @@ A Session with an Item limit that selects one ordered, fixed list at its start a
 _Avoid_: normal session, capped session
 
 **Finishing wait**:
-The Limited session's final review window before applying outcomes, controlled by the saved finishing-delay Preference. Inactivity, menus, popups, and other app views pause the remaining time; returning from card review or refreshing starts a full wait, and Space or the finish action can end it early.
+The Limited session's final review window before applying Session outcomes, controlled by the saved finishing-delay Preference and skippable with Space or the finish action. Inactivity, open menus or popups, and other app views pause the remaining time, which resumes when active again; returning from card review or refreshing starts a full wait.
 _Avoid_: persisted deadline, undo window
 
 **Sorting criterion**:
