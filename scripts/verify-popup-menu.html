@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Popup menu regression checks</title>
+<body>
+<h1>Popup menu regression checks</h1>
+<p>Run with pnpm dev, then open /learn-german-2/scripts/verify-popup-menu.html.</p>
+<pre id="result">Running...</pre>
+<script type="module">
+  import { act, createElement as h, StrictMode } from 'react'
+  import { createRoot } from 'react-dom/client'
+  import { AppPopupProvider } from '../src/components/app-popup'
+  import { PopupMenu, PopupMenuProvider, useIsPopupMenuOpen } from '../src/components/popup-menu'
+
+  globalThis.IS_REACT_ACT_ENVIRONMENT = true
+  const container = document.body.appendChild(document.createElement('div'))
+  const root = createRoot(container)
+  function MenuStatus() {
+    return h('output', null, String(useIsPopupMenuOpen()))
+  }
+  function TestMenu({ name }) {
+    return h(PopupMenu, {
+      menuAriaLabel: name, menuClassName: '', triggerAriaLabel: name,
+      triggerClassName: '', triggerContent: name,
+    }, (close) => h('button', { role: 'menuitem', onClick: close }, 'Close'))
+  }
+  const tree = (names) => h(StrictMode, null, h(AppPopupProvider, null,
+    h(PopupMenuProvider, null, h(MenuStatus), ...names.map((name) => h(TestMenu, { key: name, name }))),
+  ))
+  const render = (names) => act(() => root.render(tree(names)))
+  const open = (name) => container.querySelector(`button[aria-label="${name}"]`).click()
+  function check(expected, message) {
+    if (container.querySelector('output').textContent !== String(expected)) throw new Error(message)
+  }
+  try {
+    await render(['A', 'B'])
+    check(false, 'No menu starts open')
+    await act(() => open('A'))
+    check(true, 'Opening a menu registers it')
+    await render(['B'])
+    check(false, 'Unmounting an open menu must clear the shared pause state')
+    if (container.querySelector('[role="menu"]')) throw new Error('The unmounted menu is still visible')
+
+    await render(['A', 'B'])
+    await act(() => open('A'))
+    await act(() => { open('B'); root.render(tree(['B'])) })
+    check(true, 'Removing the old menu must not close its newly opened replacement')
+    if (container.querySelector('[role="menu"]').getAttribute('aria-label') !== 'B') throw new Error('The replacement menu must stay visible')
+    await render(['A', 'B'])
+    await render(['B'])
+    check(true, 'Removing a closed menu must leave the other menu open')
+    await act(() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', cancelable: true })))
+    check(false, 'Escape must still close the menu')
+    await act(() => open('B'))
+    await render([])
+    check(false, 'Leaving the page must release its last menu')
+    document.getElementById('result').textContent = 'PASS: open-menu unmount, replacement ownership, closed-menu unmount, Escape, and StrictMode.'
+  } catch (error) {
+    document.getElementById('result').textContent = `FAIL: ${error.message}`
+    throw error
+  } finally {
+    await act(() => root.unmount())
+    container.remove()
+  }
+</script>
+</body>
+</html>

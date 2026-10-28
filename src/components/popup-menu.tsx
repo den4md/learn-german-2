@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useId, useMemo, useRef, useState } from 'react'
-import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent, PropsWithChildren, ReactNode } from 'react'
+import type { Dispatch, KeyboardEvent as ReactKeyboardEvent, MouseEvent, PropsWithChildren, ReactNode, SetStateAction } from 'react'
 import { useAppPopup } from './app-popup'
 
 interface PopupMenuContextValue {
   closeMenu(): void
   openMenuId: string | undefined
-  setOpenMenuId(menuId: string | undefined): void
+  setOpenMenuId: Dispatch<SetStateAction<string | undefined>>
 }
 
 const PopupMenuContext = createContext<PopupMenuContextValue | undefined>(undefined)
@@ -47,6 +47,11 @@ export function PopupMenu({ children, menuAriaLabel, menuClassName, onClose, tri
   const menuRef = useRef<HTMLElement>(null)
   const isOpen = context.openMenuId === menuId
   const [pendingMenuFocus, setPendingMenuFocus] = useState<'first' | 'last' | undefined>()
+
+  const { setOpenMenuId } = context
+  useEffect(() => () => {
+    setOpenMenuId((currentMenuId) => currentMenuId === menuId ? undefined : currentMenuId)
+  }, [menuId, setOpenMenuId])
 
   const close = (restoreFocus = false) => {
     setPendingMenuFocus(undefined)

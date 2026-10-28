@@ -292,7 +292,7 @@ export function App() {
           ) : route.startsWith('/vocabulary/') ? (
             <VocabularyEditView
               learningData={learningData}
-              onBack={() => navigate(location.vocabularyEditReturnPath ?? '/vocabulary')}
+              onBack={() => navigate(location.vocabularyEditReturnPath ?? '/vocabulary', false, undefined, location.sessionDetailsReturnPath)}
               onSaveVocabularyItem={saveVocabularyItem}
               onUnsavedChangesChange={setUnsavedVocabularyChanges}
               vocabularyItemId={vocabularyEditMatch === null ? undefined : Number(vocabularyEditMatch[1]) as VocabularyItemId}

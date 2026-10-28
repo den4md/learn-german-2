@@ -161,6 +161,23 @@ answer(true)
 await flush()
 assert.equal(navigation.href, '/sessions?order=oldest')
 assertUnloadProtection(false)
+
+// The editor round trip must keep the entire parent route, including after refresh.
+for (const returnPath of ['/sessions?type=learning&order=oldest&page=2#results', '/progression', undefined]) {
+  const detailsPath = '/sessions/recorded-session'
+  await navigation.navigate(detailsPath, false, undefined, returnPath)
+  navigation.openVocabularyItemEdit(vocabularyItemId(-1))
+  assert.equal(navigation.location.vocabularyEditReturnPath, detailsPath)
+  assert.equal(navigation.location.sessionDetailsReturnPath, returnPath)
+  const refreshed = new AppNavigation(browser, '/learn-german-2/')
+  assert.equal(refreshed.location.sessionDetailsReturnPath, returnPath)
+  await navigation.navigate(navigation.location.vocabularyEditReturnPath!, false, undefined, navigation.location.sessionDetailsReturnPath)
+  assert.equal(navigation.href, detailsPath)
+  assert.equal(navigation.location.sessionDetailsReturnPath, returnPath)
+  await navigation.navigate(navigation.location.sessionDetailsReturnPath ?? '/progression')
+  assert.equal(navigation.href, returnPath ?? '/progression')
+}
+
 disconnect()
 
-console.log('Popup navigation verification passed: cancellation, Back/Forward, destination replay, concurrent navigation, saving, fragments, and unload protection.')
+console.log('Popup navigation verification passed: cancellation, Back/Forward, destination replay, concurrent navigation, saving, fragments, unload protection, and Session-details editor return routes.')

@@ -120,7 +120,7 @@ export class AppNavigation {
     const returnPath = this.currentLocation.path === '/vocabulary/new'
       ? this.currentLocation.vocabularyEditReturnPath ?? '/vocabulary'
       : this.href
-    this.navigate(`/vocabulary/${id}/edit`, false, returnPath)
+    this.navigate(`/vocabulary/${id}/edit`, false, returnPath, this.currentLocation.sessionDetailsReturnPath)
   }
 
   private updateLocation = (): void => {
